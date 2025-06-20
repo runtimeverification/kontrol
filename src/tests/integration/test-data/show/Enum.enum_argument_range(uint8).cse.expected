@@ -221,12 +221,12 @@ module SUMMARY-TEST%ENUM.ENUM-ARGUMENT-RANGE(UINT8):0
        andBool ( 0 <=Int C_ENUM_MEMBER_CONTRACT_BAL:Int
        andBool ( 0 <=Int C_ENUM_MEMBER_CONTRACT_NONCE:Int
        andBool ( C_ENUM_NONCE:Int <Int maxUInt64
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( C_ENUM_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( C_ENUM_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ( notBool 0 in_keys ( C_ENUM_STORAGE:Map ) )
        andBool ( C_ENUM_MEMBER_CONTRACT_NONCE:Int <Int maxUInt64
-       andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( C_ENUM_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160

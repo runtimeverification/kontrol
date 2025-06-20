@@ -195,7 +195,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                  <callStack>
                    ( ListItem ( <callState>
                      <id>
-                       728815563385977040452943777879061427756277306518
+                       #address ( FoundryTest )
                      </id>
                      <caller>
                        137122462167341575662000267002353578582749290296
@@ -231,6 +231,50 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                    ( ListItem ( { <accounts>
                      ( <account>
                        <acctID>
+                         #address ( FoundryCheat )
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       <storage>
+                         .Map
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         0
+                       </nonce>
+                       ...
+                     </account>
+                     ( <account>
+                       <acctID>
+                         #address ( FoundryTest )
+                       </acctID>
+                       <balance>
+                         maxUInt96
+                       </balance>
+                       <storage>
+                         ( ( 11 |-> 1 )
+                         ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                         ( 7 |-> 1 ) ) )
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         2
+                       </nonce>
+                       ...
+                     </account>
+                     <account>
+                       <acctID>
                          491460923342184218035706888008750043977755113263
                        </acctID>
                        <balance>
@@ -247,50 +291,6 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                        </transientStorage>
                        <nonce>
                          1
-                       </nonce>
-                       ...
-                     </account>
-                     ( <account>
-                       <acctID>
-                         645326474426547203313410069153905908525362434349
-                       </acctID>
-                       <balance>
-                         0
-                       </balance>
-                       <storage>
-                         .Map
-                       </storage>
-                       <origStorage>
-                         .Map
-                       </origStorage>
-                       <transientStorage>
-                         .Map
-                       </transientStorage>
-                       <nonce>
-                         0
-                       </nonce>
-                       ...
-                     </account>
-                     <account>
-                       <acctID>
-                         728815563385977040452943777879061427756277306518
-                       </acctID>
-                       <balance>
-                         0
-                       </balance>
-                       <storage>
-                         ( ( 11 |-> 1 )
-                         ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
-                         ( 7 |-> 1 ) ) )
-                       </storage>
-                       <origStorage>
-                         .Map
-                       </origStorage>
-                       <transientStorage>
-                         .Map
-                       </transientStorage>
-                       <nonce>
-                         2
                        </nonce>
                        ...
                      </account> ) )
@@ -316,14 +316,14 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                    </substate> } ) => .List )
                  </interimStates>
                  <touchedAccounts>
-                   ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
+                   ( SetItem ( #address ( FoundryTest ) ) SetItem ( 491460923342184218035706888008750043977755113263 ) )
                  </touchedAccounts>
                  <callState>
                    <id>
-                     ( 491460923342184218035706888008750043977755113263 => 728815563385977040452943777879061427756277306518 )
+                     ( 491460923342184218035706888008750043977755113263 => #address ( FoundryTest ) )
                    </id>
                    <caller>
-                     ( 728815563385977040452943777879061427756277306518 => 137122462167341575662000267002353578582749290296 )
+                     ( #address ( FoundryTest ) => 137122462167341575662000267002353578582749290296 )
                    </caller>
                    <callData>
                      ( b"w\x16\x02\xf7" => b"\xe1\xc3j\x8c" ) +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int )
@@ -362,7 +362,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                      0
                    </refund>
                    <accessedAccounts>
-                     ( ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) ) => SetItem ( 491460923342184218035706888008750043977755113263 ) )
+                     ( ( SetItem ( #address ( FoundryTest ) ) SetItem ( 491460923342184218035706888008750043977755113263 ) ) => SetItem ( 491460923342184218035706888008750043977755113263 ) )
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
@@ -392,6 +392,50 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                  <accounts>
                    ( <account>
                      <acctID>
+                       #address ( FoundryCheat )
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       0
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
+                     <acctID>
+                       #address ( FoundryTest )
+                     </acctID>
+                     <balance>
+                       maxUInt96
+                     </balance>
+                     <storage>
+                       ( ( 11 |-> 1 )
+                       ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( 7 |-> 1 ) ) )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       2
+                     </nonce>
+                     ...
+                   </account>
+                   <account>
+                     <acctID>
                        491460923342184218035706888008750043977755113263
                      </acctID>
                      <balance>
@@ -408,50 +452,6 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                      </transientStorage>
                      <nonce>
                        1
-                     </nonce>
-                     ...
-                   </account>
-                   ( <account>
-                     <acctID>
-                       645326474426547203313410069153905908525362434349
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     <storage>
-                       .Map
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <transientStorage>
-                       .Map
-                     </transientStorage>
-                     <nonce>
-                       0
-                     </nonce>
-                     ...
-                   </account>
-                   <account>
-                     <acctID>
-                       728815563385977040452943777879061427756277306518
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     <storage>
-                       ( ( 11 |-> 1 )
-                       ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
-                       ( 7 |-> 1 ) ) )
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <transientStorage>
-                       .Map
-                     </transientStorage>
-                     <nonce>
-                       2
                      </nonce>
                      ...
                    </account> ) )
@@ -575,7 +575,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                  <callStack>
                    ( .List => ListItem ( <callState>
                      <id>
-                       728815563385977040452943777879061427756277306518
+                       #address ( FoundryTest )
                      </id>
                      <caller>
                        137122462167341575662000267002353578582749290296
@@ -611,6 +611,50 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                    ( .List => ListItem ( { <accounts>
                      ( <account>
                        <acctID>
+                         #address ( FoundryCheat )
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       <storage>
+                         .Map
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         0
+                       </nonce>
+                       ...
+                     </account>
+                     ( <account>
+                       <acctID>
+                         #address ( FoundryTest )
+                       </acctID>
+                       <balance>
+                         maxUInt96
+                       </balance>
+                       <storage>
+                         ( ( 11 |-> 1 )
+                         ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                         ( 7 |-> 1 ) ) )
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         2
+                       </nonce>
+                       ...
+                     </account>
+                     <account>
+                       <acctID>
                          491460923342184218035706888008750043977755113263
                        </acctID>
                        <balance>
@@ -627,50 +671,6 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                        </transientStorage>
                        <nonce>
                          1
-                       </nonce>
-                       ...
-                     </account>
-                     ( <account>
-                       <acctID>
-                         645326474426547203313410069153905908525362434349
-                       </acctID>
-                       <balance>
-                         0
-                       </balance>
-                       <storage>
-                         .Map
-                       </storage>
-                       <origStorage>
-                         .Map
-                       </origStorage>
-                       <transientStorage>
-                         .Map
-                       </transientStorage>
-                       <nonce>
-                         0
-                       </nonce>
-                       ...
-                     </account>
-                     <account>
-                       <acctID>
-                         728815563385977040452943777879061427756277306518
-                       </acctID>
-                       <balance>
-                         0
-                       </balance>
-                       <storage>
-                         ( ( 11 |-> 1 )
-                         ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
-                         ( 7 |-> 1 ) ) )
-                       </storage>
-                       <origStorage>
-                         .Map
-                       </origStorage>
-                       <transientStorage>
-                         .Map
-                       </transientStorage>
-                       <nonce>
-                         2
                        </nonce>
                        ...
                      </account> ) )
@@ -696,14 +696,14 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                    </substate> } ) )
                  </interimStates>
                  <touchedAccounts>
-                   ( .Set => ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) ) )
+                   ( .Set => ( SetItem ( #address ( FoundryTest ) ) SetItem ( 491460923342184218035706888008750043977755113263 ) ) )
                  </touchedAccounts>
                  <callState>
                    <id>
-                     ( 728815563385977040452943777879061427756277306518 => 491460923342184218035706888008750043977755113263 )
+                     ( #address ( FoundryTest ) => 491460923342184218035706888008750043977755113263 )
                    </id>
                    <caller>
-                     ( 137122462167341575662000267002353578582749290296 => 728815563385977040452943777879061427756277306518 )
+                     ( 137122462167341575662000267002353578582749290296 => #address ( FoundryTest ) )
                    </caller>
                    <callData>
                      ( b"\n\x92T\xe4" => b"w\x16\x02\xf7" +Bytes #buf ( 32 , ?KV0_x:Int ) +Bytes #buf ( 32 , ?KV1_y:Int ) )
@@ -742,7 +742,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                      0
                    </refund>
                    <accessedAccounts>
-                     ( .Set => ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) ) )
+                     ( .Set => ( SetItem ( #address ( FoundryTest ) ) SetItem ( 491460923342184218035706888008750043977755113263 ) ) )
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
@@ -772,7 +772,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                  <accounts>
                    ( <account>
                      <acctID>
-                       ( 645326474426547203313410069153905908525362434349 => 491460923342184218035706888008750043977755113263 )
+                       ( #address ( FoundryCheat ) => 491460923342184218035706888008750043977755113263 )
                      </acctID>
                      <balance>
                        0
@@ -793,10 +793,10 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                    </account>
                    ( <account>
                      <acctID>
-                       728815563385977040452943777879061427756277306518
+                       #address ( FoundryTest )
                      </acctID>
                      <balance>
-                       0
+                       maxUInt96
                      </balance>
                      <storage>
                        ( ( 11 |-> 1 )
@@ -814,7 +814,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                      ...
                    </account> => ( <account>
                      <acctID>
-                       645326474426547203313410069153905908525362434349
+                       #address ( FoundryCheat )
                      </acctID>
                      <balance>
                        0
@@ -835,10 +835,10 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                    </account>
                    <account>
                      <acctID>
-                       728815563385977040452943777879061427756277306518
+                       #address ( FoundryTest )
                      </acctID>
                      <balance>
-                       0
+                       maxUInt96
                      </balance>
                      <storage>
                        ( ( 11 |-> 1 )
@@ -979,7 +979,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                  <callStack>
                    ( ListItem ( <callState>
                      <id>
-                       728815563385977040452943777879061427756277306518
+                       #address ( FoundryTest )
                      </id>
                      <caller>
                        137122462167341575662000267002353578582749290296
@@ -1015,6 +1015,50 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                    ( ListItem ( { <accounts>
                      ( <account>
                        <acctID>
+                         #address ( FoundryCheat )
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       <storage>
+                         .Map
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         0
+                       </nonce>
+                       ...
+                     </account>
+                     ( <account>
+                       <acctID>
+                         #address ( FoundryTest )
+                       </acctID>
+                       <balance>
+                         maxUInt96
+                       </balance>
+                       <storage>
+                         ( ( 11 |-> 1 )
+                         ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                         ( 7 |-> 1 ) ) )
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         2
+                       </nonce>
+                       ...
+                     </account>
+                     <account>
+                       <acctID>
                          491460923342184218035706888008750043977755113263
                        </acctID>
                        <balance>
@@ -1031,50 +1075,6 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                        </transientStorage>
                        <nonce>
                          1
-                       </nonce>
-                       ...
-                     </account>
-                     ( <account>
-                       <acctID>
-                         645326474426547203313410069153905908525362434349
-                       </acctID>
-                       <balance>
-                         0
-                       </balance>
-                       <storage>
-                         .Map
-                       </storage>
-                       <origStorage>
-                         .Map
-                       </origStorage>
-                       <transientStorage>
-                         .Map
-                       </transientStorage>
-                       <nonce>
-                         0
-                       </nonce>
-                       ...
-                     </account>
-                     <account>
-                       <acctID>
-                         728815563385977040452943777879061427756277306518
-                       </acctID>
-                       <balance>
-                         0
-                       </balance>
-                       <storage>
-                         ( ( 11 |-> 1 )
-                         ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
-                         ( 7 |-> 1 ) ) )
-                       </storage>
-                       <origStorage>
-                         .Map
-                       </origStorage>
-                       <transientStorage>
-                         .Map
-                       </transientStorage>
-                       <nonce>
-                         2
                        </nonce>
                        ...
                      </account> ) )
@@ -1100,14 +1100,14 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                    </substate> } ) => .List )
                  </interimStates>
                  <touchedAccounts>
-                   ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
+                   ( SetItem ( #address ( FoundryTest ) ) SetItem ( 491460923342184218035706888008750043977755113263 ) )
                  </touchedAccounts>
                  <callState>
                    <id>
-                     ( 491460923342184218035706888008750043977755113263 => 728815563385977040452943777879061427756277306518 )
+                     ( 491460923342184218035706888008750043977755113263 => #address ( FoundryTest ) )
                    </id>
                    <caller>
-                     ( 728815563385977040452943777879061427756277306518 => 137122462167341575662000267002353578582749290296 )
+                     ( #address ( FoundryTest ) => 137122462167341575662000267002353578582749290296 )
                    </caller>
                    <callData>
                      ( b"w\x16\x02\xf7" => b"\xe1\xc3j\x8c" ) +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int )
@@ -1146,7 +1146,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                      0
                    </refund>
                    <accessedAccounts>
-                     ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
+                     ( SetItem ( #address ( FoundryTest ) ) SetItem ( 491460923342184218035706888008750043977755113263 ) )
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
@@ -1176,6 +1176,50 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                  <accounts>
                    ( <account>
                      <acctID>
+                       #address ( FoundryCheat )
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       0
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
+                     <acctID>
+                       #address ( FoundryTest )
+                     </acctID>
+                     <balance>
+                       maxUInt96
+                     </balance>
+                     <storage>
+                       ( ( 11 |-> 1 )
+                       ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( 7 |-> 1 ) ) )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       2
+                     </nonce>
+                     ...
+                   </account>
+                   <account>
+                     <acctID>
                        491460923342184218035706888008750043977755113263
                      </acctID>
                      <balance>
@@ -1192,50 +1236,6 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                      </transientStorage>
                      <nonce>
                        1
-                     </nonce>
-                     ...
-                   </account>
-                   ( <account>
-                     <acctID>
-                       645326474426547203313410069153905908525362434349
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     <storage>
-                       .Map
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <transientStorage>
-                       .Map
-                     </transientStorage>
-                     <nonce>
-                       0
-                     </nonce>
-                     ...
-                   </account>
-                   <account>
-                     <acctID>
-                       728815563385977040452943777879061427756277306518
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     <storage>
-                       ( ( 11 |-> 1 )
-                       ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
-                       ( 7 |-> 1 ) ) )
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <transientStorage>
-                       .Map
-                     </transientStorage>
-                     <nonce>
-                       2
                      </nonce>
                      ...
                    </account> ) )
@@ -1364,7 +1364,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                  <callStack>
                    ( ListItem ( <callState>
                      <id>
-                       728815563385977040452943777879061427756277306518
+                       #address ( FoundryTest )
                      </id>
                      <caller>
                        137122462167341575662000267002353578582749290296
@@ -1400,6 +1400,50 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                    ( ListItem ( { <accounts>
                      ( <account>
                        <acctID>
+                         #address ( FoundryCheat )
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       <storage>
+                         .Map
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         0
+                       </nonce>
+                       ...
+                     </account>
+                     ( <account>
+                       <acctID>
+                         #address ( FoundryTest )
+                       </acctID>
+                       <balance>
+                         maxUInt96
+                       </balance>
+                       <storage>
+                         ( ( 11 |-> 1 )
+                         ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                         ( 7 |-> 1 ) ) )
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         2
+                       </nonce>
+                       ...
+                     </account>
+                     <account>
+                       <acctID>
                          491460923342184218035706888008750043977755113263
                        </acctID>
                        <balance>
@@ -1416,50 +1460,6 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                        </transientStorage>
                        <nonce>
                          1
-                       </nonce>
-                       ...
-                     </account>
-                     ( <account>
-                       <acctID>
-                         645326474426547203313410069153905908525362434349
-                       </acctID>
-                       <balance>
-                         0
-                       </balance>
-                       <storage>
-                         .Map
-                       </storage>
-                       <origStorage>
-                         .Map
-                       </origStorage>
-                       <transientStorage>
-                         .Map
-                       </transientStorage>
-                       <nonce>
-                         0
-                       </nonce>
-                       ...
-                     </account>
-                     <account>
-                       <acctID>
-                         728815563385977040452943777879061427756277306518
-                       </acctID>
-                       <balance>
-                         0
-                       </balance>
-                       <storage>
-                         ( ( 11 |-> 1 )
-                         ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
-                         ( 7 |-> 1 ) ) )
-                       </storage>
-                       <origStorage>
-                         .Map
-                       </origStorage>
-                       <transientStorage>
-                         .Map
-                       </transientStorage>
-                       <nonce>
-                         2
                        </nonce>
                        ...
                      </account> ) )
@@ -1485,14 +1485,14 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                    </substate> } ) => .List )
                  </interimStates>
                  <touchedAccounts>
-                   ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
+                   ( SetItem ( #address ( FoundryTest ) ) SetItem ( 491460923342184218035706888008750043977755113263 ) )
                  </touchedAccounts>
                  <callState>
                    <id>
-                     ( 491460923342184218035706888008750043977755113263 => 728815563385977040452943777879061427756277306518 )
+                     ( 491460923342184218035706888008750043977755113263 => #address ( FoundryTest ) )
                    </id>
                    <caller>
-                     ( 728815563385977040452943777879061427756277306518 => 137122462167341575662000267002353578582749290296 )
+                     ( #address ( FoundryTest ) => 137122462167341575662000267002353578582749290296 )
                    </caller>
                    <callData>
                      ( b"w\x16\x02\xf7" => b"\xe1\xc3j\x8c" ) +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int )
@@ -1531,7 +1531,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                      0
                    </refund>
                    <accessedAccounts>
-                     ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
+                     ( SetItem ( #address ( FoundryTest ) ) SetItem ( 491460923342184218035706888008750043977755113263 ) )
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
@@ -1561,6 +1561,50 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                  <accounts>
                    ( <account>
                      <acctID>
+                       #address ( FoundryCheat )
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       0
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
+                     <acctID>
+                       #address ( FoundryTest )
+                     </acctID>
+                     <balance>
+                       maxUInt96
+                     </balance>
+                     <storage>
+                       ( ( 11 |-> 1 )
+                       ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( 7 |-> 1 ) ) )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       2
+                     </nonce>
+                     ...
+                   </account>
+                   <account>
+                     <acctID>
                        491460923342184218035706888008750043977755113263
                      </acctID>
                      <balance>
@@ -1577,50 +1621,6 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                      </transientStorage>
                      <nonce>
                        1
-                     </nonce>
-                     ...
-                   </account>
-                   ( <account>
-                     <acctID>
-                       645326474426547203313410069153905908525362434349
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     <storage>
-                       .Map
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <transientStorage>
-                       .Map
-                     </transientStorage>
-                     <nonce>
-                       0
-                     </nonce>
-                     ...
-                   </account>
-                   <account>
-                     <acctID>
-                       728815563385977040452943777879061427756277306518
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     <storage>
-                       ( ( 11 |-> 1 )
-                       ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
-                       ( 7 |-> 1 ) ) )
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <transientStorage>
-                       .Map
-                     </transientStorage>
-                     <nonce>
-                       2
                      </nonce>
                      ...
                    </account> ) )
@@ -1750,7 +1750,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                  <callStack>
                    ( ListItem ( <callState>
                      <id>
-                       728815563385977040452943777879061427756277306518
+                       #address ( FoundryTest )
                      </id>
                      <caller>
                        137122462167341575662000267002353578582749290296
@@ -1786,6 +1786,50 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                    ( ListItem ( { <accounts>
                      ( <account>
                        <acctID>
+                         #address ( FoundryCheat )
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       <storage>
+                         .Map
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         0
+                       </nonce>
+                       ...
+                     </account>
+                     ( <account>
+                       <acctID>
+                         #address ( FoundryTest )
+                       </acctID>
+                       <balance>
+                         maxUInt96
+                       </balance>
+                       <storage>
+                         ( ( 11 |-> 1 )
+                         ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                         ( 7 |-> 1 ) ) )
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         2
+                       </nonce>
+                       ...
+                     </account>
+                     <account>
+                       <acctID>
                          491460923342184218035706888008750043977755113263
                        </acctID>
                        <balance>
@@ -1802,50 +1846,6 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                        </transientStorage>
                        <nonce>
                          1
-                       </nonce>
-                       ...
-                     </account>
-                     ( <account>
-                       <acctID>
-                         645326474426547203313410069153905908525362434349
-                       </acctID>
-                       <balance>
-                         0
-                       </balance>
-                       <storage>
-                         .Map
-                       </storage>
-                       <origStorage>
-                         .Map
-                       </origStorage>
-                       <transientStorage>
-                         .Map
-                       </transientStorage>
-                       <nonce>
-                         0
-                       </nonce>
-                       ...
-                     </account>
-                     <account>
-                       <acctID>
-                         728815563385977040452943777879061427756277306518
-                       </acctID>
-                       <balance>
-                         0
-                       </balance>
-                       <storage>
-                         ( ( 11 |-> 1 )
-                         ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
-                         ( 7 |-> 1 ) ) )
-                       </storage>
-                       <origStorage>
-                         .Map
-                       </origStorage>
-                       <transientStorage>
-                         .Map
-                       </transientStorage>
-                       <nonce>
-                         2
                        </nonce>
                        ...
                      </account> ) )
@@ -1871,14 +1871,14 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                    </substate> } ) => .List )
                  </interimStates>
                  <touchedAccounts>
-                   ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
+                   ( SetItem ( #address ( FoundryTest ) ) SetItem ( 491460923342184218035706888008750043977755113263 ) )
                  </touchedAccounts>
                  <callState>
                    <id>
-                     ( 491460923342184218035706888008750043977755113263 => 728815563385977040452943777879061427756277306518 )
+                     ( 491460923342184218035706888008750043977755113263 => #address ( FoundryTest ) )
                    </id>
                    <caller>
-                     ( 728815563385977040452943777879061427756277306518 => 137122462167341575662000267002353578582749290296 )
+                     ( #address ( FoundryTest ) => 137122462167341575662000267002353578582749290296 )
                    </caller>
                    <callData>
                      ( b"w\x16\x02\xf7" => b"\xe1\xc3j\x8c" ) +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int )
@@ -1917,7 +1917,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                      0
                    </refund>
                    <accessedAccounts>
-                     ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
+                     ( SetItem ( #address ( FoundryTest ) ) SetItem ( 491460923342184218035706888008750043977755113263 ) )
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
@@ -1947,6 +1947,50 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                  <accounts>
                    ( <account>
                      <acctID>
+                       #address ( FoundryCheat )
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       0
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
+                     <acctID>
+                       #address ( FoundryTest )
+                     </acctID>
+                     <balance>
+                       maxUInt96
+                     </balance>
+                     <storage>
+                       ( ( 11 |-> 1 )
+                       ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( 7 |-> 1 ) ) )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       2
+                     </nonce>
+                     ...
+                   </account>
+                   <account>
+                     <acctID>
                        491460923342184218035706888008750043977755113263
                      </acctID>
                      <balance>
@@ -1963,50 +2007,6 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                      </transientStorage>
                      <nonce>
                        1
-                     </nonce>
-                     ...
-                   </account>
-                   ( <account>
-                     <acctID>
-                       645326474426547203313410069153905908525362434349
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     <storage>
-                       .Map
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <transientStorage>
-                       .Map
-                     </transientStorage>
-                     <nonce>
-                       0
-                     </nonce>
-                     ...
-                   </account>
-                   <account>
-                     <acctID>
-                       728815563385977040452943777879061427756277306518
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     <storage>
-                       ( ( 11 |-> 1 )
-                       ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
-                       ( 7 |-> 1 ) ) )
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <transientStorage>
-                       .Map
-                     </transientStorage>
-                     <nonce>
-                       2
                      </nonce>
                      ...
                    </account> ) )
@@ -2140,7 +2140,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                  <callStack>
                    ( ListItem ( <callState>
                      <id>
-                       728815563385977040452943777879061427756277306518
+                       #address ( FoundryTest )
                      </id>
                      <caller>
                        137122462167341575662000267002353578582749290296
@@ -2176,6 +2176,50 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                    ( ListItem ( { <accounts>
                      ( <account>
                        <acctID>
+                         #address ( FoundryCheat )
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       <storage>
+                         .Map
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         0
+                       </nonce>
+                       ...
+                     </account>
+                     ( <account>
+                       <acctID>
+                         #address ( FoundryTest )
+                       </acctID>
+                       <balance>
+                         maxUInt96
+                       </balance>
+                       <storage>
+                         ( ( 11 |-> 1 )
+                         ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                         ( 7 |-> 1 ) ) )
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         2
+                       </nonce>
+                       ...
+                     </account>
+                     <account>
+                       <acctID>
                          491460923342184218035706888008750043977755113263
                        </acctID>
                        <balance>
@@ -2192,50 +2236,6 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                        </transientStorage>
                        <nonce>
                          1
-                       </nonce>
-                       ...
-                     </account>
-                     ( <account>
-                       <acctID>
-                         645326474426547203313410069153905908525362434349
-                       </acctID>
-                       <balance>
-                         0
-                       </balance>
-                       <storage>
-                         .Map
-                       </storage>
-                       <origStorage>
-                         .Map
-                       </origStorage>
-                       <transientStorage>
-                         .Map
-                       </transientStorage>
-                       <nonce>
-                         0
-                       </nonce>
-                       ...
-                     </account>
-                     <account>
-                       <acctID>
-                         728815563385977040452943777879061427756277306518
-                       </acctID>
-                       <balance>
-                         0
-                       </balance>
-                       <storage>
-                         ( ( 11 |-> 1 )
-                         ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
-                         ( 7 |-> 1 ) ) )
-                       </storage>
-                       <origStorage>
-                         .Map
-                       </origStorage>
-                       <transientStorage>
-                         .Map
-                       </transientStorage>
-                       <nonce>
-                         2
                        </nonce>
                        ...
                      </account> ) )
@@ -2261,14 +2261,14 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                    </substate> } ) => .List )
                  </interimStates>
                  <touchedAccounts>
-                   ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
+                   ( SetItem ( #address ( FoundryTest ) ) SetItem ( 491460923342184218035706888008750043977755113263 ) )
                  </touchedAccounts>
                  <callState>
                    <id>
-                     ( 491460923342184218035706888008750043977755113263 => 728815563385977040452943777879061427756277306518 )
+                     ( 491460923342184218035706888008750043977755113263 => #address ( FoundryTest ) )
                    </id>
                    <caller>
-                     ( 728815563385977040452943777879061427756277306518 => 137122462167341575662000267002353578582749290296 )
+                     ( #address ( FoundryTest ) => 137122462167341575662000267002353578582749290296 )
                    </caller>
                    <callData>
                      ( b"w\x16\x02\xf7" => b"\xe1\xc3j\x8c" ) +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int )
@@ -2307,7 +2307,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                      0
                    </refund>
                    <accessedAccounts>
-                     ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
+                     ( SetItem ( #address ( FoundryTest ) ) SetItem ( 491460923342184218035706888008750043977755113263 ) )
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
@@ -2337,6 +2337,50 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                  <accounts>
                    ( <account>
                      <acctID>
+                       #address ( FoundryCheat )
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       0
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
+                     <acctID>
+                       #address ( FoundryTest )
+                     </acctID>
+                     <balance>
+                       maxUInt96
+                     </balance>
+                     <storage>
+                       ( ( 11 |-> 1 )
+                       ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( 7 |-> 1 ) ) )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       2
+                     </nonce>
+                     ...
+                   </account>
+                   <account>
+                     <acctID>
                        491460923342184218035706888008750043977755113263
                      </acctID>
                      <balance>
@@ -2353,50 +2397,6 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                      </transientStorage>
                      <nonce>
                        1
-                     </nonce>
-                     ...
-                   </account>
-                   ( <account>
-                     <acctID>
-                       645326474426547203313410069153905908525362434349
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     <storage>
-                       .Map
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <transientStorage>
-                       .Map
-                     </transientStorage>
-                     <nonce>
-                       0
-                     </nonce>
-                     ...
-                   </account>
-                   <account>
-                     <acctID>
-                       728815563385977040452943777879061427756277306518
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     <storage>
-                       ( ( 11 |-> 1 )
-                       ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
-                       ( 7 |-> 1 ) ) )
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <transientStorage>
-                       .Map
-                     </transientStorage>
-                     <nonce>
-                       2
                      </nonce>
                      ...
                    </account> ) )
@@ -2532,7 +2532,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                  <callStack>
                    ( ListItem ( <callState>
                      <id>
-                       728815563385977040452943777879061427756277306518
+                       #address ( FoundryTest )
                      </id>
                      <caller>
                        137122462167341575662000267002353578582749290296
@@ -2568,6 +2568,50 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                    ( ListItem ( { <accounts>
                      ( <account>
                        <acctID>
+                         #address ( FoundryCheat )
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       <storage>
+                         .Map
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         0
+                       </nonce>
+                       ...
+                     </account>
+                     ( <account>
+                       <acctID>
+                         #address ( FoundryTest )
+                       </acctID>
+                       <balance>
+                         maxUInt96
+                       </balance>
+                       <storage>
+                         ( ( 11 |-> 1 )
+                         ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                         ( 7 |-> 1 ) ) )
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         2
+                       </nonce>
+                       ...
+                     </account>
+                     <account>
+                       <acctID>
                          491460923342184218035706888008750043977755113263
                        </acctID>
                        <balance>
@@ -2584,50 +2628,6 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                        </transientStorage>
                        <nonce>
                          1
-                       </nonce>
-                       ...
-                     </account>
-                     ( <account>
-                       <acctID>
-                         645326474426547203313410069153905908525362434349
-                       </acctID>
-                       <balance>
-                         0
-                       </balance>
-                       <storage>
-                         .Map
-                       </storage>
-                       <origStorage>
-                         .Map
-                       </origStorage>
-                       <transientStorage>
-                         .Map
-                       </transientStorage>
-                       <nonce>
-                         0
-                       </nonce>
-                       ...
-                     </account>
-                     <account>
-                       <acctID>
-                         728815563385977040452943777879061427756277306518
-                       </acctID>
-                       <balance>
-                         0
-                       </balance>
-                       <storage>
-                         ( ( 11 |-> 1 )
-                         ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
-                         ( 7 |-> 1 ) ) )
-                       </storage>
-                       <origStorage>
-                         .Map
-                       </origStorage>
-                       <transientStorage>
-                         .Map
-                       </transientStorage>
-                       <nonce>
-                         2
                        </nonce>
                        ...
                      </account> ) )
@@ -2653,14 +2653,14 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                    </substate> } ) => .List )
                  </interimStates>
                  <touchedAccounts>
-                   ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
+                   ( SetItem ( #address ( FoundryTest ) ) SetItem ( 491460923342184218035706888008750043977755113263 ) )
                  </touchedAccounts>
                  <callState>
                    <id>
-                     ( 491460923342184218035706888008750043977755113263 => 728815563385977040452943777879061427756277306518 )
+                     ( 491460923342184218035706888008750043977755113263 => #address ( FoundryTest ) )
                    </id>
                    <caller>
-                     ( 728815563385977040452943777879061427756277306518 => 137122462167341575662000267002353578582749290296 )
+                     ( #address ( FoundryTest ) => 137122462167341575662000267002353578582749290296 )
                    </caller>
                    <callData>
                      ( b"w\x16\x02\xf7" => b"\xe1\xc3j\x8c" ) +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int )
@@ -2699,7 +2699,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                      0
                    </refund>
                    <accessedAccounts>
-                     ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
+                     ( SetItem ( #address ( FoundryTest ) ) SetItem ( 491460923342184218035706888008750043977755113263 ) )
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
@@ -2729,6 +2729,50 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                  <accounts>
                    ( <account>
                      <acctID>
+                       #address ( FoundryCheat )
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       0
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
+                     <acctID>
+                       #address ( FoundryTest )
+                     </acctID>
+                     <balance>
+                       maxUInt96
+                     </balance>
+                     <storage>
+                       ( ( 11 |-> 1 )
+                       ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( 7 |-> 1 ) ) )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       2
+                     </nonce>
+                     ...
+                   </account>
+                   <account>
+                     <acctID>
                        491460923342184218035706888008750043977755113263
                      </acctID>
                      <balance>
@@ -2745,50 +2789,6 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                      </transientStorage>
                      <nonce>
                        1
-                     </nonce>
-                     ...
-                   </account>
-                   ( <account>
-                     <acctID>
-                       645326474426547203313410069153905908525362434349
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     <storage>
-                       .Map
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <transientStorage>
-                       .Map
-                     </transientStorage>
-                     <nonce>
-                       0
-                     </nonce>
-                     ...
-                   </account>
-                   <account>
-                     <acctID>
-                       728815563385977040452943777879061427756277306518
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     <storage>
-                       ( ( 11 |-> 1 )
-                       ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
-                       ( 7 |-> 1 ) ) )
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <transientStorage>
-                       .Map
-                     </transientStorage>
-                     <nonce>
-                       2
                      </nonce>
                      ...
                    </account> ) )
