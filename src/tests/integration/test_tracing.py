@@ -63,12 +63,8 @@ def test_foundry_trace(
     bug_report: BugReport | None,
     server: KoreServer,
     update_expected_output: bool,
-    no_use_booster: bool,
     force_sequential: bool,
 ) -> None:
-    if no_use_booster:
-        pytest.skip()
-
     if test_id in SKIPPED_TRACE_TESTS:
         pytest.skip()
 
