@@ -35,12 +35,8 @@ def test_hevm_prove_passing(
     foundry: Foundry,
     bug_report: BugReport | None,
     server: KoreServer,
-    no_use_booster: bool,
     force_sequential: bool,
 ) -> None:
-    if no_use_booster:
-        pytest.skip()
-
     if bug_report is not None:
         server._populate_bug_report(bug_report)
 
@@ -73,12 +69,8 @@ def test_hevm_prove_failing(
     foundry: Foundry,
     bug_report: BugReport | None,
     server: KoreServer,
-    no_use_booster: bool,
     force_sequential: bool,
 ) -> None:
-    if no_use_booster:
-        pytest.skip()
-
     if bug_report is not None:
         server._populate_bug_report(bug_report)
 
