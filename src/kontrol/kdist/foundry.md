@@ -126,6 +126,8 @@ The rule `cheatcode.return` will rewrite the `#cheatcode_return` production into
 ```
 
 The `console.log` rule is used to catch the custom log instructions.
+Dev note: the `#consoleLog` production does not have any rewrite rule and it is designed to stop the execution by generating a `stuck` node
+and enable the Pyk wrapper to process the custom-step logic for processing logs.
 
 ```k
     syntax KItem ::= "#consoleLog" Int Bytes [symbol(console_log)]

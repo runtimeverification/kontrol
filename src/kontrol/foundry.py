@@ -110,7 +110,6 @@ class KontrolSemantics(KEVMSemantics):
         return [
             'FOUNDRY-CHEAT-CODES.rename',
             'FOUNDRY-ACCOUNTS.forget',
-            'FOUNDRY-ACCOUNTS.console.log',
         ] + KEVMSemantics.cut_point_rules(
             break_on_jumpi,
             break_on_jump,
@@ -283,14 +282,23 @@ class KontrolSemantics(KEVMSemantics):
         selector_token = subst['###SELECTOR']
         data = subst['###DATA']
         assert type(selector_token) is KToken
-        if type(data) is KToken:
-            param_types = CONSOLE_SELECTORS[int(selector_token.token)]
-            decoded = decode(param_types, ast.literal_eval(data.token))
-            output = (' '.join(str(item) for item in decoded))
-            _LOGGER.info(output)
-            print(output)
-        else:
-            _LOGGER.info(data)
+
+        try:
+            if type(data) is KToken:
+                selector = int(selector_token.token)
+                if selector in CONSOLE_SELECTORS:
+                    param_types = CONSOLE_SELECTORS[selector]
+                    decoded = decode(param_types, ast.literal_eval(data.token))
+                    output = ' '.join(str(item) for item in decoded)
+                    print(f'    {output}')
+                else:
+                    _LOGGER.warning(f'Unknown console logging function: 0x{selector:08x}')
+            else:
+                kevm = KEVM(kdist.get('kontrol.base'))
+                print(f'    {kevm.pretty_print(data)}')
+        except Exception as e:
+            _LOGGER.warning(f'Console log decode error: {e}')
+
         # Update the K_CELL with the continuation
         new_cterm = CTerm.from_kast(set_cell(cterm.kast, 'K_CELL', KSequence(subst['###CONTINUATION'])))
         return Step(CTerm(new_cterm.config, cterm.constraints), 1, (), ['console.log'], cut=True)
