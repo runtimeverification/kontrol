@@ -30,4 +30,22 @@ contract ArithmeticCallTest is Test {
         a = arith.add_sub_external(a, y, z);
         assert(a > x);
     }
+
+    function test_double_add_sub_external_revert(uint x, uint y, uint z) external {
+        vm.assume(x == type(uint256).max);
+        vm.assume(y > 0);
+
+        // the call should revert due to overflow in `add`
+        vm.expectRevert(); 
+        uint a = arith.add_sub_external(x, y, z);
+        assert(a > x);
+    }
+
+    function test_double_add_sub_external_prank(uint x, uint y, uint z) external {
+        address prankCaller = address(0xBEEF);
+    
+        vm.prank(prankCaller);
+        uint a = arith.add_sub_external(x, y, z);
+        assert(a > x);
+    }
 }
