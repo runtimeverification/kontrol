@@ -7,7 +7,7 @@
 │   src: test/nested/SimpleNested.t.sol:7:11
 │   method: test%InterfaceTagTest.setUp()
 │
-│  (1797 steps)
+│  (1799 steps)
 ├─ 8 (terminal)
 │   k: #halt ~> CONTINUATION:K
 │   pc: 194
@@ -60,11 +60,11 @@ module SUMMARY-TEST%INTERFACETAGTEST.TESTINTERFACE():0
                    .List
                  </interimStates>
                  <touchedAccounts>
-                   ( .Set => ( SetItem ( 263400868551549723330807389252719309078400616203 ) ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) ) ) )
+                   ( .Set => ( SetItem ( #address ( FoundryTest ) ) ( SetItem ( 263400868551549723330807389252719309078400616203 ) SetItem ( 491460923342184218035706888008750043977755113263 ) ) ) )
                  </touchedAccounts>
                  <callState>
                    <id>
-                     728815563385977040452943777879061427756277306518
+                     #address ( FoundryTest )
                    </id>
                    <caller>
                      137122462167341575662000267002353578582749290296
@@ -103,7 +103,7 @@ module SUMMARY-TEST%INTERFACETAGTEST.TESTINTERFACE():0
                      0
                    </refund>
                    <accessedAccounts>
-                     ( .Set => ( SetItem ( 263400868551549723330807389252719309078400616203 ) ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) ) ) )
+                     ( .Set => ( SetItem ( #address ( FoundryTest ) ) ( SetItem ( 263400868551549723330807389252719309078400616203 ) SetItem ( 491460923342184218035706888008750043977755113263 ) ) ) )
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
@@ -134,7 +134,7 @@ module SUMMARY-TEST%INTERFACETAGTEST.TESTINTERFACE():0
                  <accounts>
                    ( <account>
                      <acctID>
-                       ( 645326474426547203313410069153905908525362434349 => 263400868551549723330807389252719309078400616203 )
+                       ( #address ( FoundryCheat ) => 263400868551549723330807389252719309078400616203 )
                      </acctID>
                      <balance>
                        0
@@ -155,10 +155,10 @@ module SUMMARY-TEST%INTERFACETAGTEST.TESTINTERFACE():0
                    </account>
                    ( <account>
                      <acctID>
-                       728815563385977040452943777879061427756277306518
+                       #address ( FoundryTest )
                      </acctID>
                      <balance>
-                       0
+                       maxUInt96
                      </balance>
                      <storage>
                        ( ( 11 |-> 1 )
@@ -176,6 +176,50 @@ module SUMMARY-TEST%INTERFACETAGTEST.TESTINTERFACE():0
                      ...
                    </account> => ( <account>
                      <acctID>
+                       #address ( FoundryCheat )
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       0
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
+                     <acctID>
+                       #address ( FoundryTest )
+                     </acctID>
+                     <balance>
+                       maxUInt96
+                     </balance>
+                     <storage>
+                       ( ( 11 |-> 1 )
+                       ( ( 27 |-> 263400868551549723330807389252719309078400616203 )
+                       ( 7 |-> 1 ) ) )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       3
+                     </nonce>
+                     ...
+                   </account>
+                   <account>
+                     <acctID>
                        491460923342184218035706888008750043977755113263
                      </acctID>
                      <balance>
@@ -192,50 +236,6 @@ module SUMMARY-TEST%INTERFACETAGTEST.TESTINTERFACE():0
                      </transientStorage>
                      <nonce>
                        1
-                     </nonce>
-                     ...
-                   </account>
-                   ( <account>
-                     <acctID>
-                       645326474426547203313410069153905908525362434349
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     <storage>
-                       .Map
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <transientStorage>
-                       .Map
-                     </transientStorage>
-                     <nonce>
-                       0
-                     </nonce>
-                     ...
-                   </account>
-                   <account>
-                     <acctID>
-                       728815563385977040452943777879061427756277306518
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     <storage>
-                       ( ( 11 |-> 1 )
-                       ( ( 27 |-> 263400868551549723330807389252719309078400616203 )
-                       ( 7 |-> 1 ) ) )
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <transientStorage>
-                       .Map
-                     </transientStorage>
-                     <nonce>
-                       3
                      </nonce>
                      ...
                    </account> ) ) ) )

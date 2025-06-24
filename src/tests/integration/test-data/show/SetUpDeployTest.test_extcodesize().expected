@@ -96,11 +96,11 @@ module SUMMARY-TEST%SETUPDEPLOYTEST.TEST-EXTCODESIZE():0
                    .List
                  </interimStates>
                  <touchedAccounts>
-                   ( .Set => ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) ) )
+                   ( .Set => ( SetItem ( #address ( FoundryTest ) ) SetItem ( 491460923342184218035706888008750043977755113263 ) ) )
                  </touchedAccounts>
                  <callState>
                    <id>
-                     728815563385977040452943777879061427756277306518
+                     #address ( FoundryTest )
                    </id>
                    <caller>
                      137122462167341575662000267002353578582749290296
@@ -139,7 +139,7 @@ module SUMMARY-TEST%SETUPDEPLOYTEST.TEST-EXTCODESIZE():0
                      0
                    </refund>
                    <accessedAccounts>
-                     ( .Set => ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) ) )
+                     ( .Set => ( SetItem ( #address ( FoundryTest ) ) SetItem ( 491460923342184218035706888008750043977755113263 ) ) )
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
@@ -170,7 +170,7 @@ module SUMMARY-TEST%SETUPDEPLOYTEST.TEST-EXTCODESIZE():0
                  <accounts>
                    ( <account>
                      <acctID>
-                       ( 645326474426547203313410069153905908525362434349 => 491460923342184218035706888008750043977755113263 )
+                       ( #address ( FoundryCheat ) => 491460923342184218035706888008750043977755113263 )
                      </acctID>
                      <balance>
                        0
@@ -191,10 +191,10 @@ module SUMMARY-TEST%SETUPDEPLOYTEST.TEST-EXTCODESIZE():0
                    </account>
                    ( <account>
                      <acctID>
-                       728815563385977040452943777879061427756277306518
+                       #address ( FoundryTest )
                      </acctID>
                      <balance>
-                       0
+                       maxUInt96
                      </balance>
                      <storage>
                        .Map
@@ -211,7 +211,7 @@ module SUMMARY-TEST%SETUPDEPLOYTEST.TEST-EXTCODESIZE():0
                      ...
                    </account> => ( <account>
                      <acctID>
-                       645326474426547203313410069153905908525362434349
+                       #address ( FoundryCheat )
                      </acctID>
                      <balance>
                        0
@@ -232,10 +232,10 @@ module SUMMARY-TEST%SETUPDEPLOYTEST.TEST-EXTCODESIZE():0
                    </account>
                    <account>
                      <acctID>
-                       728815563385977040452943777879061427756277306518
+                       #address ( FoundryTest )
                      </acctID>
                      <balance>
-                       0
+                       maxUInt96
                      </balance>
                      <storage>
                        ( 27 |-> 491460923342184218035706888008750043977755113263 )
@@ -370,11 +370,11 @@ module SUMMARY-TEST%SETUPDEPLOYTEST.TEST-EXTCODESIZE():0
                    .List
                  </interimStates>
                  <touchedAccounts>
-                   ( ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) ) => .Set )
+                   ( ( SetItem ( #address ( FoundryTest ) ) SetItem ( 491460923342184218035706888008750043977755113263 ) ) => .Set )
                  </touchedAccounts>
                  <callState>
                    <id>
-                     728815563385977040452943777879061427756277306518
+                     #address ( FoundryTest )
                    </id>
                    <caller>
                      137122462167341575662000267002353578582749290296
@@ -413,7 +413,7 @@ module SUMMARY-TEST%SETUPDEPLOYTEST.TEST-EXTCODESIZE():0
                      0
                    </refund>
                    <accessedAccounts>
-                     ( ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) ) => .Set )
+                     ( ( SetItem ( #address ( FoundryTest ) ) SetItem ( 491460923342184218035706888008750043977755113263 ) ) => .Set )
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
@@ -444,6 +444,48 @@ module SUMMARY-TEST%SETUPDEPLOYTEST.TEST-EXTCODESIZE():0
                  <accounts>
                    ( <account>
                      <acctID>
+                       #address ( FoundryCheat )
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       0
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
+                     <acctID>
+                       #address ( FoundryTest )
+                     </acctID>
+                     <balance>
+                       maxUInt96
+                     </balance>
+                     <storage>
+                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       2
+                     </nonce>
+                     ...
+                   </account>
+                   <account>
+                     <acctID>
                        491460923342184218035706888008750043977755113263
                      </acctID>
                      <balance>
@@ -460,48 +502,6 @@ module SUMMARY-TEST%SETUPDEPLOYTEST.TEST-EXTCODESIZE():0
                      </transientStorage>
                      <nonce>
                        1
-                     </nonce>
-                     ...
-                   </account>
-                   ( <account>
-                     <acctID>
-                       645326474426547203313410069153905908525362434349
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     <storage>
-                       .Map
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <transientStorage>
-                       .Map
-                     </transientStorage>
-                     <nonce>
-                       0
-                     </nonce>
-                     ...
-                   </account>
-                   <account>
-                     <acctID>
-                       728815563385977040452943777879061427756277306518
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <transientStorage>
-                       .Map
-                     </transientStorage>
-                     <nonce>
-                       2
                      </nonce>
                      ...
                    </account> ) )
@@ -627,7 +627,7 @@ module SUMMARY-TEST%SETUPDEPLOYTEST.TEST-EXTCODESIZE():0
                  </touchedAccounts>
                  <callState>
                    <id>
-                     728815563385977040452943777879061427756277306518
+                     #address ( FoundryTest )
                    </id>
                    <caller>
                      137122462167341575662000267002353578582749290296
@@ -697,6 +697,48 @@ module SUMMARY-TEST%SETUPDEPLOYTEST.TEST-EXTCODESIZE():0
                  <accounts>
                    ( <account>
                      <acctID>
+                       #address ( FoundryCheat )
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       0
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
+                     <acctID>
+                       #address ( FoundryTest )
+                     </acctID>
+                     <balance>
+                       maxUInt96
+                     </balance>
+                     <storage>
+                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       2
+                     </nonce>
+                     ...
+                   </account>
+                   <account>
+                     <acctID>
                        491460923342184218035706888008750043977755113263
                      </acctID>
                      <balance>
@@ -713,48 +755,6 @@ module SUMMARY-TEST%SETUPDEPLOYTEST.TEST-EXTCODESIZE():0
                      </transientStorage>
                      <nonce>
                        1
-                     </nonce>
-                     ...
-                   </account>
-                   ( <account>
-                     <acctID>
-                       645326474426547203313410069153905908525362434349
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     <storage>
-                       .Map
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <transientStorage>
-                       .Map
-                     </transientStorage>
-                     <nonce>
-                       0
-                     </nonce>
-                     ...
-                   </account>
-                   <account>
-                     <acctID>
-                       728815563385977040452943777879061427756277306518
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <transientStorage>
-                       .Map
-                     </transientStorage>
-                     <nonce>
-                       2
                      </nonce>
                      ...
                    </account> ) )
@@ -883,7 +883,7 @@ module SUMMARY-TEST%SETUPDEPLOYTEST.TEST-EXTCODESIZE():0
                  </touchedAccounts>
                  <callState>
                    <id>
-                     728815563385977040452943777879061427756277306518
+                     #address ( FoundryTest )
                    </id>
                    <caller>
                      137122462167341575662000267002353578582749290296
@@ -953,6 +953,48 @@ module SUMMARY-TEST%SETUPDEPLOYTEST.TEST-EXTCODESIZE():0
                  <accounts>
                    ( <account>
                      <acctID>
+                       #address ( FoundryCheat )
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       0
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
+                     <acctID>
+                       #address ( FoundryTest )
+                     </acctID>
+                     <balance>
+                       maxUInt96
+                     </balance>
+                     <storage>
+                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       2
+                     </nonce>
+                     ...
+                   </account>
+                   <account>
+                     <acctID>
                        491460923342184218035706888008750043977755113263
                      </acctID>
                      <balance>
@@ -969,48 +1011,6 @@ module SUMMARY-TEST%SETUPDEPLOYTEST.TEST-EXTCODESIZE():0
                      </transientStorage>
                      <nonce>
                        1
-                     </nonce>
-                     ...
-                   </account>
-                   ( <account>
-                     <acctID>
-                       645326474426547203313410069153905908525362434349
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     <storage>
-                       .Map
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <transientStorage>
-                       .Map
-                     </transientStorage>
-                     <nonce>
-                       0
-                     </nonce>
-                     ...
-                   </account>
-                   <account>
-                     <acctID>
-                       728815563385977040452943777879061427756277306518
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <transientStorage>
-                       .Map
-                     </transientStorage>
-                     <nonce>
-                       2
                      </nonce>
                      ...
                    </account> ) )
@@ -1139,7 +1139,7 @@ module SUMMARY-TEST%SETUPDEPLOYTEST.TEST-EXTCODESIZE():0
                  </touchedAccounts>
                  <callState>
                    <id>
-                     728815563385977040452943777879061427756277306518
+                     #address ( FoundryTest )
                    </id>
                    <caller>
                      137122462167341575662000267002353578582749290296
@@ -1209,6 +1209,48 @@ module SUMMARY-TEST%SETUPDEPLOYTEST.TEST-EXTCODESIZE():0
                  <accounts>
                    ( <account>
                      <acctID>
+                       #address ( FoundryCheat )
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       0
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
+                     <acctID>
+                       #address ( FoundryTest )
+                     </acctID>
+                     <balance>
+                       maxUInt96
+                     </balance>
+                     <storage>
+                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       2
+                     </nonce>
+                     ...
+                   </account>
+                   <account>
+                     <acctID>
                        491460923342184218035706888008750043977755113263
                      </acctID>
                      <balance>
@@ -1225,48 +1267,6 @@ module SUMMARY-TEST%SETUPDEPLOYTEST.TEST-EXTCODESIZE():0
                      </transientStorage>
                      <nonce>
                        1
-                     </nonce>
-                     ...
-                   </account>
-                   ( <account>
-                     <acctID>
-                       645326474426547203313410069153905908525362434349
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     <storage>
-                       .Map
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <transientStorage>
-                       .Map
-                     </transientStorage>
-                     <nonce>
-                       0
-                     </nonce>
-                     ...
-                   </account>
-                   <account>
-                     <acctID>
-                       728815563385977040452943777879061427756277306518
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <transientStorage>
-                       .Map
-                     </transientStorage>
-                     <nonce>
-                       2
                      </nonce>
                      ...
                    </account> ) )

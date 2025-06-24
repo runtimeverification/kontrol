@@ -1067,7 +1067,7 @@ def _init_cterm(
 def _create_initial_account_list(program: KInner) -> list[KInner]:
     _contract = KEVM.account_cell(
         Foundry.address_TEST_CONTRACT(),
-        intToken(0),
+        intToken(79228162514264337593543950335),
         program,
         map_empty(),
         map_empty(),
