@@ -16,7 +16,6 @@ from subprocess import CalledProcessError
 from typing import TYPE_CHECKING
 
 import tomlkit
-from eth_abi import decode
 from kevm_pyk.kevm import KEVM, CustomStep, KEVMSemantics
 from kevm_pyk.utils import legacy_explore, print_model
 from pyk.cterm import CTerm
@@ -44,8 +43,8 @@ from pyk.utils import ensure_dir_path, hash_str, run_process_2, single, unique
 from . import VERSION
 from .solc_to_k import Contract, _contract_name_from_bytecode
 from .utils import (
-    CONSOLE_SELECTORS,
     _read_digest_file,
+    decode_log_message,
     empty_lemmas_file_contents,
     ensure_name_is_unique,
     kontrol_file_contents,
@@ -286,13 +285,10 @@ class KontrolSemantics(KEVMSemantics):
         try:
             if type(data) is KToken:
                 selector = int(selector_token.token)
-                if selector in CONSOLE_SELECTORS:
-                    param_types = CONSOLE_SELECTORS[selector]
-                    decoded = decode(param_types, ast.literal_eval(data.token))
-                    output = ' '.join(str(item) for item in decoded)
+                print(data)
+                output = decode_log_message(data.token, selector)
+                if output is not None:
                     print(f'    {output}')
-                else:
-                    _LOGGER.warning(f'Unknown console logging function: 0x{selector:08x}')
             else:
                 kevm = KEVM(kdist.get('kontrol.base'))
                 print(f'    {kevm.pretty_print(data)}')

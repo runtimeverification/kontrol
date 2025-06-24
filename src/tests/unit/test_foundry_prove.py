@@ -7,9 +7,11 @@ from pyk.cterm import CTerm
 from pyk.kast.inner import KApply, KLabel, KSequence, KSort, KToken, KVariable
 
 from kontrol.state_record import read_recorded_state_diff, recorded_state_to_account_cells
-from kontrol.utils import ensure_name_is_unique
+from kontrol.utils import decode_log_message, ensure_name_is_unique
 
-from .utils import TEST_DATA_DIR
+from .utils import (
+    TEST_DATA_DIR,
+)
 
 if TYPE_CHECKING:
     from typing import Final
@@ -84,6 +86,36 @@ def test_ensure_name_is_unique(test_id: str, name: str, config: CTerm, expected:
 
     # When
     actual = ensure_name_is_unique(name, config)
+
+    # Then
+    assert actual == expected
+
+
+DECODE_TEST_DATA: Final = [
+    ('empty', 1368866505, 'b""', ''),
+    (
+        'empty-string',
+        196436950,
+        'b"\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00 \\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00"',
+        '',
+    ),
+    (
+        'string-int',
+        3054400204,
+        'b"\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00@\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\xff\\xff\\xff\\xff\\xff\\xff\\xff\\xff\\xff\\xff\\xff\\xff\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x16Test contract balance:\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00"',
+        'Test contract balance: 79228162514264337593543950335',
+    ),
+]
+
+
+@pytest.mark.parametrize(
+    'test_id,log_selector,input,expected', DECODE_TEST_DATA, ids=[test_id for test_id, *_ in DECODE_TEST_DATA]
+)
+def test_abi_decode(test_id: str, log_selector: int, input: str, expected: str) -> None:
+    # Given
+
+    # When
+    actual = decode_log_message(input, log_selector)
 
     # Then
     assert actual == expected

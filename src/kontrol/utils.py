@@ -1,11 +1,13 @@
 from __future__ import annotations
 
+import ast
 import json
 import logging
 from pathlib import Path
 from typing import TYPE_CHECKING
 
 import pyk
+from eth_abi import decode
 from pyk.kbuild.utils import KVersion, k_version
 
 if TYPE_CHECKING:
@@ -289,10 +291,23 @@ def _rv_blue() -> str:
     return '#0097cb'
 
 
+def decode_log_message(token: str, selector: int) -> str | None:
+    if selector == EMPTY_LOG_SELECTOR:
+        return ''
+    elif selector in CONSOLE_SELECTORS:
+        param_types = CONSOLE_SELECTORS[selector]
+        decoded = decode(param_types, ast.literal_eval(token))
+        output = ' '.join(str(item) for item in decoded)
+        return output
+    else:
+        _LOGGER.warning(f'Unknown console logging function: 0x{selector:08x}')
+        return None
+
+
+EMPTY_LOG_SELECTOR = 1368866505
 # a mapping from function selectors to the argument types used in the log functions from
 # https://github.com/foundry-rs/forge-std/blob/ee93fdc45d1e5e4dee883afe0103109881a83549/src/console.sol
 CONSOLE_SELECTORS: Final[dict[int, list[str]]] = {
-    1368866505: [''],
     1696970229: ['int256'],
     2567288644: ['uint256'],
     196436950: ['string'],
