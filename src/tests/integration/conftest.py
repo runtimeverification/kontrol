@@ -33,9 +33,9 @@ _LOGGER: Final = logging.getLogger(__name__)
 
 
 @pytest.fixture(scope='module')
-def server(foundry: Foundry, no_use_booster: bool) -> Iterator[KoreServer]:
-    llvm_definition_dir = foundry.out / 'kompiled' / 'llvm-library' if not no_use_booster else None
-    kore_rpc_command = ('kore-rpc-booster',) if not no_use_booster else ('kore-rpc',)
+def server(foundry: Foundry) -> Iterator[KoreServer]:
+    llvm_definition_dir = foundry.out / 'kompiled' / 'llvm-library'
+    kore_rpc_command = ('kore-rpc-booster',)
 
     yield kore_server(
         definition_dir=foundry.kevm.definition_dir,

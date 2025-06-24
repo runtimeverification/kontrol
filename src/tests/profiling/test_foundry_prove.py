@@ -20,9 +20,7 @@ if TYPE_CHECKING:
 sys.setrecursionlimit(10**7)
 
 
-def test_foundy_prove(
-    profile: Profiler, no_use_booster: bool, bug_report: BugReport | None, tmp_path: Path, force_sequential: bool
-) -> None:
+def test_foundy_prove(profile: Profiler, bug_report: BugReport | None, tmp_path: Path, force_sequential: bool) -> None:
     foundry_root = tmp_path / 'foundry'
     foundry = forge_build(TEST_DATA_DIR, foundry_root)
 
@@ -39,7 +37,7 @@ def test_foundy_prove(
             options=ProveOptions(
                 {
                     'bug_report': bug_report,
-                    'use_booster': not no_use_booster,
+                    'use_booster': True,
                     'tests': [('AssertTest.test_revert_branch', None)],
                     'force_sequential': force_sequential,
                 }

@@ -24,12 +24,6 @@ def pytest_addoption(parser: Parser) -> None:
         help='Write expected output files for proof tests',
     )
     parser.addoption(
-        '--no-use-booster',
-        action='store_true',
-        default=False,
-        help='Use the kore-rpc binary instead of kore-rpc-booster',
-    )
-    parser.addoption(
         '--force-sequential',
         default=False,
         action='store_true',
@@ -45,11 +39,6 @@ def foundry_root_dir(request: FixtureRequest) -> Path | None:
 @pytest.fixture
 def update_expected_output(request: FixtureRequest) -> bool:
     return request.config.getoption('--update-expected-output')
-
-
-@pytest.fixture(scope='session')
-def no_use_booster(request: FixtureRequest) -> bool:
-    return request.config.getoption('--no-use-booster')
 
 
 @pytest.fixture(scope='session')

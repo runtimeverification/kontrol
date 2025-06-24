@@ -49,10 +49,7 @@ if TYPE_CHECKING:
 sys.setrecursionlimit(10**7)
 
 
-def test_foundry_kompile(foundry: Foundry, update_expected_output: bool, no_use_booster: bool) -> None:
-    if no_use_booster:
-        pytest.skip()
-
+def test_foundry_kompile(foundry: Foundry, update_expected_output: bool) -> None:
     assert_or_update_k_output(
         foundry.main_file,
         TEST_DATA_DIR / 'show/foundry.k.expected',
@@ -78,7 +75,6 @@ def assert_or_update_k_output(k_file: Path, expected_file: Path, *, update: bool
 
 ALL_PROVE_TESTS: Final = tuple((TEST_DATA_DIR / 'foundry-prove-all').read_text().splitlines())
 SKIPPED_PROVE_TESTS: Final = set((TEST_DATA_DIR / 'foundry-prove-skip').read_text().splitlines())
-SKIPPED_LEGACY_TESTS: Final = set((TEST_DATA_DIR / 'foundry-prove-skip-legacy').read_text().splitlines())
 GAS_TESTS: Final = set((TEST_DATA_DIR / 'foundry-prove-with-gas').read_text().splitlines())
 
 SHOW_TESTS = set((TEST_DATA_DIR / 'foundry-show').read_text().splitlines())
@@ -89,16 +85,11 @@ def test_foundry_prove(
     test_id: str,
     foundry: Foundry,
     update_expected_output: bool,
-    no_use_booster: bool,
     bug_report: BugReport | None,
     server: KoreServer,
     force_sequential: bool,
 ) -> None:
-    if (
-        test_id in SKIPPED_PROVE_TESTS
-        or (no_use_booster and test_id in SKIPPED_LEGACY_TESTS)
-        or (update_expected_output and not test_id in SHOW_TESTS)
-    ):
+    if test_id in SKIPPED_PROVE_TESTS or (update_expected_output and not test_id in SHOW_TESTS):
         pytest.skip()
 
     if bug_report is not None:
@@ -122,7 +113,7 @@ def test_foundry_prove(
     # Then
     assert_pass(test_id, single(prove_res))
 
-    if test_id not in SHOW_TESTS or no_use_booster:
+    if test_id not in SHOW_TESTS:
         return
 
     # And when
@@ -154,14 +145,10 @@ def test_foundry_fail(
     test_id: str,
     foundry: Foundry,
     update_expected_output: bool,
-    no_use_booster: bool,
     bug_report: BugReport | None,
     server: KoreServer,
     force_sequential: bool,
 ) -> None:
-    if no_use_booster:
-        pytest.skip()
-
     if bug_report is not None:
         server._populate_bug_report(bug_report)
 
@@ -208,14 +195,10 @@ def test_foundry_fail(
 def test_constructor_with_symbolic_args(
     foundry: Foundry,
     update_expected_output: bool,
-    no_use_booster: bool,
     bug_report: BugReport | None,
     server: KoreServer,
     force_sequential: bool,
 ) -> None:
-    if no_use_booster:
-        pytest.skip()
-
     if bug_report is not None:
         server._populate_bug_report(bug_report)
 
@@ -272,12 +255,8 @@ def test_foundry_bmc(
     update_expected_output: bool,
     bug_report: BugReport | None,
     server: KoreServer,
-    no_use_booster: bool,
     force_sequential: bool,
 ) -> None:
-    if no_use_booster:
-        pytest.skip()
-
     if test_id in skipped_bmc_tests:
         pytest.skip()
 
@@ -334,15 +313,11 @@ def test_foundry_minimize_proof(
     test_id: str,
     foundry: Foundry,
     update_expected_output: bool,
-    no_use_booster: bool,
     bug_report: BugReport | None,
     server: KoreServer,
     force_sequential: bool,
 ) -> None:
     merge = test_id in MINIMIZE_MERGE_TESTS
-
-    if no_use_booster:
-        pytest.skip()
 
     if bug_report is not None:
         server._populate_bug_report(bug_report)
@@ -389,12 +364,8 @@ def test_foundry_merge_nodes(
     foundry: Foundry,
     bug_report: BugReport | None,
     server: KoreServer,
-    no_use_booster: bool,
     force_sequential: bool,
 ) -> None:
-    if no_use_booster:
-        pytest.skip()
-
     test = 'MergeTest.test_branch_merge(uint256)'
 
     if bug_report is not None:
@@ -461,7 +432,6 @@ def test_foundry_show_with_hex_encoding(
     update_expected_output: bool,
     bug_report: BugReport | None,
     server: KoreServer,
-    no_use_booster: bool,
     force_sequential: bool,
     foundry_root_dir: Path | None,
     worker_id: str,
@@ -476,9 +446,6 @@ def test_foundry_show_with_hex_encoding(
 
         foundry_root_dir = root_tmp_dir / 'foundry'
     foundry = Foundry(foundry_root=foundry_root_dir, use_hex_encoding=True)
-
-    if no_use_booster:
-        pytest.skip()
 
     test = 'CounterTest.testIncrement()'
 
@@ -514,12 +481,8 @@ def test_foundry_merge_loop_heads(
     update_expected_output: bool,
     bug_report: BugReport | None,
     server: KoreServer,
-    no_use_booster: bool,
     force_sequential: bool,
 ) -> None:
-    if no_use_booster:
-        pytest.skip()
-
     test = 'BMCLoopsTest.test_bmc(uint256)'
 
     if bug_report is not None:
@@ -592,12 +555,8 @@ def test_foundry_auto_abstraction(
     update_expected_output: bool,
     bug_report: BugReport | None,
     server: KoreServer,
-    no_use_booster: bool,
     force_sequential: bool,
 ) -> None:
-    if no_use_booster:
-        pytest.skip()
-
     test_id = 'GasTest.testInfiniteGas()'
 
     if bug_report is not None:
@@ -645,12 +604,8 @@ def test_foundry_remove_node(
     update_expected_output: bool,
     bug_report: BugReport | None,
     server: KoreServer,
-    no_use_booster: bool,
     force_sequential: bool,
 ) -> None:
-    if no_use_booster:
-        pytest.skip()
-
     test = 'AssertTest.test_assert_true()'
 
     if bug_report is not None:
@@ -696,12 +651,8 @@ def test_foundry_resume_proof(
     update_expected_output: bool,
     bug_report: BugReport | None,
     server: KoreServer,
-    no_use_booster: bool,
     force_sequential: bool,
 ) -> None:
-    if no_use_booster:
-        pytest.skip()
-
     test = 'AssumeTest.test_assume_false(uint256,uint256)'
 
     if bug_report is not None:
@@ -756,11 +707,10 @@ def test_foundry_init_code(
     foundry: Foundry,
     update_expected_output: bool,
     bug_report: BugReport | None,
-    no_use_booster: bool,
     server: KoreServer,
     force_sequential: bool,
 ) -> None:
-    if no_use_booster or test_id in SKIPPED_INIT_CODE_TESTS:
+    if test_id in SKIPPED_INIT_CODE_TESTS:
         pytest.skip()
 
     prove_res = foundry_prove(
@@ -771,7 +721,7 @@ def test_foundry_init_code(
                 'run_constructor': True,
                 'bug_report': bug_report,
                 'fail_fast': False,
-                'use_booster': not no_use_booster,
+                'use_booster': True,
                 'force_sequential': force_sequential,
             }
         ),
@@ -877,12 +827,8 @@ def test_foundry_refute_node(
     update_expected_output: bool,
     bug_report: BugReport | None,
     server: KoreServer,
-    no_use_booster: bool,
     force_sequential: bool,
 ) -> None:
-    if no_use_booster:
-        pytest.skip()
-
     test = 'AssertTest.test_assert_true_branch(uint256)'
 
     if bug_report is not None:
@@ -985,12 +931,8 @@ def test_foundry_extra_lemmas(
     update_expected_output: bool,
     bug_report: BugReport | None,
     server: KoreServer,
-    no_use_booster: bool,
     force_sequential: bool,
 ) -> None:
-    if no_use_booster:
-        pytest.skip()
-
     test = 'ArithmeticTest.test_xor(uint256,uint256)'
     lemmas_file = 'xor-lemmas.k'
 
@@ -1018,12 +960,8 @@ def test_foundry_xml_report(
     foundry: Foundry,
     bug_report: BugReport | None,
     server: KoreServer,
-    no_use_booster: bool,
     force_sequential: bool,
 ) -> None:
-    if no_use_booster:
-        pytest.skip()
-
     if bug_report is not None:
         server._populate_bug_report(bug_report)
 
@@ -1062,12 +1000,8 @@ def test_foundry_split_node(
     update_expected_output: bool,
     bug_report: BugReport | None,
     server: KoreServer,
-    no_use_booster: bool,
     force_sequential: bool,
 ) -> None:
-    if no_use_booster:
-        pytest.skip()
-
     test = 'PrankTest.testSymbolicStartPrank'
 
     if bug_report is not None:
@@ -1171,7 +1105,6 @@ def test_foundry_prove_skips_setup(
     foundry: Foundry,
     bug_report: BugReport | None,
     server: KoreServer,
-    no_use_booster: bool,
     force_sequential: bool,
 ) -> None:
     def assert_correct_ids_generted(
@@ -1202,9 +1135,6 @@ def test_foundry_prove_skips_setup(
                 }
             ),
         )
-
-    if no_use_booster:
-        pytest.skip()
 
     test_a = 'ContractBTest.testNumberIs42'
     test_b = 'ContractBTest.testFailSubtract43'

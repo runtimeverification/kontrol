@@ -37,9 +37,9 @@ _LOGGER: Final = logging.getLogger(__name__)
 
 
 @pytest.fixture(scope='module')
-def server_end_to_end(foundry_end_to_end: Foundry, no_use_booster: bool) -> Iterator[KoreServer]:
-    llvm_definition_dir = foundry_end_to_end.out / 'kompiled' / 'llvm-library' if not no_use_booster else None
-    kore_rpc_command = ('kore-rpc-booster',) if not no_use_booster else ('kore-rpc',)
+def server_end_to_end(foundry_end_to_end: Foundry) -> Iterator[KoreServer]:
+    llvm_definition_dir = foundry_end_to_end.out / 'kompiled' / 'llvm-library'
+    kore_rpc_command = ('kore-rpc-booster',)
 
     yield kore_server(
         definition_dir=foundry_end_to_end.kevm.definition_dir,
@@ -101,17 +101,12 @@ def test_kontrol_end_to_end(
     test_id: str,
     foundry_end_to_end: Foundry,
     update_expected_output: bool,
-    no_use_booster: bool,
     bug_report: BugReport | None,
     server_end_to_end: KoreServer,
     force_sequential: bool,
 ) -> None:
 
-    if (
-        test_id in SKIPPED_PROVE_TESTS
-        or (no_use_booster and test_id in SKIPPED_PROVE_TESTS)
-        or (update_expected_output and test_id not in SHOW_TESTS)
-    ):
+    if test_id in SKIPPED_PROVE_TESTS or (update_expected_output and test_id not in SHOW_TESTS):
         pytest.skip()
 
     if bug_report is not None:
@@ -137,7 +132,7 @@ def test_kontrol_end_to_end(
     # Then
     assert_pass(test_id, single(prove_res))
 
-    if test_id not in SHOW_TESTS or no_use_booster:
+    if test_id not in SHOW_TESTS:
         return
 
     # And when
