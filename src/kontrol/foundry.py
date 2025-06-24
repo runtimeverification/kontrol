@@ -285,7 +285,6 @@ class KontrolSemantics(KEVMSemantics):
         try:
             if type(data) is KToken:
                 selector = int(selector_token.token)
-                print(data)
                 output = decode_log_message(data.token, selector)
                 if output is not None:
                     print(f'    {output}')
