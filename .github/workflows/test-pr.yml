@@ -15,18 +15,14 @@ jobs:
     steps:
       - name: 'Check out code'
         uses: actions/checkout@v4
-      - name: 'Install Nix'
-        uses: cachix/install-nix-action@v31.2.0
-        with:
-          install_url: https://releases.nixos.org/nix/nix-2.24.12/install
-          extra_nix_config: |
-            substituters = http://cache.nixos.org https://cache.iog.io
-            trusted-public-keys = cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ=
-      # note: we install uv from the nix flake in order to match the uv version that is used by uv2nix
-      - name: 'Install uv'
+      - name: 'Get uv release'
+        id: uv_release
         run: |
-          nix profile install .#uv
-          uv --version
+          echo uv_version=$(cat deps/uv_release) >> "${GITHUB_OUTPUT}"
+      - name: 'Install uv'
+        uses: astral-sh/setup-uv@v6
+        with:
+          version: ${{ steps.uv_release.outputs.uv_version }}
       - name: 'Run code quality checks'
         run: make check
       - name: 'Run pyupgrade'
@@ -39,18 +35,14 @@ jobs:
     steps:
       - name: 'Check out code'
         uses: actions/checkout@v4
-      - name: 'Install Nix'
-        uses: cachix/install-nix-action@v31.2.0
-        with:
-          install_url: https://releases.nixos.org/nix/nix-2.24.12/install
-          extra_nix_config: |
-            substituters = http://cache.nixos.org https://cache.iog.io
-            trusted-public-keys = cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ=
-      # note: we install uv from the nix flake in order to match the uv version that is used by uv2nix
-      - name: 'Install uv'
+      - name: 'Get uv release'
+        id: uv_release
         run: |
-          nix profile install .#uv
-          uv --version
+          echo uv_version=$(cat deps/uv_release) >> "${GITHUB_OUTPUT}"
+      - name: 'Install uv'
+        uses: astral-sh/setup-uv@v6
+        with:
+          version: ${{ steps.uv_release.outputs.uv_version }}
       - name: 'Run unit tests'
         run: make cov-unit
 

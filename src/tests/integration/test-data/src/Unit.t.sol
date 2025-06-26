@@ -431,6 +431,14 @@ contract UnitTest is Test {
         assertEq(val1, val2, err);
     }
 
+    function test_checkInitialBalance(uint256 _amount) public view {
+        uint256 balance = address(this).balance;
+        console.log('Test contract balance:', balance);
+        console.log('Symbolic value', _amount);
+
+        assertEq(balance, 79228162514264337593543950335); // 2^128
+    }
+
     /****************************
     * Internal helper functions *
     *****************************/
