@@ -635,8 +635,8 @@ wheels = [
 
 [[package]]
 name = "kevm-pyk"
-version = "1.0.847"
-source = { git = "https://github.com/runtimeverification/evm-semantics.git?subdirectory=kevm-pyk&rev=v1.0.847#383a5cbe45bd02a4d3fc3ff87450aac825667961" }
+version = "1.0.848"
+source = { git = "https://github.com/runtimeverification/evm-semantics.git?subdirectory=kevm-pyk&rev=v1.0.848#2213026c28475d02a7f84285a75a5fb21ccef91a" }
 dependencies = [
     { name = "frozendict" },
     { name = "kframework" },
@@ -704,7 +704,7 @@ dev = [
 requires-dist = [
     { name = "eth-abi", specifier = ">=5.2.0" },
     { name = "eth-utils", specifier = ">=4.1.1,<5" },
-    { name = "kevm-pyk", git = "https://github.com/runtimeverification/evm-semantics.git?subdirectory=kevm-pyk&rev=v1.0.847" },
+    { name = "kevm-pyk", git = "https://github.com/runtimeverification/evm-semantics.git?subdirectory=kevm-pyk&rev=v1.0.848" },
     { name = "pycryptodome", specifier = ">=3.20.0,<4" },
     { name = "pyevmasm", specifier = ">=0.2.3,<0.3" },
 ]
