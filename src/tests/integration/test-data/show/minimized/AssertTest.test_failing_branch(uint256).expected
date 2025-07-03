@@ -7,13 +7,13 @@
 │   src: test/nested/SimpleNested.t.sol:7:11
 │   method: test%AssertTest.setUp()
 │
-│  (543 steps)
+│  (522 steps)
 ├─ 8 (split)
-│   k: JUMPI 1124 bool2Word ( 100 <=Int KV0_x:Int ) ~> #pc [ JUMPI ] ~> #execute ~> CON ...
-│   pc: 1116
+│   k: JUMPI 882 bool2Word ( 100 <=Int KV0_x:Int ) ~> #pc [ JUMPI ] ~> #execute ~> CONT ...
+│   pc: 874
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
-│   src: lib/forge-std/src/StdInvariant.sol:74:74
+│   src: lib/forge-std/src/StdInvariant.sol:78:78
 │   method: test%AssertTest.test_failing_branch(uint256)
 ┃
 ┃ (branch)
@@ -22,20 +22,20 @@
 ┃  ┃     100 <=Int KV0_x:Int
 ┃  │
 ┃  ├─ 9
-┃  │   k: JUMPI 1124 bool2Word ( 100 <=Int KV0_x:Int ) ~> #pc [ JUMPI ] ~> #execute ~> CON ...
-┃  │   pc: 1116
+┃  │   k: JUMPI 882 bool2Word ( 100 <=Int KV0_x:Int ) ~> #pc [ JUMPI ] ~> #execute ~> CONT ...
+┃  │   pc: 874
 ┃  │   callDepth: 0
 ┃  │   statusCode: STATUSCODE:StatusCode
-┃  │   src: lib/forge-std/src/StdInvariant.sol:74:74
+┃  │   src: lib/forge-std/src/StdInvariant.sol:78:78
 ┃  │   method: test%AssertTest.test_failing_branch(uint256)
 ┃  │
 ┃  │  (42 steps)
 ┃  ├─ 15 (terminal)
 ┃  │   k: #halt ~> CONTINUATION:K
-┃  │   pc: 328
+┃  │   pc: 295
 ┃  │   callDepth: 0
 ┃  │   statusCode: EVMC_SUCCESS
-┃  │   src: lib/kontrol-cheatcodes/src/KontrolCheats.sol:8:8
+┃  │   src: lib/forge-std/lib/ds-test/src/test.sol:47:63
 ┃  │   method: test%AssertTest.test_failing_branch(uint256)
 ┃  │
 ┃  ┊  constraint: true
@@ -51,17 +51,17 @@
    ┃     KV0_x:Int <Int 100
    │
    ├─ 10
-   │   k: JUMPI 1124 bool2Word ( 100 <=Int KV0_x:Int ) ~> #pc [ JUMPI ] ~> #execute ~> CON ...
-   │   pc: 1116
+   │   k: JUMPI 882 bool2Word ( 100 <=Int KV0_x:Int ) ~> #pc [ JUMPI ] ~> #execute ~> CONT ...
+   │   pc: 874
    │   callDepth: 0
    │   statusCode: STATUSCODE:StatusCode
-   │   src: lib/forge-std/src/StdInvariant.sol:74:74
+   │   src: lib/forge-std/src/StdInvariant.sol:78:78
    │   method: test%AssertTest.test_failing_branch(uint256)
    │
    │  (66 steps)
    └─ 16 (leaf, terminal)
        k: #halt ~> CONTINUATION:K
-       pc: 2995
+       pc: 2757
        callDepth: 0
        statusCode: EVMC_REVERT
        method: test%AssertTest.test_failing_branch(uint256)
@@ -117,7 +117,7 @@ Node 16:
               0
             </callValue>
             <wordStack>
-              ( 1124 : ( KV0_x:Int : ( 327 : ( 1176678741 : .WordStack ) ) ) )
+              ( 882 : ( KV0_x:Int : ( 294 : ( 1176678741 : .WordStack ) ) ) )
             </wordStack>
             <localMem>
               b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80"
@@ -315,7 +315,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-FAILING-BRANCH(UINT256):0
     rule [BASIC-BLOCK-1-TO-8]: <foundry>
            <kevm>
              <k>
-               ( .K => JUMPI 1124 bool2Word ( 100 <=Int ?KV0_x:Int )
+               ( .K => JUMPI 882 bool2Word ( 100 <=Int ?KV0_x:Int )
                ~> #pc [ JUMPI ] )
                ~> #execute
                ~> _CONTINUATION:K
@@ -357,7 +357,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-FAILING-BRANCH(UINT256):0
                      0
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( ?KV0_x:Int : ( 327 : ( 1176678741 : .WordStack ) ) ) )
+                     ( .WordStack => ( ?KV0_x:Int : ( 294 : ( 1176678741 : .WordStack ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" )
@@ -550,7 +550,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-FAILING-BRANCH(UINT256):0
     rule [BASIC-BLOCK-9-TO-15]: <foundry>
            <kevm>
              <k>
-               ( JUMPI 1124 bool2Word ( 100 <=Int KV0_x:Int )
+               ( JUMPI 882 bool2Word ( 100 <=Int KV0_x:Int )
                ~> #pc [ JUMPI ]
                ~> #execute => #halt ~> .K )
                ~> _CONTINUATION:K
@@ -595,7 +595,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-FAILING-BRANCH(UINT256):0
                      0
                    </callValue>
                    <wordStack>
-                     ( ( KV0_x:Int => 1176678741 ) : ( ( 327 : ( 1176678741 : .WordStack ) ) => .WordStack ) )
+                     ( ( KV0_x:Int => 1176678741 ) : ( ( 294 : ( 1176678741 : .WordStack ) ) => .WordStack ) )
                    </wordStack>
                    <localMem>
                      b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80"
@@ -788,7 +788,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-FAILING-BRANCH(UINT256):0
     rule [BASIC-BLOCK-10-TO-16]: <foundry>
            <kevm>
              <k>
-               ( JUMPI 1124 bool2Word ( 100 <=Int KV0_x:Int )
+               ( JUMPI 882 bool2Word ( 100 <=Int KV0_x:Int )
                ~> #pc [ JUMPI ]
                ~> #execute => #halt ~> .K )
                ~> _CONTINUATION:K
@@ -833,7 +833,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-FAILING-BRANCH(UINT256):0
                      0
                    </callValue>
                    <wordStack>
-                     ( ( KV0_x:Int => 1124 ) : ( ( 327 => KV0_x:Int ) : ( ( 1176678741 => 327 ) : ( .WordStack => ( 1176678741 : .WordStack ) ) ) ) )
+                     ( ( KV0_x:Int => 882 ) : ( ( 294 => KV0_x:Int ) : ( ( 1176678741 => 294 ) : ( .WordStack => ( 1176678741 : .WordStack ) ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" )

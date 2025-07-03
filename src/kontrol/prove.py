@@ -19,7 +19,7 @@ from pyk.kast.manip import flatten_label, free_vars, set_cell
 from pyk.kast.prelude.bytes import bytesToken
 from pyk.kast.prelude.collections import list_empty, map_empty, map_item, set_empty
 from pyk.kast.prelude.k import GENERATED_TOP_CELL
-from pyk.kast.prelude.kbool import FALSE, TRUE, boolToken, notBool
+from pyk.kast.prelude.kbool import FALSE, TRUE, boolToken
 from pyk.kast.prelude.kint import eqInt, intToken, leInt, ltInt
 from pyk.kast.prelude.ml import mlEqualsFalse, mlEqualsTrue
 from pyk.kast.prelude.utils import token
@@ -215,6 +215,11 @@ def collect_tests(
     res: list[FoundryTest] = []
     for sig, ver in tests:
         contract, method = foundry.get_contract_and_method(sig)
+        if method.is_testfail:
+            console.print(
+                f":cross_mark: [bold red]testFail has been removed. Consider changing to test_Revert[If|When]_Condition and expecting a revert[/bold red] :cross_mark: {sig.split('%')[-1]}"
+            )
+            continue
         version = foundry.resolve_proof_version(sig, reinit, ver)
         res.append(FoundryTest(contract, method, version))
     return res
@@ -790,7 +795,6 @@ def _method_to_cfg(
     final_cterm = _final_cterm(
         empty_config,
         program=bytesToken(contract_code),
-        failing=method.is_testfail,
         config_type=config_type,
         is_test=method.is_test,
         is_setup=method.is_setup,
@@ -1271,7 +1275,6 @@ def _final_cterm(
     config_type: ConfigType,
     additional_accounts: list[KInner],
     *,
-    failing: bool,
     is_test: bool = True,
     is_setup: bool = False,
     hevm: bool = False,
@@ -1289,22 +1292,13 @@ def _final_cterm(
                 KVariable('RECORDEVENT_FINAL'),
                 KVariable('ISEVENTEXPECTED_FINAL'),
             )
-            if not failing:
-                return final_cterm.add_constraint(mlEqualsTrue(foundry_success))
-            else:
-                return final_cterm.add_constraint(mlEqualsTrue(notBool(foundry_success)))
+            return final_cterm.add_constraint(mlEqualsTrue(foundry_success))
         else:
-            if not failing:
-                return final_cterm.add_constraint(
-                    mlEqualsTrue(
-                        Foundry.hevm_success(KVariable('STATUSCODE_FINAL'), dst_failed_post, KVariable('OUTPUT_FINAL'))
-                    )
+            return final_cterm.add_constraint(
+                mlEqualsTrue(
+                    Foundry.hevm_success(KVariable('STATUSCODE_FINAL'), dst_failed_post, KVariable('OUTPUT_FINAL'))
                 )
-            else:
-                # To do: Print warning to the user
-                return final_cterm.add_constraint(
-                    mlEqualsTrue(Foundry.hevm_fail(KVariable('STATUSCODE_FINAL'), dst_failed_post))
-                )
+            )
 
     return final_cterm
 

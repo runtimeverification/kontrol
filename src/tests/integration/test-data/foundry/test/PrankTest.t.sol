@@ -17,11 +17,6 @@ contract PrankTest is Test {
         assertEq(prankContract.count(), x);
     }
 
-    function testFailAddPrank(uint256 x) public {
-        vm.prank(address(0));
-        prankContract.add(x);
-    }
-
     function testAddStartPrank(uint256 x) public {
         vm.expectRevert(bytes("Only owner"));
         vm.startPrank(address(0));

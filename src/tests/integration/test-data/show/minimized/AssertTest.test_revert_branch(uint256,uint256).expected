@@ -9,11 +9,11 @@
 │
 │  (549 steps)
 ├─ 8 (split)
-│   k: JUMPI 1594 bool2Word ( KV1_y:Int <=Int KV0_x:Int ) ~> #pc [ JUMPI ] ~> #execute  ...
-│   pc: 1590
+│   k: JUMPI 1352 bool2Word ( KV1_y:Int <=Int KV0_x:Int ) ~> #pc [ JUMPI ] ~> #execute  ...
+│   pc: 1348
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
-│   src: lib/forge-std/lib/ds-test/src/test.sol:48:62
+│   src: lib/forge-std/src/StdInvariant.sol:86:86
 │   method: test%AssertTest.test_revert_branch(uint256,uint256)
 ┃
 ┃ (branch)
@@ -22,17 +22,17 @@
 ┃  ┃     KV1_y:Int <=Int KV0_x:Int
 ┃  │
 ┃  ├─ 9
-┃  │   k: JUMPI 1594 bool2Word ( KV1_y:Int <=Int KV0_x:Int ) ~> #pc [ JUMPI ] ~> #execute  ...
-┃  │   pc: 1590
+┃  │   k: JUMPI 1352 bool2Word ( KV1_y:Int <=Int KV0_x:Int ) ~> #pc [ JUMPI ] ~> #execute  ...
+┃  │   pc: 1348
 ┃  │   callDepth: 0
 ┃  │   statusCode: STATUSCODE:StatusCode
-┃  │   src: lib/forge-std/lib/ds-test/src/test.sol:48:62
+┃  │   src: lib/forge-std/src/StdInvariant.sol:86:86
 ┃  │   method: test%AssertTest.test_revert_branch(uint256,uint256)
 ┃  │
 ┃  │  (75 steps)
 ┃  └─ 15 (leaf, terminal)
 ┃      k: #halt ~> CONTINUATION:K
-┃      pc: 2995
+┃      pc: 2757
 ┃      callDepth: 0
 ┃      statusCode: EVMC_REVERT
 ┃      method: test%AssertTest.test_revert_branch(uint256,uint256)
@@ -42,20 +42,20 @@
    ┃     KV0_x:Int <Int KV1_y:Int
    │
    ├─ 10
-   │   k: JUMPI 1594 bool2Word ( KV1_y:Int <=Int KV0_x:Int ) ~> #pc [ JUMPI ] ~> #execute  ...
-   │   pc: 1590
+   │   k: JUMPI 1352 bool2Word ( KV1_y:Int <=Int KV0_x:Int ) ~> #pc [ JUMPI ] ~> #execute  ...
+   │   pc: 1348
    │   callDepth: 0
    │   statusCode: STATUSCODE:StatusCode
-   │   src: lib/forge-std/lib/ds-test/src/test.sol:48:62
+   │   src: lib/forge-std/src/StdInvariant.sol:86:86
    │   method: test%AssertTest.test_revert_branch(uint256,uint256)
    │
    │  (40 steps)
    └─ 16 (leaf, pending)
        k: #halt ~> CONTINUATION:K
-       pc: 328
+       pc: 295
        callDepth: 0
        statusCode: EVMC_SUCCESS
-       src: lib/kontrol-cheatcodes/src/KontrolCheats.sol:8:8
+       src: lib/forge-std/lib/ds-test/src/test.sol:47:63
        method: test%AssertTest.test_revert_branch(uint256,uint256)
 
 
@@ -358,7 +358,7 @@ Node 15:
               0
             </callValue>
             <wordStack>
-              ( 1602 : ( KV1_y:Int : ( KV0_x:Int : ( 327 : ( 2349784459 : .WordStack ) ) ) ) )
+              ( 1360 : ( KV1_y:Int : ( KV0_x:Int : ( 294 : ( 2349784459 : .WordStack ) ) ) ) )
             </wordStack>
             <localMem>
               b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80"
@@ -558,7 +558,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
     rule [BASIC-BLOCK-1-TO-8]: <foundry>
            <kevm>
              <k>
-               ( .K => JUMPI 1594 bool2Word ( ?KV1_y:Int <=Int ?KV0_x:Int )
+               ( .K => JUMPI 1352 bool2Word ( ?KV1_y:Int <=Int ?KV0_x:Int )
                ~> #pc [ JUMPI ] )
                ~> #execute
                ~> _CONTINUATION:K
@@ -600,7 +600,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
                      0
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( ?KV1_y:Int : ( ?KV0_x:Int : ( 327 : ( 2349784459 : .WordStack ) ) ) ) )
+                     ( .WordStack => ( ?KV1_y:Int : ( ?KV0_x:Int : ( 294 : ( 2349784459 : .WordStack ) ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" )
@@ -795,7 +795,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
     rule [BASIC-BLOCK-9-TO-15]: <foundry>
            <kevm>
              <k>
-               ( JUMPI 1594 bool2Word ( KV1_y:Int <=Int KV0_x:Int )
+               ( JUMPI 1352 bool2Word ( KV1_y:Int <=Int KV0_x:Int )
                ~> #pc [ JUMPI ]
                ~> #execute => #halt ~> .K )
                ~> _CONTINUATION:K
@@ -840,7 +840,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
                      0
                    </callValue>
                    <wordStack>
-                     ( ( KV1_y:Int => 1602 ) : ( ( KV0_x:Int => KV1_y:Int ) : ( ( 327 => KV0_x:Int ) : ( ( 2349784459 => 327 ) : ( .WordStack => ( 2349784459 : .WordStack ) ) ) ) ) )
+                     ( ( KV1_y:Int => 1360 ) : ( ( KV0_x:Int => KV1_y:Int ) : ( ( 294 => KV0_x:Int ) : ( ( 2349784459 => 294 ) : ( .WordStack => ( 2349784459 : .WordStack ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" )
@@ -1035,7 +1035,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
     rule [BASIC-BLOCK-10-TO-16]: <foundry>
            <kevm>
              <k>
-               ( JUMPI 1594 bool2Word ( KV1_y:Int <=Int KV0_x:Int )
+               ( JUMPI 1352 bool2Word ( KV1_y:Int <=Int KV0_x:Int )
                ~> #pc [ JUMPI ]
                ~> #execute => #halt ~> .K )
                ~> _CONTINUATION:K
@@ -1080,7 +1080,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
                      0
                    </callValue>
                    <wordStack>
-                     ( ( KV1_y:Int => 2349784459 ) : ( ( KV0_x:Int : ( 327 : ( 2349784459 : .WordStack ) ) ) => .WordStack ) )
+                     ( ( KV1_y:Int => 2349784459 ) : ( ( KV0_x:Int : ( 294 : ( 2349784459 : .WordStack ) ) ) => .WordStack ) )
                    </wordStack>
                    <localMem>
                      b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80"

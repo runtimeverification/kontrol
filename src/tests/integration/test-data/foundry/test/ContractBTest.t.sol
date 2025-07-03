@@ -14,10 +14,6 @@ contract ContractBTest is Test {
         assertEq(testNumber, 42);
     }
 
-    function testFailSubtract43() public {
-        testNumber -= 43;
-    }
-
     function testCannotSubtract43() public {
         vm.expectRevert(stdError.arithmeticError);
         testNumber -= 43;

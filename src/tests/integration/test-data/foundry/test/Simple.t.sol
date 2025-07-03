@@ -40,19 +40,6 @@ contract AssertTest is Test, KontrolCheats {
         assert(false);
     }
 
-    function testFail_assert_true() public pure {
-        assert(true);
-    }
-
-    function checkFail_assert_false() public pure {
-         assert(false);
-     }
-
-    function testFail_expect_revert() public {
-        vm.expectRevert();
-        this.call_assert_false();
-    }
-
     function test_revert_branch(uint x, uint y) public{
         if (x < y) {
             assert(true);

@@ -18,7 +18,4 @@ contract Setup2Test is Test {
     function test_setup() public {
         assertEq(a + b + c, 6);
     }
-    function testFail_setup() public {
-        assertEq(a + b + c, 7);
-    }
 }

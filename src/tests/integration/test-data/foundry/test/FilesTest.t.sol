@@ -23,11 +23,4 @@ contract FilesTest is Test {
         line = vm.readLine("./test/file.txt");
         assertEq(line, "This is a file");
     }
-
-    function testFailRemoveFile() public {
-        string memory contents = vm.readFile("./test/file.txt");
-        vm.writeFile("./test/filecopy2.txt", contents);
-        vm.removeFile("./test/filecopy2.txt");
-        vm.readFile("./test/filecopy2.txt");
-    }
 }

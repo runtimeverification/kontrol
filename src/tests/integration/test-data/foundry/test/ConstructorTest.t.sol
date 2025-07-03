@@ -35,10 +35,6 @@ contract ConstructorTest is Test {
         assert(flag);
     }
 
-    function testFail_constructor() public {
-        assert(!flag);
-    }
-
     function run_constructor() public {
         assert(flag);
     }
