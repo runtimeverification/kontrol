@@ -17,7 +17,7 @@ def mock_listdir(_f: Foundry) -> list[str]:
         'test%AssertTest.checkFail_assert_false():0',
         'test%AssertTest.test_assert_false():0',
         'test%AssertTest.test_assert_true():0',
-        'test%AssertTest.testFail_assert_true():0',
+        'test%AssertTest.test_Revert_assert_true():0',
         'test%AssertTest.setUp():0',
         'test%AssertTest.setUp():1',
     ]
@@ -28,7 +28,7 @@ def mock_all_tests() -> list[str]:
         'test%AssertTest.checkFail_assert_false()',
         'test%AssertTest.test_assert_false()',
         'test%AssertTest.test_assert_true()',
-        'test%AssertTest.testFail_assert_true()',
+        'test%AssertTest.test_Revert_assert_true()',
     ]
 
 

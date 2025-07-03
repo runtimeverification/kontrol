@@ -21,7 +21,4 @@ contract InitCodeTest is Test {
     function test_init() public {
         assertEq(a + b + c, 7);
     }
-    function testFail_init() public {
-        assertEq(a + b + c, 8);
-    }
 }

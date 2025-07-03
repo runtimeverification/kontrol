@@ -45,7 +45,7 @@ contract AllowChangesTest is Test, KontrolCheats {
 		canChange.changeSlot0(value);
 	}
 
-	function testFailAllowCalls_ifNotWhitelisted(uint256 value) public {
+	function test_Revert_AllowCalls_ifNotWhitelisted(uint256 value) public {
 		bytes memory changeCallData = abi.encodeWithSelector(
 			ValueStore.changeSlot0.selector,
 			value
@@ -53,6 +53,7 @@ contract AllowChangesTest is Test, KontrolCheats {
 
 		kevm.allowCalls(address(canChange), changeCallData);
 
+		vm.expectRevert();
 		canChange.changeSlot1(value);
 	}
 }

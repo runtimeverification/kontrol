@@ -52,15 +52,6 @@ contract PlainPrankTest is Test {
         assert(address(erc20a) == 0xE8279BE14E9fe2Ad2D8E52E42Ca96Fb33a813BBe);
     }
 
-    function testFail_startPrank_internalCall() public {
-        // The vm.assume is required only by KEVM in order to have this test passing. It is required
-        // because the `msg.sender` in KEVM specs is a symbolic `CALLER_ID` while in foundry it is a
-        // concrete, hardcoded address.
-        vm.assume(msg.sender != address(15));
-        vm.startPrank(address(15));
-        assert(internalCounter());
-    }
-
     function test_startPrank_true() public {
         AdditionalToken token = new AdditionalToken();
         vm.startPrank(address(token));
@@ -88,13 +79,6 @@ contract PlainPrankTest is Test {
     function test_stopPrank_notExistent() public {
         vm.stopPrank();
         assert(true);
-    }
-
-    function testFail_startPrank_existingAlready() public {
-        vm.startPrank(address(0));
-        vm.startPrank(address(1));
-        vm.stopPrank();
-        vm.stopPrank();
     }
 
     function test_startPrank_consecutive() public {

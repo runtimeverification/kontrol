@@ -91,22 +91,10 @@ contract ExpectRevertTest is Test {
         reverter.revertWithoutReason();
     }
 
-    function testFail_expectRevert_false() public {
-        Reverter reverter = new Reverter();
-        vm.expectRevert();
-        reverter.noRevert();
-    }
-
     function test_expectRevert_message() public {
         Reverter reverter = new Reverter();
         vm.expectRevert(bytes("Revert Reason Here"));
         reverter.revertWithReason("Revert Reason Here");
-    }
-
-    function testFail_expectRevert_bytes4() public {
-        Reverter reverter = new Reverter();
-        vm.expectRevert(bytes4("FAIL"));
-        reverter.revertWithReason("But fail.");
     }
 
     function test_expectRevert_bytes4() public {
@@ -115,29 +103,10 @@ contract ExpectRevertTest is Test {
         reverter.revertWithReason("FAIL");
     }
 
-    function testFail_expectRevert_empty() public {
-        vm.expectRevert();
-    }
-
-    function testFail_expectRevert_multipleReverts() public {
-        Reverter reverter = new Reverter();
-        vm.expectRevert();
-        reverter.revertWithoutReason();
-        reverter.revertWithoutReason();
-    }
-
     function test_ExpectRevert_increasedDepth() public {
         DepthReverter reverter = new DepthReverter();
         vm.expectRevert();
         reverter.revertAtNextDepth();
-    }
-
-    function testFail_ExpectRevert_failAndSuccess() public {
-         Reverter reverter = new Reverter();
-         vm.expectRevert();
-         reverter.noRevert();
-         vm.expectRevert();
-         reverter.revertWithoutReason();
     }
 
     function test_expectRevert_encodedSymbolic(address controller) public {

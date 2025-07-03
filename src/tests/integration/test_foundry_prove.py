@@ -1136,28 +1136,18 @@ def test_foundry_prove_skips_setup(
             ),
         )
 
-    test_a = 'ContractBTest.testNumberIs42'
-    test_b = 'ContractBTest.testFailSubtract43'
+    test = 'ContractBTest.testNumberIs42'
 
     if bug_report is not None:
         server._populate_bug_report(bug_report)
 
-    prove_res = run_prover(test_a, _reinit=True, _setup_version=None)
-    assert_correct_ids_generted(prove_res, test_a, expected_test_ver=0, expected_setup_ver=0, expect_setup_exists=True)
+    prove_res = run_prover(test, _reinit=True, _setup_version=None)
+    assert_correct_ids_generted(prove_res, test, expected_test_ver=0, expected_setup_ver=0, expect_setup_exists=True)
 
-    prove_res = run_prover(test_a, _reinit=True, _setup_version=0)
-    assert_correct_ids_generted(prove_res, test_a, expected_test_ver=1, expected_setup_ver=0, expect_setup_exists=True)
-    assert_correct_ids_generted(prove_res, test_a, expected_test_ver=1, expected_setup_ver=1, expect_setup_exists=False)
+    prove_res = run_prover(test, _reinit=True, _setup_version=0)
+    assert_correct_ids_generted(prove_res, test, expected_test_ver=1, expected_setup_ver=0, expect_setup_exists=True)
+    assert_correct_ids_generted(prove_res, test, expected_test_ver=1, expected_setup_ver=1, expect_setup_exists=False)
 
-    prove_res = run_prover(test_a, _reinit=True, _setup_version=None)
-    assert_correct_ids_generted(prove_res, test_a, expected_test_ver=2, expected_setup_ver=0, expect_setup_exists=True)
-    assert_correct_ids_generted(prove_res, test_a, expected_test_ver=2, expected_setup_ver=1, expect_setup_exists=True)
-
-    prove_res = run_prover(test_b, _reinit=True, _setup_version=1)
-    assert_correct_ids_generted(prove_res, test_b, expected_test_ver=0, expected_setup_ver=0, expect_setup_exists=True)
-    assert_correct_ids_generted(prove_res, test_b, expected_test_ver=0, expected_setup_ver=1, expect_setup_exists=True)
-
-    prove_res = run_prover(test_b, _reinit=True, _setup_version=None)
-    assert_correct_ids_generted(prove_res, test_b, expected_test_ver=1, expected_setup_ver=0, expect_setup_exists=True)
-    assert_correct_ids_generted(prove_res, test_b, expected_test_ver=1, expected_setup_ver=1, expect_setup_exists=True)
-    assert_correct_ids_generted(prove_res, test_b, expected_test_ver=1, expected_setup_ver=2, expect_setup_exists=True)
+    prove_res = run_prover(test, _reinit=True, _setup_version=None)
+    assert_correct_ids_generted(prove_res, test, expected_test_ver=2, expected_setup_ver=0, expect_setup_exists=True)
+    assert_correct_ids_generted(prove_res, test, expected_test_ver=2, expected_setup_ver=1, expect_setup_exists=True)

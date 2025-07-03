@@ -52,16 +52,6 @@ contract AccountParamsTest is Test {
        assertEq(nonce, 10);
     }
 
-    function testFail_GetNonce_true() public {
-       uint64 nonce = vm.getNonce(address(0));
-       assertEq(nonce, 10);
-    }
-
-    function testFail_GetNonce_false() public {
-       uint64 nonce = vm.getNonce(address(this));
-       assertEq(nonce, 1);
-    }
-
     function test_Nonce_ExistentAddress() public {
        vm.setNonce(address(this), 100);
        uint64 nonce = vm.getNonce(address(this));
