@@ -812,7 +812,7 @@ def _update_cterm_from_node(cterm: CTerm, node: KCFG.Node, config_type: ConfigTy
             'ACCOUNTS_CELL',
             'NUMBER_CELL',
             'TIMESTAMP_CELL',
-            'BASEFEE_CEL',
+            'BASEFEE_CELL',
             'CHAINID_CELL',
             'COINBASE_CELL',
             'PREVCALLER_CELL',
