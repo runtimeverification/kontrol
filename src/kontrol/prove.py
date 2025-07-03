@@ -810,9 +810,9 @@ def _update_cterm_from_node(cterm: CTerm, node: KCFG.Node, config_type: ConfigTy
     if config_type == ConfigType.TEST_CONFIG:
         cell_names = [
             'ACCOUNTS_CELL',
-            'BLOCK_NUMBER',
-            'BLOCK_TIMESTAMP',
-            'BLOCK_BASEFEE',
+            'NUMBER_CELL',
+            'TIMESTAMP_CELL',
+            'BASEFEE_CEL',
             'CHAINID_CELL',
             'COINBASE_CELL',
             'PREVCALLER_CELL',
