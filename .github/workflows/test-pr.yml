@@ -117,7 +117,7 @@ jobs:
             docker exec -u github-user kontrol-ci-integration-${GITHUB_SHA} /bin/bash -c 'CXX=clang++-14 uv run kdist --verbose build -j`nproc` kontrol.*'
       - name: 'Run CSE and Minimize tests'
         run: |
-          TEST_ARGS='--numprocesses=8 --force-sequential -vv -k "test_kontrol_cse or test_foundry_minimize_proof"'
+          TEST_ARGS='--numprocesses=5 --force-sequential -vv -k "test_kontrol_cse or test_foundry_minimize_proof"'
           docker exec --user github-user kontrol-ci-integration-${GITHUB_SHA} make cov-integration TEST_ARGS="${TEST_ARGS}"
       - name: 'Tear down Docker'
         if: always()

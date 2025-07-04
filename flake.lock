@@ -33,7 +33,6 @@
         "libff": "libff",
         "nixpkgs": [
           "kevm",
-          "k-framework",
           "nixpkgs"
         ],
         "poetry2nix": [
@@ -42,26 +41,21 @@
           "k-framework",
           "poetry2nix"
         ],
-        "rv-utils": [
-          "kevm",
-          "blockchain-k-plugin",
-          "k-framework",
-          "rv-utils"
-        ],
+        "rv-nix-tools": "rv-nix-tools",
         "xbyak": "xbyak"
       },
       "locked": {
-        "lastModified": 1747360667,
-        "narHash": "sha256-40vMWG3M0IhQAG7jlJRI5pTAILr/8Qbapz4zjJpXovM=",
+        "lastModified": 1749639687,
+        "narHash": "sha256-EwmGoQFA/JkAyTCERvF5k8PvC+5L1NRNP+SvE2oHy5M=",
         "owner": "runtimeverification",
         "repo": "blockchain-k-plugin",
-        "rev": "568702a7b89f0578a62c68cff152e928d75b69c3",
+        "rev": "f159396d0f16b88c86c557c47f7ae36ffc59dc53",
         "type": "github"
       },
       "original": {
         "owner": "runtimeverification",
         "repo": "blockchain-k-plugin",
-        "rev": "568702a7b89f0578a62c68cff152e928d75b69c3",
+        "rev": "f159396d0f16b88c86c557c47f7ae36ffc59dc53",
         "type": "github"
       }
     },
@@ -336,29 +330,27 @@
         "nixpkgs": [
           "kevm",
           "k-framework",
-          "llvm-backend",
           "nixpkgs"
         ],
-        "rv-utils": [
+        "rv-nix-tools": [
           "kevm",
           "k-framework",
-          "llvm-backend",
-          "rv-utils"
+          "rv-nix-tools"
         ],
         "some-cabal-hashes-lib": "some-cabal-hashes-lib_2",
         "z3": "z3_2"
       },
       "locked": {
-        "lastModified": 1745536412,
-        "narHash": "sha256-fuaZHj8fTUPsFIgeCtcrXcPIblRvY3yegz4cIwxEix8=",
+        "lastModified": 1751499472,
+        "narHash": "sha256-ANQpT4xXTmNRDY0CAIseLL/xDKTuLp2dSRTsp19/2mk=",
         "owner": "runtimeverification",
         "repo": "haskell-backend",
-        "rev": "6bfa1f78a7f14542328485252f0df5449a57c1bc",
+        "rev": "d80129c70eb37810dfb1efd6bb05c212b97bd87f",
         "type": "github"
       },
       "original": {
         "owner": "runtimeverification",
-        "ref": "v0.1.124",
+        "ref": "v0.1.132",
         "repo": "haskell-backend",
         "type": "github"
       }
@@ -411,8 +403,6 @@
         "nixpkgs": [
           "kevm",
           "blockchain-k-plugin",
-          "k-framework",
-          "llvm-backend",
           "nixpkgs"
         ],
         "poetry2nix": "poetry2nix",
@@ -425,16 +415,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1747323097,
-        "narHash": "sha256-g3LguSpBOQbHnZkd6LYV9xbU/LWYJnqFMJ3q4F/LDOg=",
+        "lastModified": 1747770115,
+        "narHash": "sha256-zRYV6NxvDpBjyxqjuOMpzcNSQH7mfPGunITXtA0v7Bk=",
         "owner": "runtimeverification",
         "repo": "k",
-        "rev": "63894e083bdb7effed0d4b316fe913a0c147c3b7",
+        "rev": "acb7d1e17ad0ac1e52e38c07de7f2b1ac203ff77",
         "type": "github"
       },
       "original": {
         "owner": "runtimeverification",
-        "ref": "v7.1.255",
+        "ref": "v7.1.257",
         "repo": "k",
         "type": "github"
       }
@@ -451,29 +441,29 @@
         "llvm-backend": "llvm-backend_2",
         "nixpkgs": [
           "kevm",
-          "k-framework",
-          "llvm-backend",
           "nixpkgs"
         ],
-        "poetry2nix": "poetry2nix_2",
-        "rv-utils": [
+        "pyproject-build-systems": "pyproject-build-systems",
+        "pyproject-nix": [
           "kevm",
           "k-framework",
-          "llvm-backend",
-          "rv-utils"
-        ]
+          "uv2nix",
+          "pyproject-nix"
+        ],
+        "rv-nix-tools": "rv-nix-tools_2",
+        "uv2nix": "uv2nix"
       },
       "locked": {
-        "lastModified": 1747086198,
-        "narHash": "sha256-mzkV552U01ZcKPtgvujQCtrq4B53VjC6CBhjR2Gjej8=",
+        "lastModified": 1751557558,
+        "narHash": "sha256-XaOUCp5Z9pQPU8U94CSJQvLXH4F3NkSP8n490wzsHs0=",
         "owner": "runtimeverification",
         "repo": "k",
-        "rev": "db2706d64499fda526e2a7b374bf24c32436e7c3",
+        "rev": "40d1aa8505043451a08a7436ed076e7d85311756",
         "type": "github"
       },
       "original": {
         "owner": "runtimeverification",
-        "ref": "v7.1.253",
+        "ref": "v7.1.273",
         "repo": "k",
         "type": "github"
       }
@@ -495,28 +485,20 @@
         "nixpkgs": [
           "nixpkgs"
         ],
-        "poetry2nix": [
-          "kevm",
-          "k-framework",
-          "poetry2nix"
-        ],
-        "rv-utils": [
-          "kevm",
-          "k-framework",
-          "rv-utils"
-        ]
+        "poetry2nix": "poetry2nix_2",
+        "rv-nix-tools": "rv-nix-tools_3"
       },
       "locked": {
-        "lastModified": 1747659165,
-        "narHash": "sha256-6YJebeQMIEq13vw+BvUZCRki7Wcs6AAEfcY/C2oThYo=",
+        "lastModified": 1751583866,
+        "narHash": "sha256-i3NV9SWvjz9Df7qnRFKy7ztGGC9YsDMluZ2G6YbPJZg=",
         "owner": "runtimeverification",
         "repo": "evm-semantics",
-        "rev": "cc23da0df19bfc05930c2944154abb8996fa21f2",
+        "rev": "b16492e0462240ce0906470109da8fb3ae2a3ed8",
         "type": "github"
       },
       "original": {
         "owner": "runtimeverification",
-        "ref": "v1.0.841",
+        "ref": "v1.0.849",
         "repo": "evm-semantics",
         "type": "github"
       }
@@ -579,8 +561,6 @@
         "nixpkgs": [
           "kevm",
           "k-framework",
-          "llvm-backend",
-          "rv-utils",
           "nixpkgs"
         ],
         "pybind11-src": "pybind11-src_2",
@@ -589,16 +569,16 @@
         "utils": "utils_2"
       },
       "locked": {
-        "lastModified": 1745862770,
-        "narHash": "sha256-dIUmH96rZ138rYzsoVkUIXdVieQ98up1NEZ21yugJYE=",
+        "lastModified": 1749248627,
+        "narHash": "sha256-1Y9yIqnH6yCOuB2gP75P/3OhcbItTihtaaCdui2cvFo=",
         "owner": "runtimeverification",
         "repo": "llvm-backend",
-        "rev": "21339e2cab6fa442980546959f0a74d91ccd158f",
+        "rev": "74bf6385cea9835c7f59628e028b45d635b59c74",
         "type": "github"
       },
       "original": {
         "owner": "runtimeverification",
-        "ref": "v0.1.131",
+        "ref": "v0.1.133",
         "repo": "llvm-backend",
         "type": "github"
       }
@@ -631,7 +611,6 @@
       "inputs": {
         "nixpkgs": [
           "kevm",
-          "k-framework",
           "poetry2nix",
           "nixpkgs"
         ]
@@ -700,6 +679,70 @@
     },
     "nixpkgs_4": {
       "locked": {
+        "lastModified": 1716457947,
+        "narHash": "sha256-Y+exebcqeprnhEpoPJrEUZmNeO60qeOxkVHhqG/OEwQ=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "69493a13eaea0dc4682fd07e8a084f17813dbeeb",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "69493a13eaea0dc4682fd07e8a084f17813dbeeb",
+        "type": "github"
+      }
+    },
+    "nixpkgs_5": {
+      "locked": {
+        "lastModified": 1744306051,
+        "narHash": "sha256-jWwqkmi8cplBu4CXUb4zdfpqKp3UJYVAs/b5m8M75sg=",
+        "owner": "runtimeverification",
+        "repo": "nixpkgs",
+        "rev": "e9a77bb24d408d3898f6a11fb065d350d6bc71f1",
+        "type": "github"
+      },
+      "original": {
+        "owner": "runtimeverification",
+        "ref": "libmatch",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_6": {
+      "locked": {
+        "lastModified": 1716457947,
+        "narHash": "sha256-Y+exebcqeprnhEpoPJrEUZmNeO60qeOxkVHhqG/OEwQ=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "69493a13eaea0dc4682fd07e8a084f17813dbeeb",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "69493a13eaea0dc4682fd07e8a084f17813dbeeb",
+        "type": "github"
+      }
+    },
+    "nixpkgs_7": {
+      "locked": {
+        "lastModified": 1716457947,
+        "narHash": "sha256-Y+exebcqeprnhEpoPJrEUZmNeO60qeOxkVHhqG/OEwQ=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "69493a13eaea0dc4682fd07e8a084f17813dbeeb",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "69493a13eaea0dc4682fd07e8a084f17813dbeeb",
+        "type": "github"
+      }
+    },
+    "nixpkgs_8": {
+      "locked": {
         "lastModified": 1744306051,
         "narHash": "sha256-jWwqkmi8cplBu4CXUb4zdfpqKp3UJYVAs/b5m8M75sg=",
         "owner": "runtimeverification",
@@ -749,8 +792,6 @@
         "nix-github-actions": "nix-github-actions_2",
         "nixpkgs": [
           "kevm",
-          "k-framework",
-          "llvm-backend",
           "nixpkgs"
         ],
         "systems": "systems_8",
@@ -808,6 +849,40 @@
     "pyproject-build-systems": {
       "inputs": {
         "nixpkgs": [
+          "kevm",
+          "k-framework",
+          "nixpkgs"
+        ],
+        "pyproject-nix": [
+          "kevm",
+          "k-framework",
+          "uv2nix",
+          "pyproject-nix"
+        ],
+        "uv2nix": [
+          "kevm",
+          "k-framework",
+          "uv2nix"
+        ]
+      },
+      "locked": {
+        "lastModified": 1744599653,
+        "narHash": "sha256-nysSwVVjG4hKoOjhjvE6U5lIKA8sEr1d1QzEfZsannU=",
+        "owner": "pyproject-nix",
+        "repo": "build-system-pkgs",
+        "rev": "7dba6dbc73120e15b558754c26024f6c93015dd7",
+        "type": "github"
+      },
+      "original": {
+        "owner": "pyproject-nix",
+        "repo": "build-system-pkgs",
+        "rev": "7dba6dbc73120e15b558754c26024f6c93015dd7",
+        "type": "github"
+      }
+    },
+    "pyproject-build-systems_2": {
+      "inputs": {
+        "nixpkgs": [
           "uv2nix",
           "nixpkgs"
         ],
@@ -835,6 +910,29 @@
       }
     },
     "pyproject-nix": {
+      "inputs": {
+        "nixpkgs": [
+          "kevm",
+          "k-framework",
+          "uv2nix",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1745782090,
+        "narHash": "sha256-c/mqxgOVDcwrdcY3FqG22MwLPGY5rCz5gte1sxISKnM=",
+        "owner": "pyproject-nix",
+        "repo": "pyproject.nix",
+        "rev": "2db2d95ddbc4ff5e29730cb82fdba6647be258a7",
+        "type": "github"
+      },
+      "original": {
+        "owner": "pyproject-nix",
+        "repo": "pyproject.nix",
+        "type": "github"
+      }
+    },
+    "pyproject-nix_2": {
       "inputs": {
         "nixpkgs": [
           "uv2nix",
@@ -905,19 +1003,76 @@
           "rv-nix-tools",
           "nixpkgs"
         ],
-        "pyproject-build-systems": "pyproject-build-systems",
+        "pyproject-build-systems": "pyproject-build-systems_2",
         "pyproject-nix": [
           "uv2nix",
           "pyproject-nix"
         ],
-        "rv-nix-tools": "rv-nix-tools",
+        "rv-nix-tools": "rv-nix-tools_4",
         "solc": "solc",
-        "uv2nix": "uv2nix"
+        "uv2nix": "uv2nix_2"
       }
     },
     "rv-nix-tools": {
       "inputs": {
-        "nixpkgs": "nixpkgs_3"
+        "nixpkgs": "nixpkgs_2"
+      },
+      "locked": {
+        "lastModified": 1726497185,
+        "narHash": "sha256-iN+5eLmDm/rLuIZezS5ZqiW1BtBpwrrM9CPPP7Z5Tog=",
+        "owner": "runtimeverification",
+        "repo": "rv-nix-tools",
+        "rev": "854d4f05ea78547d46e807b414faad64cea10ae4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "runtimeverification",
+        "repo": "rv-nix-tools",
+        "rev": "854d4f05ea78547d46e807b414faad64cea10ae4",
+        "type": "github"
+      }
+    },
+    "rv-nix-tools_2": {
+      "inputs": {
+        "nixpkgs": "nixpkgs_4"
+      },
+      "locked": {
+        "lastModified": 1726497185,
+        "narHash": "sha256-iN+5eLmDm/rLuIZezS5ZqiW1BtBpwrrM9CPPP7Z5Tog=",
+        "owner": "runtimeverification",
+        "repo": "rv-nix-tools",
+        "rev": "854d4f05ea78547d46e807b414faad64cea10ae4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "runtimeverification",
+        "repo": "rv-nix-tools",
+        "rev": "854d4f05ea78547d46e807b414faad64cea10ae4",
+        "type": "github"
+      }
+    },
+    "rv-nix-tools_3": {
+      "inputs": {
+        "nixpkgs": "nixpkgs_6"
+      },
+      "locked": {
+        "lastModified": 1726497185,
+        "narHash": "sha256-iN+5eLmDm/rLuIZezS5ZqiW1BtBpwrrM9CPPP7Z5Tog=",
+        "owner": "runtimeverification",
+        "repo": "rv-nix-tools",
+        "rev": "854d4f05ea78547d46e807b414faad64cea10ae4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "runtimeverification",
+        "repo": "rv-nix-tools",
+        "rev": "854d4f05ea78547d46e807b414faad64cea10ae4",
+        "type": "github"
+      }
+    },
+    "rv-nix-tools_4": {
+      "inputs": {
+        "nixpkgs": "nixpkgs_7"
       },
       "locked": {
         "lastModified": 1726497185,
@@ -954,7 +1109,7 @@
     },
     "rv-utils_2": {
       "inputs": {
-        "nixpkgs": "nixpkgs_2"
+        "nixpkgs": "nixpkgs_3"
       },
       "locked": {
         "lastModified": 1716459074,
@@ -981,11 +1136,11 @@
         "solc-macos-amd64-list-json": "solc-macos-amd64-list-json"
       },
       "locked": {
-        "lastModified": 1742758229,
-        "narHash": "sha256-FrU9rhab/0vOjjeFoQF+Ej43zRLv3enUIYjgLrH3Gd8=",
+        "lastModified": 1748780655,
+        "narHash": "sha256-mradCdMvjXwKd7kVFACB/d1CP2LLCyEgUu4vJCSzNLU=",
         "owner": "hellwolf",
         "repo": "solc.nix",
-        "rev": "6885b61bac89da19a6e3c70b89fdd592e2cef884",
+        "rev": "3b6f3223ace5a7bc400b01a434d86bb1cb2593fb",
         "type": "github"
       },
       "original": {
@@ -997,13 +1152,13 @@
     "solc-macos-amd64-list-json": {
       "flake": false,
       "locked": {
-        "narHash": "sha256-U5ckttxwKO13gIKggel6iybG5oTDbSidPR5nH3Gs+kY=",
+        "narHash": "sha256-AvITkfpNYgCypXuLJyqco0li+unVw39BAfdOZvd/SPE=",
         "type": "file",
-        "url": "https://github.com/ethereum/solc-bin/raw/30a3695/macosx-amd64/list.json"
+        "url": "https://github.com/ethereum/solc-bin/raw/26fc3fd/macosx-amd64/list.json"
       },
       "original": {
         "type": "file",
-        "url": "https://github.com/ethereum/solc-bin/raw/30a3695/macosx-amd64/list.json"
+        "url": "https://github.com/ethereum/solc-bin/raw/26fc3fd/macosx-amd64/list.json"
       }
     },
     "some-cabal-hashes-lib": {
@@ -1184,7 +1339,6 @@
       "inputs": {
         "nixpkgs": [
           "kevm",
-          "k-framework",
           "poetry2nix",
           "nixpkgs"
         ]
@@ -1241,8 +1395,28 @@
     },
     "uv2nix": {
       "inputs": {
-        "nixpkgs": "nixpkgs_4",
+        "nixpkgs": "nixpkgs_5",
         "pyproject-nix": "pyproject-nix"
+      },
+      "locked": {
+        "lastModified": 1746048139,
+        "narHash": "sha256-LdCLyiihLg6P2/mjzP0+W7RtraDSIaJJPTy6SCtW5Ag=",
+        "owner": "pyproject-nix",
+        "repo": "uv2nix",
+        "rev": "680e2f8e637bc79b84268949d2f2b2f5e5f1d81c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "pyproject-nix",
+        "repo": "uv2nix",
+        "rev": "680e2f8e637bc79b84268949d2f2b2f5e5f1d81c",
+        "type": "github"
+      }
+    },
+    "uv2nix_2": {
+      "inputs": {
+        "nixpkgs": "nixpkgs_8",
+        "pyproject-nix": "pyproject-nix_2"
       },
       "locked": {
         "lastModified": 1746048139,
