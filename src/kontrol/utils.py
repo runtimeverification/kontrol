@@ -295,6 +295,11 @@ def _rv_blue() -> str:
 def replace_k_words(text: str) -> str:
     replacements = {
         '+Int': '+',
+        '-Int': '-',
+        '*Int': '*',
+        '/Int': '/',
+        'divInt': '/',
+        'modInt': '%',
         'orBool': '||',
         'andBool': '&&',
         'notBool': '!',

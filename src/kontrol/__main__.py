@@ -5,9 +5,11 @@ import sys
 from collections.abc import Iterable
 from typing import TYPE_CHECKING
 
+from kevm_pyk.kevm import KEVM
 from pyk.cli.pyk import parse_toml_args
 from pyk.cterm.symbolic import CTermSMTError
-from pyk.proof.reachability import APRFailureInfo, APRProof
+from pyk.kdist import kdist
+from pyk.proof.reachability import APRProof
 
 from . import VERSION
 from .cli import _create_argument_parser, generate_options, get_argument_type_setter, get_option_string_destination
@@ -29,7 +31,7 @@ from .foundry import (
     init_project,
 )
 from .kompile import foundry_kompile
-from .prove import foundry_prove
+from .prove import KontrolAPRFailureInfo, foundry_prove
 from .state_record import (
     foundry_state_load,
     read_recorded_state_diff,
@@ -224,10 +226,18 @@ def exec_prove(options: ProveOptions) -> None:
                 f':hourglass_not_done: [bold blue]Time: {proof.formatted_exec_time()}[/bold blue] :hourglass_not_done:'
             )
             failure_log = None
-            if isinstance(proof, APRProof) and isinstance(proof.failure_info, APRFailureInfo):
+            if isinstance(proof, APRProof) and isinstance(proof.failure_info, KontrolAPRFailureInfo):
                 failure_log = proof.failure_info
             if options.failure_info and failure_log is not None:
-                log = failure_log.print() + Foundry.help_info()
+                status_codes: list[str] = []
+                output_values: list[str] = []
+                kevm = KEVM(kdist.get('kontrol.base'))
+                for node_id in failure_log.failing_nodes:
+                    node = proof.kcfg.get_node(node_id)
+                    assert node is not None
+                    status_codes.append(kevm.pretty_print(node.cterm.cell('STATUSCODE_CELL')))
+                    output_values.append(kevm.pretty_print(node.cterm.cell('OUTPUT_CELL')))
+                log = failure_log.print_with_additional_info(status_codes, output_values) + Foundry.help_info()
                 for line in log:
                     print(replace_k_words(line))
             refuted_nodes = list(proof.node_refutations.keys())

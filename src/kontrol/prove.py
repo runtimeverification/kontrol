@@ -550,7 +550,7 @@ class KontrolAPRFailureInfo(APRFailureInfo):
     def __init__(self, original: APRFailureInfo):
         self.__dict__.update(original.__dict__)
 
-    def print(self) -> list[str]:
+    def print_with_additional_info(self, status_codes: list[str], outputs: list[str]) -> list[str]:
         res_lines: list[str] = []
 
         num_pending = len(self.pending_nodes)
@@ -566,10 +566,14 @@ class KontrolAPRFailureInfo(APRFailureInfo):
         if num_failing > 0:
             res_lines.append('')
             res_lines.append('Failing nodes:')
-            for node_id in self.failing_nodes:
+            for idx, node_id in enumerate(self.failing_nodes):
                 path_condition = self.path_conditions[node_id]
                 res_lines.append('')
                 res_lines.append(f'  Node id: {str(node_id)}')
+                res_lines.append('  Status Code:')
+                res_lines.append(f'    {status_codes[idx]}')
+                res_lines.append('  Output:')
+                res_lines.append(f'    {outputs[idx]}')
                 res_lines.append('  Path condition:')
                 res_lines += [f'    {path_condition}']
 
@@ -581,7 +585,9 @@ class KontrolAPRFailureInfo(APRFailureInfo):
                     res_lines.append('  Failed to generate a model.')
 
             res_lines.append('')
-            res_lines.append('Join the Runtime Verification Discord server for support: https://discord.gg/CurfmXNtbN')
+            res_lines.append('Join the Runtime Verification communities for support:')
+            res_lines.append('    telegram: https://t.me/rv_kontrol')
+            res_lines.append('    discord:  https://discord.gg/CurfmXNtbN')
         return res_lines
 
 
