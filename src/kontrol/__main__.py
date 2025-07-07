@@ -36,7 +36,16 @@ from .state_record import (
     read_recorded_state_dump,
     recorded_state_to_account_cells,
 )
-from .utils import _LOG_FORMAT, _rv_blue, _rv_yellow, check_k_version, config_file_path, console, loglevel
+from .utils import (
+    _LOG_FORMAT,
+    _rv_blue,
+    _rv_yellow,
+    check_k_version,
+    config_file_path,
+    console,
+    loglevel,
+    replace_k_words,
+)
 
 if TYPE_CHECKING:
     from pathlib import Path
@@ -218,9 +227,9 @@ def exec_prove(options: ProveOptions) -> None:
             if isinstance(proof, APRProof) and isinstance(proof.failure_info, APRFailureInfo):
                 failure_log = proof.failure_info
             if options.failure_info and failure_log is not None:
-                log = failure_log.print() + Foundry.help_info(proof.id, options.hevm)
+                log = failure_log.print() + Foundry.help_info()
                 for line in log:
-                    print(line)
+                    print(replace_k_words(line))
             refuted_nodes = list(proof.node_refutations.keys())
             if len(refuted_nodes) > 0:
                 print(f'The proof cannot be completed while there are refuted nodes: {refuted_nodes}.')

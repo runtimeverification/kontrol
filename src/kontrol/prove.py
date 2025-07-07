@@ -541,9 +541,48 @@ def _run_cfg_group(
             if isinstance(failure_info, Exception):
                 proof.error_info = failure_info
             elif isinstance(failure_info, APRFailureInfo):
-                proof.failure_info = failure_info
+                proof.failure_info = KontrolAPRFailureInfo(failure_info)
 
         return proofs
+
+
+class KontrolAPRFailureInfo(APRFailureInfo):
+    def __init__(self, original: APRFailureInfo):
+        self.__dict__.update(original.__dict__)
+
+    def print(self) -> list[str]:
+        res_lines: list[str] = []
+
+        num_pending = len(self.pending_nodes)
+        num_failing = len(self.failing_nodes)
+        res_lines.append(
+            f'{num_pending + num_failing} Failure nodes. ({num_pending} pending and {num_failing} failing)'
+        )
+
+        if num_pending > 0:
+            res_lines.append('')
+            res_lines.append(f'Pending nodes: {sorted(self.pending_nodes)}')
+
+        if num_failing > 0:
+            res_lines.append('')
+            res_lines.append('Failing nodes:')
+            for node_id in self.failing_nodes:
+                path_condition = self.path_conditions[node_id]
+                res_lines.append('')
+                res_lines.append(f'  Node id: {str(node_id)}')
+                res_lines.append('  Path condition:')
+                res_lines += [f'    {path_condition}']
+
+                if node_id in self.models:
+                    res_lines.append('  Model:')
+                    for var, term in self.models[node_id]:
+                        res_lines.append(f'    {var} = {term}')
+                else:
+                    res_lines.append('  Failed to generate a model.')
+
+            res_lines.append('')
+            res_lines.append('Join the Runtime Verification Discord server for support: https://discord.gg/CurfmXNtbN')
+        return res_lines
 
 
 def method_to_apr_proof(
