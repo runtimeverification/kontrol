@@ -298,8 +298,14 @@ Node 6:
           </withdrawals>
           <requests>
             <depositRequests>
-              DEPOSITREQUESTS_CELL:List
+              DEPOSITREQUESTS_CELL:Bytes
             </depositRequests>
+            <withdrawalRequests>
+              WITHDRAWALREQUESTS_CELL:Bytes
+            </withdrawalRequests>
+            <consolidationRequests>
+              CONSOLIDATIONREQUESTS_CELL:Bytes
+            </consolidationRequests>
           </requests>
         </network>
       </ethereum>
