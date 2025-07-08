@@ -3,6 +3,7 @@ from __future__ import annotations
 import ast
 import json
 import logging
+import re
 from pathlib import Path
 from typing import TYPE_CHECKING
 
@@ -289,6 +290,32 @@ def _rv_yellow() -> str:
 
 def _rv_blue() -> str:
     return '#0097cb'
+
+
+def replace_k_words(text: str) -> str:
+    replacements = {
+        '+Int': '+',
+        '-Int': '-',
+        '*Int': '*',
+        '/Int': '/',
+        'divInt': '/',
+        'modInt': '%',
+        'orBool': '||',
+        'andBool': '&&',
+        'notBool': '!',
+        '#Equals': '==',
+        'NUMBER_CELL': 'block.number',
+        'TIMESTAMP_CELL': 'block.timestamp',
+        ':Int': '',
+        ':Bytes': '',
+    }
+
+    for old, new in replacements.items():
+        text = text.replace(old, new)
+
+    text = re.sub(r'\bKV\d*_', '', text)
+
+    return text
 
 
 def decode_log_message(token: str, selector: int) -> str | None:
