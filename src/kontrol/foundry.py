@@ -735,28 +735,8 @@ class Foundry:
         )
 
     @staticmethod
-    def help_info(proof_id: str, hevm: bool) -> list[str]:
+    def help_info() -> list[str]:
         res_lines: list[str] = []
-        if hevm:
-            _, test = proof_id.split('.')
-            if not any(test.startswith(prefix) for prefix in ['testFail', 'checkFail', 'proveFail']):
-                res_lines.append('')
-                res_lines.append('See `hevm_success` predicate for more information:')
-                res_lines.append(
-                    'https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/hevm.md#hevm-success-predicate'
-                )
-            else:
-                res_lines.append('')
-                res_lines.append('See `hevm_fail` predicate for more information:')
-                res_lines.append(
-                    'https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/hevm.md#hevm-fail-predicate'
-                )
-        else:
-            res_lines.append('')
-            res_lines.append('See `foundry_success` predicate for more information:')
-            res_lines.append(
-                'https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/foundry.md#foundry-success-predicate'
-            )
         res_lines.append('')
         res_lines.append('Access documentation for Kontrol at https://docs.runtimeverification.com/kontrol')
         return res_lines
