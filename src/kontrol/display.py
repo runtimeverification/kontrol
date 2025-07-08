@@ -164,7 +164,7 @@ def foundry_show(
             extra_module=foundry.load_lemmas(options.lemmas),
         ) as kcfg_explore:
             res_lines += print_failure_info(proof, kcfg_explore, options.counterexample_info)
-            res_lines += Foundry.help_info(proof.id, False)
+            res_lines += Foundry.help_info()
 
     if options.to_kevm_claims or options.to_kevm_rules:
         _foundry_labels = [

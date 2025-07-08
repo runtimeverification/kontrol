@@ -541,9 +541,54 @@ def _run_cfg_group(
             if isinstance(failure_info, Exception):
                 proof.error_info = failure_info
             elif isinstance(failure_info, APRFailureInfo):
-                proof.failure_info = failure_info
+                proof.failure_info = KontrolAPRFailureInfo(failure_info)
 
         return proofs
+
+
+class KontrolAPRFailureInfo(APRFailureInfo):
+    def __init__(self, original: APRFailureInfo):
+        self.__dict__.update(original.__dict__)
+
+    def print_with_additional_info(self, status_codes: list[str], outputs: list[str]) -> list[str]:
+        res_lines: list[str] = []
+
+        num_pending = len(self.pending_nodes)
+        num_failing = len(self.failing_nodes)
+        res_lines.append(
+            f'{num_pending + num_failing} Failure nodes. ({num_pending} pending and {num_failing} failing)'
+        )
+
+        if num_pending > 0:
+            res_lines.append('')
+            res_lines.append(f'Pending nodes: {sorted(self.pending_nodes)}')
+
+        if num_failing > 0:
+            res_lines.append('')
+            res_lines.append('Failing nodes:')
+            for idx, node_id in enumerate(self.failing_nodes):
+                path_condition = self.path_conditions[node_id]
+                res_lines.append('')
+                res_lines.append(f'  Node id: {str(node_id)}')
+                res_lines.append('  Status Code:')
+                res_lines.append(f'    {status_codes[idx]}')
+                res_lines.append('  Output:')
+                res_lines.append(f'    {outputs[idx]}')
+                res_lines.append('  Path condition:')
+                res_lines += [f'    {path_condition}']
+
+                if node_id in self.models:
+                    res_lines.append('  Model:')
+                    for var, term in self.models[node_id]:
+                        res_lines.append(f'    {var} = {term}')
+                else:
+                    res_lines.append('  Failed to generate a model.')
+
+            res_lines.append('')
+            res_lines.append('Join the Runtime Verification communities for support:')
+            res_lines.append('    telegram: https://t.me/rv_kontrol')
+            res_lines.append('    discord:  https://discord.gg/CurfmXNtbN')
+        return res_lines
 
 
 def method_to_apr_proof(
