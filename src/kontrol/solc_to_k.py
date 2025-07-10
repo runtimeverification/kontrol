@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import ast
 import json
 import logging
 import re
@@ -7,8 +8,9 @@ from dataclasses import dataclass
 from functools import cached_property
 from typing import TYPE_CHECKING, NamedTuple
 
+from eth_abi import decode
 from kevm_pyk.kevm import KEVM
-from pyk.kast.inner import KApply, KLabel, KSort, KVariable
+from pyk.kast.inner import KApply, KLabel, KSort, KToken, KVariable
 from pyk.kast.prelude.kbool import TRUE
 from pyk.kast.prelude.kint import eqInt, intToken, ltInt
 from pyk.utils import hash_str, single
@@ -664,6 +666,7 @@ class Contract:
     methods: tuple[Method, ...]
     constructor: Constructor | None
     interface_annotations: dict[str, str]
+    error_selectors: dict[bytes, tuple[str, list[str]]]
     PREFIX_CODE: Final = 'Z'
 
     def __init__(self, contract_name: str, contract_json: dict, foundry: bool = False) -> None:
@@ -739,6 +742,15 @@ class Contract:
             if node['nodeType'] == 'VariableDeclaration'
             and 'stateVariable' in node
             and node.get('documentation', {}).get('text', '').startswith('@custom:kontrol-instantiate-interface')
+        }
+
+        self.error_selectors = {
+            bytes.fromhex(node['errorSelector']): (
+                node['name'],
+                [param['typeDescriptions']['typeString'] for param in node['parameters']['parameters']],
+            )
+            for node in contract_ast['nodes']
+            if node['nodeType'] == 'ErrorDefinition'
         }
 
         for method in contract_json['abi']:
@@ -1138,3 +1150,57 @@ def contract_name_with_path(contract_path: str, contract_name: str) -> str:
     return (
         contract_name if contract_path_without_filename == '' else contract_path_without_filename + '%' + contract_name
     )
+
+
+def decode_kevm_output(output: KInner, contract_errors: dict[bytes, tuple[str, list[str]]]) -> str:
+    """Decode EVM revert reason using eth-abi"""
+    if type(output) is KToken:
+        output_bytes: bytes = ast.literal_eval(output.token)
+
+        if len(output_bytes) < 4:
+            return 'No revert reason'
+
+        selector = output_bytes[:4]
+
+        # Error(string) selector
+        if selector == GENERIC_ERROR_SELECTOR:
+            decoded = decode(['string'], output_bytes[4:])
+            return decoded[0]
+
+        # Panic(uint256) selector
+        elif selector == GENERIC_PANIC_SELECTOR:
+            decoded = decode(['uint256'], output_bytes[4:])
+            panic_code = decoded[0]
+            return PANIC_REASONS.get(panic_code, f'Panic code: 0x{panic_code:02x}')
+
+        # User defined errors
+        elif selector in contract_errors.keys():
+            (error_name, args) = contract_errors[selector]
+            decoded = decode(args, output_bytes[4:])
+            return f'{error_name}{decoded}'
+
+        else:
+            # Otherwise, print each byte as hex, separated by a whitespace
+            return f'{" ".join(f"{b:02x}" for b in output_bytes)}'
+
+    if type(output) is KApply:
+        return 'symbolic values detected. Skipping for now.'
+    return ''
+
+
+# Panic codes from https://docs.soliditylang.org/en/latest/control-structures.html#panic-via-assert-and-error-via-require
+PANIC_REASONS: Final[dict] = {
+    0x00: 'Generic compiler-inserted panic',
+    0x01: 'Assertion failed - assert() condition was false',
+    0x11: 'Arithmetic overflow/underflow outside unchecked block',
+    0x12: 'Division by zero or modulo by zero',
+    0x21: 'Enum conversion out of bounds',
+    0x22: 'Corrupted storage byte array encoding',
+    0x31: 'Pop operation on empty array',
+    0x32: 'Array access out of bounds or negative index',
+    0x41: 'Memory allocation exceeds limit',
+    0x51: 'Call to uninitialized internal function',
+}
+
+GENERIC_ERROR_SELECTOR: Final[bytes] = b'\x08\xc3\x79\xa0'
+GENERIC_PANIC_SELECTOR: Final[bytes] = b'\x4e\x48\x7b\x71'
