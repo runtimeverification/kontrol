@@ -236,8 +236,10 @@ def exec_prove(options: ProveOptions) -> None:
                 for node_id in failure_log.failing_nodes:
                     node = proof.kcfg.get_node(node_id)
                     assert node is not None
+                    output_cell = node.cterm.cell('OUTPUT_CELL')
+                    output_pretty = kevm.pretty_print(output_cell)
                     status_codes.append(kevm.pretty_print(node.cterm.cell('STATUSCODE_CELL')))
-                    output_values.append(decode_kinner_output(node.cterm.cell('OUTPUT_CELL'), contract.error_selectors))
+                    output_values.append(decode_kinner_output(output_cell, output_pretty, contract.error_selectors))
                 log = failure_log.print_with_additional_info(status_codes, output_values) + Foundry.help_info()
                 for line in log:
                     print(replace_k_words(line))

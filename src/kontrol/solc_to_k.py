@@ -11,10 +11,8 @@ from typing import TYPE_CHECKING, NamedTuple
 from eth_abi import decode
 from kevm_pyk.kevm import KEVM
 from pyk.kast.inner import KApply, KLabel, KSort, KToken, KVariable
-from pyk.kast.prelude.bytes import bytesToken
 from pyk.kast.prelude.kbool import TRUE
 from pyk.kast.prelude.kint import eqInt, intToken, ltInt
-from pyk.kdist import kdist
 from pyk.utils import hash_str, single
 
 from .utils import _read_digest_file
@@ -1154,61 +1152,61 @@ def contract_name_with_path(contract_path: str, contract_name: str) -> str:
     )
 
 
-def decode_kinner_output(output: KInner, contract_errors: dict[bytes, tuple[str, list[str]]]) -> str:
+def decode_kinner_output(
+    output: KInner, pretty_output: str, contract_errors: dict[bytes, tuple[str, list[str]]]
+) -> str:
     """Decode EVM revert reason using eth-abi"""
     if type(output) is KToken:
         output_bytes: bytes = ast.literal_eval(output.token)
-
-        if len(output_bytes) < 4:
-            return 'No revert reason'
-
-        selector = output_bytes[:4]
-
-        # Error(string) selector
-        if selector == GENERIC_ERROR_SELECTOR:
-            decoded = decode(['string'], output_bytes[4:])
-            return decoded[0]
-
-        # Panic(uint256) selector
-        elif selector == GENERIC_PANIC_SELECTOR:
-            decoded = decode(['uint256'], output_bytes[4:])
-            panic_code = decoded[0]
-            return PANIC_REASONS.get(panic_code, f'Panic code: 0x{panic_code:02x}')
-
-        # User defined errors
-        elif selector in contract_errors.keys():
-            (error_name, args) = contract_errors[selector]
-            decoded = decode(args, output_bytes[4:])
-            return f'{error_name}{decoded}'
-
-        else:
-            return decode_padded_bytes(output_bytes)
-
+        return parse_output(output_bytes, contract_errors)
+    elif type(output) is KApply:
+        return parse_composed_output(pretty_output, contract_errors)
     else:
-        kevm = KEVM(kdist.get('kontrol.base'))
-        pretty_output = kevm.pretty_print(output)
-        if type(output) is KApply:
-            return parse_composed_bytes(pretty_output, contract_errors)
         return pretty_output
 
 
-def parse_composed_bytes(pretty_output: str, contract_errors: dict[bytes, tuple[str, list[str]]]) -> str:
+def parse_composed_output(pretty_output: str, contract_errors: dict[bytes, tuple[str, list[str]]]) -> str:
     """Parse the pretty-printed K output to extract meaningful error message"""
     splits = pretty_output.split('+Bytes')
     result = []
     for item in splits:
         if item.startswith('b"'):
             actual_bytes = ast.literal_eval(item.strip())
-            result.append(decode_kinner_output(bytesToken(actual_bytes), contract_errors))
+            result.append(parse_output(actual_bytes, contract_errors))
         else:
             result.append(item)
     return ''.join(item for item in result)
 
 
-def decode_padded_bytes(output: bytes) -> str:
-    """Decode raw bytes as utf-8 and remove null characters and extra whitespace."""
-    text = output.decode('utf-8', errors='ignore')
-    return ''.join(char for char in text if char != '\x00' and char.isprintable() or char.isspace()).strip()
+def parse_output(output: bytes, contract_errors: dict[bytes, tuple[str, list[str]]]) -> str:
+    """Parse a bytes object representing the EVM output"""
+
+    if len(output) < 4:
+        return 'No revert reason'
+
+    selector = output[:4]
+
+    # Error(string) selector
+    if selector == GENERIC_ERROR_SELECTOR:
+        decoded = decode(['string'], output[4:])
+        return decoded[0]
+
+    # Panic(uint256) selector
+    elif selector == GENERIC_PANIC_SELECTOR:
+        decoded = decode(['uint256'], output[4:])
+        panic_code = decoded[0]
+        return PANIC_REASONS.get(panic_code, f'Panic code: 0x{panic_code:02x}')
+
+    # User defined errors
+    elif selector in contract_errors:
+        (error_name, args) = contract_errors[selector]
+        decoded = decode(args, output[4:])
+        return f'{error_name}{decoded}'
+
+    # Otherwise, decode raw bytes as utf-8 and remove null characters and extra whitespace.
+    else:
+        result = output.decode('utf-8', errors='ignore')
+        return ''.join(char for char in result if char != '\x00' and char.isprintable() or char.isspace()).strip()
 
 
 # Panic codes from https://docs.soliditylang.org/en/latest/control-structures.html#panic-via-assert-and-error-via-require
