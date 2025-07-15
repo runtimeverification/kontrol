@@ -32,7 +32,7 @@ from .foundry import (
 )
 from .kompile import foundry_kompile
 from .prove import KontrolAPRFailureInfo, foundry_prove
-from .solc_to_k import decode_kevm_output
+from .solc_to_k import decode_kinner_output
 from .state_record import (
     foundry_state_load,
     read_recorded_state_diff,
@@ -237,7 +237,7 @@ def exec_prove(options: ProveOptions) -> None:
                     node = proof.kcfg.get_node(node_id)
                     assert node is not None
                     status_codes.append(kevm.pretty_print(node.cterm.cell('STATUSCODE_CELL')))
-                    output_values.append(decode_kevm_output(node.cterm.cell('OUTPUT_CELL'), contract.error_selectors))
+                    output_values.append(decode_kinner_output(node.cterm.cell('OUTPUT_CELL'), contract.error_selectors))
                 log = failure_log.print_with_additional_info(status_codes, output_values) + Foundry.help_info()
                 for line in log:
                     print(replace_k_words(line))

@@ -11,8 +11,10 @@ from typing import TYPE_CHECKING, NamedTuple
 from eth_abi import decode
 from kevm_pyk.kevm import KEVM
 from pyk.kast.inner import KApply, KLabel, KSort, KToken, KVariable
+from pyk.kast.prelude.bytes import bytesToken
 from pyk.kast.prelude.kbool import TRUE
 from pyk.kast.prelude.kint import eqInt, intToken, ltInt
+from pyk.kdist import kdist
 from pyk.utils import hash_str, single
 
 from .utils import _read_digest_file
@@ -1152,7 +1154,7 @@ def contract_name_with_path(contract_path: str, contract_name: str) -> str:
     )
 
 
-def decode_kevm_output(output: KInner, contract_errors: dict[bytes, tuple[str, list[str]]]) -> str:
+def decode_kinner_output(output: KInner, contract_errors: dict[bytes, tuple[str, list[str]]]) -> str:
     """Decode EVM revert reason using eth-abi"""
     if type(output) is KToken:
         output_bytes: bytes = ast.literal_eval(output.token)
@@ -1180,12 +1182,33 @@ def decode_kevm_output(output: KInner, contract_errors: dict[bytes, tuple[str, l
             return f'{error_name}{decoded}'
 
         else:
-            # Otherwise, print each byte as hex, separated by a whitespace
-            return f'{" ".join(f"{b:02x}" for b in output_bytes)}'
+            return decode_padded_bytes(output_bytes)
 
-    if type(output) is KApply:
-        return 'symbolic values detected. Skipping for now.'
-    return ''
+    else:
+        kevm = KEVM(kdist.get('kontrol.base'))
+        pretty_output = kevm.pretty_print(output)
+        if type(output) is KApply:
+            return parse_composed_bytes(pretty_output, contract_errors)
+        return pretty_output
+
+
+def parse_composed_bytes(pretty_output: str, contract_errors: dict[bytes, tuple[str, list[str]]]) -> str:
+    """Parse the pretty-printed K output to extract meaningful error message"""
+    splits = pretty_output.split('+Bytes')
+    result = []
+    for item in splits:
+        if item.startswith('b"'):
+            actual_bytes = ast.literal_eval(item.strip())
+            result.append(decode_kinner_output(bytesToken(actual_bytes), contract_errors))
+        else:
+            result.append(item)
+    return ''.join(item for item in result)
+
+
+def decode_padded_bytes(output: bytes) -> str:
+    """Decode raw bytes as utf-8 and remove null characters and extra whitespace."""
+    text = output.decode('utf-8', errors='ignore')
+    return ''.join(char for char in text if char != '\x00' and char.isprintable() or char.isspace()).strip()
 
 
 # Panic codes from https://docs.soliditylang.org/en/latest/control-structures.html#panic-via-assert-and-error-via-require
