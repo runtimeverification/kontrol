@@ -1166,7 +1166,17 @@ def decode_kinner_output(
 
 
 def parse_composed_output(pretty_output: str, contract_errors: dict[bytes, tuple[str, list[str]]]) -> str:
-    """Parse the pretty-printed K output to extract meaningful error message"""
+    """
+    Parse pretty-printed K output to extract meaningful error messages from composed byte sequences.
+
+    Handles mixed concrete byte strings and symbolic K terms by splitting on '+Bytes' delimiter,
+    decoding concrete error data, and wrapping symbolic terms in backticks.
+
+    :param pretty_output: Pretty-printed string representation of the OUTPUT_CELL.
+    :param contract_errors: Dictionary mapping 4-byte error selectors to (error_name, param_types) tuples
+    :return: Space-separated string with decoded error messages and backtick-wrapped K terms
+    """
+
     splits = pretty_output.split('+Bytes')
     result = []
 
