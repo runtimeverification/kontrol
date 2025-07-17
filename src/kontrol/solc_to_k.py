@@ -1169,18 +1169,50 @@ def parse_composed_output(pretty_output: str, contract_errors: dict[bytes, tuple
     """Parse the pretty-printed K output to extract meaningful error message"""
     splits = pretty_output.split('+Bytes')
     result = []
+
     for item in splits:
+        item = item.strip()
+        if not item:
+            continue
+
         if item.startswith('b"'):
-            actual_bytes = ast.literal_eval(item.strip())
-            result.append(parse_output(actual_bytes, contract_errors))
-        else:
-            k_term = item.strip()
-            if k_term:
-                escaped_term = k_term.replace('`', '\\`')
+            try:
+                item_bytes = ast.literal_eval(item)
+            except (ValueError, SyntaxError):
+                # Treat malformed bytes as K term
+                escaped_term = item.replace('`', '\\`')
                 result.append(f'`{escaped_term}`')
-            else:
                 continue
-    return ' '.join(item for item in result)
+
+            if len(item_bytes) < 4:
+                decoded = decode_raw_bytes(item_bytes)
+                if decoded:
+                    result.append(decoded)
+                continue
+
+            sig = item_bytes[:4]
+
+            # Map signature to (label, data_slice)
+            if sig in contract_errors:
+                label, data = contract_errors[sig][0], item_bytes[4:]
+            elif sig == GENERIC_ERROR_SELECTOR:
+                label, data = 'Error:', item_bytes[4:]
+            elif sig == GENERIC_PANIC_SELECTOR:
+                label, data = 'Panic:', item_bytes[4:]
+            else:
+                label, data = None, item_bytes
+
+            if label:
+                result.append(label)
+
+            decoded = decode_raw_bytes(data)
+            if decoded:
+                result.append(decoded)
+        else:
+            escaped_term = item.replace('`', '\\`')
+            result.append(f'`{escaped_term}`')
+
+    return ' '.join(result)
 
 
 def parse_output(output: bytes, contract_errors: dict[bytes, tuple[str, list[str]]]) -> str:
@@ -1210,8 +1242,13 @@ def parse_output(output: bytes, contract_errors: dict[bytes, tuple[str, list[str
 
     # Otherwise, decode raw bytes as utf-8 and remove null characters and extra whitespace.
     else:
-        result = output.decode('utf-8', errors='ignore')
-        return ''.join(char for char in result if char != '\x00' and char.isprintable() or char.isspace()).strip()
+        return decode_raw_bytes(output)
+
+
+def decode_raw_bytes(input: bytes) -> str:
+    """Otherwise, decode raw bytes as utf-8 and remove null characters and extra whitespace"""
+    result = input.decode('utf-8', errors='ignore')
+    return ''.join(char for char in result if char != '\x00' and char.isprintable() or char.isspace()).strip()
 
 
 # Panic codes from https://docs.soliditylang.org/en/latest/control-structures.html#panic-via-assert-and-error-via-require
