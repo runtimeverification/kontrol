@@ -706,7 +706,45 @@ DECODE_DATA: list[tuple[str, KInner, str, dict[bytes, tuple[str, list[str]]], st
         ),
         r'b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x12value not accepted\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes String2Bytes ( ": " +String Int2String ( KV1_foo:Int ) +String " != " +String "0" )',
         {},
-        'value not accepted String2Bytes ( ": " +String Int2String ( KV1_foo:Int ) +String " != " +String "0" )',
+        'value not accepted `String2Bytes ( ": " +String Int2String ( KV1_foo:Int ) +String " != " +String "0" )`',
+    ),
+    (
+        'symbolic-1',
+        KApply(
+            label='_+Bytes__BYTES-HOOKED_Bytes_Bytes_Bytes',
+            args=(
+                KToken(token='b"\\xd3_E\\xde"', sort='Bytes'),
+                KApply(label='buf', args=(KToken(token='32', sort='Int'), KVariable(name='KV0_a', sort='Int'))),
+            ),
+        ),
+        r'b"\xd3_E\xde" +Bytes #buf ( 32 , KV0_a:Int )',
+        {b'\xd3_E\xde': ('MyCustomError', ['uint256'])},
+        'MyCustomError `#buf ( 32 , KV0_a:Int )`',
+    ),
+    (
+        'symbolic-2',
+        KApply(
+            label='_+Bytes__BYTES-HOOKED_Bytes_Bytes_Bytes',
+            args=(
+                KToken(
+                    token='b"\\x08\\xc3y\\xa0\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00 \\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00.a is equal to "',
+                    sort='Bytes',
+                ),
+                KApply(
+                    label='_+Bytes__BYTES-HOOKED_Bytes_Bytes_Bytes',
+                    args=(
+                        KApply(label='buf', args=(KToken(token='32', sort='Int'), KVariable(name='KV0_a', sort='Int'))),
+                        KToken(
+                            token='b"\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00"',
+                            sort='Bytes',
+                        ),
+                    ),
+                ),
+            ),
+        ),
+        r'b"\x08\xc3y\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00.a is equal to " +Bytes #buf ( 32 , KV0_a:Int ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"',
+        {},
+        'a is equal to `#buf ( 32 , KV0_a:Int )`',
     ),
 ]
 

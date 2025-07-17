@@ -1174,8 +1174,13 @@ def parse_composed_output(pretty_output: str, contract_errors: dict[bytes, tuple
             actual_bytes = ast.literal_eval(item.strip())
             result.append(parse_output(actual_bytes, contract_errors))
         else:
-            result.append(item)
-    return ''.join(item for item in result)
+            k_term = item.strip()
+            if k_term:
+                escaped_term = k_term.replace('`', '\\`')
+                result.append(f'`{escaped_term}`')
+            else:
+                continue
+    return ' '.join(item for item in result)
 
 
 def parse_output(output: bytes, contract_errors: dict[bytes, tuple[str, list[str]]]) -> str:
