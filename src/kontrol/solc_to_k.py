@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import ast
 import json
 import logging
 import re
@@ -7,8 +8,9 @@ from dataclasses import dataclass
 from functools import cached_property
 from typing import TYPE_CHECKING, NamedTuple
 
+from eth_abi import decode
 from kevm_pyk.kevm import KEVM
-from pyk.kast.inner import KApply, KLabel, KSort, KVariable
+from pyk.kast.inner import KApply, KLabel, KSort, KToken, KVariable
 from pyk.kast.prelude.kbool import TRUE
 from pyk.kast.prelude.kint import eqInt, intToken, ltInt
 from pyk.utils import hash_str, single
@@ -664,6 +666,7 @@ class Contract:
     methods: tuple[Method, ...]
     constructor: Constructor | None
     interface_annotations: dict[str, str]
+    error_selectors: dict[bytes, tuple[str, list[str]]]
     PREFIX_CODE: Final = 'Z'
 
     def __init__(self, contract_name: str, contract_json: dict, foundry: bool = False) -> None:
@@ -739,6 +742,15 @@ class Contract:
             if node['nodeType'] == 'VariableDeclaration'
             and 'stateVariable' in node
             and node.get('documentation', {}).get('text', '').startswith('@custom:kontrol-instantiate-interface')
+        }
+
+        self.error_selectors = {
+            bytes.fromhex(node['errorSelector']): (
+                node['name'],
+                [param['typeDescriptions']['typeString'] for param in node['parameters']['parameters']],
+            )
+            for node in contract_ast['nodes']
+            if node['nodeType'] == 'ErrorDefinition'
         }
 
         for method in contract_json['abi']:
@@ -1138,3 +1150,130 @@ def contract_name_with_path(contract_path: str, contract_name: str) -> str:
     return (
         contract_name if contract_path_without_filename == '' else contract_path_without_filename + '%' + contract_name
     )
+
+
+def decode_kinner_output(
+    output: KInner, pretty_output: str, contract_errors: dict[bytes, tuple[str, list[str]]]
+) -> str:
+    """Decode EVM revert reason using eth-abi"""
+    if type(output) is KToken:
+        output_bytes: bytes = ast.literal_eval(output.token)
+        return parse_output(output_bytes, contract_errors)
+    elif type(output) is KApply:
+        return parse_composed_output(pretty_output, contract_errors)
+    else:
+        return pretty_output
+
+
+def parse_composed_output(pretty_output: str, contract_errors: dict[bytes, tuple[str, list[str]]]) -> str:
+    """
+    Parse pretty-printed K output to extract meaningful error messages from composed byte sequences.
+
+    Handles mixed concrete byte strings and symbolic K terms by splitting on '+Bytes' delimiter,
+    decoding concrete error data, and wrapping symbolic terms in backticks.
+
+    :param pretty_output: Pretty-printed string representation of the OUTPUT_CELL.
+    :param contract_errors: Dictionary mapping 4-byte error selectors to (error_name, param_types) tuples
+    :return: Space-separated string with decoded error messages and backtick-wrapped K terms
+    """
+
+    splits = pretty_output.split('+Bytes')
+    result = []
+
+    for item in splits:
+        item = item.strip()
+        if not item:
+            continue
+
+        if item.startswith('b"'):
+            try:
+                item_bytes = ast.literal_eval(item)
+            except (ValueError, SyntaxError):
+                # Treat malformed bytes as K term
+                escaped_term = item.replace('`', '\\`')
+                result.append(f'`{escaped_term}`')
+                continue
+
+            if len(item_bytes) < 4:
+                decoded = decode_raw_bytes(item_bytes)
+                if decoded:
+                    result.append(decoded)
+                continue
+
+            sig = item_bytes[:4]
+
+            # Map signature to (label, data_slice)
+            if sig in contract_errors:
+                label, data = contract_errors[sig][0], item_bytes[4:]
+            elif sig == GENERIC_ERROR_SELECTOR:
+                label, data = 'Error:', item_bytes[4:]
+            elif sig == GENERIC_PANIC_SELECTOR:
+                label, data = 'Panic:', item_bytes[4:]
+            else:
+                label, data = None, item_bytes
+
+            if label:
+                result.append(label)
+
+            decoded = decode_raw_bytes(data)
+            if decoded:
+                result.append(decoded)
+        else:
+            escaped_term = item.replace('`', '\\`')
+            result.append(f'`{escaped_term}`')
+
+    return ' '.join(result)
+
+
+def parse_output(output: bytes, contract_errors: dict[bytes, tuple[str, list[str]]]) -> str:
+    """Parse a bytes object representing the EVM output"""
+
+    if len(output) < 4:
+        return 'No revert reason'
+
+    selector = output[:4]
+
+    # Error(string) selector
+    if selector == GENERIC_ERROR_SELECTOR:
+        decoded = decode(['string'], output[4:])
+        return decoded[0]
+
+    # Panic(uint256) selector
+    elif selector == GENERIC_PANIC_SELECTOR:
+        decoded = decode(['uint256'], output[4:])
+        panic_code = decoded[0]
+        return PANIC_REASONS.get(panic_code, f'Panic code: 0x{panic_code:02x}')
+
+    # User defined errors
+    elif selector in contract_errors:
+        (error_name, args) = contract_errors[selector]
+        decoded = decode(args, output[4:])
+        return f'{error_name}{decoded}'
+
+    # Otherwise, decode raw bytes as utf-8 and remove null characters and extra whitespace.
+    else:
+        return decode_raw_bytes(output)
+
+
+def decode_raw_bytes(input: bytes) -> str:
+    """Otherwise, decode raw bytes as utf-8 and remove null characters and extra whitespace"""
+    result = input.decode('utf-8', errors='ignore')
+    return ''.join(char for char in result if char != '\x00' and char.isprintable() or char.isspace()).strip()
+
+
+# Panic codes from https://docs.soliditylang.org/en/latest/control-structures.html#panic-via-assert-and-error-via-require
+PANIC_REASONS: Final[dict] = {
+    0x00: 'Generic compiler-inserted panic',
+    0x01: 'Assertion failed - assert() condition was false',
+    0x11: 'Arithmetic overflow/underflow outside unchecked block',
+    0x12: 'Division by zero or modulo by zero',
+    0x21: 'Enum conversion out of bounds',
+    0x22: 'Corrupted storage byte array encoding',
+    0x31: 'Pop operation on empty array',
+    0x32: 'Array access out of bounds or negative index',
+    0x41: 'Memory allocation exceeds limit',
+    0x51: 'Call to uninitialized internal function',
+}
+
+GENERIC_ERROR_SELECTOR: Final[bytes] = b'\x08\xc3\x79\xa0'
+GENERIC_PANIC_SELECTOR: Final[bytes] = b'\x4e\x48\x7b\x71'

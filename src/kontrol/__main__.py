@@ -32,6 +32,7 @@ from .foundry import (
 )
 from .kompile import foundry_kompile
 from .prove import KontrolAPRFailureInfo, foundry_prove
+from .solc_to_k import decode_kinner_output
 from .state_record import (
     foundry_state_load,
     read_recorded_state_diff,
@@ -192,12 +193,11 @@ def exec_prove(options: ProveOptions) -> None:
         proving_message = f'[{_rv_blue()}]:person_running: [bold]Running [{_rv_yellow()}]Kontrol[/{_rv_yellow()}] proofs[/bold] :person_running:[/{_rv_blue()}]'
     else:
         proving_message = f'[{_rv_blue()}]:person_running: [bold]Running [{_rv_yellow()}]Kontrol[/{_rv_yellow()}] proofs[/bold] :person_running: \n Add `--verbose` to `kontrol prove` for more details![/{_rv_blue()}]'
+    foundry = _load_foundry(options.foundry_root, options.bug_report, add_enum_constraints=options.enum_constraints)
     try:
         console.print(proving_message)
         results = foundry_prove(
-            foundry=_load_foundry(
-                options.foundry_root, options.bug_report, add_enum_constraints=options.enum_constraints
-            ),
+            foundry=foundry,
             options=options,
             init_accounts=init_accounts,
         )
@@ -232,11 +232,14 @@ def exec_prove(options: ProveOptions) -> None:
                 status_codes: list[str] = []
                 output_values: list[str] = []
                 kevm = KEVM(kdist.get('kontrol.base'))
+                contract, _ = foundry.get_contract_and_method(proof.id.split(':')[0])
                 for node_id in failure_log.failing_nodes:
                     node = proof.kcfg.get_node(node_id)
                     assert node is not None
+                    output_cell = node.cterm.cell('OUTPUT_CELL')
+                    output_pretty = kevm.pretty_print(output_cell)
                     status_codes.append(kevm.pretty_print(node.cterm.cell('STATUSCODE_CELL')))
-                    output_values.append(kevm.pretty_print(node.cterm.cell('OUTPUT_CELL')))
+                    output_values.append(decode_kinner_output(output_cell, output_pretty, contract.error_selectors))
                 log = failure_log.print_with_additional_info(status_codes, output_values) + Foundry.help_info()
                 for line in log:
                     print(replace_k_words(line))
