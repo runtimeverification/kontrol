@@ -580,16 +580,16 @@ wheels = [
 
 [[package]]
 name = "hypothesis"
-version = "6.135.31"
+version = "6.135.32"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "attrs" },
     { name = "exceptiongroup", marker = "python_full_version < '3.11'" },
     { name = "sortedcontainers" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/22/2c/988c75a27f805ce53ef5a3feaf96add76fe93aede509e16126408c426a0d/hypothesis-6.135.31.tar.gz", hash = "sha256:a759a6010a43424b66b634383a04717a30ed05f553cc51e3b3fe3931faace53a", size = 455774, upload-time = "2025-07-15T02:04:18.988Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/fa/1a/5b0a64bcbbf642ecc4697d89b762ed62481a7dd36e5f5cbf93f29043b1e9/hypothesis-6.135.32.tar.gz", hash = "sha256:b74019dc58065d806abea6292008a392bc9326b88d6a46c8cce51c9cd485af42", size = 456414, upload-time = "2025-07-15T23:36:41.986Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/08/f6/3a9ad54d87c3bc5d4fe4925b0eb5d93c5e3090cf6fe8472176651ce04eea/hypothesis-6.135.31-py3-none-any.whl", hash = "sha256:12f1cf4aa961884b71021ef8770d81045f66c0b3f4295abc956e4f84d862f321", size = 522768, upload-time = "2025-07-15T02:04:15.919Z" },
+    { url = "https://files.pythonhosted.org/packages/0a/06/e430a4134be021e1965473804409584ddf9b6a42906d360b9c75d3c35c79/hypothesis-6.135.32-py3-none-any.whl", hash = "sha256:d0f2bf93863f19a7af2510685dde2b89efb94eaebd3ca0b86c548cd8daa33ab0", size = 523424, upload-time = "2025-07-15T23:36:37.601Z" },
 ]
 
 [[package]]
@@ -633,8 +633,8 @@ wheels = [
 
 [[package]]
 name = "kevm-pyk"
-version = "1.0.854"
-source = { git = "https://github.com/runtimeverification/evm-semantics.git?subdirectory=kevm-pyk&rev=v1.0.854#e7a7198fce0273c4cc22ccf874452cd36d835c2e" }
+version = "1.0.855"
+source = { git = "https://github.com/runtimeverification/evm-semantics.git?subdirectory=kevm-pyk&rev=v1.0.855#2e4e8ddb851771e5013aa7eb89124127ad492dd0" }
 dependencies = [
     { name = "frozendict" },
     { name = "kframework" },
@@ -644,7 +644,7 @@ dependencies = [
 
 [[package]]
 name = "kframework"
-version = "7.1.274"
+version = "7.1.276"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "coloredlogs" },
@@ -661,9 +661,9 @@ dependencies = [
     { name = "tomli" },
     { name = "xdg-base-dirs" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/02/a2/071dc28ff0bc8d567217d37f1d61a30e03ef84283db848cc1d30d3819b5c/kframework-7.1.274.tar.gz", hash = "sha256:94f36e2d0f1ff0cc135da51ba297887652f19e0f1afceb5f94d05d353c7d6106", size = 242676, upload-time = "2025-07-14T22:41:07.89Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/70/d9/bc203945680afc232786d851e98f426615641425045e66898469b8ea0899/kframework-7.1.276.tar.gz", hash = "sha256:5d60dc89008f7af2467272366909c95b678a8dac5a8205709711d9263a76ccdd", size = 242681, upload-time = "2025-07-16T15:04:40.859Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/ee/ff/f53d4191256ac1e1a3a07ae6c23e39d2271bebadbb2949ade71eb6671dac/kframework-7.1.274-py3-none-any.whl", hash = "sha256:677d1405c39a2b2c5865df82b1f54a71b7bccd0e125e96e088d0e3fe303be6ed", size = 293824, upload-time = "2025-07-14T22:41:06.08Z" },
+    { url = "https://files.pythonhosted.org/packages/9b/74/7aecf3e6dbbe715fc75b7a1478e5cdc2212763fdbffbcb696cd75b28baa7/kframework-7.1.276-py3-none-any.whl", hash = "sha256:4b8a42ff0510765562657c718d4db508bfa619dff91d3a0801258c33762a2b3a", size = 293823, upload-time = "2025-07-16T15:04:39.556Z" },
 ]
 
 [[package]]
@@ -702,7 +702,7 @@ dev = [
 requires-dist = [
     { name = "eth-abi", specifier = ">=5.2.0" },
     { name = "eth-utils", specifier = ">=5,<6" },
-    { name = "kevm-pyk", git = "https://github.com/runtimeverification/evm-semantics.git?subdirectory=kevm-pyk&rev=v1.0.854" },
+    { name = "kevm-pyk", git = "https://github.com/runtimeverification/evm-semantics.git?subdirectory=kevm-pyk&rev=v1.0.855" },
     { name = "pycryptodome", specifier = ">=3.20.0,<4" },
     { name = "pyevmasm", specifier = ">=0.2.3,<0.3" },
 ]
