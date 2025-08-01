@@ -12,7 +12,7 @@ let
   buildSystemOverrides = {
     pyperclip.setuptools = [ ];
     kevm-pyk.poetry-core = [ ];
-    kframework.hatchling = [ ];
+    kevm-pyk.hatchling = [ ];
   };
 in
 mapAttrs (
