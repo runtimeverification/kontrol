@@ -118,7 +118,7 @@
     in {
       devShells.default =
       let
-        kevmShell = kevm.devShell.${system};
+        kevmShell = kevm.devShells.${system}.default;
       in pkgs.mkShell {
         buildInputs = (kevmShell.buildInputs or [ ]) ++ [
           pkgs.foundry-bin
