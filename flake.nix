@@ -5,7 +5,7 @@
     rv-nix-tools.url = "github:runtimeverification/rv-nix-tools/854d4f05ea78547d46e807b414faad64cea10ae4";
     nixpkgs.follows = "rv-nix-tools/nixpkgs";
 
-    kevm.url = "github:runtimeverification/evm-semantics/v1.0.856";
+    kevm.url = "github:runtimeverification/evm-semantics/v1.0.858";
     kevm.inputs.nixpkgs.follows = "nixpkgs";
 
     k-framework.follows = "kevm/k-framework";
@@ -118,7 +118,7 @@
     in {
       devShells.default =
       let
-        kevmShell = kevm.devShell.${system};
+        kevmShell = kevm.devShells.${system}.default;
       in pkgs.mkShell {
         buildInputs = (kevmShell.buildInputs or [ ]) ++ [
           pkgs.foundry-bin
