@@ -1696,6 +1696,7 @@ If the flag is false, it skips comparison, assuming success; otherwise, it compa
            )
            ...
          </mockCalls>
+      [owise]
 ```
 
 - `#setMockFunction MOCKADDRESS MOCKTARGET MOCKCALLDATA` will update the `<mockFunctions>` mapping for the given account and calldata.
@@ -1720,6 +1721,7 @@ If the flag is false, it skips comparison, assuming success; otherwise, it compa
            )
            ...
          </mockFunctions>
+      [owise]
 ```
 
 - `#execMockCall` will update the output of the function call with `RETURNDATA` using `#setLocalMem`. In case the function did not end with `EVMC_SUCCESS` it will update the status code to `EVMC_SUCCESS`.
