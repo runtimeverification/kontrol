@@ -179,27 +179,9 @@ module KONTROL-AUX-LEMMAS
     // NEW LEMMAS
     //
 
-    rule [symb-program-index]:
-      M:Bytes [ N:Int ] => #asWord ( #range(M, N, 1) )
-      requires 0 <=Int N andBool N <Int lengthBytes(M)
-      [simplification(60), symbolic(M), concrete(N), preserves-definedness]
-
     rule X *Int Y <=Int Z => Y <Int ( Z +Int 1 ) /Int X
       requires 0 <Int X andBool 0 <=Int Z andBool ( Z +Int 1) modInt X ==Int 0
       [simplification, concrete(X, Z), preserves-definedness]
-
-    //
-    // List simplifications for `allowCalls`
-    //
-
-    // List membership check simplification for lists with a single element
-    rule KI:KItem in ListItem(KI:KItem) => true [simplification]
-    rule KI:KItem in ListItem(KJ:KItem) => KI ==K KJ [simplification]
-
-    // Recursive list membership check for lists with multiple elements
-    rule KI:KItem in (ListItem(KI) _REST) => true [simplification]
-    rule KI:KItem in (ListItem(KJ) REST) => KI in REST requires KI =/=K KJ [simplification]
-    rule _KI:KItem in .List => false [simplification]
 
 endmodule
 ```
