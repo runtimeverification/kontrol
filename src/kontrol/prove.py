@@ -159,7 +159,9 @@ def foundry_prove(options: ProveOptions, foundry: Foundry, init_accounts: Iterab
             for proof in failed:
                 contract, _ = foundry.get_contract_and_method(proof.id.split(':')[0])
                 _interpret_proof_failure(proof, options.failure_info, contract.error_selectors)
-        sys.exit(f'Running initialization code failed for {len(failed)} contracts: {", ".join(failed_contract_names)}')
+            sys.exit(
+                f'Running initialization code failed for {len(failed)} contracts: {", ".join(failed_contract_names)}'
+            )
 
     if options.verbose:
         _LOGGER.info(f'Running setup functions in parallel: {setup_method_names}')
