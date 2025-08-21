@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import logging
+import sys
 import time
 from abc import abstractmethod
 from collections import Counter
@@ -25,6 +26,7 @@ from pyk.kast.prelude.ml import mlEqualsFalse, mlEqualsTrue
 from pyk.kast.prelude.utils import token
 from pyk.kcfg import KCFG, KCFGExplore
 from pyk.kcfg.minimize import KCFGMinimizer
+from pyk.kdist import kdist
 from pyk.kore.rpc import KoreClient, kore_server
 from pyk.proof import ProofStatus
 from pyk.proof.proof import Proof
@@ -34,8 +36,8 @@ from rich.progress import Progress, SpinnerColumn, TaskID, TextColumn, TimeElaps
 
 from .foundry import Foundry, KontrolSemantics, foundry_to_xml
 from .options import ConfigType, TraceOptions
-from .solc_to_k import Contract
-from .utils import console, parse_test_version_tuple
+from .solc_to_k import Contract, decode_kinner_output
+from .utils import console, parse_test_version_tuple, replace_k_words
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -154,9 +156,10 @@ def foundry_prove(options: ProveOptions, foundry: Foundry, init_accounts: Iterab
         failed = [proof for proof in constructor_results if not proof.passed]
         failed_contract_names = [proof.id.split('.')[0] for proof in failed]
         if failed:
-            raise ValueError(
-                f"Running initialization code failed for {len(failed)} contracts: {', '.join(failed_contract_names)}"
-            )
+            for proof in failed:
+                contract, _ = foundry.get_contract_and_method(proof.id.split(':')[0])
+                _interpret_proof_failure(proof, options.failure_info, contract.error_selectors)
+        sys.exit(f'Running initialization code failed for {len(failed)} contracts: {", ".join(failed_contract_names)}')
 
     if options.verbose:
         _LOGGER.info(f'Running setup functions in parallel: {setup_method_names}')
@@ -168,7 +171,10 @@ def foundry_prove(options: ProveOptions, foundry: Foundry, init_accounts: Iterab
     failed = [proof for proof in setup_results if not proof.passed]
     failed_contract_names = [proof.id.split('.')[0] for proof in failed]
     if failed:
-        raise ValueError(f"Running setUp method failed for {len(failed)} contracts: {', '.join(failed_contract_names)}")
+        for proof in failed:
+            contract, _ = foundry.get_contract_and_method(proof.id.split(':')[0])
+            _interpret_proof_failure(proof, options.failure_info, contract.error_selectors)
+        sys.exit(f"Running setUp method failed for {len(failed)} contracts: {', '.join(failed_contract_names)}")
 
     if options.verbose:
         _LOGGER.info(f'Running test functions in parallel: {test_names}')
@@ -1476,3 +1482,25 @@ def _process_external_library_references(contract: Contract, foundry_contracts: 
                 setattr(contract, bytecode_field, updated_bytecode)
 
     return external_libs
+
+
+def _interpret_proof_failure(
+    proof: APRProof, failure_info: bool, contract_error_selectors: dict[bytes, tuple[str, list[str]]]
+) -> None:
+    failure_log = None
+    if isinstance(proof, APRProof) and isinstance(proof.failure_info, KontrolAPRFailureInfo):
+        failure_log = proof.failure_info
+    if failure_info and failure_log is not None:
+        status_codes: list[str] = []
+        output_values: list[str] = []
+        kevm = KEVM(kdist.get('kontrol.base'))
+        for node_id in failure_log.failing_nodes:
+            node = proof.kcfg.get_node(node_id)
+            assert node is not None
+            output_cell = node.cterm.cell('OUTPUT_CELL')
+            output_pretty = kevm.pretty_print(output_cell)
+            status_codes.append(kevm.pretty_print(node.cterm.cell('STATUSCODE_CELL')))
+            output_values.append(decode_kinner_output(output_cell, output_pretty, contract_error_selectors))
+        log = failure_log.print_with_additional_info(status_codes, output_values) + Foundry.help_info()
+        for line in log:
+            print(replace_k_words(line))
