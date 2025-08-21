@@ -2391,8 +2391,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <Int ?WORD:Int
-       andBool ( 1 <Int ?WORD:Int
+      requires ( 1 <Int ?WORD:Int
        andBool ( 0 <=Int ?WORD:Int
        andBool ( ?WORD:Int <=Int 2
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -2400,7 +2399,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( ?WORD:Int <Int pow256
-               )))))))))
+               ))))))))
       [priority(20), label(BASIC-BLOCK-14-TO-34)]
     
     rule [BASIC-BLOCK-18-TO-35]: <foundry>
@@ -2632,8 +2631,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <Int ?WORD:Int
-       andBool ( 1 <Int ?WORD:Int
+      requires ( 1 <Int ?WORD:Int
        andBool ( 2 <Int ?WORD:Int
        andBool ( 0 <=Int ?WORD:Int
        andBool ( ?WORD:Int <=Int 3
@@ -2642,7 +2640,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( ?WORD:Int <Int pow256
-               ))))))))))
+               )))))))))
       [priority(20), label(BASIC-BLOCK-18-TO-35)]
     
     rule [BASIC-BLOCK-32-TO-37]: <foundry>
@@ -3353,8 +3351,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <Int ?WORD:Int
-       andBool ( 1 <Int ?WORD:Int
+      requires ( 1 <Int ?WORD:Int
        andBool ( 0 <=Int ?WORD:Int
        andBool ( ?WORD:Int <=Int 2
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -3362,7 +3359,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( ?WORD:Int <Int pow256
-               )))))))))
+               ))))))))
       [priority(20), label(BASIC-BLOCK-34-TO-39)]
     
     rule [BASIC-BLOCK-35-TO-40]: <foundry>
@@ -3594,8 +3591,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <Int ?WORD:Int
-       andBool ( 1 <Int ?WORD:Int
+      requires ( 1 <Int ?WORD:Int
        andBool ( 2 <Int ?WORD:Int
        andBool ( 0 <=Int ?WORD:Int
        andBool ( ?WORD:Int <=Int 3
@@ -3604,7 +3600,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( ?WORD:Int <Int pow256
-               ))))))))))
+               )))))))))
       [priority(20), label(BASIC-BLOCK-35-TO-40)]
 
 endmodule
