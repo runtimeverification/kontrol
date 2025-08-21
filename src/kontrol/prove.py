@@ -957,6 +957,7 @@ def _init_cterm(
         trace_options = TraceOptions({})
 
     jumpdests = bytesToken(_process_jumpdests(bytecode=program))
+    id_cell = KVariable(Foundry.symbolic_contract_id(contract_name), sort=KSort('Int'))
     init_subst = {
         'MODE_CELL': KApply(evm_chain_options.mode),
         'USEGAS_CELL': boolToken(evm_chain_options.usegas),
@@ -966,7 +967,8 @@ def _init_cterm(
         'STATUSCODE_CELL': KVariable('STATUSCODE'),
         'PROGRAM_CELL': bytesToken(program),
         'JUMPDESTS_CELL': jumpdests,
-        'ID_CELL': KVariable(Foundry.symbolic_contract_id(contract_name), sort=KSort('Int')),
+        'ID_CELL': id_cell,
+        'CODEADDR_CELL': id_cell,
         'ORIGIN_CELL': KVariable('ORIGIN_ID', sort=KSort('Int')),
         'CALLER_CELL': KVariable('CALLER_ID', sort=KSort('Int')),
         'LOCALMEM_CELL': bytesToken(b''),
@@ -1008,6 +1010,7 @@ def _init_cterm(
             'CALLSTACK_CELL': list_empty(),
             'CALLDEPTH_CELL': intToken(0),
             'ID_CELL': Foundry.address_TEST_CONTRACT(),
+            'CODEADDR_CELL': Foundry.address_TEST_CONTRACT(),
             'ORIGIN_CELL': origin_id,
             'CALLER_CELL': caller_id,
             'LOG_CELL': list_empty(),
@@ -1389,6 +1392,7 @@ def _final_term(
         account_list.append(KVariable('ACCOUNTS_FINAL'))
         final_subst_test = {
             'ID_CELL': Foundry.address_TEST_CONTRACT(),
+            'CODEADDR_CELL': Foundry.address_TEST_CONTRACT(),
             'ACCOUNTS_CELL': KEVM.accounts(account_list),
         }
         final_subst.update(final_subst_test)
