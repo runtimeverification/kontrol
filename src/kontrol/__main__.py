@@ -5,11 +5,8 @@ import sys
 from collections.abc import Iterable
 from typing import TYPE_CHECKING
 
-from kevm_pyk.kevm import KEVM
 from pyk.cli.pyk import parse_toml_args
 from pyk.cterm.symbolic import CTermSMTError
-from pyk.kdist import kdist
-from pyk.proof.reachability import APRProof
 
 from . import VERSION
 from .cli import _create_argument_parser, generate_options, get_argument_type_setter, get_option_string_destination
@@ -31,8 +28,7 @@ from .foundry import (
     init_project,
 )
 from .kompile import foundry_kompile
-from .prove import KontrolAPRFailureInfo, foundry_prove
-from .solc_to_k import decode_kinner_output
+from .prove import _interpret_proof_failure, foundry_prove
 from .state_record import (
     foundry_state_load,
     read_recorded_state_diff,
@@ -47,7 +43,6 @@ from .utils import (
     config_file_path,
     console,
     loglevel,
-    replace_k_words,
 )
 
 if TYPE_CHECKING:
@@ -225,24 +220,8 @@ def exec_prove(options: ProveOptions) -> None:
             console.print(
                 f':hourglass_not_done: [bold blue]Time: {proof.formatted_exec_time()}[/bold blue] :hourglass_not_done:'
             )
-            failure_log = None
-            if isinstance(proof, APRProof) and isinstance(proof.failure_info, KontrolAPRFailureInfo):
-                failure_log = proof.failure_info
-            if options.failure_info and failure_log is not None:
-                status_codes: list[str] = []
-                output_values: list[str] = []
-                kevm = KEVM(kdist.get('kontrol.base'))
-                contract, _ = foundry.get_contract_and_method(proof.id.split(':')[0])
-                for node_id in failure_log.failing_nodes:
-                    node = proof.kcfg.get_node(node_id)
-                    assert node is not None
-                    output_cell = node.cterm.cell('OUTPUT_CELL')
-                    output_pretty = kevm.pretty_print(output_cell)
-                    status_codes.append(kevm.pretty_print(node.cterm.cell('STATUSCODE_CELL')))
-                    output_values.append(decode_kinner_output(output_cell, output_pretty, contract.error_selectors))
-                log = failure_log.print_with_additional_info(status_codes, output_values) + Foundry.help_info()
-                for line in log:
-                    print(replace_k_words(line))
+            contract, _ = foundry.get_contract_and_method(proof.id.split(':')[0])
+            _interpret_proof_failure(proof, options.failure_info, contract.error_selectors)
             refuted_nodes = list(proof.node_refutations.keys())
             if len(refuted_nodes) > 0:
                 print(f'The proof cannot be completed while there are refuted nodes: {refuted_nodes}.')
