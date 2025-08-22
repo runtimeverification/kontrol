@@ -2135,10 +2135,9 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
        andBool ( KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int )
        andBool ( ( KV0_x:Int +Int KV1_y:Int ) <=Int ( maxUInt256 -Int KV1_y:Int )
                ))))))))))))
-       ensures ( 0 <=Int ( KV0_x:Int -Int KV1_y:Int )
-       andBool ( ( KV0_x:Int +Int KV1_y:Int ) <Int pow256
+       ensures ( ( KV0_x:Int +Int KV1_y:Int ) <Int pow256
        andBool ( ( KV0_x:Int -Int KV1_y:Int ) <Int pow256
-               )))
+               ))
       [priority(20), label(BASIC-BLOCK-43-TO-23)]
     
     rule [BASIC-BLOCK-46-TO-26]: <foundry>
@@ -2532,11 +2531,10 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
        andBool ( ( KV0_x:Int +Int KV1_y:Int ) <=Int ( maxUInt256 -Int KV1_y:Int )
        andBool ( ( ( ( KV0_x:Int +Int KV1_y:Int ) +Int KV1_y:Int ) -Int ( ( KV0_x:Int -Int KV1_y:Int ) -Int KV1_y:Int ) ) =/=Int 0
                )))))))))))))
-       ensures ( 0 <=Int ( KV0_x:Int -Int KV1_y:Int )
-       andBool ( ( KV0_x:Int +Int KV1_y:Int ) <Int pow256
+       ensures ( ( KV0_x:Int +Int KV1_y:Int ) <Int pow256
        andBool ( ( KV0_x:Int -Int KV1_y:Int ) <Int pow256
        andBool ( 0 =/=Int ( ( ( KV0_x:Int +Int KV1_y:Int ) +Int KV1_y:Int ) -Int ( ( KV0_x:Int -Int KV1_y:Int ) -Int KV1_y:Int ) )
-               ))))
+               )))
       [priority(20), label(BASIC-BLOCK-46-TO-26)]
     
     rule [BASIC-BLOCK-47-TO-27]: <foundry>
@@ -2930,10 +2928,9 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
        andBool ( ( KV0_x:Int +Int KV1_y:Int ) <=Int ( maxUInt256 -Int KV1_y:Int )
        andBool ( 0 ==Int ( ( ( KV0_x:Int +Int KV1_y:Int ) +Int KV1_y:Int ) -Int ( ( KV0_x:Int -Int KV1_y:Int ) -Int KV1_y:Int ) )
                )))))))))))))
-       ensures ( 0 <=Int ( KV0_x:Int -Int KV1_y:Int )
-       andBool ( ( KV0_x:Int +Int KV1_y:Int ) <Int pow256
+       ensures ( ( KV0_x:Int +Int KV1_y:Int ) <Int pow256
        andBool ( ( KV0_x:Int -Int KV1_y:Int ) <Int pow256
-               )))
+               ))
       [priority(20), label(BASIC-BLOCK-47-TO-27)]
 
 endmodule

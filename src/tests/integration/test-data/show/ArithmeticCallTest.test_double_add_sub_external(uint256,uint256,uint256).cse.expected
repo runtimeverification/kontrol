@@ -2246,9 +2246,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
        andBool ( KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int )
        andBool ( ( maxUInt256 -Int KV1_y:Int ) <Int ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int )
                )))))))))))))
-       ensures ( 0 <=Int ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int )
-       andBool ( ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) <Int pow256
-               ))
+       ensures ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) <Int pow256
       [priority(20), label(BASIC-BLOCK-47-TO-29)]
     
     rule [BASIC-BLOCK-53-TO-33]: <foundry>
@@ -2768,9 +2766,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
        andBool ( ( ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) +Int KV1_y:Int ) <Int KV2_z:Int
        andBool ( ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) <=Int ( maxUInt256 -Int KV1_y:Int )
                ))))))))))))))
-       ensures ( 0 <=Int ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int )
-       andBool ( ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) <Int pow256
-               ))
+       ensures ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) <Int pow256
       [priority(20), label(BASIC-BLOCK-53-TO-33)]
     
     rule [BASIC-BLOCK-56-TO-36]: <foundry>
@@ -3291,9 +3287,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
        andBool ( ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) <=Int ( maxUInt256 -Int KV1_y:Int )
        andBool ( KV0_x:Int <Int ( ( ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) +Int KV1_y:Int ) -Int KV2_z:Int )
                )))))))))))))))
-       ensures ( 0 <=Int ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int )
-       andBool ( ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) <Int pow256
-               ))
+       ensures ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) <Int pow256
       [priority(20), label(BASIC-BLOCK-56-TO-36)]
     
     rule [BASIC-BLOCK-57-TO-37]: <foundry>
@@ -3814,9 +3808,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
        andBool ( ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) <=Int ( maxUInt256 -Int KV1_y:Int )
        andBool ( ( ( ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) +Int KV1_y:Int ) -Int KV2_z:Int ) <=Int KV0_x:Int
                )))))))))))))))
-       ensures ( 0 <=Int ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int )
-       andBool ( ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) <Int pow256
-               ))
+       ensures ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) <Int pow256
       [priority(20), label(BASIC-BLOCK-57-TO-37)]
 
 endmodule
