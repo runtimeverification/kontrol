@@ -49,7 +49,7 @@
 ┣━━┓ subst: .Subst
 ┃  ┃ constraint:
 ┃  ┃     KV2_z:Int ==Int 0
-┃  ┃     ( notBool ( ( notBool KV0_x:Int ==Int 0 ) andBool maxUInt256 /Word KV0_x:Int <Int KV1_y:Int ) )
+┃  ┃     ( KV0_x:Int ==Int 0 orBool KV1_y:Int <=Int maxUInt256 /Word KV0_x:Int )
 ┃  │
 ┃  ├─ 44
 ┃  │   k: JUMPI 99 bool2Word ( KV2_z:Int ==Int 0 ) ~> #pc [ JUMPI ] ~> #execute ~> #return ...
@@ -170,6 +170,9 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                      <callDepth>
                        0
                      </callDepth>
+                     <codeAddr>
+                       #address ( FoundryTest )
+                     </codeAddr>
                      ...
                    </callState> ) )
                  </callStack>
@@ -293,6 +296,9 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                    <callDepth>
                      ( 0 => 1 )
                    </callDepth>
+                   <codeAddr>
+                     ( #address ( FoundryTest ) => 491460923342184218035706888008750043977755113263 )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -574,6 +580,9 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                      <callDepth>
                        0
                      </callDepth>
+                     <codeAddr>
+                       #address ( FoundryTest )
+                     </codeAddr>
                      ...
                    </callState> ) => .List )
                  </callStack>
@@ -697,6 +706,9 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                    <callDepth>
                      ( 1 => 0 )
                    </callDepth>
+                   <codeAddr>
+                     ( 491460923342184218035706888008750043977755113263 => #address ( FoundryTest ) )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -958,6 +970,9 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                      <callDepth>
                        0
                      </callDepth>
+                     <codeAddr>
+                       #address ( FoundryTest )
+                     </codeAddr>
                      ...
                    </callState> ) => .List )
                  </callStack>
@@ -1081,6 +1096,9 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                    <callDepth>
                      ( 1 => 0 )
                    </callDepth>
+                   <codeAddr>
+                     ( 491460923342184218035706888008750043977755113263 => #address ( FoundryTest ) )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -1279,7 +1297,9 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
        andBool ( KV0_x:Int <Int pow256
        andBool ( KV1_y:Int <Int pow256
        andBool ( KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int )
-       andBool ( ( notBool ( KV0_x:Int =/=Int 0 andBool maxUInt256 /Word KV0_x:Int <Int KV1_y:Int ) )
+       andBool ( ( KV0_x:Int ==Int 0
+          orBool ( KV1_y:Int <=Int maxUInt256 /Word KV0_x:Int
+                 ))
                )))))))))))))
       [priority(20), label(BASIC-BLOCK-44-TO-42)]
     
@@ -1343,6 +1363,9 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                      <callDepth>
                        0
                      </callDepth>
+                     <codeAddr>
+                       #address ( FoundryTest )
+                     </codeAddr>
                      ...
                    </callState> ) => .List )
                  </callStack>
@@ -1466,6 +1489,9 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                    <callDepth>
                      ( 1 => 0 )
                    </callDepth>
+                   <codeAddr>
+                     ( 491460923342184218035706888008750043977755113263 => #address ( FoundryTest ) )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>

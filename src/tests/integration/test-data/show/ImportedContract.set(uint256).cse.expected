@@ -129,6 +129,9 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.SET(UINT256):0
                    <static>
                      false
                    </static>
+                   <codeAddr>
+                     C_IMPORTEDCONTRACT_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -254,9 +257,15 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.SET(UINT256):0
           C_IMPORTEDCONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
        andBool ( 3 <=Int #lookup ( C_IMPORTEDCONTRACT_STORAGE:Map , 0 )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IMPORTEDCONTRACT_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IMPORTEDCONTRACT_ID:Int <=Int 0
+          orBool ( 10 <Int C_IMPORTEDCONTRACT_ID:Int
+                 ))
                ))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-8-TO-6)]
     
@@ -311,6 +320,9 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.SET(UINT256):0
                    <static>
                      false
                    </static>
+                   <codeAddr>
+                     C_IMPORTEDCONTRACT_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -436,9 +448,15 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.SET(UINT256):0
           C_IMPORTEDCONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
        andBool ( #lookup ( C_IMPORTEDCONTRACT_STORAGE:Map , 0 ) <Int 3
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IMPORTEDCONTRACT_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IMPORTEDCONTRACT_ID:Int <=Int 0
+          orBool ( 10 <Int C_IMPORTEDCONTRACT_ID:Int
+                 ))
                ))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-9-TO-7)]
 
