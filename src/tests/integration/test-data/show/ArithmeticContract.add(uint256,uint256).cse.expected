@@ -126,6 +126,9 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD(UINT256,UINT256):0
                    <callGas>
                      0
                    </callGas>
+                   <codeAddr>
+                     C_ARITHMETICCONTRACT_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -250,9 +253,15 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD(UINT256,UINT256):0
           C_ARITHMETICCONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
        andBool ( KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ARITHMETICCONTRACT_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_ARITHMETICCONTRACT_ID:Int <=Int 0
+          orBool ( 10 <Int C_ARITHMETICCONTRACT_ID:Int
+                 ))
                ))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-8-TO-6)]
     
@@ -304,6 +313,9 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD(UINT256,UINT256):0
                    <callGas>
                      0
                    </callGas>
+                   <codeAddr>
+                     C_ARITHMETICCONTRACT_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -428,9 +440,15 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD(UINT256,UINT256):0
           C_ARITHMETICCONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
        andBool ( ( maxUInt256 -Int KV1_y:Int ) <Int KV0_x:Int
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ARITHMETICCONTRACT_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_ARITHMETICCONTRACT_ID:Int <=Int 0
+          orBool ( 10 <Int C_ARITHMETICCONTRACT_ID:Int
+                 ))
                ))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-9-TO-7)]
 
