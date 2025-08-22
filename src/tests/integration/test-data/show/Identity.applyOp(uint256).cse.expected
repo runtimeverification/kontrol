@@ -1342,6 +1342,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callGas>
                      0
                    </callGas>
+                   <codeAddr>
+                     C_IDENTITY_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -1463,9 +1466,15 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
                )))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-1-TO-3)]
     
@@ -1517,6 +1526,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      CALLDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_IDENTITY_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -1659,9 +1671,15 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
        andBool ( ( notBool ( CALLDEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
        andBool ( ( notBool ( ACTIVE_CELL:Bool andBool ( CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int andBool NEWCALLER_CELL:Account =/=K C_IDENTITY_ID:Int ) ) )
                )))))))))))))))))))))))))
@@ -1717,6 +1735,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_IDENTITY_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -1864,9 +1885,15 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
                ))))))))))))))))))))))))))))
        ensures NEWCALLER_CELL:Account ~> .K =/=K C_IDENTITY_ID:Int ~> .K
       [priority(20), label(BASIC-BLOCK-7-TO-13)]
@@ -1921,6 +1948,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_IDENTITY_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -2068,9 +2098,15 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
                ))))))))))))))))))))))))))))
        ensures NEWCALLER_CELL:Account ~> .K =/=K C_IDENTITY_ID:Int ~> .K
       [priority(20), label(BASIC-BLOCK-14-TO-25)]
@@ -2125,6 +2161,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_IDENTITY_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -2272,9 +2311,15 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
                ))))))))))))))))))))))))))))
        ensures NEWCALLER_CELL:Account ~> .K =/=K C_IDENTITY_ID:Int ~> .K
       [priority(20), label(BASIC-BLOCK-26-TO-44)]
@@ -2329,6 +2374,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_IDENTITY_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -2476,9 +2524,15 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
                ))))))))))))))))))))))))))))
        ensures NEWCALLER_CELL:Account ~> .K =/=K C_IDENTITY_ID:Int ~> .K
       [priority(20), label(BASIC-BLOCK-45-TO-75)]
@@ -2531,6 +2585,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      DEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_IDENTITY_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -2684,9 +2741,15 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
        andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
                ))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-56-TO-91)]
@@ -2741,6 +2804,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_IDENTITY_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -2895,9 +2961,15 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
                ))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-66-TO-106)]
     
@@ -2951,6 +3023,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_IDENTITY_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -3104,9 +3179,15 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
                )))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-70-TO-113)]
     
@@ -3160,6 +3241,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_IDENTITY_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -3312,9 +3396,15 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
                ))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-72-TO-116)]
     
@@ -3368,6 +3458,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_IDENTITY_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -3520,9 +3613,15 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
                ))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-73-TO-117)]
     
@@ -3576,6 +3675,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_IDENTITY_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -3723,9 +3825,15 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
                ))))))))))))))))))))))))))))
        ensures NEWCALLER_CELL:Account ~> .K =/=K C_IDENTITY_ID:Int ~> .K
       [priority(20), label(BASIC-BLOCK-76-TO-123)]
@@ -3778,6 +3886,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      DEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_IDENTITY_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -3934,9 +4045,15 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
        andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
                )))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-138-TO-89)]
@@ -3989,6 +4106,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      DEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_IDENTITY_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -4141,9 +4261,15 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
        andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
                )))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-139-TO-90)]
@@ -4202,6 +4328,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      CALLDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     #address ( FoundryConsole )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -4343,8 +4472,12 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           #address ( FoundryConsole )
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
        andBool ( ( notBool ( CALLDEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
        andBool ( ( notBool ( ACTIVE_CELL:Bool andBool ( CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int andBool NEWCALLER_CELL:Account =/=K #address ( FoundryConsole ) ) ) )
                )))))))))))))))))))))))
@@ -4404,6 +4537,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      CALLDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     #address ( FoundryConsole )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -4544,9 +4680,13 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           #address ( FoundryConsole )
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
        andBool ( ( (chop ( lengthBytes ( OUTPUT_CELL:Bytes ) )) s<Word (32) ) =/=Int 0
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
        andBool ( ( notBool ( CALLDEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
        andBool ( ( notBool ( ACTIVE_CELL:Bool andBool ( CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int andBool NEWCALLER_CELL:Account =/=K #address ( FoundryConsole ) ) ) )
                )))))))))))))))))))))))
@@ -4602,6 +4742,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_IDENTITY_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -4759,9 +4902,15 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
                )))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-142-TO-104)]
     
@@ -4815,6 +4964,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_IDENTITY_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -4968,9 +5120,15 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
                )))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-143-TO-105)]
     
@@ -5024,6 +5182,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_IDENTITY_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -5180,9 +5341,15 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
                ))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-144-TO-109)]
     
@@ -5236,6 +5403,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_IDENTITY_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -5388,9 +5558,15 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
                ))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-145-TO-110)]
     
@@ -5444,6 +5620,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_IDENTITY_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -5600,9 +5779,15 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
                ))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-146-TO-111)]
     
@@ -5656,6 +5841,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_IDENTITY_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -5808,9 +5996,15 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
                ))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-147-TO-112)]
     
@@ -5862,6 +6056,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      DEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_IDENTITY_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -6017,9 +6214,15 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
        andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
                ))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-152-TO-87)]
@@ -6072,6 +6275,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      DEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_IDENTITY_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -6223,9 +6429,15 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
        andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
                ))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-153-TO-88)]
@@ -6280,6 +6492,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_IDENTITY_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -6436,9 +6651,15 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
                ))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-154-TO-99)]
     
@@ -6492,6 +6713,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_IDENTITY_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -6644,9 +6868,15 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
                ))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-155-TO-100)]
     
@@ -6700,6 +6930,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_IDENTITY_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -6856,9 +7089,15 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
                ))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-156-TO-102)]
     
@@ -6912,6 +7151,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_IDENTITY_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -7064,9 +7306,15 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
                ))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-157-TO-103)]
     
@@ -7118,6 +7366,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      DEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_IDENTITY_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -7272,9 +7523,15 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
        andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
                )))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-158-TO-80)]
@@ -7327,6 +7584,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      DEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_IDENTITY_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -7477,9 +7737,15 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
        andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
                )))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-159-TO-81)]
@@ -7532,6 +7798,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      DEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_IDENTITY_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -7686,9 +7955,15 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
        andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
                )))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-160-TO-84)]
@@ -7741,6 +8016,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      DEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_IDENTITY_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -7891,9 +8169,15 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
        andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
                )))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-161-TO-85)]
@@ -7948,6 +8232,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      DEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     ( C_IDENTITY_ID:Int => #address ( FoundryConsole ) )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -8102,9 +8389,15 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
        andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
                )))))))))))))))))))))))))))))))
        ensures NCL:Int =/=Int #address ( FoundryConsole )
@@ -8160,6 +8453,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      DEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     ( C_IDENTITY_ID:Int => #address ( FoundryConsole ) )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -8314,9 +8610,15 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
        andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
                )))))))))))))))))))))))))))))))
        ensures NCL:Int =/=Int #address ( FoundryConsole )
@@ -8373,6 +8675,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      DEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     ( C_IDENTITY_ID:Int => #address ( FoundryConsole ) )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -8527,9 +8832,15 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
        andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
                )))))))))))))))))))))))))))))))
        ensures NCL:Int =/=Int #address ( FoundryConsole )
@@ -8586,6 +8897,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      DEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     ( C_IDENTITY_ID:Int => #address ( FoundryConsole ) )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -8740,9 +9054,15 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
        andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
                )))))))))))))))))))))))))))))))
        ensures NCL:Int =/=Int #address ( FoundryConsole )
@@ -8799,6 +9119,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      DEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     ( C_IDENTITY_ID:Int => #address ( FoundryConsole ) )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -8954,9 +9277,15 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
        andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
                ))))))))))))))))))))))))))))))))
        ensures NCL:Int =/=Int #address ( FoundryConsole )
@@ -9021,6 +9350,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      CALLDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_IDENTITY_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -9167,9 +9499,15 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
        andBool ( ( notBool ( CALLDEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
        andBool ( ( notBool ( ( notBool <acctID>
           #address ( FoundryConsole )
@@ -9234,6 +9572,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      CALLDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_IDENTITY_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -9380,9 +9721,15 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
        andBool ( ( notBool ( CALLDEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
        andBool ( ( notBool ( ( notBool <acctID>
           #address ( FoundryConsole )
@@ -9444,6 +9791,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     ( C_IDENTITY_ID:Int => #address ( FoundryConsole ) )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -9600,9 +9950,15 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
                ))))))))))))))))))))))))))))))))
        ensures NCL:Int =/=Int #address ( FoundryConsole )
       [priority(20), label(BASIC-BLOCK-134-TO-98)]
@@ -9660,6 +10016,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     ( C_IDENTITY_ID:Int => #address ( FoundryConsole ) )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -9816,9 +10175,15 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
                ))))))))))))))))))))))))))))))))
        ensures NCL:Int =/=Int #address ( FoundryConsole )
       [priority(20), label(BASIC-BLOCK-136-TO-101)]
