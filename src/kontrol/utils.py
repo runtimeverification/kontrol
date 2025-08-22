@@ -263,7 +263,7 @@ break-on-calls             = false
 break-on-storage           = false
 break-on-basic-blocks      = false
 break-on-cheatcodes        = false
-run-constructor            = false
+run-constructor            = true
 no-stack-checks            = true
 
 [show.default]
