@@ -20,7 +20,7 @@ from pyk.kast.manip import flatten_label, free_vars, set_cell
 from pyk.kast.prelude.bytes import bytesToken
 from pyk.kast.prelude.collections import list_empty, map_empty, map_item, set_empty
 from pyk.kast.prelude.k import GENERATED_TOP_CELL
-from pyk.kast.prelude.kbool import FALSE, TRUE, boolToken, notBool
+from pyk.kast.prelude.kbool import FALSE, boolToken, notBool
 from pyk.kast.prelude.kint import eqInt, intToken, leInt, ltInt
 from pyk.kast.prelude.ml import mlEqualsFalse, mlEqualsTrue
 from pyk.kast.prelude.utils import token
@@ -35,7 +35,7 @@ from pyk.utils import hash_str, run_process_2, unique
 from rich.progress import Progress, SpinnerColumn, TaskID, TextColumn, TimeElapsedColumn
 
 from .foundry import Foundry, KontrolSemantics, foundry_to_xml
-from .options import ConfigType, TraceOptions
+from .options import ConfigType
 from .solc_to_k import Contract, decode_kinner_output
 from .utils import console, parse_test_version_tuple, replace_k_words
 
@@ -412,14 +412,6 @@ def _run_cfg_group(
                     ),
                     stack_checks=options.stack_checks,
                     symbolic_caller=options.symbolic_caller,
-                    trace_options=TraceOptions(
-                        {
-                            'active_tracing': options.active_tracing,
-                            'trace_memory': options.trace_memory,
-                            'trace_storage': options.trace_storage,
-                            'trace_wordstack': options.trace_wordstack,
-                        }
-                    ),
                 )
             cut_point_rules = KontrolSemantics.cut_point_rules(
                 options.break_on_jumpi,
@@ -613,7 +605,6 @@ def method_to_apr_proof(
     summary_ids: Iterable[str] = (),
     active_simbolik: bool = False,
     hevm: bool = False,
-    trace_options: TraceOptions | None = None,
 ) -> APRProof:
     setup_proof = None
     setup_proof_is_constructor = False
@@ -639,7 +630,6 @@ def method_to_apr_proof(
         init_accounts=init_accounts,
         active_simbolik=active_simbolik,
         hevm=hevm,
-        trace_options=trace_options,
         config_type=config_type,
     )
 
@@ -687,7 +677,6 @@ def _method_to_initialized_cfg(
     init_accounts: Iterable[KInner] = (),
     active_simbolik: bool = False,
     hevm: bool = False,
-    trace_options: TraceOptions | None = None,
 ) -> tuple[KCFG, int, int, Iterable[int]]:
     _LOGGER.info(f'Initializing KCFG for test: {test.id}')
 
@@ -706,7 +695,6 @@ def _method_to_initialized_cfg(
         symbolic_caller=symbolic_caller,
         init_accounts=init_accounts,
         hevm=hevm,
-        trace_options=trace_options,
     )
 
     for node_id in new_node_ids:
@@ -741,7 +729,6 @@ def _method_to_cfg(
     symbolic_caller: bool,
     init_accounts: Iterable[KInner] = (),
     hevm: bool = False,
-    trace_options: TraceOptions | None = None,
 ) -> tuple[KCFG, list[int], int, int, Iterable[int]]:
     calldata = None
     callvalue = None
@@ -776,7 +763,6 @@ def _method_to_cfg(
         calldata=calldata,
         callvalue=callvalue,
         active_simbolik=active_simbolik,
-        trace_options=trace_options,
         config_type=config_type,
         additional_accounts=external_libs,
         stack_checks=stack_checks,
@@ -956,13 +942,9 @@ def _init_cterm(
     callvalue: KInner | None = None,
     preconditions: Iterable[KInner] | None = None,
     init_accounts: Iterable[KInner] = (),
-    trace_options: TraceOptions | None = None,
 ) -> CTerm:
     schedule = KApply(evm_chain_options.schedule + '_EVM')
     contract_name = contract_name.upper()
-
-    if not trace_options:
-        trace_options = TraceOptions({})
 
     jumpdests = bytesToken(_process_jumpdests(bytecode=program))
     id_cell = KVariable(Foundry.symbolic_contract_id(contract_name), sort=KSort('Int'))
@@ -997,12 +979,6 @@ def _init_cterm(
         'ALLOWEDCALLSLIST_CELL': list_empty(),
         'MOCKCALLS_CELL': KApply('.MockCallCellMap'),
         'MOCKFUNCTIONS_CELL': KApply('.MockFunctionCellMap'),
-        'ACTIVETRACING_CELL': TRUE if trace_options.active_tracing else FALSE,
-        'TRACESTORAGE_CELL': TRUE if trace_options.trace_storage else FALSE,
-        'TRACEWORDSTACK_CELL': TRUE if trace_options.trace_wordstack else FALSE,
-        'TRACEMEMORY_CELL': TRUE if trace_options.trace_memory else FALSE,
-        'RECORDEDTRACE_CELL': FALSE,
-        'TRACEDATA_CELL': KApply('.List'),
     }
 
     storage_constraints: list[KApply] = []
