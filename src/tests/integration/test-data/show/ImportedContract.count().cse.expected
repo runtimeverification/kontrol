@@ -165,26 +165,6 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.COUNT():0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int

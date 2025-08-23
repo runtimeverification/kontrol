@@ -484,26 +484,6 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                .MockFunctionCellMap
              </mockFunctions>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
@@ -874,26 +854,6 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                .MockFunctionCellMap
              </mockFunctions>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( KV2_z:Int =/=Int 0
        andBool ( KV2_z:Int <Int 2
@@ -1264,26 +1224,6 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                .MockFunctionCellMap
              </mockFunctions>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( KV2_z:Int ==Int 0
        andBool ( KV2_z:Int <Int 2
@@ -1657,26 +1597,6 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                .MockFunctionCellMap
              </mockFunctions>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( KV2_z:Int ==Int 0
        andBool ( KV0_x:Int =/=Int 0
