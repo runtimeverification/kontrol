@@ -13,7 +13,6 @@ requires "cheatcodes.md"
 requires "hevm.md"
 requires "hashed-locations.md"
 requires "edsl.md"
-requires "trace.md"
 requires "assert.md"
 requires "lemmas/lemmas.k"
 
@@ -22,7 +21,6 @@ module FOUNDRY
     imports FOUNDRY-CHEAT-CODES
     imports FOUNDRY-ACCOUNTS
     imports HEVM-SUCCESS
-    imports EVM-TRACING
     imports KONTROL-ASSERTIONS
     imports EDSL
     imports LEMMAS
@@ -32,7 +30,6 @@ module FOUNDRY
         <kevm/>
         <stackChecks> true </stackChecks>
         <cheatcodes/>
-        <KEVMTracing/>
       </foundry>
 endmodule
 ```
