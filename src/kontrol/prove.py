@@ -15,7 +15,7 @@ from kevm_pyk.kevm import KEVM, _process_jumpdests
 from kevm_pyk.utils import KDefinition__expand_macros, abstract_cell_vars, run_prover
 from multiprocess.pool import Pool  # type: ignore
 from pyk.cterm import CTerm, CTermSymbolic
-from pyk.kast.inner import KApply, KSequence, KSort, KVariable, Subst
+from pyk.kast.inner import KApply, KSequence, KSort, KToken, KVariable, Subst
 from pyk.kast.manip import flatten_label, free_vars, set_cell
 from pyk.kast.prelude.bytes import bytesToken
 from pyk.kast.prelude.collections import list_empty, map_empty, map_item, set_empty
@@ -31,8 +31,11 @@ from pyk.kore.rpc import KoreClient, kore_server
 from pyk.proof import ProofStatus
 from pyk.proof.proof import Proof
 from pyk.proof.reachability import APRFailureInfo, APRProof
-from pyk.utils import hash_str, run_process_2, unique
+from pyk.utils import hash_str, run_process_2, single, unique
 from rich.progress import Progress, SpinnerColumn, TaskID, TextColumn, TimeElapsedColumn
+
+from natspec.natspec import Natspec
+from natspec.utils import ID, operators
 
 from .foundry import Foundry, KontrolSemantics, foundry_to_xml
 from .options import ConfigType, TraceOptions
@@ -964,6 +967,9 @@ def _init_cterm(
     if not trace_options:
         trace_options = TraceOptions({})
 
+    if type(method) is Contract.Method:
+        natspec_preconditions = _create_precondition_constraints(foundry, storage_fields, method)
+
     jumpdests = bytesToken(_process_jumpdests(bytecode=program))
     id_cell = KVariable(Foundry.symbolic_contract_id(contract_name), sort=KSort('Int'))
     init_subst = {
@@ -1088,6 +1094,10 @@ def _init_cterm(
             init_cterm = init_cterm.add_constraint(mlEqualsTrue(precondition))
     for constraint in storage_constraints:
         init_cterm = init_cterm.add_constraint(constraint)
+
+    if natspec_preconditions is not None:
+        for precondition in natspec_preconditions:
+            init_cterm = init_cterm.add_constraint(mlEqualsTrue(precondition))
 
     non_cheatcode_contract_ids = []
     if not (config_type == ConfigType.TEST_CONFIG or active_simbolik):
@@ -1510,3 +1520,36 @@ def _interpret_proof_failure(
         log = failure_log.print_with_additional_info(status_codes, output_values) + Foundry.help_info()
         for line in log:
             print(replace_k_words(line))
+
+
+def _create_precondition_constraints(
+    foundry: Foundry,
+    storage_fields: tuple[StorageField, ...],
+    method: Contract.Method,
+) -> list[KApply]:
+    precondition_constraints: list[KApply] = []
+
+    if method.preconditions is not None:
+        natspec = Natspec(kdist.get('natspec.llvm'))
+        for p in method.preconditions:
+            kinner = natspec.decode(input=p.precondition)
+            print(kinner)
+            if type(kinner) is KApply:
+                symbol = operators[kinner.label]
+                print(symbol)
+                args: list[KInner] = []
+                for arg in kinner.args:
+
+                    if type(arg) is KToken:
+                        if arg.sort == ID:
+                            print(arg.token)
+                            idx = single([i.idx for i in method.inputs if i.name == arg.token])
+                            print('found var', method.arg_names[idx])
+                            args.append(KVariable(method.arg_names[idx]))
+                        if arg.sort in [KSort('Int'), KSort('Bool')]:
+                            print('found native arg', arg)
+                            args.append(arg)
+                precondition_constraints.append(KApply(symbol, args))
+
+    print(precondition_constraints)
+    return precondition_constraints

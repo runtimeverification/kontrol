@@ -342,12 +342,51 @@ def parse_devdoc(tag: str, devdoc: dict | None) -> dict:
     return natspecs
 
 
+def parse_annotations(
+    devdoc: str | None, method: Contract.Method | Contract.Constructor
+) -> tuple[Precondition, ...] | None:
+    """
+    Parse developer documentation (devdoc) to extract user-provided preconditions.
+
+    Returns a tuple of Precondition objects, each representing a single precondition and a method to which it belongs.
+    """
+
+    if devdoc is None:
+        return None
+
+    preconditions: list[Precondition] = []
+    for precondition in devdoc.split(','):
+        # Trim whitespace and skip if empty
+        precondition = precondition.strip()
+        if not precondition:
+            continue
+
+        # Create a Precondition object and add it to the list
+        new_precondition = Precondition(precondition, method)
+        preconditions.append(new_precondition)
+
+    return tuple(preconditions)
+
+
 class StorageField(NamedTuple):
     label: str
     data_type: str
     slot: int
     offset: int
     linked_interface: str | None
+
+
+@dataclass
+class Precondition:
+    precondition: str
+    method: Contract.Method | Contract.Constructor
+
+    def __init__(self, precondition: str, method: Contract.Method | Contract.Constructor):
+        """
+        Initializes a new instance of the Precondition class.
+        """
+        self.precondition = precondition
+        self.method = method
 
 
 @dataclass
@@ -361,6 +400,7 @@ class Contract:
         contract_storage_digest: str
         payable: bool
         signature: str
+        preconditions: tuple[Precondition, ...] | None
 
         def __init__(
             self,
@@ -476,6 +516,7 @@ class Contract:
         ast: dict | None
         natspec_values: dict | None
         function_calls: tuple[str, ...] | None
+        preconditions: tuple[Precondition, ...] | None
 
         def __init__(
             self,
@@ -506,7 +547,13 @@ class Contract:
             natspec_tags = ['custom:kontrol-array-length-equals', 'custom:kontrol-bytes-length-equals']
             self.natspec_values = {tag.split(':')[1]: parse_devdoc(tag, devdoc) for tag in natspec_tags}
             self.inputs = tuple(inputs_from_abi(abi['inputs'], self.natspec_values))
+            self.preconditions = (
+                parse_annotations(devdoc.get('custom:kontrol-precondition', None), self) if devdoc is not None else None
+            )
             self.function_calls = tuple(function_calls) if function_calls is not None else None
+            if self.preconditions:
+                print('Identified Natspec Preconditions:')
+                print([p.precondition for p in self.preconditions])
 
         @property
         def klabel(self) -> KLabel:
