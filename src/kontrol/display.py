@@ -183,7 +183,6 @@ def foundry_show(
                             KVariable('KEVM_CELL'),
                             KVariable('STACKCHECKS_CELL'),
                             KVariable('CHEATCODES_CELL'),
-                            KVariable('KEVMTRACING_CELL'),
                         ],
                     ),
                     KVariable('GENERATEDCOUNTER_CELL'),
