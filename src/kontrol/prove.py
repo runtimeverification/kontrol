@@ -35,7 +35,7 @@ from pyk.utils import hash_str, run_process_2, single, unique
 from rich.progress import Progress, SpinnerColumn, TaskID, TextColumn, TimeElapsedColumn
 
 from natspec.natspec import Natspec
-from natspec.utils import ID, operators
+from natspec.utils import ID, NATSPEC_TO_K_OPERATORS
 
 from .foundry import Foundry, KontrolSemantics, foundry_to_xml
 from .options import ConfigType, TraceOptions
@@ -968,7 +968,7 @@ def _init_cterm(
         trace_options = TraceOptions({})
 
     if type(method) is Contract.Method:
-        natspec_preconditions = _create_precondition_constraints(foundry, storage_fields, method)
+        natspec_preconditions = _create_precondition_constraints(method)
 
     jumpdests = bytesToken(_process_jumpdests(bytecode=program))
     id_cell = KVariable(Foundry.symbolic_contract_id(contract_name), sort=KSort('Int'))
@@ -1095,9 +1095,8 @@ def _init_cterm(
     for constraint in storage_constraints:
         init_cterm = init_cterm.add_constraint(constraint)
 
-    if natspec_preconditions is not None:
-        for precondition in natspec_preconditions:
-            init_cterm = init_cterm.add_constraint(mlEqualsTrue(precondition))
+    for precondition in natspec_preconditions:
+        init_cterm = init_cterm.add_constraint(mlEqualsTrue(precondition))
 
     non_cheatcode_contract_ids = []
     if not (config_type == ConfigType.TEST_CONFIG or active_simbolik):
@@ -1523,8 +1522,6 @@ def _interpret_proof_failure(
 
 
 def _create_precondition_constraints(
-    foundry: Foundry,
-    storage_fields: tuple[StorageField, ...],
     method: Contract.Method,
 ) -> list[KApply]:
     precondition_constraints: list[KApply] = []
@@ -1533,23 +1530,28 @@ def _create_precondition_constraints(
         natspec = Natspec(kdist.get('natspec.llvm'))
         for p in method.preconditions:
             kinner = natspec.decode(input=p.precondition)
-            print(kinner)
             if type(kinner) is KApply:
-                symbol = operators[kinner.label]
-                print(symbol)
-                args: list[KInner] = []
-                for arg in kinner.args:
+                kontrol_precondition = _kontrol_kast_from_natspec(kinner, method)
+                precondition_constraints.append(kontrol_precondition)
 
-                    if type(arg) is KToken:
-                        if arg.sort == ID:
-                            print(arg.token)
-                            idx = single([i.idx for i in method.inputs if i.name == arg.token])
-                            print('found var', method.arg_names[idx])
-                            args.append(KVariable(method.arg_names[idx]))
-                        if arg.sort in [KSort('Int'), KSort('Bool')]:
-                            print('found native arg', arg)
-                            args.append(arg)
-                precondition_constraints.append(KApply(symbol, args))
-
-    print(precondition_constraints)
     return precondition_constraints
+
+
+def _kontrol_kast_from_natspec(term: KApply, method: Contract.Method) -> KApply:
+    """Convert a KApply representing a Precondition defined using the Natspec-Grammar a Kontrol KApply.
+
+    Replace symbol sorts and Id elements with KVariables.
+    """
+    symbol = NATSPEC_TO_K_OPERATORS[term.label]
+    args: list[KInner] = []
+    for arg in term.args:
+        if type(arg) is KApply:
+            args.append(_kontrol_kast_from_natspec(arg, method))
+        if type(arg) is KToken:
+            # TODO: Handle StructField and ArrayAccess
+            if arg.sort == ID:
+                idx = single([i.idx for i in method.inputs if i.name == arg.token])
+                args.append(KVariable(method.arg_names[idx]))
+            elif arg.sort in [KSort('Int'), KSort('Bool')]:
+                args.append(arg)
+    return KApply(symbol, args)

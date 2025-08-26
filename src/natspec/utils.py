@@ -32,7 +32,7 @@ GREATER_THAN_OR_EQUAL: Final[KLabel] = KLabel('SolidityGE')
 EQUAL: Final[KLabel] = KLabel('SolidityEq')
 NOT_EQUAL: Final[KLabel] = KLabel('SolidityNeq')
 
-operators: Final[dict[KLabel, KLabel]] = {
+NATSPEC_TO_K_OPERATORS: Final[dict[KLabel, KLabel]] = {
     NEGATION: KLabel('notBool_'),
     CONJUNCTION: KLabel('_andBool_'),
     DISJUNCTION: KLabel('_orBool_'),
