@@ -19,6 +19,9 @@ dependencies = [
 name = "Runtime Verification, Inc."
 email = "contact@runtimeverification.com"
 
+[tool.hatch.build.targets.wheel]
+packages = ["src/kontrol", "src/natspec"]
+
 [project.scripts]
 kontrol = "kontrol.__main__:main"
 kontrol-kdist = "pyk.kdist.__main__:main"

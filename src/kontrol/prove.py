@@ -949,6 +949,7 @@ def _init_cterm(
     schedule = KApply(evm_chain_options.schedule + '_EVM')
     contract_name = contract_name.upper()
 
+    natspec_preconditions: list[KApply] = []
     if type(method) is Contract.Method:
         natspec_preconditions = _create_precondition_constraints(method)
 

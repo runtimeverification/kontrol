@@ -145,7 +145,6 @@ jobs:
         run: |
             docker exec -u github-user kontrol-ci-integration-${GITHUB_SHA} /bin/bash -c 'CXX=clang++-14 uv run kdist --verbose build -j`nproc` kontrol.*'
             docker exec -u github-user kontrol-ci-integration-${GITHUB_SHA} /bin/bash -c 'CXX=clang++-14 uv run kdist --verbose build -j`nproc` natspec.llvm'
-
       - name: 'Run end-to-end tests'
         run: |
           TEST_ARGS='--numprocesses=6 -vv --force-sequential -k "test_kontrol_end_to_end"'
