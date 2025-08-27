@@ -1073,6 +1073,7 @@ def _init_cterm(
         init_cterm = init_cterm.add_constraint(constraint)
 
     for precondition in natspec_preconditions:
+        _LOGGER.info('Adding NatSpec Precondition: ', foundry.kevm.pretty_print(mlEqualsTrue(precondition)))
         init_cterm = init_cterm.add_constraint(mlEqualsTrue(precondition))
 
     non_cheatcode_contract_ids = []

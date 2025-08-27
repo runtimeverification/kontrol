@@ -551,9 +551,6 @@ class Contract:
                 parse_annotations(devdoc.get('custom:kontrol-precondition', None), self) if devdoc is not None else None
             )
             self.function_calls = tuple(function_calls) if function_calls is not None else None
-            if self.preconditions:
-                print('Identified Natspec Preconditions:')
-                print([p.precondition for p in self.preconditions])
 
         @property
         def klabel(self) -> KLabel:
