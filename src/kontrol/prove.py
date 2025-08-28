@@ -15,7 +15,7 @@ from kevm_pyk.kevm import KEVM, _process_jumpdests
 from kevm_pyk.utils import KDefinition__expand_macros, abstract_cell_vars, run_prover
 from multiprocess.pool import Pool  # type: ignore
 from pyk.cterm import CTerm, CTermSymbolic
-from pyk.kast.inner import KApply, KSequence, KSort, KVariable, Subst
+from pyk.kast.inner import KApply, KSequence, KSort, KToken, KVariable, Subst
 from pyk.kast.manip import flatten_label, free_vars, set_cell
 from pyk.kast.prelude.bytes import bytesToken
 from pyk.kast.prelude.collections import list_empty, map_empty, map_item, set_empty
@@ -33,6 +33,9 @@ from pyk.proof.proof import Proof
 from pyk.proof.reachability import APRFailureInfo, APRProof
 from pyk.utils import hash_str, run_process_2, unique
 from rich.progress import Progress, SpinnerColumn, TaskID, TextColumn, TimeElapsedColumn
+
+from natspec.natspec import Natspec
+from natspec.utils import GLOBAL_VARIABLES_TO_CELL_NAMES, HEX_LITERAL, ID, NATSPEC_TO_K_OPERATORS
 
 from .foundry import Foundry, KontrolSemantics, foundry_to_xml
 from .options import ConfigType
@@ -1065,6 +1068,13 @@ def _init_cterm(
     for constraint in storage_constraints:
         init_cterm = init_cterm.add_constraint(constraint)
 
+    if type(method) is Contract.Method:
+        natspec_preconditions = _create_precondition_constraints(method, init_cterm)
+
+        for precondition in natspec_preconditions:
+            _LOGGER.info(f'Adding NatSpec precondition: {foundry.kevm.pretty_print(mlEqualsTrue(precondition))}')
+            init_cterm = init_cterm.add_constraint(mlEqualsTrue(precondition))
+
     non_cheatcode_contract_ids = []
     if not (config_type == ConfigType.TEST_CONFIG or active_simbolik):
         non_cheatcode_contract_ids = [Foundry.symbolic_contract_id(contract_name), 'CALLER_ID', 'ORIGIN_ID']
@@ -1486,3 +1496,59 @@ def _interpret_proof_failure(
         log = failure_log.print_with_additional_info(status_codes, output_values) + Foundry.help_info()
         for line in log:
             print(replace_k_words(line))
+
+
+def _create_precondition_constraints(method: Contract.Method, init_cterm: CTerm) -> list[KApply]:
+    precondition_constraints: list[KApply] = []
+
+    if method.preconditions is not None:
+        natspec = Natspec(kdist.get('natspec.llvm'))
+        for p in method.preconditions:
+            kinner = natspec.decode(input=p.precondition)
+            if type(kinner) is KApply:
+                kontrol_precondition = _kontrol_kast_from_natspec(kinner, method, init_cterm)
+                precondition_constraints.append(kontrol_precondition)
+
+    return precondition_constraints
+
+
+def _kontrol_kast_from_natspec(term: KApply, method: Contract.Method, init_cterm: CTerm) -> KApply:
+    """Convert a KApply representing a Precondition defined using the Natspec-Grammar a Kontrol KApply.
+
+    Replace symbol sorts and Id elements with KVariables.
+    """
+    symbol = NATSPEC_TO_K_OPERATORS[term.label]
+    args: list[KInner] = []
+    for arg in term.args:
+        if type(arg) is KApply:
+            # Check for predefined `block` or `msg` value.
+            global_variable = get_global_variable(arg, init_cterm)
+            if global_variable:
+                args.append(global_variable)
+            else:
+                args.append(_kontrol_kast_from_natspec(arg, method, init_cterm))
+        if type(arg) is KToken:
+            if arg.sort == ID:
+                # If it's an ID token, ensure it's either a function parameter or a storage variable
+                function_arg = method.find_arg(arg.token)
+                if function_arg:
+                    args.append(KVariable(function_arg))
+                    continue
+                # TODO: For storage address:
+                #  - identify storage slot
+                #  - identify contract address
+                _LOGGER.warning(f'NatSpec precondition: Unknown Id sort element: {arg.token}')
+            elif arg.sort == HEX_LITERAL:
+                args.append(token(int(arg.token, 16)))
+            elif arg.sort in [KSort('Int'), KSort('Bool')]:
+                args.append(arg)
+            _LOGGER.warning(f'NatSpec precondition: unknown token: {arg.token}')
+    return KApply(symbol, args)
+
+
+def get_global_variable(term: KApply, init_cterm: CTerm) -> KInner | None:
+    """Checks if a KAst term is a Solidity global variable and return the cell value from init_cterm if so."""
+    cell_name = GLOBAL_VARIABLES_TO_CELL_NAMES.get(term)
+    if cell_name is None:
+        return None
+    return init_cterm.cell(cell_name)
