@@ -447,7 +447,7 @@ wheels = [
 
 [[package]]
 name = "eth-utils"
-version = "5.3.0"
+version = "5.3.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "cytoolz", marker = "implementation_name == 'cpython'" },
@@ -456,9 +456,9 @@ dependencies = [
     { name = "pydantic" },
     { name = "toolz", marker = "implementation_name == 'pypy'" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/0d/49/bee95f16d2ef068097afeeffbd6c67738107001ee57ad7bcdd4fc4d3c6a7/eth_utils-5.3.0.tar.gz", hash = "sha256:1f096867ac6be895f456fa3acb26e9573ae66e753abad9208f316d24d6178156", size = 123753, upload-time = "2025-04-14T19:35:56.431Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/e6/e1/ee3a8728227c3558853e63ff35bd4c449abdf5022a19601369400deacd39/eth_utils-5.3.1.tar.gz", hash = "sha256:c94e2d2abd024a9a42023b4ddc1c645814ff3d6a737b33d5cfd890ebf159c2d1", size = 123506, upload-time = "2025-08-27T16:37:17.378Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/c4/c6/0417a92e6a3fc9b85f5a8380d9f9d43b69ba836a90e45f79f9ae74d41e53/eth_utils-5.3.0-py3-none-any.whl", hash = "sha256:ac184883ab299d923428bbe25dae5e356979a3993e0ef695a864db0a20bc262d", size = 102531, upload-time = "2025-04-14T19:35:55.176Z" },
+    { url = "https://files.pythonhosted.org/packages/bf/4d/257cdc01ada430b8e84b9f2385c2553f33218f5b47da9adf0a616308d4b7/eth_utils-5.3.1-py3-none-any.whl", hash = "sha256:1f5476d8f29588d25b8ae4987e1ffdfae6d4c09026e476c4aad13b32dda3ead0", size = 102529, upload-time = "2025-08-27T16:37:15.449Z" },
 ]
 
 [[package]]
@@ -604,16 +604,16 @@ wheels = [
 
 [[package]]
 name = "hypothesis"
-version = "6.138.4"
+version = "6.138.7"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "attrs" },
     { name = "exceptiongroup", marker = "python_full_version < '3.11'" },
     { name = "sortedcontainers" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/ff/bb/63df72a1ef2b9acb04f21a74e84484300ef075c79cda922c53bb4b89bbb5/hypothesis-6.138.4.tar.gz", hash = "sha256:276a8fe109247b94588dc8a69cbe374a9debbe040f3e4893f43635b1147c0dc1", size = 463343, upload-time = "2025-08-27T05:26:51.574Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/26/ca/c5c9e8bade4b09c9f4e61b6d9d6877e5a25c6d1177cffea41572d74728cf/hypothesis-6.138.7.tar.gz", hash = "sha256:e3adc2df34d8e5d5a1f2b3aff399327544525137acfecbac3b0343c189e52126", size = 463466, upload-time = "2025-08-28T10:34:00.081Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/16/4d/fdf915a577b082baf3c3722cbbb96f2898df35fcf15588ddc977da55de60/hypothesis-6.138.4-py3-none-any.whl", hash = "sha256:b53944dd41f4c9f18f3b9846004ba64b84fdfa716815e6a971b0b568863aa18a", size = 530247, upload-time = "2025-08-27T05:26:47.798Z" },
+    { url = "https://files.pythonhosted.org/packages/91/50/3a4320c24b95ead76a1970f9cc568e3ec3e1dd065951f6a900e2b8066ff7/hypothesis-6.138.7-py3-none-any.whl", hash = "sha256:ec96ad34a50fa638491b5c08a37344db57765a9d7cdc863a38aadf27d52c317c", size = 530400, upload-time = "2025-08-28T10:33:56.315Z" },
 ]
 
 [[package]]
