@@ -43,7 +43,6 @@ class Natspec(KPrint):
             extra_unparsing_modules=extra_unparsing_modules,
             patch_symbol_table=patch_symbol_table,
         )
-        print(definition_dir)
         self._parser_executable = definition_dir / 'parser_PGM'
 
     def _run_parser(self, input: str) -> Pattern:

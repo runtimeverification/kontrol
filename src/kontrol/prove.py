@@ -1507,7 +1507,6 @@ def _create_precondition_constraints(method: Contract.Method, init_cterm: CTerm)
             kinner = natspec.decode(input=p.precondition)
             if type(kinner) is KApply:
                 kontrol_precondition = _kontrol_kast_from_natspec(kinner, method, init_cterm)
-                print(kontrol_precondition)
                 precondition_constraints.append(kontrol_precondition)
 
     return precondition_constraints
