@@ -1528,7 +1528,6 @@ def _kontrol_kast_from_natspec(term: KApply, method: Contract.Method, init_cterm
             else:
                 args.append(_kontrol_kast_from_natspec(arg, method, init_cterm))
         if type(arg) is KToken:
-            # TODO: Handle StructField and ArrayAccess
             if arg.sort == ID:
                 # If it's an ID token, ensure it's either a function parameter or a storage variable
                 function_arg = method.find_arg(arg.token)
@@ -1548,6 +1547,7 @@ def _kontrol_kast_from_natspec(term: KApply, method: Contract.Method, init_cterm
 
 
 def get_global_variable(term: KApply, init_cterm: CTerm) -> KInner | None:
+    """Checks if a KAst term is a Solidity global variable and return the cell value from init_cterm if so."""
     cell_name = GLOBAL_VARIABLES_TO_CELL_NAMES.get(term)
     if cell_name is None:
         return None
