@@ -4,10 +4,7 @@ Solidity Natspec Grammar
 
  TODO:
  ----
- 1. add support for nested access.(i.e. `x[1][2]`, `keys[1].value`)
- 2. `ArrayAccess` should also accept vars as indexes. (i.e.`x[a]` )
- 3. add support for Bytes sort
- 4. add support for bitwise operators
+ 1. add support for bitwise operators
 
 ```k
 module NATSPEC-SYNTAX
@@ -15,29 +12,47 @@ module NATSPEC-SYNTAX
     imports BOOL-SYNTAX
     imports ID-SYNTAX
 
-    syntax StructField ::= Id "." Id [symbol(SolidityStructAccess)]
-    syntax ArrayAccess ::= Id "[" Int "]" [symbol(SolidityArrayAccess)]
-    syntax SolidityId ::= Id | StructField | ArrayAccess
+    // Literals
+    syntax HexLiteral ::= r"0x[0-9a-fA-F]+" [token, symbol(SolidityHexLiteral)]
+ // ---------------------------------------------------------------------------
 
-    syntax Exp ::= Int | Bool | SolidityId
-                 | "(" Exp ")"  [bracket]
-                 > "!" Exp      [symbol(SolidityNegation)]
+    syntax Access ::= Id
+                    | Access "[" Exp "]" [symbol(SolidityIndexAccess)]
+                    | Access "." Id      [symbol(SolidityFieldAccess)]
+ // ------------------------------------------------------------------
+
+    syntax Exp ::= Int | Bool | HexLiteral | Access
+                 | "(" Exp ")"                   [bracket]
+                 // Unary operators (high precedence)
+                 > "!" Exp                       [symbol(SolidityNegation)]
+                 // Power (right associative)
+                 > right:
+                   Exp "**" Exp                  [symbol(SolidityPower)]
+                 // Multiplicative
                  > left:
-                   Exp "*" Exp  [symbol(SolidityMultiplication)]
-                 | Exp "/" Exp  [symbol(SolidityDivision)]
+                   Exp "*" Exp                   [symbol(SolidityMultiplication)]
+                 | Exp "/" Exp                   [symbol(SolidityDivision)]
+                 | Exp "%" Exp                   [symbol(SolidityModulo)]
+                 // Additive
                  > left:
-                   Exp "+" Exp  [symbol(SolidityAddition)]
-                 | Exp "-" Exp  [symbol(SoliditySub)]
+                   Exp "+" Exp                   [symbol(SolidityAddition)]
+                 | Exp "-" Exp                   [symbol(SoliditySubtraction)]
+                 // Relational
                  > non-assoc:
-                   Exp "<" Exp  [symbol(SolidityLT)]
-                 | Exp "<=" Exp [symbol(SolidityLE)]
-                 | Exp ">" Exp  [symbol(SolidityGT)]
-                 | Exp ">=" Exp [symbol(SolidityGE)]
-                 | Exp "==" Exp [symbol(SolidityEq)]
-                 | Exp "!=" Exp [symbol(SolidityNeq)]
+                   Exp "<" Exp                   [symbol(SolidityLT)]
+                 | Exp ">" Exp                   [symbol(SolidityGT)]
+                 | Exp "<=" Exp                  [symbol(SolidityLE)]
+                 | Exp ">=" Exp                  [symbol(SolidityGE)]
+                 // Equality
+                 > non-assoc:
+                   Exp "==" Exp                  [symbol(SolidityEq)]
+                 | Exp "!=" Exp                  [symbol(SolidityNeq)]
+                 // Logical AND
                  > left:
-                   Exp "&&" Exp [symbol(SolidityConjunction)]
-                 | Exp "||" Exp [symbol(SolidityDisjunction)]
+                   Exp "&&" Exp                  [symbol(SolidityConjunction)]
+                 // Logical OR
+                 > left:
+                   Exp "||" Exp                  [symbol(SolidityDisjunction)]
 endmodule
 
 module NATSPEC

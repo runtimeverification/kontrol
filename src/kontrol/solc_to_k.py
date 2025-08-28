@@ -615,6 +615,13 @@ class Contract:
                     arg_types.extend([sub_input.type for sub_input in input.flattened()])
             return tuple(arg_types)
 
+        def find_arg(self, name: str) -> str | None:
+            try:
+                idx = single([i.idx for i in self.inputs if i.name == name])
+                return self.arg_names[idx]
+            except ValueError:
+                return None
+
         def up_to_date(self, digest_file: Path) -> bool:
             digest_dict = _read_digest_file(digest_file)
             return digest_dict.get('methods', {}).get(self.qualified_name, {}).get('method', '') == self.digest
