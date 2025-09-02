@@ -958,6 +958,12 @@ class Contract:
     def method_by_sig(self) -> dict[str, Contract.Method]:
         return {method.signature: method for method in self.methods}
 
+    def get_storage_slot_by_name(self, target_name: str) -> tuple[int, int] | tuple[None, None]:
+        for field in self.fields:
+            if field.label == target_name:
+                return (field.slot, field.offset)
+        return (None, None)
+
 
 # Helpers
 

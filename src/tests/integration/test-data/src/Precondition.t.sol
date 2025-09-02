@@ -10,6 +10,12 @@ contract Precondition {
 }
 
 contract PreconditionTest is  Test {
+    uint256 targetValue;
+
+    function setUp() public {
+        targetValue = vm.randomUint();
+    }
+
      /// @custom:kontrol-precondition x <= 7 * 2,
     function testPrecondition(uint256 x) public {
         Precondition p = new Precondition();
@@ -29,5 +35,10 @@ contract PreconditionTest is  Test {
      /// @custom:kontrol-precondition _account == 0xfffff0 || _account == 0xfffff1,
     function testPrecondition_hexLiterals(address _account) public pure {
         assert (_account != address(0xfffffa));
+    }
+
+     /// @custom:kontrol-precondition targetValue == 6,
+    function testPrecondition_storage() public view{
+        assert(targetValue == 6);
     }
 }

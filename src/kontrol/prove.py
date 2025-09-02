@@ -31,7 +31,7 @@ from pyk.kore.rpc import KoreClient, kore_server
 from pyk.proof import ProofStatus
 from pyk.proof.proof import Proof
 from pyk.proof.reachability import APRFailureInfo, APRProof
-from pyk.utils import hash_str, run_process_2, unique
+from pyk.utils import hash_str, run_process_2, single, unique
 from rich.progress import Progress, SpinnerColumn, TaskID, TextColumn, TimeElapsedColumn
 
 from natspec.natspec import Natspec
@@ -815,6 +815,7 @@ def _method_to_cfg(
 
         for final_node in final_states:
             new_init_cterm = _update_cterm_from_node(init_cterm, final_node, config_type, keep_vars)
+            new_init_cterm = add_natspec_preconditions(new_init_cterm, method, contract, foundry)
             new_node = cfg.create_node(new_init_cterm)
             if graft_setup_proof:
                 cfg.create_edge(final_node.id, new_node.id, depth=1)
@@ -824,6 +825,7 @@ def _method_to_cfg(
                 )
             new_node_ids.append(new_node.id)
     else:
+        init_cterm = add_natspec_preconditions(init_cterm, method, contract, foundry)
         cfg = KCFG()
         init_node = cfg.create_node(init_cterm)
         new_node_ids = [init_node.id]
@@ -1067,13 +1069,6 @@ def _init_cterm(
             init_cterm = init_cterm.add_constraint(mlEqualsTrue(precondition))
     for constraint in storage_constraints:
         init_cterm = init_cterm.add_constraint(constraint)
-
-    if type(method) is Contract.Method:
-        natspec_preconditions = _create_precondition_constraints(method, init_cterm)
-
-        for precondition in natspec_preconditions:
-            _LOGGER.info(f'Adding NatSpec precondition: {foundry.kevm.pretty_print(mlEqualsTrue(precondition))}')
-            init_cterm = init_cterm.add_constraint(mlEqualsTrue(precondition))
 
     non_cheatcode_contract_ids = []
     if not (config_type == ConfigType.TEST_CONFIG or active_simbolik):
@@ -1498,7 +1493,19 @@ def _interpret_proof_failure(
             print(replace_k_words(line))
 
 
-def _create_precondition_constraints(method: Contract.Method, init_cterm: CTerm) -> list[KApply]:
+def add_natspec_preconditions(
+    cterm: CTerm, method: Contract.Method | Contract.Constructor, contract: Contract, foundry: Foundry
+) -> CTerm:
+    if type(method) is Contract.Method:
+        natspec_preconditions = _create_precondition_constraints(method, cterm, contract)
+
+        for precondition in natspec_preconditions:
+            _LOGGER.info(f'Adding NatSpec precondition: {foundry.kevm.pretty_print(mlEqualsTrue(precondition))}')
+            cterm = cterm.add_constraint(mlEqualsTrue(precondition))
+    return cterm
+
+
+def _create_precondition_constraints(method: Contract.Method, init_cterm: CTerm, contract: Contract) -> list[KApply]:
     precondition_constraints: list[KApply] = []
 
     if method.preconditions is not None:
@@ -1506,14 +1513,14 @@ def _create_precondition_constraints(method: Contract.Method, init_cterm: CTerm)
         for p in method.preconditions:
             kinner = natspec.decode(input=p.precondition)
             if type(kinner) is KApply:
-                kontrol_precondition = _kontrol_kast_from_natspec(kinner, method, init_cterm)
+                kontrol_precondition = _kontrol_kast_from_natspec(kinner, method, init_cterm, contract)
                 precondition_constraints.append(kontrol_precondition)
 
     return precondition_constraints
 
 
-def _kontrol_kast_from_natspec(term: KApply, method: Contract.Method, init_cterm: CTerm) -> KApply:
-    """Convert a KApply representing a Precondition defined using the Natspec-Grammar a Kontrol KApply.
+def _kontrol_kast_from_natspec(term: KApply, method: Contract.Method, init_cterm: CTerm, contract: Contract) -> KApply:
+    """Convert a KApply representing a Precondition defined using the Natspec-Grammar to a Kontrol KApply.
 
     Replace symbol sorts and Id elements with KVariables.
     """
@@ -1526,22 +1533,33 @@ def _kontrol_kast_from_natspec(term: KApply, method: Contract.Method, init_cterm
             if global_variable:
                 args.append(global_variable)
             else:
-                args.append(_kontrol_kast_from_natspec(arg, method, init_cterm))
+                # TODO: Handle IndexAccess and FieldAccess
+                args.append(_kontrol_kast_from_natspec(arg, method, init_cterm, contract))
         if type(arg) is KToken:
             if arg.sort == ID:
-                # If it's an ID token, ensure it's either a function parameter or a storage variable
+                # If it's an Id token, ensure it's either a function parameter or a storage variable
                 function_arg = method.find_arg(arg.token)
                 if function_arg:
                     args.append(KVariable(function_arg))
                     continue
-                # TODO: For storage address:
-                #  - identify storage slot
-                #  - identify contract address
+                # Identify storage slot and offset
+                (storage_slot, _slot_offset) = contract.get_storage_slot_by_name(arg.token)
+                target_address = init_cterm.cell('ID_CELL')
+                if storage_slot:
+                    storage_map = _get_account_storage_by_address(init_cterm, target_address)
+                    if storage_map is None:
+                        continue
+                    # TODO: Apply the _slot_offset on the Map lookup.
+                    args.append(KEVM.lookup(storage_map, token(storage_slot)))
+                    continue
+
                 _LOGGER.warning(f'NatSpec precondition: Unknown Id sort element: {arg.token}')
             elif arg.sort == HEX_LITERAL:
                 args.append(token(int(arg.token, 16)))
+                continue
             elif arg.sort in [KSort('Int'), KSort('Bool')]:
                 args.append(arg)
+                continue
             _LOGGER.warning(f'NatSpec precondition: unknown token: {arg.token}')
     return KApply(symbol, args)
 
@@ -1552,3 +1570,21 @@ def get_global_variable(term: KApply, init_cterm: CTerm) -> KInner | None:
     if cell_name is None:
         return None
     return init_cterm.cell(cell_name)
+
+
+def _get_account_storage_by_address(cterm: CTerm, target_address: KInner) -> KInner | None:
+    accounts_cell = flatten_label('_AccountCellMap_', cterm.cell('ACCOUNTS_CELL'))
+    for account_wrapped in accounts_cell:
+        assert type(account_wrapped) is KApply
+        acct_id_cell = account_wrapped.terms[0]
+        assert type(acct_id_cell) is KApply and acct_id_cell.label.name == '<acctID>'
+        account_address = single(acct_id_cell.terms)
+        if target_address == account_address:
+            account_cell = account_wrapped.terms[1]
+            assert type(account_cell) is KApply and account_cell.label.name == '<account>'
+            storage_cell = account_cell.terms[3]
+            assert type(storage_cell) is KApply and storage_cell.label.name == '<storage>'
+            return single(storage_cell.terms)
+
+    _LOGGER.warning(f'Account {target_address} not found in the state.')
+    return None
