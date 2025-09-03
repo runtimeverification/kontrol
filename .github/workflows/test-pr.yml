@@ -63,7 +63,6 @@ jobs:
       - name: 'Build Kontrol'
         run: |
             docker exec -u github-user kontrol-ci-profile-${GITHUB_SHA} /bin/bash -c 'CXX=clang++-14 uv run kdist --verbose build -j`nproc` kontrol.*'
-            docker exec -u github-user kontrol-ci-profile-${GITHUB_SHA} /bin/bash -c 'CXX=clang++-14 uv run kdist --verbose build -j`nproc` natspec.llvm'
       - name: 'Run profiling'
         run: |
           PROF_ARGS='--numprocesses=8'
@@ -90,7 +89,6 @@ jobs:
       - name: 'Build Kontrol'
         run: |
             docker exec -u github-user kontrol-ci-integration-${GITHUB_SHA} /bin/bash -c 'CXX=clang++-14 uv run kdist --verbose build -j`nproc` kontrol.*'
-            docker exec -u github-user kontrol-ci-integration-${GITHUB_SHA} /bin/bash -c 'CXX=clang++-14 uv run kdist --verbose build -j`nproc` natspec.llvm'
       - name: 'Run integration tests'
         run: |
           TEST_ARGS='-vv --force-sequential -k "not (test_kontrol_cse or test_foundry_minimize_proof or test_kontrol_end_to_end)" --numprocesses=3'
@@ -117,7 +115,6 @@ jobs:
       - name: 'Build Kontrol'
         run: |
             docker exec -u github-user kontrol-ci-integration-${GITHUB_SHA} /bin/bash -c 'CXX=clang++-14 uv run kdist --verbose build -j`nproc` kontrol.*'
-            docker exec -u github-user kontrol-ci-integration-${GITHUB_SHA} /bin/bash -c 'CXX=clang++-14 uv run kdist --verbose build -j`nproc` natspec.llvm'
       - name: 'Run CSE and Minimize tests'
         run: |
           TEST_ARGS='--numprocesses=5 --force-sequential -vv -k "test_kontrol_cse or test_foundry_minimize_proof"'
@@ -144,7 +141,6 @@ jobs:
       - name: 'Build Kontrol'
         run: |
             docker exec -u github-user kontrol-ci-integration-${GITHUB_SHA} /bin/bash -c 'CXX=clang++-14 uv run kdist --verbose build -j`nproc` kontrol.*'
-            docker exec -u github-user kontrol-ci-integration-${GITHUB_SHA} /bin/bash -c 'CXX=clang++-14 uv run kdist --verbose build -j`nproc` natspec.llvm'
       - name: 'Run end-to-end tests'
         run: |
           TEST_ARGS='--numprocesses=6 -vv --force-sequential -k "test_kontrol_end_to_end"'
