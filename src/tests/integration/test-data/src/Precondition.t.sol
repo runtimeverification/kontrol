@@ -37,8 +37,8 @@ contract PreconditionTest is  Test {
         assert (_account != address(0xfffffa));
     }
 
-     /// @custom:kontrol-precondition targetValue == 6,
+     /// @custom:kontrol-precondition targetValue == 6 ether,
     function testPrecondition_storage() public view{
-        assert(targetValue == 6);
+        assert(targetValue == 6 ether);
     }
 }
