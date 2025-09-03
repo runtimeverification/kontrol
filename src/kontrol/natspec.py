@@ -81,8 +81,6 @@ UNIT_MULTIPLIERS: Final[dict[str, int]] = {
     # Ether units
     'wei': 1,
     'gwei': 10**9,
-    'szabo': 10**12,
-    'finney': 10**15,
     'ether': 10**18,
     # Time units
     'seconds': 1,
@@ -214,18 +212,29 @@ def handle_numerical_literal(node: NumberLiteral) -> KToken | None:
     """Parse Solidity number literal with unit suffixes into a KToken."""
 
     num_str = node.number.replace('_', '').lower()
+    value: int | float
 
     # Parse base number
     # hexadecimal
     if num_str.startswith('0x'):
         value = int(num_str, 16)
+        if node.subdenomination is not None:
+            _LOGGER.warning(
+                f'Hexadecimal values cannot be used with unit denomination. Got {node.number} {node.subdenomination}'
+            )
+            return None
     # scientific notation
     elif 'e' in num_str:
         base, exp = num_str.split('e')
         value = int(float(base) * (10 ** int(exp)))
     # decimal point
     elif '.' in num_str:
-        value = int(float(num_str))
+        value = float(num_str)
+        if node.subdenomination not in ('ether', 'gwei'):
+            _LOGGER.warning(
+                f"Decimal point accepted only with an 'ether' or 'gwei' subdenomination. Got {node.number} {node.subdenomination}"
+            )
+            return None
     else:
         value = int(num_str)
 
@@ -233,7 +242,7 @@ def handle_numerical_literal(node: NumberLiteral) -> KToken | None:
     if node.subdenomination:
         value *= UNIT_MULTIPLIERS.get(node.subdenomination, 1)
 
-    return token(value)
+    return token(int(value))
 
 
 def resolve_global_variable(base_name: str, member_name: str, init_cterm: CTerm) -> KInner | None:
