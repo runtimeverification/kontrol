@@ -232,6 +232,9 @@ module SUMMARY-TEST%CALLABLESTORAGETEST.TEST-STR():0
                <active>
                  false
                </active>
+               <depth>
+                 0
+               </depth>
                <singleCall>
                  false
                </singleCall>
@@ -241,6 +244,9 @@ module SUMMARY-TEST%CALLABLESTORAGETEST.TEST-STR():0
                <isRevertExpected>
                  false
                </isRevertExpected>
+               <expectedDepth>
+                 0
+               </expectedDepth>
                ...
              </expectedRevert>
              <expectedOpcode>
@@ -285,7 +291,10 @@ module SUMMARY-TEST%CALLABLESTORAGETEST.TEST-STR():0
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
                ))))
-       ensures ?_C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ==Int 11
+       ensures ( ?_C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ==Int 11
+       andBool ( ?__DEPTH_CELL:Int <Int 1
+       andBool ( ?__EXPECTEDDEPTH_CELL:Int <Int 1
+               )))
       [priority(20), label(BASIC-BLOCK-1-TO-7)]
 
 endmodule

@@ -302,6 +302,9 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                <active>
                  false
                </active>
+               <depth>
+                 0
+               </depth>
                <singleCall>
                  false
                </singleCall>
@@ -311,6 +314,9 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                <isRevertExpected>
                  false
                </isRevertExpected>
+               <expectedDepth>
+                 0
+               </expectedDepth>
                ...
              </expectedRevert>
              <expectedOpcode>
@@ -592,6 +598,9 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                <active>
                  false
                </active>
+               <depth>
+                 0
+               </depth>
                <singleCall>
                  false
                </singleCall>
@@ -601,6 +610,9 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                <isRevertExpected>
                  false
                </isRevertExpected>
+               <expectedDepth>
+                 0
+               </expectedDepth>
                ...
              </expectedRevert>
              <expectedOpcode>
@@ -650,9 +662,13 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
        andBool ( KV0_x:Int <Int pow256
        andBool ( KV1_y:Int <Int pow256
                )))))))))
-       ensures ( KV1_y:Int <Int pow64
+       ensures ( ?__DEPTH_CELL:Int <Int 1
+       andBool ( ?__DEPTH_CELL0:Int <Int 1
+       andBool ( ?__EXPECTEDDEPTH_CELL:Int <Int 1
+       andBool ( ?__EXPECTEDDEPTH_CELL0:Int <Int 1
+       andBool ( KV1_y:Int <Int pow64
        andBool ( KV1_y:Int <=Int ( maxUInt256 -Int KV0_x:Int )
-               ))
+               ))))))
       [priority(20), label(BASIC-BLOCK-11-TO-13)]
     
     rule [BASIC-BLOCK-1-TO-9]: <foundry>
@@ -903,6 +919,9 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                <active>
                  false
                </active>
+               <depth>
+                 0
+               </depth>
                <singleCall>
                  false
                </singleCall>
@@ -912,6 +931,9 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                <isRevertExpected>
                  false
                </isRevertExpected>
+               <expectedDepth>
+                 0
+               </expectedDepth>
                ...
              </expectedRevert>
              <expectedOpcode>
