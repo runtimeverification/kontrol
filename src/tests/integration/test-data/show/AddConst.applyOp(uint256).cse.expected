@@ -126,6 +126,9 @@ module SUMMARY-SRC%CSE%ADDCONST.APPLYOP(UINT256):0
                    <callGas>
                      0
                    </callGas>
+                   <callDepth>
+                     CALLDEPTH_CELL:Int
+                   </callDepth>
                    <codeAddr>
                      C_ADDCONST_ID:Int
                    </codeAddr>
@@ -182,6 +185,24 @@ module SUMMARY-SRC%CSE%ADDCONST.APPLYOP(UINT256):0
              true
            </stackChecks>
            <cheatcodes>
+             <prank>
+               <active>
+                 false
+               </active>
+               <depth>
+                 0
+               </depth>
+               ...
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 false
+               </isRevertExpected>
+               <expectedDepth>
+                 0
+               </expectedDepth>
+               ...
+             </expectedRevert>
              <expectedOpcode>
                <isOpcodeExpected>
                  false
@@ -211,7 +232,9 @@ module SUMMARY-SRC%CSE%ADDCONST.APPLYOP(UINT256):0
              ...
            </cheatcodes>
          </foundry>
-      requires ( 0 <=Int KV0_x:Int
+      requires ( ( notBool _ACTIVE_CELL:Bool )
+       andBool ( ( notBool _ISREVERTEXPECTED_CELL:Bool )
+       andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int C_ADDCONST_ID:Int
@@ -221,6 +244,8 @@ module SUMMARY-SRC%CSE%ADDCONST.APPLYOP(UINT256):0
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( _DEPTH_CELL:Int <Int CALLDEPTH_CELL:Int
+       andBool ( _EXPECTEDDEPTH_CELL:Int <Int CALLDEPTH_CELL:Int
        andBool ( C_ADDCONST_NONCE:Int <Int maxUInt64
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -243,7 +268,7 @@ module SUMMARY-SRC%CSE%ADDCONST.APPLYOP(UINT256):0
           orBool ( 10 <Int C_ADDCONST_ID:Int
                  ))
        andBool ( KV0_x:Int <=Int ( maxUInt256 -Int #lookup ( C_ADDCONST_STORAGE:Map , 0 ) )
-               ))))))))))))))))))))))))
+               ))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-8-TO-6)]
     
     rule [BASIC-BLOCK-9-TO-7]: <foundry>
@@ -294,6 +319,9 @@ module SUMMARY-SRC%CSE%ADDCONST.APPLYOP(UINT256):0
                    <callGas>
                      0
                    </callGas>
+                   <callDepth>
+                     CALLDEPTH_CELL:Int
+                   </callDepth>
                    <codeAddr>
                      C_ADDCONST_ID:Int
                    </codeAddr>
@@ -350,6 +378,24 @@ module SUMMARY-SRC%CSE%ADDCONST.APPLYOP(UINT256):0
              true
            </stackChecks>
            <cheatcodes>
+             <prank>
+               <active>
+                 false
+               </active>
+               <depth>
+                 0
+               </depth>
+               ...
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 false
+               </isRevertExpected>
+               <expectedDepth>
+                 0
+               </expectedDepth>
+               ...
+             </expectedRevert>
              <expectedOpcode>
                <isOpcodeExpected>
                  false
@@ -379,7 +425,9 @@ module SUMMARY-SRC%CSE%ADDCONST.APPLYOP(UINT256):0
              ...
            </cheatcodes>
          </foundry>
-      requires ( 0 <=Int KV0_x:Int
+      requires ( ( notBool _ACTIVE_CELL:Bool )
+       andBool ( ( notBool _ISREVERTEXPECTED_CELL:Bool )
+       andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int C_ADDCONST_ID:Int
@@ -389,6 +437,8 @@ module SUMMARY-SRC%CSE%ADDCONST.APPLYOP(UINT256):0
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( _DEPTH_CELL:Int <Int CALLDEPTH_CELL:Int
+       andBool ( _EXPECTEDDEPTH_CELL:Int <Int CALLDEPTH_CELL:Int
        andBool ( C_ADDCONST_NONCE:Int <Int maxUInt64
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -411,7 +461,7 @@ module SUMMARY-SRC%CSE%ADDCONST.APPLYOP(UINT256):0
           orBool ( 10 <Int C_ADDCONST_ID:Int
                  ))
        andBool ( ( maxUInt256 -Int #lookup ( C_ADDCONST_STORAGE:Map , 0 ) ) <Int KV0_x:Int
-               ))))))))))))))))))))))))
+               ))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-9-TO-7)]
 
 endmodule

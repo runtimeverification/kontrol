@@ -7,8 +7,8 @@
 │   src: test/nested/SimpleNested.t.sol:7:11
 │   method: test%InterfaceTagTest.setUp()
 │
-│  (1799 steps)
-├─ 8 (terminal)
+│  (2315 steps)
+├─ 10 (terminal)
 │   k: #halt ~> CONTINUATION:K
 │   pc: 194
 │   callDepth: 0
@@ -30,7 +30,7 @@
 module SUMMARY-TEST%INTERFACETAGTEST.TESTINTERFACE():0
     
     
-    rule [BASIC-BLOCK-1-TO-8]: <foundry>
+    rule [BASIC-BLOCK-1-TO-10]: <foundry>
            <kevm>
              <k>
                ( #execute => #halt )
@@ -256,6 +256,9 @@ module SUMMARY-TEST%INTERFACETAGTEST.TESTINTERFACE():0
                <active>
                  false
                </active>
+               <depth>
+                 0
+               </depth>
                <singleCall>
                  false
                </singleCall>
@@ -265,6 +268,9 @@ module SUMMARY-TEST%INTERFACETAGTEST.TESTINTERFACE():0
                <isRevertExpected>
                  false
                </isRevertExpected>
+               <expectedDepth>
+                 0
+               </expectedDepth>
                ...
              </expectedRevert>
              <expectedOpcode>
@@ -309,6 +315,9 @@ module SUMMARY-TEST%INTERFACETAGTEST.TESTINTERFACE():0
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
                ))))
-      [priority(20), label(BASIC-BLOCK-1-TO-8)]
+       ensures ( ?__DEPTH_CELL:Int <Int 1
+       andBool ( ?__EXPECTEDDEPTH_CELL:Int <Int 1
+               ))
+      [priority(20), label(BASIC-BLOCK-1-TO-10)]
 
 endmodule

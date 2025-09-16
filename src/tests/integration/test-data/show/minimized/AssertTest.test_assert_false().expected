@@ -187,6 +187,9 @@ Node 10:
         <active>
           false
         </active>
+        <depth>
+          0
+        </depth>
         <singleCall>
           false
         </singleCall>
@@ -196,6 +199,9 @@ Node 10:
         <isRevertExpected>
           false
         </isRevertExpected>
+        <expectedDepth>
+          0
+        </expectedDepth>
         ...
       </expectedRevert>
       <expectedOpcode>
@@ -408,6 +414,9 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-FALSE():0
                <active>
                  false
                </active>
+               <depth>
+                 0
+               </depth>
                <singleCall>
                  false
                </singleCall>
@@ -417,6 +426,9 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-FALSE():0
                <isRevertExpected>
                  false
                </isRevertExpected>
+               <expectedDepth>
+                 0
+               </expectedDepth>
                ...
              </expectedRevert>
              <expectedOpcode>

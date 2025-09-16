@@ -128,6 +128,9 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
                    <callGas>
                      0
                    </callGas>
+                   <callDepth>
+                     CALLDEPTH_CELL:Int
+                   </callDepth>
                    <codeAddr>
                      C_CALLABLESTORAGECONTRACT_ID:Int
                    </codeAddr>
@@ -185,6 +188,24 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
              true
            </stackChecks>
            <cheatcodes>
+             <prank>
+               <active>
+                 false
+               </active>
+               <depth>
+                 0
+               </depth>
+               ...
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 false
+               </isRevertExpected>
+               <expectedDepth>
+                 0
+               </expectedDepth>
+               ...
+             </expectedRevert>
              <expectedOpcode>
                <isOpcodeExpected>
                  false
@@ -214,17 +235,21 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
              ...
            </cheatcodes>
          </foundry>
-      requires ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ==Int 0
+      requires ( ( notBool _ACTIVE_CELL:Bool )
+       andBool ( ( notBool _ISREVERTEXPECTED_CELL:Bool )
+       andBool ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ==Int 0
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( _DEPTH_CELL:Int <Int CALLDEPTH_CELL:Int
        andBool ( maxUInt5 ==Int lengthBytes ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes )
        andBool ( 0 <=Int C_CALLABLESTORAGECONTRACT_ID:Int
        andBool ( 0 <=Int C_CALLABLESTORAGECONTRACT_BAL:Int
        andBool ( 0 <=Int C_CALLABLESTORAGECONTRACT_NONCE:Int
+       andBool ( _EXPECTEDDEPTH_CELL:Int <Int CALLDEPTH_CELL:Int
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( 0 <=Int C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int
@@ -248,7 +273,7 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
        andBool ( ( C_CALLABLESTORAGECONTRACT_ID:Int <=Int 0
           orBool ( 10 <Int C_CALLABLESTORAGECONTRACT_ID:Int
                  ))
-               ))))))))))))))))))))))))))
+               ))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-8-TO-6)]
     
     rule [BASIC-BLOCK-9-TO-7]: <foundry>
@@ -299,6 +324,9 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
                    <callGas>
                      0
                    </callGas>
+                   <callDepth>
+                     CALLDEPTH_CELL:Int
+                   </callDepth>
                    <codeAddr>
                      C_CALLABLESTORAGECONTRACT_ID:Int
                    </codeAddr>
@@ -356,6 +384,24 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
              true
            </stackChecks>
            <cheatcodes>
+             <prank>
+               <active>
+                 false
+               </active>
+               <depth>
+                 0
+               </depth>
+               ...
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 false
+               </isRevertExpected>
+               <expectedDepth>
+                 0
+               </expectedDepth>
+               ...
+             </expectedRevert>
              <expectedOpcode>
                <isOpcodeExpected>
                  false
@@ -385,17 +431,21 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
              ...
            </cheatcodes>
          </foundry>
-      requires ( 0 <=Int CALLER_ID:Int
+      requires ( ( notBool _ACTIVE_CELL:Bool )
+       andBool ( ( notBool _ISREVERTEXPECTED_CELL:Bool )
+       andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int =/=Int 0
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( _DEPTH_CELL:Int <Int CALLDEPTH_CELL:Int
        andBool ( maxUInt5 ==Int lengthBytes ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes )
        andBool ( 0 <=Int C_CALLABLESTORAGECONTRACT_ID:Int
        andBool ( 0 <=Int C_CALLABLESTORAGECONTRACT_BAL:Int
        andBool ( 0 <=Int C_CALLABLESTORAGECONTRACT_NONCE:Int
+       andBool ( _EXPECTEDDEPTH_CELL:Int <Int CALLDEPTH_CELL:Int
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( 0 <=Int C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int
@@ -419,7 +469,7 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
        andBool ( ( C_CALLABLESTORAGECONTRACT_ID:Int <=Int 0
           orBool ( 10 <Int C_CALLABLESTORAGECONTRACT_ID:Int
                  ))
-               ))))))))))))))))))))))))))
+               ))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-9-TO-7)]
 
 endmodule

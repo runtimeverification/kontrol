@@ -7,7 +7,7 @@
 │   src: test/nested/SimpleNested.t.sol:7:11
 │   method: test%ContractFieldTest.setUp()
 │
-│  (2233 steps)
+│  (2231 steps)
 ├─ 8 (terminal)
 │   k: #halt ~> CONTINUATION:K
 │   pc: 194
@@ -257,6 +257,9 @@ module SUMMARY-TEST%CONTRACTFIELDTEST.TESTESCROWTOKEN():0
                <active>
                  false
                </active>
+               <depth>
+                 0
+               </depth>
                <singleCall>
                  false
                </singleCall>
@@ -266,6 +269,9 @@ module SUMMARY-TEST%CONTRACTFIELDTEST.TESTESCROWTOKEN():0
                <isRevertExpected>
                  false
                </isRevertExpected>
+               <expectedDepth>
+                 0
+               </expectedDepth>
                ...
              </expectedRevert>
              <expectedOpcode>
@@ -309,6 +315,11 @@ module SUMMARY-TEST%CONTRACTFIELDTEST.TESTESCROWTOKEN():0
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+               ))))
+       ensures ( ?__DEPTH_CELL:Int <Int 1
+       andBool ( ?_?__DEPTH_CELL:Int <Int 2
+       andBool ( ?__EXPECTEDDEPTH_CELL:Int <Int 1
+       andBool ( ?_?__EXPECTEDDEPTH_CELL:Int <Int 2
                ))))
       [priority(20), label(BASIC-BLOCK-1-TO-8)]
 
