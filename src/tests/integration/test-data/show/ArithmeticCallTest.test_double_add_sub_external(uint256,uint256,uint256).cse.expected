@@ -7,11 +7,11 @@
 │   src: test/nested/SimpleNested.t.sol:7:11
 │   method: test%ArithmeticCallTest.setUp()
 │
-│  (1077 steps)
-├─ 7
-│   k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-│   pc: 0
-│   callDepth: 1
+│  (1423 steps)
+├─ 7 (split)
+│   k: JUMPI 570 bool2Word ( KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int ) ) ~> #pc [ J ...
+│   pc: 562
+│   callDepth: 2
 │   statusCode: STATUSCODE:StatusCode
 │   src: test/nested/SimpleNested.t.sol:7:11
 │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
@@ -38,10 +38,87 @@
 ┃
 ┣━━┓
 ┃  │
-┃  ├─ 9 (split)
-┃  │   k: #halt ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  │   pc: 128
-┃  │   callDepth: 1
+┃  ├─ 39
+┃  │   k: JUMPI 570 bool2Word ( KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int ) ) ~> #pc [ J ...
+┃  │   pc: 562
+┃  │   callDepth: 2
+┃  │   statusCode: STATUSCODE:StatusCode
+┃  │   method: src%ArithmeticContract.add(uint256,uint256)
+┃  │
+┃  │  (565 steps)
+┃  └─ 20 (leaf, terminal)
+┃      k: #halt ~> CONTINUATION:K
+┃      pc: 1584
+┃      callDepth: 0
+┃      statusCode: EVMC_REVERT
+┃      src: lib/forge-std/lib/ds-test/src/test.sol:48:48
+┃      method: test%ArithmeticCallTest.test_double_add_sub_external(uint256,uint256,uint256)
+┃
+┣━━┓ subst: .Subst
+┃  ┃ constraint:
+┃  ┃     KV2_z:Int <=Int ( KV0_x:Int +Int KV1_y:Int )
+┃  ┃     KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int )
+┃  ┃     ( maxUInt256 -Int KV1_y:Int ) <Int ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int )
+┃  │
+┃  ├─ 47
+┃  │   k: JUMPI 570 bool2Word ( KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int ) ) ~> #pc [ J ...
+┃  │   pc: 562
+┃  │   callDepth: 2
+┃  │   statusCode: STATUSCODE:StatusCode
+┃  │   method: src%ArithmeticContract.add(uint256,uint256)
+┃  │
+┃  │  (1555 steps)
+┃  └─ 29 (leaf, terminal)
+┃      k: #halt ~> CONTINUATION:K
+┃      pc: 1708
+┃      callDepth: 0
+┃      statusCode: EVMC_REVERT
+┃      src: lib/forge-std/lib/ds-test/src/test.sol:54:57
+┃      method: test%ArithmeticCallTest.test_double_add_sub_external(uint256,uint256,uint256)
+┃
+┣━━┓ subst: .Subst
+┃  ┃ constraint:
+┃  ┃     KV2_z:Int <=Int ( KV0_x:Int +Int KV1_y:Int )
+┃  ┃     KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int )
+┃  ┃     ( ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) +Int KV1_y:Int ) <Int KV2_z:Int
+┃  ┃     ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) <=Int ( maxUInt256 -Int KV1_y:Int )
+┃  │
+┃  ├─ 53
+┃  │   k: JUMPI 570 bool2Word ( KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int ) ) ~> #pc [ J ...
+┃  │   pc: 562
+┃  │   callDepth: 2
+┃  │   statusCode: STATUSCODE:StatusCode
+┃  │   method: src%ArithmeticContract.add(uint256,uint256)
+┃  │
+┃  │  (1910 steps)
+┃  └─ 33 (leaf, terminal)
+┃      k: #halt ~> CONTINUATION:K
+┃      pc: 1708
+┃      callDepth: 0
+┃      statusCode: EVMC_REVERT
+┃      src: lib/forge-std/lib/ds-test/src/test.sol:54:57
+┃      method: test%ArithmeticCallTest.test_double_add_sub_external(uint256,uint256,uint256)
+┃
+┣━━┓ subst: .Subst
+┃  ┃ constraint:
+┃  ┃     KV2_z:Int <=Int ( KV0_x:Int +Int KV1_y:Int )
+┃  ┃     KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int )
+┃  ┃     KV2_z:Int <=Int ( ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) +Int KV1_y:Int )
+┃  ┃     ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) <=Int ( maxUInt256 -Int KV1_y:Int )
+┃  ┃     KV0_x:Int <Int ( ( ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) +Int KV1_y:Int ) -Int KV2_z:Int )
+┃  │
+┃  ├─ 56
+┃  │   k: JUMPI 570 bool2Word ( KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int ) ) ~> #pc [ J ...
+┃  │   pc: 562
+┃  │   callDepth: 2
+┃  │   statusCode: STATUSCODE:StatusCode
+┃  │   method: src%ArithmeticContract.add(uint256,uint256)
+┃  │
+┃  │  (2243 steps)
+┃  ├─ 36 (terminal)
+┃  │   k: #halt ~> CONTINUATION:K
+┃  │   pc: 248
+┃  │   callDepth: 0
 ┃  │   statusCode: EVMC_SUCCESS
 ┃  │   src: test/nested/SimpleNested.t.sol:7:11
 ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
@@ -169,156 +246,15 @@
    │   pc: 0
    │   callDepth: 1
    │   statusCode: STATUSCODE:StatusCode
-   │   src: test/nested/SimpleNested.t.sol:7:11
-   │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
-   ┃
-   ┃ (branch)
-   ┣━━┓ subst: .Subst
-   ┃  ┃ constraint:
-   ┃  ┃     ( maxUInt256 -Int KV1_y:Int ) <Int KV0_x:Int
-   ┃  │
-   ┃  ├─ 60
-   ┃  │   k: #next [ PUSH ( 1 ) ] ~> #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #exe ...
-   ┃  │   pc: 0
-   ┃  │   callDepth: 1
-   ┃  │   statusCode: STATUSCODE:StatusCode
-   ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-   ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
-   ┃  │
-   ┃  │  (1029 steps)
-   ┃  └─ 34 (leaf, terminal)
-   ┃      k: #halt ~> CONTINUATION:K
-   ┃      pc: 1584
-   ┃      callDepth: 0
-   ┃      statusCode: EVMC_REVERT
-   ┃      src: lib/forge-std/lib/ds-test/src/test.sol:48:48
-   ┃      method: test%ArithmeticCallTest.test_double_add_sub_external(uint256,uint256,uint256)
-   ┃
-   ┣━━┓ subst: .Subst
-   ┃  ┃ constraint:
-   ┃  ┃     ( KV0_x:Int +Int KV1_y:Int ) <Int KV2_z:Int
-   ┃  ┃     KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int )
-   ┃  │
-   ┃  ├─ 74
-   ┃  │   k: #next [ PUSH ( 1 ) ] ~> #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #exe ...
-   ┃  │   pc: 0
-   ┃  │   callDepth: 1
-   ┃  │   statusCode: STATUSCODE:StatusCode
-   ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-   ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
-   ┃  │
-   ┃  │  (1384 steps)
-   ┃  └─ 38 (leaf, terminal)
-   ┃      k: #halt ~> CONTINUATION:K
-   ┃      pc: 1584
-   ┃      callDepth: 0
-   ┃      statusCode: EVMC_REVERT
-   ┃      src: lib/forge-std/lib/ds-test/src/test.sol:48:48
-   ┃      method: test%ArithmeticCallTest.test_double_add_sub_external(uint256,uint256,uint256)
-   ┃
-   ┣━━┓ subst: .Subst
-   ┃  ┃ constraint:
-   ┃  ┃     KV2_z:Int <=Int ( KV0_x:Int +Int KV1_y:Int )
-   ┃  ┃     KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int )
-   ┃  ┃     ( maxUInt256 -Int KV1_y:Int ) <Int ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int )
-   ┃  │
-   ┃  ├─ 82
-   ┃  │   k: #next [ PUSH ( 1 ) ] ~> #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #exe ...
-   ┃  │   pc: 0
-   ┃  │   callDepth: 1
-   ┃  │   statusCode: STATUSCODE:StatusCode
-   ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-   ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
-   ┃  │
-   ┃  │  (2848 steps)
-   ┃  └─ 47 (leaf, terminal)
-   ┃      k: #halt ~> CONTINUATION:K
-   ┃      pc: 1708
-   ┃      callDepth: 0
-   ┃      statusCode: EVMC_REVERT
-   ┃      src: lib/forge-std/lib/ds-test/src/test.sol:54:57
-   ┃      method: test%ArithmeticCallTest.test_double_add_sub_external(uint256,uint256,uint256)
-   ┃
-   ┣━━┓ subst: .Subst
-   ┃  ┃ constraint:
-   ┃  ┃     KV2_z:Int <=Int ( KV0_x:Int +Int KV1_y:Int )
-   ┃  ┃     KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int )
-   ┃  ┃     ( ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) +Int KV1_y:Int ) <Int KV2_z:Int
-   ┃  ┃     ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) <=Int ( maxUInt256 -Int KV1_y:Int )
-   ┃  │
-   ┃  ├─ 88
-   ┃  │   k: #next [ PUSH ( 1 ) ] ~> #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #exe ...
-   ┃  │   pc: 0
-   ┃  │   callDepth: 1
-   ┃  │   statusCode: STATUSCODE:StatusCode
-   ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-   ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
-   ┃  │
-   ┃  │  (3203 steps)
-   ┃  └─ 51 (leaf, terminal)
-   ┃      k: #halt ~> CONTINUATION:K
-   ┃      pc: 1708
-   ┃      callDepth: 0
-   ┃      statusCode: EVMC_REVERT
-   ┃      src: lib/forge-std/lib/ds-test/src/test.sol:54:57
-   ┃      method: test%ArithmeticCallTest.test_double_add_sub_external(uint256,uint256,uint256)
-   ┃
-   ┣━━┓ subst: .Subst
-   ┃  ┃ constraint:
-   ┃  ┃     KV2_z:Int <=Int ( KV0_x:Int +Int KV1_y:Int )
-   ┃  ┃     KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int )
-   ┃  ┃     KV2_z:Int <=Int ( ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) +Int KV1_y:Int )
-   ┃  ┃     ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) <=Int ( maxUInt256 -Int KV1_y:Int )
-   ┃  ┃     KV0_x:Int <Int ( ( ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) +Int KV1_y:Int ) -Int KV2_z:Int )
-   ┃  │
-   ┃  ├─ 91
-   ┃  │   k: #next [ PUSH ( 1 ) ] ~> #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #exe ...
-   ┃  │   pc: 0
-   ┃  │   callDepth: 1
-   ┃  │   statusCode: STATUSCODE:StatusCode
-   ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-   ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
-   ┃  │
-   ┃  │  (3536 steps)
-   ┃  ├─ 54 (terminal)
-   ┃  │   k: #halt ~> CONTINUATION:K
-   ┃  │   pc: 248
-   ┃  │   callDepth: 0
-   ┃  │   statusCode: EVMC_SUCCESS
-   ┃  │   src: lib/forge-std/src/StdInvariant.sol:77:79
-   ┃  │   method: test%ArithmeticCallTest.test_double_add_sub_external(uint256,uint256,uint256)
-   ┃  │
-   ┃  ┊  constraint: true
-   ┃  ┊  subst: ...
-   ┃  └─ 6 (leaf, target, terminal)
-   ┃      k: #halt ~> CONTINUATION:K
-   ┃      pc: PC_CELL_5d410f2a:Int
-   ┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
-   ┃      statusCode: STATUSCODE_FINAL:StatusCode
-   ┃
-   ┗━━┓ subst: .Subst
-      ┃ constraint:
-      ┃     KV2_z:Int <=Int ( KV0_x:Int +Int KV1_y:Int )
-      ┃     KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int )
-      ┃     KV2_z:Int <=Int ( ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) +Int KV1_y:Int )
-      ┃     ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) <=Int ( maxUInt256 -Int KV1_y:Int )
-      ┃     ( ( ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) +Int KV1_y:Int ) -Int KV2_z:Int ) <=Int KV0_x:Int
-      │
-      ├─ 92
-      │   k: #next [ PUSH ( 1 ) ] ~> #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #exe ...
-      │   pc: 0
-      │   callDepth: 1
-      │   statusCode: STATUSCODE:StatusCode
-      │   src: test/nested/SimpleNested.t.sol:7:11
-      │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
-      │
-      │  (3539 steps)
-      └─ 55 (leaf, terminal)
-          k: #halt ~> CONTINUATION:K
-          pc: 3736
-          callDepth: 0
-          statusCode: EVMC_REVERT
-          method: test%ArithmeticCallTest.test_double_add_sub_external(uint256,uint256,uint256)
+   │   method: src%ArithmeticContract.add(uint256,uint256)
+   │
+   │  (2246 steps)
+   └─ 37 (leaf, terminal)
+       k: #halt ~> CONTINUATION:K
+       pc: 3736
+       callDepth: 0
+       statusCode: EVMC_REVERT
+       method: test%ArithmeticCallTest.test_double_add_sub_external(uint256,uint256,uint256)
 
 
 
@@ -1143,7 +1079,42 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                  <callStack>
                    ( .List => ListItem ( <callState>
                      <id>
-                       728815563385977040452943777879061427756277306518
+                       491460923342184218035706888008750043977755113263
+                     </id>
+                     <caller>
+                       #address ( FoundryTest )
+                     </caller>
+                     <callData>
+                       b"\x9c&\xe07" +Bytes #buf ( 32 , ?KV0_x:Int ) +Bytes #buf ( 32 , ?KV1_y:Int ) +Bytes #buf ( 32 , ?KV2_z:Int )
+                     </callData>
+                     <callValue>
+                       0
+                     </callValue>
+                     <wordStack>
+                       ( 196 : ( 1997931255 : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( 0 : ( ?KV2_z:Int : ( ?KV1_y:Int : ( ?KV0_x:Int : ( 111 : ( 2619793463 : .WordStack ) ) ) ) ) ) ) ) ) )
+                     </wordStack>
+                     <localMem>
+                       b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00w\x16\x02\xf7" +Bytes #buf ( 32 , ?KV0_x:Int ) +Bytes #buf ( 32 , ?KV1_y:Int )
+                     </localMem>
+                     <memoryUsed>
+                       0
+                     </memoryUsed>
+                     <callGas>
+                       0
+                     </callGas>
+                     <static>
+                       true
+                     </static>
+                     <callDepth>
+                       1
+                     </callDepth>
+                     <codeAddr>
+                       491460923342184218035706888008750043977755113263
+                     </codeAddr>
+                     ...
+                   </callState> ) ListItem ( <callState>
+                     <id>
+                       #address ( FoundryTest )
                      </id>
                      <caller>
                        137122462167341575662000267002353578582749290296
@@ -1172,12 +1143,59 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                      <callDepth>
                        0
                      </callDepth>
+                     <codeAddr>
+                       #address ( FoundryTest )
+                     </codeAddr>
                      ...
                    </callState> ) )
                  </callStack>
                  <interimStates>
                    ( .List => ListItem ( { <accounts>
                      ( <account>
+                       <acctID>
+                         #address ( FoundryCheat )
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       <storage>
+                         .Map
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         0
+                       </nonce>
+                       ...
+                     </account>
+                     ( <account>
+                       <acctID>
+                         #address ( FoundryTest )
+                       </acctID>
+                       <balance>
+                         maxUInt96
+                       </balance>
+                       <storage>
+                         ( ( 11 |-> 1 )
+                         ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                         ( 7 |-> 1 ) ) )
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         2
+                       </nonce>
+                       ...
+                     </account>
+                     <account>
                        <acctID>
                          491460923342184218035706888008750043977755113263
                        </acctID>
@@ -1197,10 +1215,30 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                          1
                        </nonce>
                        ...
-                     </account>
+                     </account> ) )
+                   </accounts> | <substate>
+                     <selfDestruct>
+                       SELFDESTRUCT_CELL:Set
+                     </selfDestruct>
+                     <log>
+                       .List
+                     </log>
+                     <refund>
+                       0
+                     </refund>
+                     <accessedAccounts>
+                       ( SetItem ( #address ( FoundryTest ) ) SetItem ( 491460923342184218035706888008750043977755113263 ) )
+                     </accessedAccounts>
+                     <accessedStorage>
+                       .Map
+                     </accessedStorage>
+                     <createdAccounts>
+                       .Set
+                     </createdAccounts>
+                   </substate> } ) ListItem ( { <accounts>
                      ( <account>
                        <acctID>
-                         645326474426547203313410069153905908525362434349
+                         #address ( FoundryCheat )
                        </acctID>
                        <balance>
                          0
@@ -1219,12 +1257,12 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                        </nonce>
                        ...
                      </account>
-                     <account>
+                     ( <account>
                        <acctID>
-                         728815563385977040452943777879061427756277306518
+                         #address ( FoundryTest )
                        </acctID>
                        <balance>
-                         0
+                         maxUInt96
                        </balance>
                        <storage>
                          ( ( 11 |-> 1 )
@@ -1239,6 +1277,27 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                        </transientStorage>
                        <nonce>
                          2
+                       </nonce>
+                       ...
+                     </account>
+                     <account>
+                       <acctID>
+                         491460923342184218035706888008750043977755113263
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       <storage>
+                         .Map
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         1
                        </nonce>
                        ...
                      </account> ) )
@@ -1264,11 +1323,11 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                    </substate> } ) )
                  </interimStates>
                  <touchedAccounts>
-                   ( .Set => ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) ) )
+                   ( .Set => ( SetItem ( #address ( FoundryTest ) ) SetItem ( 491460923342184218035706888008750043977755113263 ) ) )
                  </touchedAccounts>
                  <callState>
                    <id>
-                     ( 728815563385977040452943777879061427756277306518 => 491460923342184218035706888008750043977755113263 )
+                     ( #address ( FoundryTest ) => 491460923342184218035706888008750043977755113263 )
                    </id>
                    <caller>
                      ( 137122462167341575662000267002353578582749290296 => 728815563385977040452943777879061427756277306518 )
@@ -1297,6 +1356,9 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                    <callDepth>
                      ( 0 => 1 )
                    </callDepth>
+                   <codeAddr>
+                     ( #address ( FoundryTest ) => 491460923342184218035706888008750043977755113263 )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -1310,7 +1372,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                      0
                    </refund>
                    <accessedAccounts>
-                     ( .Set => ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) ) )
+                     ( .Set => ( SetItem ( #address ( FoundryTest ) ) SetItem ( 491460923342184218035706888008750043977755113263 ) ) )
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
@@ -1340,7 +1402,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                  <accounts>
                    ( <account>
                      <acctID>
-                       ( 645326474426547203313410069153905908525362434349 => 491460923342184218035706888008750043977755113263 )
+                       ( #address ( FoundryCheat ) => 491460923342184218035706888008750043977755113263 )
                      </acctID>
                      <balance>
                        0
@@ -1361,10 +1423,10 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                    </account>
                    ( <account>
                      <acctID>
-                       728815563385977040452943777879061427756277306518
+                       #address ( FoundryTest )
                      </acctID>
                      <balance>
-                       0
+                       maxUInt96
                      </balance>
                      <storage>
                        ( ( 11 |-> 1 )
@@ -1382,7 +1444,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                      ...
                    </account> => ( <account>
                      <acctID>
-                       645326474426547203313410069153905908525362434349
+                       #address ( FoundryCheat )
                      </acctID>
                      <balance>
                        0
@@ -1403,10 +1465,10 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                    </account>
                    <account>
                      <acctID>
-                       728815563385977040452943777879061427756277306518
+                       #address ( FoundryTest )
                      </acctID>
                      <balance>
-                       0
+                       maxUInt96
                      </balance>
                      <storage>
                        ( ( 11 |-> 1 )
@@ -1485,26 +1547,6 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                .MockFunctionCellMap
              </mockFunctions>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
@@ -1549,7 +1591,42 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                  <callStack>
                    ( ListItem ( <callState>
                      <id>
-                       728815563385977040452943777879061427756277306518
+                       491460923342184218035706888008750043977755113263
+                     </id>
+                     <caller>
+                       #address ( FoundryTest )
+                     </caller>
+                     <callData>
+                       b"\x9c&\xe07" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int )
+                     </callData>
+                     <callValue>
+                       0
+                     </callValue>
+                     <wordStack>
+                       ( 196 : ( 1997931255 : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( 0 : ( KV2_z:Int : ( KV1_y:Int : ( KV0_x:Int : ( 111 : ( 2619793463 : .WordStack ) ) ) ) ) ) ) ) ) )
+                     </wordStack>
+                     <localMem>
+                       b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00w\x16\x02\xf7" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int )
+                     </localMem>
+                     <memoryUsed>
+                       0
+                     </memoryUsed>
+                     <callGas>
+                       0
+                     </callGas>
+                     <static>
+                       true
+                     </static>
+                     <callDepth>
+                       1
+                     </callDepth>
+                     <codeAddr>
+                       491460923342184218035706888008750043977755113263
+                     </codeAddr>
+                     ...
+                   </callState> ) ListItem ( <callState>
+                     <id>
+                       #address ( FoundryTest )
                      </id>
                      <caller>
                        137122462167341575662000267002353578582749290296
@@ -1578,12 +1655,59 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                      <callDepth>
                        0
                      </callDepth>
+                     <codeAddr>
+                       #address ( FoundryTest )
+                     </codeAddr>
                      ...
                    </callState> ) => .List )
                  </callStack>
                  <interimStates>
                    ( ListItem ( { <accounts>
                      ( <account>
+                       <acctID>
+                         #address ( FoundryCheat )
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       <storage>
+                         .Map
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         0
+                       </nonce>
+                       ...
+                     </account>
+                     ( <account>
+                       <acctID>
+                         #address ( FoundryTest )
+                       </acctID>
+                       <balance>
+                         maxUInt96
+                       </balance>
+                       <storage>
+                         ( ( 11 |-> 1 )
+                         ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                         ( 7 |-> 1 ) ) )
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         2
+                       </nonce>
+                       ...
+                     </account>
+                     <account>
                        <acctID>
                          491460923342184218035706888008750043977755113263
                        </acctID>
@@ -1603,10 +1727,30 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                          1
                        </nonce>
                        ...
-                     </account>
+                     </account> ) )
+                   </accounts> | <substate>
+                     <selfDestruct>
+                       SELFDESTRUCT_CELL:Set
+                     </selfDestruct>
+                     <log>
+                       .List
+                     </log>
+                     <refund>
+                       0
+                     </refund>
+                     <accessedAccounts>
+                       ( SetItem ( #address ( FoundryTest ) ) SetItem ( 491460923342184218035706888008750043977755113263 ) )
+                     </accessedAccounts>
+                     <accessedStorage>
+                       .Map
+                     </accessedStorage>
+                     <createdAccounts>
+                       .Set
+                     </createdAccounts>
+                   </substate> } ) ListItem ( { <accounts>
                      ( <account>
                        <acctID>
-                         645326474426547203313410069153905908525362434349
+                         #address ( FoundryCheat )
                        </acctID>
                        <balance>
                          0
@@ -1625,12 +1769,12 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                        </nonce>
                        ...
                      </account>
-                     <account>
+                     ( <account>
                        <acctID>
-                         728815563385977040452943777879061427756277306518
+                         #address ( FoundryTest )
                        </acctID>
                        <balance>
-                         0
+                         maxUInt96
                        </balance>
                        <storage>
                          ( ( 11 |-> 1 )
@@ -1645,6 +1789,27 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                        </transientStorage>
                        <nonce>
                          2
+                       </nonce>
+                       ...
+                     </account>
+                     <account>
+                       <acctID>
+                         491460923342184218035706888008750043977755113263
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       <storage>
+                         .Map
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         1
                        </nonce>
                        ...
                      </account> ) )
@@ -1670,11 +1835,11 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                    </substate> } ) => .List )
                  </interimStates>
                  <touchedAccounts>
-                   ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
+                   ( SetItem ( #address ( FoundryTest ) ) SetItem ( 491460923342184218035706888008750043977755113263 ) )
                  </touchedAccounts>
                  <callState>
                    <id>
-                     ( 491460923342184218035706888008750043977755113263 => 728815563385977040452943777879061427756277306518 )
+                     ( 491460923342184218035706888008750043977755113263 => #address ( FoundryTest ) )
                    </id>
                    <caller>
                      ( 728815563385977040452943777879061427756277306518 => 137122462167341575662000267002353578582749290296 )
@@ -1701,8 +1866,11 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                      ( true => false )
                    </static>
                    <callDepth>
-                     ( 1 => 0 )
+                     ( 2 => 0 )
                    </callDepth>
+                   <codeAddr>
+                     ( 491460923342184218035706888008750043977755113263 => #address ( FoundryTest ) )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -1716,7 +1884,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                      0
                    </refund>
                    <accessedAccounts>
-                     ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
+                     ( ( SetItem ( #address ( FoundryTest ) ) SetItem ( 491460923342184218035706888008750043977755113263 ) ) => SetItem ( 491460923342184218035706888008750043977755113263 ) )
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
@@ -1746,6 +1914,50 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                  <accounts>
                    ( <account>
                      <acctID>
+                       #address ( FoundryCheat )
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       0
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
+                     <acctID>
+                       #address ( FoundryTest )
+                     </acctID>
+                     <balance>
+                       maxUInt96
+                     </balance>
+                     <storage>
+                       ( ( 11 |-> 1 )
+                       ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( 7 |-> 1 ) ) )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       2
+                     </nonce>
+                     ...
+                   </account>
+                   <account>
+                     <acctID>
                        491460923342184218035706888008750043977755113263
                      </acctID>
                      <balance>
@@ -1764,10 +1976,441 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                        1
                      </nonce>
                      ...
-                   </account>
+                   </account> ) )
+                 </accounts>
+                 ...
+               </network>
+             </ethereum>
+             ...
+           </kevm>
+           <stackChecks>
+             true
+           </stackChecks>
+           <cheatcodes>
+             <prank>
+               <active>
+                 false
+               </active>
+               <singleCall>
+                 false
+               </singleCall>
+               ...
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 false
+               </isRevertExpected>
+               ...
+             </expectedRevert>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 false
+               </isOpcodeExpected>
+               ...
+             </expectedOpcode>
+             <expectEmit>
+               <recordEvent>
+                 false
+               </recordEvent>
+               <isEventExpected>
+                 false
+               </isEventExpected>
+               ...
+             </expectEmit>
+             <whitelist>
+               <isCallWhitelistActive>
+                 false
+               </isCallWhitelistActive>
+               <allowedCallsList>
+                 .List
+               </allowedCallsList>
+               <isStorageWhitelistActive>
+                 false
+               </isStorageWhitelistActive>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
+             </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
+           </cheatcodes>
+         </foundry>
+      requires ( 0 <=Int KV0_x:Int
+       andBool ( 0 <=Int KV1_y:Int
+       andBool ( 0 <=Int KV2_z:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( KV0_x:Int <Int pow256
+       andBool ( KV1_y:Int <Int pow256
+       andBool ( KV2_z:Int <Int pow256
+       andBool ( ( maxUInt256 -Int KV1_y:Int ) <Int KV0_x:Int
+               )))))))))))
+      [priority(20), label(BASIC-BLOCK-9-TO-16)]
+    
+    rule [BASIC-BLOCK-39-TO-20]: <foundry>
+           <kevm>
+             <k>
+               ( JUMPI 570 bool2Word ( KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int ) )
+               ~> #pc [ JUMPI ]
+               ~> #execute
+               ~> #return 128 32
+               ~> #pc [ STATICCALL ]
+               ~> #execute
+               ~> #return 128 32
+               ~> #pc [ STATICCALL ]
+               ~> #execute => #halt ~> .K )
+               ~> _CONTINUATION:K
+             </k>
+             <mode>
+               NORMAL
+             </mode>
+             <schedule>
+               CANCUN
+             </schedule>
+             <useGas>
+               false
+             </useGas>
+             <ethereum>
+               <evm>
+                 <output>
+                   ( b"" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x11" )
+                 </output>
+                 <statusCode>
+                   ( _STATUSCODE:StatusCode => EVMC_REVERT )
+                 </statusCode>
+                 <callStack>
+                   ( ListItem ( <callState>
+                     <id>
+                       491460923342184218035706888008750043977755113263
+                     </id>
+                     <caller>
+                       #address ( FoundryTest )
+                     </caller>
+                     <callData>
+                       b"\x9c&\xe07" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int )
+                     </callData>
+                     <callValue>
+                       0
+                     </callValue>
+                     <wordStack>
+                       ( 196 : ( 1997931255 : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( 0 : ( KV2_z:Int : ( KV1_y:Int : ( KV0_x:Int : ( 111 : ( 2619793463 : .WordStack ) ) ) ) ) ) ) ) ) )
+                     </wordStack>
+                     <localMem>
+                       b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00w\x16\x02\xf7" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int )
+                     </localMem>
+                     <memoryUsed>
+                       0
+                     </memoryUsed>
+                     <callGas>
+                       0
+                     </callGas>
+                     <static>
+                       true
+                     </static>
+                     <callDepth>
+                       1
+                     </callDepth>
+                     <codeAddr>
+                       491460923342184218035706888008750043977755113263
+                     </codeAddr>
+                     ...
+                   </callState> ) ListItem ( <callState>
+                     <id>
+                       #address ( FoundryTest )
+                     </id>
+                     <caller>
+                       137122462167341575662000267002353578582749290296
+                     </caller>
+                     <callData>
+                       b"\x922\xed\x8c" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int )
+                     </callData>
+                     <callValue>
+                       0
+                     </callValue>
+                     <wordStack>
+                       ( 228 : ( 2619793463 : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( KV2_z:Int : ( KV1_y:Int : ( KV0_x:Int : ( 247 : ( 2452811148 : .WordStack ) ) ) ) ) ) ) ) )
+                     </wordStack>
+                     <localMem>
+                       b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x9c&\xe07" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int )
+                     </localMem>
+                     <memoryUsed>
+                       0
+                     </memoryUsed>
+                     <callGas>
+                       0
+                     </callGas>
+                     <static>
+                       false
+                     </static>
+                     <callDepth>
+                       0
+                     </callDepth>
+                     <codeAddr>
+                       #address ( FoundryTest )
+                     </codeAddr>
+                     ...
+                   </callState> ) => .List )
+                 </callStack>
+                 <interimStates>
+                   ( ListItem ( { <accounts>
+                     ( <account>
+                       <acctID>
+                         #address ( FoundryCheat )
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       <storage>
+                         .Map
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         0
+                       </nonce>
+                       ...
+                     </account>
+                     ( <account>
+                       <acctID>
+                         #address ( FoundryTest )
+                       </acctID>
+                       <balance>
+                         maxUInt96
+                       </balance>
+                       <storage>
+                         ( ( 11 |-> 1 )
+                         ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                         ( 7 |-> 1 ) ) )
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         2
+                       </nonce>
+                       ...
+                     </account>
+                     <account>
+                       <acctID>
+                         491460923342184218035706888008750043977755113263
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       <storage>
+                         .Map
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         1
+                       </nonce>
+                       ...
+                     </account> ) )
+                   </accounts> | <substate>
+                     <selfDestruct>
+                       SELFDESTRUCT_CELL:Set
+                     </selfDestruct>
+                     <log>
+                       .List
+                     </log>
+                     <refund>
+                       0
+                     </refund>
+                     <accessedAccounts>
+                       ( SetItem ( #address ( FoundryTest ) ) SetItem ( 491460923342184218035706888008750043977755113263 ) )
+                     </accessedAccounts>
+                     <accessedStorage>
+                       .Map
+                     </accessedStorage>
+                     <createdAccounts>
+                       .Set
+                     </createdAccounts>
+                   </substate> } ) ListItem ( { <accounts>
+                     ( <account>
+                       <acctID>
+                         #address ( FoundryCheat )
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       <storage>
+                         .Map
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         0
+                       </nonce>
+                       ...
+                     </account>
+                     ( <account>
+                       <acctID>
+                         #address ( FoundryTest )
+                       </acctID>
+                       <balance>
+                         maxUInt96
+                       </balance>
+                       <storage>
+                         ( ( 11 |-> 1 )
+                         ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                         ( 7 |-> 1 ) ) )
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         2
+                       </nonce>
+                       ...
+                     </account>
+                     <account>
+                       <acctID>
+                         491460923342184218035706888008750043977755113263
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       <storage>
+                         .Map
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         1
+                       </nonce>
+                       ...
+                     </account> ) )
+                   </accounts> | <substate>
+                     <selfDestruct>
+                       SELFDESTRUCT_CELL:Set
+                     </selfDestruct>
+                     <log>
+                       .List
+                     </log>
+                     <refund>
+                       0
+                     </refund>
+                     <accessedAccounts>
+                       SetItem ( 491460923342184218035706888008750043977755113263 )
+                     </accessedAccounts>
+                     <accessedStorage>
+                       .Map
+                     </accessedStorage>
+                     <createdAccounts>
+                       .Set
+                     </createdAccounts>
+                   </substate> } ) => .List )
+                 </interimStates>
+                 <touchedAccounts>
+                   ( SetItem ( #address ( FoundryTest ) ) SetItem ( 491460923342184218035706888008750043977755113263 ) )
+                 </touchedAccounts>
+                 <callState>
+                   <id>
+                     ( 491460923342184218035706888008750043977755113263 => #address ( FoundryTest ) )
+                   </id>
+                   <caller>
+                     ( 491460923342184218035706888008750043977755113263 => 137122462167341575662000267002353578582749290296 )
+                   </caller>
+                   <callData>
+                     ( b"w\x16\x02\xf7" => b"\x922\xed\x8c" ) +Bytes #buf ( 32 , KV0_x:Int ) +Bytes ( #buf ( 32 , KV1_y:Int ) => #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int ) )
+                   </callData>
+                   <callValue>
+                     0
+                   </callValue>
+                   <wordStack>
+                     ( ( 0 => 1 ) : ( ( KV0_x:Int => 228 ) : ( ( KV1_y:Int => 2619793463 ) : ( ( 217 => 491460923342184218035706888008750043977755113263 ) : ( 0 : ( ( KV1_y:Int => KV2_z:Int ) : ( ( KV0_x:Int => KV1_y:Int ) : ( ( 111 => KV0_x:Int ) : ( ( 1997931255 => 247 ) : ( .WordStack => ( 2452811148 : .WordStack ) ) ) ) ) ) ) ) ) ) )
+                   </wordStack>
+                   <localMem>
+                     ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x11\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #range ( #buf ( 32 , KV0_x:Int ) , 28 , 4 ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int ) )
+                   </localMem>
+                   <memoryUsed>
+                     0
+                   </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
+                   <static>
+                     ( true => false )
+                   </static>
+                   <callDepth>
+                     ( 2 => 0 )
+                   </callDepth>
+                   <codeAddr>
+                     ( 491460923342184218035706888008750043977755113263 => #address ( FoundryTest ) )
+                   </codeAddr>
+                   ...
+                 </callState>
+                 <substate>
+                   <selfDestruct>
+                     SELFDESTRUCT_CELL:Set
+                   </selfDestruct>
+                   <log>
+                     .List
+                   </log>
+                   <refund>
+                     0
+                   </refund>
+                   <accessedAccounts>
+                     ( ( SetItem ( #address ( FoundryTest ) ) SetItem ( 491460923342184218035706888008750043977755113263 ) ) => SetItem ( 491460923342184218035706888008750043977755113263 ) )
+                   </accessedAccounts>
+                   <accessedStorage>
+                     .Map
+                   </accessedStorage>
+                   <createdAccounts>
+                     .Set
+                   </createdAccounts>
+                 </substate>
+                 <origin>
+                   137122462167341575662000267002353578582749290296
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
+                   ...
+                 </block>
+                 ...
+               </evm>
+               <network>
+                 <chainID>
+                   1
+                 </chainID>
+                 <accounts>
                    ( <account>
                      <acctID>
-                       645326474426547203313410069153905908525362434349
+                       #address ( FoundryCheat )
                      </acctID>
                      <balance>
                        0
@@ -1786,12 +2429,12 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                      </nonce>
                      ...
                    </account>
-                   <account>
+                   ( <account>
                      <acctID>
-                       728815563385977040452943777879061427756277306518
+                       #address ( FoundryTest )
                      </acctID>
                      <balance>
-                       0
+                       maxUInt96
                      </balance>
                      <storage>
                        ( ( 11 |-> 1 )
@@ -1806,6 +2449,524 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                      </transientStorage>
                      <nonce>
                        2
+                     </nonce>
+                     ...
+                   </account>
+                   <account>
+                     <acctID>
+                       491460923342184218035706888008750043977755113263
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       1
+                     </nonce>
+                     ...
+                   </account> ) )
+                 </accounts>
+                 ...
+               </network>
+             </ethereum>
+             ...
+           </kevm>
+           <stackChecks>
+             true
+           </stackChecks>
+           <cheatcodes>
+             <prank>
+               <active>
+                 false
+               </active>
+               <singleCall>
+                 false
+               </singleCall>
+               ...
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 false
+               </isRevertExpected>
+               ...
+             </expectedRevert>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 false
+               </isOpcodeExpected>
+               ...
+             </expectedOpcode>
+             <expectEmit>
+               <recordEvent>
+                 false
+               </recordEvent>
+               <isEventExpected>
+                 false
+               </isEventExpected>
+               ...
+             </expectEmit>
+             <whitelist>
+               <isCallWhitelistActive>
+                 false
+               </isCallWhitelistActive>
+               <allowedCallsList>
+                 .List
+               </allowedCallsList>
+               <isStorageWhitelistActive>
+                 false
+               </isStorageWhitelistActive>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
+             </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
+           </cheatcodes>
+         </foundry>
+      requires ( 0 <=Int KV0_x:Int
+       andBool ( 0 <=Int KV1_y:Int
+       andBool ( 0 <=Int KV2_z:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( KV0_x:Int <Int pow256
+       andBool ( KV1_y:Int <Int pow256
+       andBool ( KV2_z:Int <Int pow256
+       andBool ( ( KV0_x:Int +Int KV1_y:Int ) <Int KV2_z:Int
+       andBool ( KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int )
+               ))))))))))))
+      [priority(20), label(BASIC-BLOCK-39-TO-20)]
+    
+    rule [BASIC-BLOCK-47-TO-29]: <foundry>
+           <kevm>
+             <k>
+               ( JUMPI 570 bool2Word ( KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int ) )
+               ~> #pc [ JUMPI ]
+               ~> #execute
+               ~> #return 128 32
+               ~> #pc [ STATICCALL ]
+               ~> #execute
+               ~> #return 128 32
+               ~> #pc [ STATICCALL ]
+               ~> #execute => #halt ~> .K )
+               ~> _CONTINUATION:K
+             </k>
+             <mode>
+               NORMAL
+             </mode>
+             <schedule>
+               CANCUN
+             </schedule>
+             <useGas>
+               false
+             </useGas>
+             <ethereum>
+               <evm>
+                 <output>
+                   ( b"" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x11" )
+                 </output>
+                 <statusCode>
+                   ( _STATUSCODE:StatusCode => EVMC_REVERT )
+                 </statusCode>
+                 <callStack>
+                   ( ListItem ( <callState>
+                     <id>
+                       491460923342184218035706888008750043977755113263
+                     </id>
+                     <caller>
+                       #address ( FoundryTest )
+                     </caller>
+                     <callData>
+                       b"\x9c&\xe07" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int )
+                     </callData>
+                     <callValue>
+                       0
+                     </callValue>
+                     <wordStack>
+                       ( 196 : ( 1997931255 : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( 0 : ( KV2_z:Int : ( KV1_y:Int : ( KV0_x:Int : ( 111 : ( 2619793463 : .WordStack ) ) ) ) ) ) ) ) ) )
+                     </wordStack>
+                     <localMem>
+                       b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00w\x16\x02\xf7" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int )
+                     </localMem>
+                     <memoryUsed>
+                       0
+                     </memoryUsed>
+                     <callGas>
+                       0
+                     </callGas>
+                     <static>
+                       true
+                     </static>
+                     <callDepth>
+                       1
+                     </callDepth>
+                     <codeAddr>
+                       491460923342184218035706888008750043977755113263
+                     </codeAddr>
+                     ...
+                   </callState> ) ListItem ( <callState>
+                     <id>
+                       #address ( FoundryTest )
+                     </id>
+                     <caller>
+                       137122462167341575662000267002353578582749290296
+                     </caller>
+                     <callData>
+                       b"\x922\xed\x8c" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int )
+                     </callData>
+                     <callValue>
+                       0
+                     </callValue>
+                     <wordStack>
+                       ( 228 : ( 2619793463 : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( KV2_z:Int : ( KV1_y:Int : ( KV0_x:Int : ( 247 : ( 2452811148 : .WordStack ) ) ) ) ) ) ) ) )
+                     </wordStack>
+                     <localMem>
+                       b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x9c&\xe07" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int )
+                     </localMem>
+                     <memoryUsed>
+                       0
+                     </memoryUsed>
+                     <callGas>
+                       0
+                     </callGas>
+                     <static>
+                       false
+                     </static>
+                     <callDepth>
+                       0
+                     </callDepth>
+                     <codeAddr>
+                       #address ( FoundryTest )
+                     </codeAddr>
+                     ...
+                   </callState> ) => .List )
+                 </callStack>
+                 <interimStates>
+                   ( ListItem ( { <accounts>
+                     ( <account>
+                       <acctID>
+                         #address ( FoundryCheat )
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       <storage>
+                         .Map
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         0
+                       </nonce>
+                       ...
+                     </account>
+                     ( <account>
+                       <acctID>
+                         #address ( FoundryTest )
+                       </acctID>
+                       <balance>
+                         maxUInt96
+                       </balance>
+                       <storage>
+                         ( ( 11 |-> 1 )
+                         ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                         ( 7 |-> 1 ) ) )
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         2
+                       </nonce>
+                       ...
+                     </account>
+                     <account>
+                       <acctID>
+                         491460923342184218035706888008750043977755113263
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       <storage>
+                         .Map
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         1
+                       </nonce>
+                       ...
+                     </account> ) )
+                   </accounts> | <substate>
+                     <selfDestruct>
+                       SELFDESTRUCT_CELL:Set
+                     </selfDestruct>
+                     <log>
+                       .List
+                     </log>
+                     <refund>
+                       0
+                     </refund>
+                     <accessedAccounts>
+                       ( SetItem ( #address ( FoundryTest ) ) SetItem ( 491460923342184218035706888008750043977755113263 ) )
+                     </accessedAccounts>
+                     <accessedStorage>
+                       .Map
+                     </accessedStorage>
+                     <createdAccounts>
+                       .Set
+                     </createdAccounts>
+                   </substate> } ) ListItem ( { <accounts>
+                     ( <account>
+                       <acctID>
+                         #address ( FoundryCheat )
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       <storage>
+                         .Map
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         0
+                       </nonce>
+                       ...
+                     </account>
+                     ( <account>
+                       <acctID>
+                         #address ( FoundryTest )
+                       </acctID>
+                       <balance>
+                         maxUInt96
+                       </balance>
+                       <storage>
+                         ( ( 11 |-> 1 )
+                         ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                         ( 7 |-> 1 ) ) )
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         2
+                       </nonce>
+                       ...
+                     </account>
+                     <account>
+                       <acctID>
+                         491460923342184218035706888008750043977755113263
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       <storage>
+                         .Map
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         1
+                       </nonce>
+                       ...
+                     </account> ) )
+                   </accounts> | <substate>
+                     <selfDestruct>
+                       SELFDESTRUCT_CELL:Set
+                     </selfDestruct>
+                     <log>
+                       .List
+                     </log>
+                     <refund>
+                       0
+                     </refund>
+                     <accessedAccounts>
+                       SetItem ( 491460923342184218035706888008750043977755113263 )
+                     </accessedAccounts>
+                     <accessedStorage>
+                       .Map
+                     </accessedStorage>
+                     <createdAccounts>
+                       .Set
+                     </createdAccounts>
+                   </substate> } ) => .List )
+                 </interimStates>
+                 <touchedAccounts>
+                   ( SetItem ( #address ( FoundryTest ) ) SetItem ( 491460923342184218035706888008750043977755113263 ) )
+                 </touchedAccounts>
+                 <callState>
+                   <id>
+                     ( 491460923342184218035706888008750043977755113263 => #address ( FoundryTest ) )
+                   </id>
+                   <caller>
+                     ( 491460923342184218035706888008750043977755113263 => 137122462167341575662000267002353578582749290296 )
+                   </caller>
+                   <callData>
+                     ( b"w\x16\x02\xf7" => b"\x922\xed\x8c" ) +Bytes #buf ( 32 , KV0_x:Int ) +Bytes ( #buf ( 32 , KV1_y:Int ) => #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int ) )
+                   </callData>
+                   <callValue>
+                     0
+                   </callValue>
+                   <wordStack>
+                     ( ( 0 => 1 ) : ( ( KV0_x:Int => 260 ) : ( ( KV1_y:Int => 2619793463 ) : ( ( 217 => 491460923342184218035706888008750043977755113263 ) : ( ( 0 => ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) ) : ( ( KV1_y:Int => KV2_z:Int ) : ( ( KV0_x:Int => KV1_y:Int ) : ( ( 111 => KV0_x:Int ) : ( ( 1997931255 => 247 ) : ( .WordStack => ( 2452811148 : .WordStack ) ) ) ) ) ) ) ) ) ) )
+                   </wordStack>
+                   <localMem>
+                     ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x11\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) ) +Bytes b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #range ( #buf ( 32 , ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) ) , 28 , 4 ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int ) )
+                   </localMem>
+                   <memoryUsed>
+                     0
+                   </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
+                   <static>
+                     ( true => false )
+                   </static>
+                   <callDepth>
+                     ( 2 => 0 )
+                   </callDepth>
+                   <codeAddr>
+                     ( 491460923342184218035706888008750043977755113263 => #address ( FoundryTest ) )
+                   </codeAddr>
+                   ...
+                 </callState>
+                 <substate>
+                   <selfDestruct>
+                     SELFDESTRUCT_CELL:Set
+                   </selfDestruct>
+                   <log>
+                     .List
+                   </log>
+                   <refund>
+                     0
+                   </refund>
+                   <accessedAccounts>
+                     ( SetItem ( #address ( FoundryTest ) ) SetItem ( 491460923342184218035706888008750043977755113263 ) )
+                   </accessedAccounts>
+                   <accessedStorage>
+                     .Map
+                   </accessedStorage>
+                   <createdAccounts>
+                     .Set
+                   </createdAccounts>
+                 </substate>
+                 <origin>
+                   137122462167341575662000267002353578582749290296
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
+                   ...
+                 </block>
+                 ...
+               </evm>
+               <network>
+                 <chainID>
+                   1
+                 </chainID>
+                 <accounts>
+                   ( <account>
+                     <acctID>
+                       #address ( FoundryCheat )
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       0
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
+                     <acctID>
+                       #address ( FoundryTest )
+                     </acctID>
+                     <balance>
+                       maxUInt96
+                     </balance>
+                     <storage>
+                       ( ( 11 |-> 1 )
+                       ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( 7 |-> 1 ) ) )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       2
+                     </nonce>
+                     ...
+                   </account>
+                   <account>
+                     <acctID>
+                       491460923342184218035706888008750043977755113263
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       1
                      </nonce>
                      ...
                    </account> ) )
@@ -4277,26 +5438,6 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                .MockFunctionCellMap
              </mockFunctions>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int KV1_y:Int
@@ -4311,14 +5452,9 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
        andBool ( KV2_z:Int <=Int ( KV0_x:Int +Int KV1_y:Int )
        andBool ( KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int )
        andBool ( ( maxUInt256 -Int KV1_y:Int ) <Int ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int )
-       andBool ( ( notBool ( ( maxUInt256 -Int KV1_y:Int ) <Int KV0_x:Int andBool ( DEPTH_CELL:Int <Int 1 andBool EXPECTEDDEPTH_CELL:Int <Int 1 ) ) )
-       andBool ( ( notBool ( ( KV0_x:Int +Int KV1_y:Int ) <Int KV2_z:Int andBool ( DEPTH_CELL:Int <Int 1 andBool ( EXPECTEDDEPTH_CELL:Int <Int 1 andBool KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int ) ) ) ) )
-       andBool ( ( notBool ( DEPTH_CELL:Int <Int 1 andBool ( EXPECTEDDEPTH_CELL:Int <Int 1 andBool ( KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int ) andBool KV2_z:Int <=Int ( KV0_x:Int +Int KV1_y:Int ) ) ) ) )
-               ))))))))))))))))
-       ensures ( ( notBool ( DEPTH_CELL:Int <Int 1 andBool EXPECTEDDEPTH_CELL:Int <Int 1 ) )
-       andBool ( ( notBool ( ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) <Int pow256 andBool ( DEPTH_CELL:Int <Int 1 andBool ( EXPECTEDDEPTH_CELL:Int <Int 1 andBool ( ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) <=Int ( maxUInt256 -Int KV1_y:Int ) andBool ( 0 <=Int ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) andBool KV2_z:Int <=Int ( ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) +Int KV1_y:Int ) ) ) ) ) ) )
-               ))
-      [priority(20), label(BASIC-BLOCK-82-TO-47)]
+               )))))))))))))
+       ensures ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) <Int pow256
+      [priority(20), label(BASIC-BLOCK-47-TO-29)]
     
     rule [BASIC-BLOCK-88-TO-51]: <foundry>
            <kevm>
@@ -4350,7 +5486,42 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                  <callStack>
                    ( ListItem ( <callState>
                      <id>
-                       728815563385977040452943777879061427756277306518
+                       491460923342184218035706888008750043977755113263
+                     </id>
+                     <caller>
+                       #address ( FoundryTest )
+                     </caller>
+                     <callData>
+                       b"\x9c&\xe07" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int )
+                     </callData>
+                     <callValue>
+                       0
+                     </callValue>
+                     <wordStack>
+                       ( 196 : ( 1997931255 : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( 0 : ( KV2_z:Int : ( KV1_y:Int : ( KV0_x:Int : ( 111 : ( 2619793463 : .WordStack ) ) ) ) ) ) ) ) ) )
+                     </wordStack>
+                     <localMem>
+                       b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00w\x16\x02\xf7" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int )
+                     </localMem>
+                     <memoryUsed>
+                       0
+                     </memoryUsed>
+                     <callGas>
+                       0
+                     </callGas>
+                     <static>
+                       true
+                     </static>
+                     <callDepth>
+                       1
+                     </callDepth>
+                     <codeAddr>
+                       491460923342184218035706888008750043977755113263
+                     </codeAddr>
+                     ...
+                   </callState> ) ListItem ( <callState>
+                     <id>
+                       #address ( FoundryTest )
                      </id>
                      <caller>
                        137122462167341575662000267002353578582749290296
@@ -4379,12 +5550,59 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                      <callDepth>
                        0
                      </callDepth>
+                     <codeAddr>
+                       #address ( FoundryTest )
+                     </codeAddr>
                      ...
                    </callState> ) => .List )
                  </callStack>
                  <interimStates>
                    ( ListItem ( { <accounts>
                      ( <account>
+                       <acctID>
+                         #address ( FoundryCheat )
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       <storage>
+                         .Map
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         0
+                       </nonce>
+                       ...
+                     </account>
+                     ( <account>
+                       <acctID>
+                         #address ( FoundryTest )
+                       </acctID>
+                       <balance>
+                         maxUInt96
+                       </balance>
+                       <storage>
+                         ( ( 11 |-> 1 )
+                         ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                         ( 7 |-> 1 ) ) )
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         2
+                       </nonce>
+                       ...
+                     </account>
+                     <account>
                        <acctID>
                          491460923342184218035706888008750043977755113263
                        </acctID>
@@ -4404,10 +5622,30 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                          1
                        </nonce>
                        ...
-                     </account>
+                     </account> ) )
+                   </accounts> | <substate>
+                     <selfDestruct>
+                       SELFDESTRUCT_CELL:Set
+                     </selfDestruct>
+                     <log>
+                       .List
+                     </log>
+                     <refund>
+                       0
+                     </refund>
+                     <accessedAccounts>
+                       ( SetItem ( #address ( FoundryTest ) ) SetItem ( 491460923342184218035706888008750043977755113263 ) )
+                     </accessedAccounts>
+                     <accessedStorage>
+                       .Map
+                     </accessedStorage>
+                     <createdAccounts>
+                       .Set
+                     </createdAccounts>
+                   </substate> } ) ListItem ( { <accounts>
                      ( <account>
                        <acctID>
-                         645326474426547203313410069153905908525362434349
+                         #address ( FoundryCheat )
                        </acctID>
                        <balance>
                          0
@@ -4426,12 +5664,12 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                        </nonce>
                        ...
                      </account>
-                     <account>
+                     ( <account>
                        <acctID>
-                         728815563385977040452943777879061427756277306518
+                         #address ( FoundryTest )
                        </acctID>
                        <balance>
-                         0
+                         maxUInt96
                        </balance>
                        <storage>
                          ( ( 11 |-> 1 )
@@ -4446,6 +5684,27 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                        </transientStorage>
                        <nonce>
                          2
+                       </nonce>
+                       ...
+                     </account>
+                     <account>
+                       <acctID>
+                         491460923342184218035706888008750043977755113263
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       <storage>
+                         .Map
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         1
                        </nonce>
                        ...
                      </account> ) )
@@ -4471,11 +5730,11 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                    </substate> } ) => .List )
                  </interimStates>
                  <touchedAccounts>
-                   ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
+                   ( SetItem ( #address ( FoundryTest ) ) SetItem ( 491460923342184218035706888008750043977755113263 ) )
                  </touchedAccounts>
                  <callState>
                    <id>
-                     ( 491460923342184218035706888008750043977755113263 => 728815563385977040452943777879061427756277306518 )
+                     ( 491460923342184218035706888008750043977755113263 => #address ( FoundryTest ) )
                    </id>
                    <caller>
                      ( 728815563385977040452943777879061427756277306518 => 137122462167341575662000267002353578582749290296 )
@@ -4504,6 +5763,9 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                    <callDepth>
                      ( 1 => 0 )
                    </callDepth>
+                   <codeAddr>
+                     ( 491460923342184218035706888008750043977755113263 => #address ( FoundryTest ) )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -4517,7 +5779,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                      0
                    </refund>
                    <accessedAccounts>
-                     ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
+                     ( SetItem ( #address ( FoundryTest ) ) SetItem ( 491460923342184218035706888008750043977755113263 ) )
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
@@ -4547,6 +5809,50 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                  <accounts>
                    ( <account>
                      <acctID>
+                       #address ( FoundryCheat )
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       0
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
+                     <acctID>
+                       #address ( FoundryTest )
+                     </acctID>
+                     <balance>
+                       maxUInt96
+                     </balance>
+                     <storage>
+                       ( ( 11 |-> 1 )
+                       ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( 7 |-> 1 ) ) )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       2
+                     </nonce>
+                     ...
+                   </account>
+                   <account>
+                     <acctID>
                        491460923342184218035706888008750043977755113263
                      </acctID>
                      <balance>
@@ -4563,50 +5869,6 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                      </transientStorage>
                      <nonce>
                        1
-                     </nonce>
-                     ...
-                   </account>
-                   ( <account>
-                     <acctID>
-                       645326474426547203313410069153905908525362434349
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     <storage>
-                       .Map
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <transientStorage>
-                       .Map
-                     </transientStorage>
-                     <nonce>
-                       0
-                     </nonce>
-                     ...
-                   </account>
-                   <account>
-                     <acctID>
-                       728815563385977040452943777879061427756277306518
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     <storage>
-                       ( ( 11 |-> 1 )
-                       ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
-                       ( 7 |-> 1 ) ) )
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <transientStorage>
-                       .Map
-                     </transientStorage>
-                     <nonce>
-                       2
                      </nonce>
                      ...
                    </account> ) )
@@ -4677,26 +5939,6 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                .MockFunctionCellMap
              </mockFunctions>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int KV1_y:Int
@@ -4712,14 +5954,9 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
        andBool ( KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int )
        andBool ( ( ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) +Int KV1_y:Int ) <Int KV2_z:Int
        andBool ( ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) <=Int ( maxUInt256 -Int KV1_y:Int )
-       andBool ( ( notBool ( ( maxUInt256 -Int KV1_y:Int ) <Int KV0_x:Int andBool ( DEPTH_CELL:Int <Int 1 andBool EXPECTEDDEPTH_CELL:Int <Int 1 ) ) )
-       andBool ( ( notBool ( ( KV0_x:Int +Int KV1_y:Int ) <Int KV2_z:Int andBool ( DEPTH_CELL:Int <Int 1 andBool ( EXPECTEDDEPTH_CELL:Int <Int 1 andBool KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int ) ) ) ) )
-       andBool ( ( notBool ( DEPTH_CELL:Int <Int 1 andBool ( EXPECTEDDEPTH_CELL:Int <Int 1 andBool ( KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int ) andBool KV2_z:Int <=Int ( KV0_x:Int +Int KV1_y:Int ) ) ) ) )
-               )))))))))))))))))
-       ensures ( ( notBool ( DEPTH_CELL:Int <Int 1 andBool EXPECTEDDEPTH_CELL:Int <Int 1 ) )
-       andBool ( ( notBool ( ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) <Int pow256 andBool ( DEPTH_CELL:Int <Int 1 andBool ( EXPECTEDDEPTH_CELL:Int <Int 1 andBool ( 0 <=Int ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) andBool KV2_z:Int <=Int ( ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) +Int KV1_y:Int ) ) ) ) ) )
-               ))
-      [priority(20), label(BASIC-BLOCK-88-TO-51)]
+               ))))))))))))))
+       ensures ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) <Int pow256
+      [priority(20), label(BASIC-BLOCK-53-TO-33)]
     
     rule [BASIC-BLOCK-91-TO-54]: <foundry>
            <kevm>
@@ -4751,7 +5988,42 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                  <callStack>
                    ( ListItem ( <callState>
                      <id>
-                       728815563385977040452943777879061427756277306518
+                       491460923342184218035706888008750043977755113263
+                     </id>
+                     <caller>
+                       #address ( FoundryTest )
+                     </caller>
+                     <callData>
+                       b"\x9c&\xe07" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int )
+                     </callData>
+                     <callValue>
+                       0
+                     </callValue>
+                     <wordStack>
+                       ( 196 : ( 1997931255 : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( 0 : ( KV2_z:Int : ( KV1_y:Int : ( KV0_x:Int : ( 111 : ( 2619793463 : .WordStack ) ) ) ) ) ) ) ) ) )
+                     </wordStack>
+                     <localMem>
+                       b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00w\x16\x02\xf7" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int )
+                     </localMem>
+                     <memoryUsed>
+                       0
+                     </memoryUsed>
+                     <callGas>
+                       0
+                     </callGas>
+                     <static>
+                       true
+                     </static>
+                     <callDepth>
+                       1
+                     </callDepth>
+                     <codeAddr>
+                       491460923342184218035706888008750043977755113263
+                     </codeAddr>
+                     ...
+                   </callState> ) ListItem ( <callState>
+                     <id>
+                       #address ( FoundryTest )
                      </id>
                      <caller>
                        137122462167341575662000267002353578582749290296
@@ -4780,12 +6052,59 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                      <callDepth>
                        0
                      </callDepth>
+                     <codeAddr>
+                       #address ( FoundryTest )
+                     </codeAddr>
                      ...
                    </callState> ) => .List )
                  </callStack>
                  <interimStates>
                    ( ListItem ( { <accounts>
                      ( <account>
+                       <acctID>
+                         #address ( FoundryCheat )
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       <storage>
+                         .Map
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         0
+                       </nonce>
+                       ...
+                     </account>
+                     ( <account>
+                       <acctID>
+                         #address ( FoundryTest )
+                       </acctID>
+                       <balance>
+                         maxUInt96
+                       </balance>
+                       <storage>
+                         ( ( 11 |-> 1 )
+                         ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                         ( 7 |-> 1 ) ) )
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         2
+                       </nonce>
+                       ...
+                     </account>
+                     <account>
                        <acctID>
                          491460923342184218035706888008750043977755113263
                        </acctID>
@@ -4805,10 +6124,30 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                          1
                        </nonce>
                        ...
-                     </account>
+                     </account> ) )
+                   </accounts> | <substate>
+                     <selfDestruct>
+                       SELFDESTRUCT_CELL:Set
+                     </selfDestruct>
+                     <log>
+                       .List
+                     </log>
+                     <refund>
+                       0
+                     </refund>
+                     <accessedAccounts>
+                       ( SetItem ( #address ( FoundryTest ) ) SetItem ( 491460923342184218035706888008750043977755113263 ) )
+                     </accessedAccounts>
+                     <accessedStorage>
+                       .Map
+                     </accessedStorage>
+                     <createdAccounts>
+                       .Set
+                     </createdAccounts>
+                   </substate> } ) ListItem ( { <accounts>
                      ( <account>
                        <acctID>
-                         645326474426547203313410069153905908525362434349
+                         #address ( FoundryCheat )
                        </acctID>
                        <balance>
                          0
@@ -4827,12 +6166,12 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                        </nonce>
                        ...
                      </account>
-                     <account>
+                     ( <account>
                        <acctID>
-                         728815563385977040452943777879061427756277306518
+                         #address ( FoundryTest )
                        </acctID>
                        <balance>
-                         0
+                         maxUInt96
                        </balance>
                        <storage>
                          ( ( 11 |-> 1 )
@@ -4847,6 +6186,27 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                        </transientStorage>
                        <nonce>
                          2
+                       </nonce>
+                       ...
+                     </account>
+                     <account>
+                       <acctID>
+                         491460923342184218035706888008750043977755113263
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       <storage>
+                         .Map
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         1
                        </nonce>
                        ...
                      </account> ) )
@@ -4872,11 +6232,11 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                    </substate> } ) => .List )
                  </interimStates>
                  <touchedAccounts>
-                   ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
+                   ( SetItem ( #address ( FoundryTest ) ) SetItem ( 491460923342184218035706888008750043977755113263 ) )
                  </touchedAccounts>
                  <callState>
                    <id>
-                     ( 491460923342184218035706888008750043977755113263 => 728815563385977040452943777879061427756277306518 )
+                     ( 491460923342184218035706888008750043977755113263 => #address ( FoundryTest ) )
                    </id>
                    <caller>
                      ( 728815563385977040452943777879061427756277306518 => 137122462167341575662000267002353578582749290296 )
@@ -4905,6 +6265,9 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                    <callDepth>
                      ( 1 => 0 )
                    </callDepth>
+                   <codeAddr>
+                     ( 491460923342184218035706888008750043977755113263 => #address ( FoundryTest ) )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -4918,7 +6281,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                      0
                    </refund>
                    <accessedAccounts>
-                     ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
+                     ( SetItem ( #address ( FoundryTest ) ) SetItem ( 491460923342184218035706888008750043977755113263 ) )
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
@@ -4948,6 +6311,50 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                  <accounts>
                    ( <account>
                      <acctID>
+                       #address ( FoundryCheat )
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       0
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
+                     <acctID>
+                       #address ( FoundryTest )
+                     </acctID>
+                     <balance>
+                       maxUInt96
+                     </balance>
+                     <storage>
+                       ( ( 11 |-> 1 )
+                       ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( 7 |-> 1 ) ) )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       2
+                     </nonce>
+                     ...
+                   </account>
+                   <account>
+                     <acctID>
                        491460923342184218035706888008750043977755113263
                      </acctID>
                      <balance>
@@ -4964,50 +6371,6 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                      </transientStorage>
                      <nonce>
                        1
-                     </nonce>
-                     ...
-                   </account>
-                   ( <account>
-                     <acctID>
-                       645326474426547203313410069153905908525362434349
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     <storage>
-                       .Map
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <transientStorage>
-                       .Map
-                     </transientStorage>
-                     <nonce>
-                       0
-                     </nonce>
-                     ...
-                   </account>
-                   <account>
-                     <acctID>
-                       728815563385977040452943777879061427756277306518
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     <storage>
-                       ( ( 11 |-> 1 )
-                       ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
-                       ( 7 |-> 1 ) ) )
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <transientStorage>
-                       .Map
-                     </transientStorage>
-                     <nonce>
-                       2
                      </nonce>
                      ...
                    </account> ) )
@@ -5078,26 +6441,6 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                .MockFunctionCellMap
              </mockFunctions>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int KV1_y:Int
@@ -5114,14 +6457,9 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
        andBool ( KV2_z:Int <=Int ( ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) +Int KV1_y:Int )
        andBool ( ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) <=Int ( maxUInt256 -Int KV1_y:Int )
        andBool ( KV0_x:Int <Int ( ( ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) +Int KV1_y:Int ) -Int KV2_z:Int )
-       andBool ( ( notBool ( ( maxUInt256 -Int KV1_y:Int ) <Int KV0_x:Int andBool ( DEPTH_CELL:Int <Int 1 andBool EXPECTEDDEPTH_CELL:Int <Int 1 ) ) )
-       andBool ( ( notBool ( ( KV0_x:Int +Int KV1_y:Int ) <Int KV2_z:Int andBool ( DEPTH_CELL:Int <Int 1 andBool ( EXPECTEDDEPTH_CELL:Int <Int 1 andBool KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int ) ) ) ) )
-       andBool ( ( notBool ( DEPTH_CELL:Int <Int 1 andBool ( EXPECTEDDEPTH_CELL:Int <Int 1 andBool ( KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int ) andBool KV2_z:Int <=Int ( KV0_x:Int +Int KV1_y:Int ) ) ) ) )
-               ))))))))))))))))))
-       ensures ( ( notBool ( DEPTH_CELL:Int <Int 1 andBool EXPECTEDDEPTH_CELL:Int <Int 1 ) )
-       andBool ( ( notBool ( ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) <Int pow256 andBool ( DEPTH_CELL:Int <Int 1 andBool ( EXPECTEDDEPTH_CELL:Int <Int 1 andBool 0 <=Int ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) ) ) ) )
-               ))
-      [priority(20), label(BASIC-BLOCK-91-TO-54)]
+               )))))))))))))))
+       ensures ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) <Int pow256
+      [priority(20), label(BASIC-BLOCK-56-TO-36)]
     
     rule [BASIC-BLOCK-92-TO-55]: <foundry>
            <kevm>
@@ -5153,7 +6491,42 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                  <callStack>
                    ( ListItem ( <callState>
                      <id>
-                       728815563385977040452943777879061427756277306518
+                       491460923342184218035706888008750043977755113263
+                     </id>
+                     <caller>
+                       #address ( FoundryTest )
+                     </caller>
+                     <callData>
+                       b"\x9c&\xe07" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int )
+                     </callData>
+                     <callValue>
+                       0
+                     </callValue>
+                     <wordStack>
+                       ( 196 : ( 1997931255 : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( 0 : ( KV2_z:Int : ( KV1_y:Int : ( KV0_x:Int : ( 111 : ( 2619793463 : .WordStack ) ) ) ) ) ) ) ) ) )
+                     </wordStack>
+                     <localMem>
+                       b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00w\x16\x02\xf7" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int )
+                     </localMem>
+                     <memoryUsed>
+                       0
+                     </memoryUsed>
+                     <callGas>
+                       0
+                     </callGas>
+                     <static>
+                       true
+                     </static>
+                     <callDepth>
+                       1
+                     </callDepth>
+                     <codeAddr>
+                       491460923342184218035706888008750043977755113263
+                     </codeAddr>
+                     ...
+                   </callState> ) ListItem ( <callState>
+                     <id>
+                       #address ( FoundryTest )
                      </id>
                      <caller>
                        137122462167341575662000267002353578582749290296
@@ -5182,12 +6555,59 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                      <callDepth>
                        0
                      </callDepth>
+                     <codeAddr>
+                       #address ( FoundryTest )
+                     </codeAddr>
                      ...
                    </callState> ) => .List )
                  </callStack>
                  <interimStates>
                    ( ListItem ( { <accounts>
                      ( <account>
+                       <acctID>
+                         #address ( FoundryCheat )
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       <storage>
+                         .Map
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         0
+                       </nonce>
+                       ...
+                     </account>
+                     ( <account>
+                       <acctID>
+                         #address ( FoundryTest )
+                       </acctID>
+                       <balance>
+                         maxUInt96
+                       </balance>
+                       <storage>
+                         ( ( 11 |-> 1 )
+                         ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                         ( 7 |-> 1 ) ) )
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         2
+                       </nonce>
+                       ...
+                     </account>
+                     <account>
                        <acctID>
                          491460923342184218035706888008750043977755113263
                        </acctID>
@@ -5207,10 +6627,30 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                          1
                        </nonce>
                        ...
-                     </account>
+                     </account> ) )
+                   </accounts> | <substate>
+                     <selfDestruct>
+                       SELFDESTRUCT_CELL:Set
+                     </selfDestruct>
+                     <log>
+                       .List
+                     </log>
+                     <refund>
+                       0
+                     </refund>
+                     <accessedAccounts>
+                       ( SetItem ( #address ( FoundryTest ) ) SetItem ( 491460923342184218035706888008750043977755113263 ) )
+                     </accessedAccounts>
+                     <accessedStorage>
+                       .Map
+                     </accessedStorage>
+                     <createdAccounts>
+                       .Set
+                     </createdAccounts>
+                   </substate> } ) ListItem ( { <accounts>
                      ( <account>
                        <acctID>
-                         645326474426547203313410069153905908525362434349
+                         #address ( FoundryCheat )
                        </acctID>
                        <balance>
                          0
@@ -5229,12 +6669,12 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                        </nonce>
                        ...
                      </account>
-                     <account>
+                     ( <account>
                        <acctID>
-                         728815563385977040452943777879061427756277306518
+                         #address ( FoundryTest )
                        </acctID>
                        <balance>
-                         0
+                         maxUInt96
                        </balance>
                        <storage>
                          ( ( 11 |-> 1 )
@@ -5249,6 +6689,27 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                        </transientStorage>
                        <nonce>
                          2
+                       </nonce>
+                       ...
+                     </account>
+                     <account>
+                       <acctID>
+                         491460923342184218035706888008750043977755113263
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       <storage>
+                         .Map
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         1
                        </nonce>
                        ...
                      </account> ) )
@@ -5274,11 +6735,11 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                    </substate> } ) => .List )
                  </interimStates>
                  <touchedAccounts>
-                   ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
+                   ( SetItem ( #address ( FoundryTest ) ) SetItem ( 491460923342184218035706888008750043977755113263 ) )
                  </touchedAccounts>
                  <callState>
                    <id>
-                     ( 491460923342184218035706888008750043977755113263 => 728815563385977040452943777879061427756277306518 )
+                     ( 491460923342184218035706888008750043977755113263 => #address ( FoundryTest ) )
                    </id>
                    <caller>
                      ( 728815563385977040452943777879061427756277306518 => 137122462167341575662000267002353578582749290296 )
@@ -5307,6 +6768,9 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                    <callDepth>
                      ( 1 => 0 )
                    </callDepth>
+                   <codeAddr>
+                     ( 491460923342184218035706888008750043977755113263 => #address ( FoundryTest ) )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -5320,7 +6784,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                      0
                    </refund>
                    <accessedAccounts>
-                     ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
+                     ( SetItem ( #address ( FoundryTest ) ) SetItem ( 491460923342184218035706888008750043977755113263 ) )
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
@@ -5350,6 +6814,50 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                  <accounts>
                    ( <account>
                      <acctID>
+                       #address ( FoundryCheat )
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       0
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
+                     <acctID>
+                       #address ( FoundryTest )
+                     </acctID>
+                     <balance>
+                       maxUInt96
+                     </balance>
+                     <storage>
+                       ( ( 11 |-> 1 )
+                       ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( 7 |-> 1 ) ) )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       2
+                     </nonce>
+                     ...
+                   </account>
+                   <account>
+                     <acctID>
                        491460923342184218035706888008750043977755113263
                      </acctID>
                      <balance>
@@ -5366,50 +6874,6 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                      </transientStorage>
                      <nonce>
                        1
-                     </nonce>
-                     ...
-                   </account>
-                   ( <account>
-                     <acctID>
-                       645326474426547203313410069153905908525362434349
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     <storage>
-                       .Map
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <transientStorage>
-                       .Map
-                     </transientStorage>
-                     <nonce>
-                       0
-                     </nonce>
-                     ...
-                   </account>
-                   <account>
-                     <acctID>
-                       728815563385977040452943777879061427756277306518
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     <storage>
-                       ( ( 11 |-> 1 )
-                       ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
-                       ( 7 |-> 1 ) ) )
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <transientStorage>
-                       .Map
-                     </transientStorage>
-                     <nonce>
-                       2
                      </nonce>
                      ...
                    </account> ) )
@@ -5480,26 +6944,6 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                .MockFunctionCellMap
              </mockFunctions>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int KV1_y:Int
@@ -5516,13 +6960,8 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
        andBool ( KV2_z:Int <=Int ( ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) +Int KV1_y:Int )
        andBool ( ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) <=Int ( maxUInt256 -Int KV1_y:Int )
        andBool ( ( ( ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) +Int KV1_y:Int ) -Int KV2_z:Int ) <=Int KV0_x:Int
-       andBool ( ( notBool ( ( maxUInt256 -Int KV1_y:Int ) <Int KV0_x:Int andBool ( DEPTH_CELL:Int <Int 1 andBool EXPECTEDDEPTH_CELL:Int <Int 1 ) ) )
-       andBool ( ( notBool ( ( KV0_x:Int +Int KV1_y:Int ) <Int KV2_z:Int andBool ( DEPTH_CELL:Int <Int 1 andBool ( EXPECTEDDEPTH_CELL:Int <Int 1 andBool KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int ) ) ) ) )
-       andBool ( ( notBool ( DEPTH_CELL:Int <Int 1 andBool ( EXPECTEDDEPTH_CELL:Int <Int 1 andBool ( KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int ) andBool KV2_z:Int <=Int ( KV0_x:Int +Int KV1_y:Int ) ) ) ) )
-               ))))))))))))))))))
-       ensures ( ( notBool ( DEPTH_CELL:Int <Int 1 andBool EXPECTEDDEPTH_CELL:Int <Int 1 ) )
-       andBool ( ( notBool ( ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) <Int pow256 andBool ( DEPTH_CELL:Int <Int 1 andBool ( EXPECTEDDEPTH_CELL:Int <Int 1 andBool 0 <=Int ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) ) ) ) )
-               ))
-      [priority(20), label(BASIC-BLOCK-92-TO-55)]
+               )))))))))))))))
+       ensures ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) <Int pow256
+      [priority(20), label(BASIC-BLOCK-57-TO-37)]
 
 endmodule

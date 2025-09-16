@@ -129,9 +129,9 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.ADD(UINT256):0
                    <static>
                      false
                    </static>
-                   <callDepth>
-                     CALLDEPTH_CELL:Int
-                   </callDepth>
+                   <codeAddr>
+                     C_IMPORTEDCONTRACT_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -231,26 +231,6 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.ADD(UINT256):0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( ( notBool _ACTIVE_CELL:Bool )
        andBool ( ( notBool _ISREVERTEXPECTED_CELL:Bool )
@@ -265,14 +245,10 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.ADD(UINT256):0
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( 0 <=Int C_IMPORTEDCONTRACT_NONCE:Int
-       andBool ( DEPTH_CELL:Int <Int CALLDEPTH_CELL:Int
-       andBool ( ( notBool CALLDEPTH_CELL:Int <=Int DEPTH_CELL:Int )
-       andBool ( EXPECTEDDEPTH_CELL:Int <Int CALLDEPTH_CELL:Int
-       andBool ( ( notBool CALLDEPTH_CELL:Int <=Int EXPECTEDDEPTH_CELL:Int )
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( C_IMPORTEDCONTRACT_NONCE:Int <Int maxUInt64
-       andBool ( C_IMPORTEDCONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_IMPORTEDCONTRACT_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( C_IMPORTEDCONTRACT_ID:Int <Int pow160
@@ -282,9 +258,15 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.ADD(UINT256):0
        andBool ( ( notBool <acctID>
           C_IMPORTEDCONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IMPORTEDCONTRACT_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IMPORTEDCONTRACT_ID:Int <=Int 0
+          orBool ( 10 <Int C_IMPORTEDCONTRACT_ID:Int
+                 ))
        andBool ( #lookup ( C_IMPORTEDCONTRACT_STORAGE:Map , 0 ) <=Int ( maxUInt256 -Int KV0_x:Int )
                ))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-8-TO-6)]
@@ -340,9 +322,9 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.ADD(UINT256):0
                    <static>
                      false
                    </static>
-                   <callDepth>
-                     CALLDEPTH_CELL:Int
-                   </callDepth>
+                   <codeAddr>
+                     C_IMPORTEDCONTRACT_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -442,26 +424,6 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.ADD(UINT256):0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( ( notBool _ACTIVE_CELL:Bool )
        andBool ( ( notBool _ISREVERTEXPECTED_CELL:Bool )
@@ -476,14 +438,10 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.ADD(UINT256):0
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( 0 <=Int C_IMPORTEDCONTRACT_NONCE:Int
-       andBool ( DEPTH_CELL:Int <Int CALLDEPTH_CELL:Int
-       andBool ( ( notBool CALLDEPTH_CELL:Int <=Int DEPTH_CELL:Int )
-       andBool ( EXPECTEDDEPTH_CELL:Int <Int CALLDEPTH_CELL:Int
-       andBool ( ( notBool CALLDEPTH_CELL:Int <=Int EXPECTEDDEPTH_CELL:Int )
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( C_IMPORTEDCONTRACT_NONCE:Int <Int maxUInt64
-       andBool ( C_IMPORTEDCONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_IMPORTEDCONTRACT_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( C_IMPORTEDCONTRACT_ID:Int <Int pow160
@@ -493,9 +451,15 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.ADD(UINT256):0
        andBool ( ( notBool <acctID>
           C_IMPORTEDCONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IMPORTEDCONTRACT_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IMPORTEDCONTRACT_ID:Int <=Int 0
+          orBool ( 10 <Int C_IMPORTEDCONTRACT_ID:Int
+                 ))
        andBool ( ( maxUInt256 -Int KV0_x:Int ) <Int #lookup ( C_IMPORTEDCONTRACT_STORAGE:Map , 0 )
                ))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-9-TO-7)]

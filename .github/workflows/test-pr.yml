@@ -15,10 +15,14 @@ jobs:
     steps:
       - name: 'Check out code'
         uses: actions/checkout@v4
+      - name: 'Get uv release'
+        id: uv_release
+        run: |
+          echo uv_version=$(cat deps/uv_release) >> "${GITHUB_OUTPUT}"
       - name: 'Install uv'
-        uses: astral-sh/setup-uv@v5
+        uses: astral-sh/setup-uv@v6
         with:
-          version: 0.7.2
+          version: ${{ steps.uv_release.outputs.uv_version }}
       - name: 'Run code quality checks'
         run: make check
       - name: 'Run pyupgrade'
@@ -31,10 +35,14 @@ jobs:
     steps:
       - name: 'Check out code'
         uses: actions/checkout@v4
+      - name: 'Get uv release'
+        id: uv_release
+        run: |
+          echo uv_version=$(cat deps/uv_release) >> "${GITHUB_OUTPUT}"
       - name: 'Install uv'
-        uses: astral-sh/setup-uv@v5
+        uses: astral-sh/setup-uv@v6
         with:
-          version: 0.7.2
+          version: ${{ steps.uv_release.outputs.uv_version }}
       - name: 'Run unit tests'
         run: make cov-unit
 
@@ -42,10 +50,6 @@ jobs:
     needs: code-quality-checks
     name: 'Profiling'
     runs-on: [self-hosted, linux, normal]
-    strategy:
-      fail-fast: false
-      matrix:
-        backend: ['legacy', 'booster']
     timeout-minutes: 30
     steps:
       - name: 'Check out code'
@@ -61,8 +65,7 @@ jobs:
             docker exec -u github-user kontrol-ci-profile-${GITHUB_SHA} /bin/bash -c 'CXX=clang++-14 uv run kdist --verbose build -j`nproc` kontrol.*'
       - name: 'Run profiling'
         run: |
-          PROF_ARGS=--numprocesses=8
-          [ ${{ matrix.backend }} == 'legacy' ] && PROF_ARGS+=' --no-use-booster'
+          PROF_ARGS='--numprocesses=8'
           docker exec -u github-user kontrol-ci-profile-${GITHUB_SHA} make profile PROF_ARGS="${PROF_ARGS}"
       - name: 'Tear down Docker'
         if: always()
@@ -73,10 +76,6 @@ jobs:
     needs: code-quality-checks
     name: 'Integration Tests'
     runs-on: [self-hosted, linux, normal, fast]
-    strategy:
-      fail-fast: false
-      matrix:
-        backend: ['legacy', 'booster']
     timeout-minutes: 120
     steps:
       - name: 'Check out code'
@@ -92,12 +91,7 @@ jobs:
             docker exec -u github-user kontrol-ci-integration-${GITHUB_SHA} /bin/bash -c 'CXX=clang++-14 uv run kdist --verbose build -j`nproc` kontrol.*'
       - name: 'Run integration tests'
         run: |
-          TEST_ARGS='-vv --force-sequential -k "not (test_kontrol_cse or test_foundry_minimize_proof or test_kontrol_end_to_end)"'
-          if [ ${{ matrix.backend }} == 'legacy' ]; then
-            TEST_ARGS+=' --no-use-booster --numprocesses=6'
-          else
-            TEST_ARGS+=' --numprocesses=3'
-          fi
+          TEST_ARGS='-vv --force-sequential -k "not (test_kontrol_cse or test_foundry_minimize_proof or test_kontrol_end_to_end)" --numprocesses=3'
           docker exec --user github-user kontrol-ci-integration-${GITHUB_SHA} make cov-integration TEST_ARGS="${TEST_ARGS}"
       - name: 'Tear down Docker'
         if: always()
@@ -123,7 +117,7 @@ jobs:
             docker exec -u github-user kontrol-ci-integration-${GITHUB_SHA} /bin/bash -c 'CXX=clang++-14 uv run kdist --verbose build -j`nproc` kontrol.*'
       - name: 'Run CSE and Minimize tests'
         run: |
-          TEST_ARGS='--numprocesses=8 --force-sequential -vv -k "test_kontrol_cse or test_foundry_minimize_proof"'
+          TEST_ARGS='--numprocesses=5 --force-sequential -vv -k "test_kontrol_cse or test_foundry_minimize_proof"'
           docker exec --user github-user kontrol-ci-integration-${GITHUB_SHA} make cov-integration TEST_ARGS="${TEST_ARGS}"
       - name: 'Tear down Docker'
         if: always()

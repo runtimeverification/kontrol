@@ -503,34 +503,6 @@ def _create_argument_parser() -> ArgumentParser:
         '--minimize-proofs', dest='minimize_proofs', default=None, action='store_true', help='Minimize obtained KCFGs'
     )
     prove_args.add_argument(
-        '--evm-tracing',
-        dest='active_tracing',
-        default=None,
-        action='store_true',
-        help='Trace opcode execution and store it in the configuration',
-    )
-    prove_args.add_argument(
-        '--no-trace-storage',
-        dest='trace_storage',
-        default=None,
-        action='store_false',
-        help='If tracing is active, avoid storing storage information.',
-    )
-    prove_args.add_argument(
-        '--no-trace-wordstack',
-        dest='trace_wordstack',
-        default=None,
-        action='store_false',
-        help='If tracing is active, avoid storing wordstack information.',
-    )
-    prove_args.add_argument(
-        '--no-trace-memory',
-        dest='trace_memory',
-        default=None,
-        action='store_false',
-        help='If tracing is active, avoid storing memory information.',
-    )
-    prove_args.add_argument(
         '--remove-old-proofs',
         dest='remove_old_proofs',
         default=None,

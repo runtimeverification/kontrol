@@ -83,22 +83,6 @@ class RpcOptions(Options):
         }
 
 
-class TraceOptions(Options):
-    active_tracing: bool
-    trace_storage: bool
-    trace_wordstack: bool
-    trace_memory: bool
-
-    @staticmethod
-    def default() -> dict[str, Any]:
-        return {
-            'active_tracing': False,
-            'trace_storage': False,
-            'trace_wordstack': False,
-            'trace_memory': False,
-        }
-
-
 class CleanOptions(FoundryOptions, LoggingOptions):
     proofs: bool
     old_proofs: bool
@@ -329,7 +313,6 @@ class ProveOptions(
     BugReportOptions,
     ExploreOptions,
     FoundryOptions,
-    TraceOptions,
     EVMChainOptions,
 ):
     tests: list[tuple[str, int | None]]
@@ -401,7 +384,6 @@ class ProveOptions(
             | BugReportOptions.from_option_string()
             | ExploreOptions.from_option_string()
             | FoundryOptions.from_option_string()
-            | TraceOptions.from_option_string()
             | EVMChainOptions.from_option_string()
             | {
                 'match-test': 'tests',
@@ -423,7 +405,6 @@ class ProveOptions(
             | BugReportOptions.get_argument_type()
             | ExploreOptions.get_argument_type()
             | FoundryOptions.get_argument_type()
-            | TraceOptions.get_argument_type()
             | EVMChainOptions.get_argument_type()
             | {
                 'match-test': list_of(parse_test_version_tuple),

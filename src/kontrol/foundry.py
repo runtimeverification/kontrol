@@ -44,6 +44,7 @@ from . import VERSION
 from .solc_to_k import Contract, _contract_name_from_bytecode
 from .utils import (
     _read_digest_file,
+    decode_log_message,
     empty_lemmas_file_contents,
     ensure_name_is_unique,
     kontrol_file_contents,
@@ -87,6 +88,7 @@ class KontrolSemantics(KEVMSemantics):
         custom_steps = (
             CustomStep(self._rename_pattern, self._exec_rename_custom_step),
             CustomStep(self._forget_branch_pattern, self._exec_forget_custom_step),
+            CustomStep(self._console_log_pattern, self._exec_console_log_custom_step),
         )
 
         super().__init__(
@@ -104,7 +106,10 @@ class KontrolSemantics(KEVMSemantics):
         break_on_basic_blocks: bool,
         break_on_load_program: bool,
     ) -> list[str]:
-        return ['FOUNDRY-CHEAT-CODES.rename', 'FOUNDRY-ACCOUNTS.forget'] + KEVMSemantics.cut_point_rules(
+        return [
+            'FOUNDRY-CHEAT-CODES.rename',
+            'FOUNDRY-ACCOUNTS.forget',
+        ] + KEVMSemantics.cut_point_rules(
             break_on_jumpi,
             break_on_jump,
             break_on_calls,
@@ -129,6 +134,12 @@ class KontrolSemantics(KEVMSemantics):
                 KApply('cheatcode_forget', [KVariable('###TERM1'), KVariable('###OPERATOR'), KVariable('###TERM2')]),
                 KVariable('###CONTINUATION'),
             ]
+        )
+
+    @property
+    def _console_log_pattern(self) -> KSequence:
+        return KSequence(
+            [KApply('console_log', [KVariable('###SELECTOR'), KVariable('###DATA')]), KVariable('###CONTINUATION')]
         )
 
     def _exec_rename_custom_step(self, subst: Subst, cterm: CTerm, _c: CTermSymbolic) -> KCFGExtendResult | None:
@@ -265,6 +276,27 @@ class KontrolSemantics(KEVMSemantics):
         # Update the K_CELL with the continuation
         new_cterm = CTerm.from_kast(set_cell(cterm.kast, 'K_CELL', KSequence(subst['###CONTINUATION'])))
         return Step(CTerm(new_cterm.config, new_constraints), 1, (), ['cheatcode_forget'], cut=True)
+
+    def _exec_console_log_custom_step(self, subst: Subst, cterm: CTerm, _c: CTermSymbolic) -> KCFGExtendResult | None:
+        selector_token = subst['###SELECTOR']
+        data = subst['###DATA']
+        assert type(selector_token) is KToken
+
+        try:
+            if type(data) is KToken:
+                selector = int(selector_token.token)
+                output = decode_log_message(data.token, selector)
+                if output is not None:
+                    print(f'    {output}')
+            else:
+                kevm = KEVM(kdist.get('kontrol.base'))
+                print(f'    {kevm.pretty_print(data)}')
+        except Exception as e:
+            _LOGGER.warning(f'Console log decode error: {e}')
+
+        # Update the K_CELL with the continuation
+        new_cterm = CTerm.from_kast(set_cell(cterm.kast, 'K_CELL', KSequence(subst['###CONTINUATION'])))
+        return Step(CTerm(new_cterm.config, cterm.constraints), 1, (), ['console.log'], cut=True)
 
 
 class FoundryKEVM(KEVM):
@@ -703,28 +735,8 @@ class Foundry:
         )
 
     @staticmethod
-    def help_info(proof_id: str, hevm: bool) -> list[str]:
+    def help_info() -> list[str]:
         res_lines: list[str] = []
-        if hevm:
-            _, test = proof_id.split('.')
-            if not any(test.startswith(prefix) for prefix in ['testFail', 'checkFail', 'proveFail']):
-                res_lines.append('')
-                res_lines.append('See `hevm_success` predicate for more information:')
-                res_lines.append(
-                    'https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/hevm.md#hevm-success-predicate'
-                )
-            else:
-                res_lines.append('')
-                res_lines.append('See `hevm_fail` predicate for more information:')
-                res_lines.append(
-                    'https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/hevm.md#hevm-fail-predicate'
-                )
-        else:
-            res_lines.append('')
-            res_lines.append('See `foundry_success` predicate for more information:')
-            res_lines.append(
-                'https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/foundry.md#foundry-success-predicate'
-            )
         res_lines.append('')
         res_lines.append('Access documentation for Kontrol at https://docs.runtimeverification.com/kontrol')
         return res_lines

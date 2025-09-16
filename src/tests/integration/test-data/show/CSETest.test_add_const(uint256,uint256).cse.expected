@@ -108,7 +108,7 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                  </touchedAccounts>
                  <callState>
                    <id>
-                     728815563385977040452943777879061427756277306518
+                     #address ( FoundryTest )
                    </id>
                    <caller>
                      137122462167341575662000267002353578582749290296
@@ -120,7 +120,7 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                      0
                    </callValue>
                    <wordStack>
-                     ( ( bool2Word ( KV0_x:Int <Int pow64 ) => 164 ) : ( selector ( "assume(bool)" ) : ( 645326474426547203313410069153905908525362434349 : ( KV1_y:Int : ( KV0_x:Int : ( 220 : ( 267266513 : .WordStack ) ) ) ) ) ) )
+                     ( ( bool2Word ( KV0_x:Int <Int pow64 ) => 164 ) : ( selector ( "assume(bool)" ) : ( #address ( FoundryCheat ) : ( KV1_y:Int : ( KV0_x:Int : ( 220 : ( 267266513 : .WordStack ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00Lc\xe5b" +Bytes #buf ( 32 , bool2Word ( KV0_x:Int <Int pow64 ) ) )
@@ -137,6 +137,9 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                    <callDepth>
                      0
                    </callDepth>
+                   <codeAddr>
+                     #address ( FoundryTest )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -147,7 +150,7 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                      0
                    </refund>
                    <accessedAccounts>
-                     ( .Set => SetItem ( 645326474426547203313410069153905908525362434349 ) )
+                     ( .Set => SetItem ( #address ( FoundryCheat ) ) )
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
@@ -176,6 +179,52 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                    1
                  </chainID>
                  <accounts>
+                   ( <account>
+                     <acctID>
+                       #address ( FoundryCheat )
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       0
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
+                     <acctID>
+                       #address ( FoundryTest )
+                     </acctID>
+                     <balance>
+                       maxUInt96
+                     </balance>
+                     <storage>
+                       ( ( 11 |-> 1 )
+                       ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( ( 28 |-> 263400868551549723330807389252719309078400616203 )
+                       ( ( 29 |-> 1405310203571408291950365054053061012934685786634 )
+                       ( 7 |-> 1 ) ) ) ) )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       4
+                     </nonce>
+                     ...
+                   </account>
                    ( <account>
                      <acctID>
                        1405310203571408291950365054053061012934685786634
@@ -218,7 +267,7 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                      </nonce>
                      ...
                    </account>
-                   ( <account>
+                   <account>
                      <acctID>
                        491460923342184218035706888008750043977755113263
                      </acctID>
@@ -236,52 +285,6 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                      </transientStorage>
                      <nonce>
                        1
-                     </nonce>
-                     ...
-                   </account>
-                   ( <account>
-                     <acctID>
-                       645326474426547203313410069153905908525362434349
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     <storage>
-                       .Map
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <transientStorage>
-                       .Map
-                     </transientStorage>
-                     <nonce>
-                       0
-                     </nonce>
-                     ...
-                   </account>
-                   <account>
-                     <acctID>
-                       728815563385977040452943777879061427756277306518
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     <storage>
-                       ( ( 11 |-> 1 )
-                       ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
-                       ( ( 28 |-> 263400868551549723330807389252719309078400616203 )
-                       ( ( 29 |-> 1405310203571408291950365054053061012934685786634 )
-                       ( 7 |-> 1 ) ) ) ) )
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <transientStorage>
-                       .Map
-                     </transientStorage>
-                     <nonce>
-                       4
                      </nonce>
                      ...
                    </account> ) ) ) )
@@ -346,26 +349,6 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                .MockFunctionCellMap
              </mockFunctions>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int KV1_y:Int
@@ -411,11 +394,11 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                    .List
                  </interimStates>
                  <touchedAccounts>
-                   ( .Set => ( SetItem ( 263400868551549723330807389252719309078400616203 ) SetItem ( 728815563385977040452943777879061427756277306518 ) ) )
+                   ( .Set => ( SetItem ( #address ( FoundryTest ) ) SetItem ( 263400868551549723330807389252719309078400616203 ) ) )
                  </touchedAccounts>
                  <callState>
                    <id>
-                     728815563385977040452943777879061427756277306518
+                     #address ( FoundryTest )
                    </id>
                    <caller>
                      137122462167341575662000267002353578582749290296
@@ -427,7 +410,7 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                      0
                    </callValue>
                    <wordStack>
-                     ( ( bool2Word ( KV0_x:Int <Int pow64 ) => 267266513 ) : ( ( selector ( "assume(bool)" ) : ( 645326474426547203313410069153905908525362434349 : ( KV1_y:Int : ( KV0_x:Int : ( 220 : ( 267266513 : .WordStack ) ) ) ) ) ) => .WordStack ) )
+                     ( ( bool2Word ( KV0_x:Int <Int pow64 ) => 267266513 ) : ( ( selector ( "assume(bool)" ) : ( #address ( FoundryCheat ) : ( KV1_y:Int : ( KV0_x:Int : ( 220 : ( 267266513 : .WordStack ) ) ) ) ) ) => .WordStack ) )
                    </wordStack>
                    <localMem>
                      ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( KV1_y:Int +Int KV0_x:Int ) ) +Bytes #range ( #buf ( 32 , KV1_y:Int ) , 28 , 4 ) )
@@ -444,6 +427,9 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                    <callDepth>
                      0
                    </callDepth>
+                   <codeAddr>
+                     #address ( FoundryTest )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -454,7 +440,7 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                      0
                    </refund>
                    <accessedAccounts>
-                     ( .Set => ( SetItem ( 263400868551549723330807389252719309078400616203 ) ( SetItem ( 645326474426547203313410069153905908525362434349 ) SetItem ( 728815563385977040452943777879061427756277306518 ) ) ) )
+                     ( .Set => ( SetItem ( #address ( FoundryCheat ) ) ( SetItem ( #address ( FoundryTest ) ) SetItem ( 263400868551549723330807389252719309078400616203 ) ) ) )
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
@@ -483,6 +469,52 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                    1
                  </chainID>
                  <accounts>
+                   ( <account>
+                     <acctID>
+                       #address ( FoundryCheat )
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       0
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
+                     <acctID>
+                       #address ( FoundryTest )
+                     </acctID>
+                     <balance>
+                       maxUInt96
+                     </balance>
+                     <storage>
+                       ( ( 11 |-> 1 )
+                       ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( ( 28 |-> 263400868551549723330807389252719309078400616203 )
+                       ( ( 29 |-> 1405310203571408291950365054053061012934685786634 )
+                       ( 7 |-> 1 ) ) ) ) )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       4
+                     </nonce>
+                     ...
+                   </account>
                    ( <account>
                      <acctID>
                        1405310203571408291950365054053061012934685786634
@@ -525,7 +557,7 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                      </nonce>
                      ...
                    </account>
-                   ( <account>
+                   <account>
                      <acctID>
                        491460923342184218035706888008750043977755113263
                      </acctID>
@@ -543,52 +575,6 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                      </transientStorage>
                      <nonce>
                        1
-                     </nonce>
-                     ...
-                   </account>
-                   ( <account>
-                     <acctID>
-                       645326474426547203313410069153905908525362434349
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     <storage>
-                       .Map
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <transientStorage>
-                       .Map
-                     </transientStorage>
-                     <nonce>
-                       0
-                     </nonce>
-                     ...
-                   </account>
-                   <account>
-                     <acctID>
-                       728815563385977040452943777879061427756277306518
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     <storage>
-                       ( ( 11 |-> 1 )
-                       ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
-                       ( ( 28 |-> 263400868551549723330807389252719309078400616203 )
-                       ( ( 29 |-> 1405310203571408291950365054053061012934685786634 )
-                       ( 7 |-> 1 ) ) ) ) )
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <transientStorage>
-                       .Map
-                     </transientStorage>
-                     <nonce>
-                       4
                      </nonce>
                      ...
                    </account> ) ) ) )
@@ -653,26 +639,6 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                .MockFunctionCellMap
              </mockFunctions>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int KV1_y:Int
@@ -722,7 +688,7 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                  </touchedAccounts>
                  <callState>
                    <id>
-                     728815563385977040452943777879061427756277306518
+                     #address ( FoundryTest )
                    </id>
                    <caller>
                      137122462167341575662000267002353578582749290296
@@ -734,7 +700,7 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                      0
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( bool2Word ( ?KV0_x:Int <Int pow64 ) : ( selector ( "assume(bool)" ) : ( 645326474426547203313410069153905908525362434349 : ( ?KV1_y:Int : ( ?KV0_x:Int : ( 220 : ( 267266513 : .WordStack ) ) ) ) ) ) ) )
+                     ( .WordStack => ( bool2Word ( ?KV0_x:Int <Int pow64 ) : ( selector ( "assume(bool)" ) : ( #address ( FoundryCheat ) : ( ?KV1_y:Int : ( ?KV0_x:Int : ( 220 : ( 267266513 : .WordStack ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" )
@@ -751,6 +717,9 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                    <callDepth>
                      0
                    </callDepth>
+                   <codeAddr>
+                     #address ( FoundryTest )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -792,7 +761,7 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                  <accounts>
                    ( <account>
                      <acctID>
-                       ( 645326474426547203313410069153905908525362434349 => 1405310203571408291950365054053061012934685786634 )
+                       ( #address ( FoundryCheat ) => 1405310203571408291950365054053061012934685786634 )
                      </acctID>
                      <balance>
                        0
@@ -813,10 +782,10 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                    </account>
                    ( <account>
                      <acctID>
-                       728815563385977040452943777879061427756277306518
+                       #address ( FoundryTest )
                      </acctID>
                      <balance>
-                       0
+                       maxUInt96
                      </balance>
                      <storage>
                        ( ( 11 |-> 1 )
@@ -833,6 +802,52 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                      </nonce>
                      ...
                    </account> => ( <account>
+                     <acctID>
+                       #address ( FoundryCheat )
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       0
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
+                     <acctID>
+                       #address ( FoundryTest )
+                     </acctID>
+                     <balance>
+                       maxUInt96
+                     </balance>
+                     <storage>
+                       ( ( 11 |-> 1 )
+                       ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( ( 28 |-> 263400868551549723330807389252719309078400616203 )
+                       ( ( 29 |-> 1405310203571408291950365054053061012934685786634 )
+                       ( 7 |-> 1 ) ) ) ) )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       4
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
                      <acctID>
                        263400868551549723330807389252719309078400616203
                      </acctID>
@@ -853,7 +868,7 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                      </nonce>
                      ...
                    </account>
-                   ( <account>
+                   <account>
                      <acctID>
                        491460923342184218035706888008750043977755113263
                      </acctID>
@@ -871,52 +886,6 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                      </transientStorage>
                      <nonce>
                        1
-                     </nonce>
-                     ...
-                   </account>
-                   ( <account>
-                     <acctID>
-                       645326474426547203313410069153905908525362434349
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     <storage>
-                       .Map
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <transientStorage>
-                       .Map
-                     </transientStorage>
-                     <nonce>
-                       0
-                     </nonce>
-                     ...
-                   </account>
-                   <account>
-                     <acctID>
-                       728815563385977040452943777879061427756277306518
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     <storage>
-                       ( ( 11 |-> 1 )
-                       ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
-                       ( ( 28 |-> 263400868551549723330807389252719309078400616203 )
-                       ( ( 29 |-> 1405310203571408291950365054053061012934685786634 )
-                       ( 7 |-> 1 ) ) ) ) )
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <transientStorage>
-                       .Map
-                     </transientStorage>
-                     <nonce>
-                       4
                      </nonce>
                      ...
                    </account> ) ) ) ) )
@@ -981,26 +950,6 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                .MockFunctionCellMap
              </mockFunctions>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32

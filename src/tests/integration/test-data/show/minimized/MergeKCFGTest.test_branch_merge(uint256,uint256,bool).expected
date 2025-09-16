@@ -49,7 +49,7 @@
 ┣━━┓ subst: .Subst
 ┃  ┃ constraint:
 ┃  ┃     KV2_z:Int ==Int 0
-┃  ┃     ( notBool ( ( notBool KV0_x:Int ==Int 0 ) andBool maxUInt256 /Word KV0_x:Int <Int KV1_y:Int ) )
+┃  ┃     ( KV0_x:Int ==Int 0 orBool KV1_y:Int <=Int maxUInt256 /Word KV0_x:Int )
 ┃  │
 ┃  ├─ 44
 ┃  │   k: JUMPI 99 bool2Word ( KV2_z:Int ==Int 0 ) ~> #pc [ JUMPI ] ~> #execute ~> #return ...
@@ -141,7 +141,7 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                  <callStack>
                    ( .List => ListItem ( <callState>
                      <id>
-                       728815563385977040452943777879061427756277306518
+                       #address ( FoundryTest )
                      </id>
                      <caller>
                        137122462167341575662000267002353578582749290296
@@ -170,12 +170,57 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                      <callDepth>
                        0
                      </callDepth>
+                     <codeAddr>
+                       #address ( FoundryTest )
+                     </codeAddr>
                      ...
                    </callState> ) )
                  </callStack>
                  <interimStates>
                    ( .List => ListItem ( { <accounts>
                      ( <account>
+                       <acctID>
+                         #address ( FoundryCheat )
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       <storage>
+                         .Map
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         0
+                       </nonce>
+                       ...
+                     </account>
+                     ( <account>
+                       <acctID>
+                         #address ( FoundryTest )
+                       </acctID>
+                       <balance>
+                         maxUInt96
+                       </balance>
+                       <storage>
+                         ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         2
+                       </nonce>
+                       ...
+                     </account>
+                     <account>
                        <acctID>
                          491460923342184218035706888008750043977755113263
                        </acctID>
@@ -195,48 +240,6 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                          1
                        </nonce>
                        ...
-                     </account>
-                     ( <account>
-                       <acctID>
-                         645326474426547203313410069153905908525362434349
-                       </acctID>
-                       <balance>
-                         0
-                       </balance>
-                       <storage>
-                         .Map
-                       </storage>
-                       <origStorage>
-                         .Map
-                       </origStorage>
-                       <transientStorage>
-                         .Map
-                       </transientStorage>
-                       <nonce>
-                         0
-                       </nonce>
-                       ...
-                     </account>
-                     <account>
-                       <acctID>
-                         728815563385977040452943777879061427756277306518
-                       </acctID>
-                       <balance>
-                         0
-                       </balance>
-                       <storage>
-                         ( 27 |-> 491460923342184218035706888008750043977755113263 )
-                       </storage>
-                       <origStorage>
-                         .Map
-                       </origStorage>
-                       <transientStorage>
-                         .Map
-                       </transientStorage>
-                       <nonce>
-                         2
-                       </nonce>
-                       ...
                      </account> ) )
                    </accounts> | <substate>
                      <selfDestruct>
@@ -249,7 +252,7 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                        0
                      </refund>
                      <accessedAccounts>
-                       ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 645326474426547203313410069153905908525362434349 ) )
+                       ( SetItem ( #address ( FoundryCheat ) ) SetItem ( 491460923342184218035706888008750043977755113263 ) )
                      </accessedAccounts>
                      <accessedStorage>
                        .Map
@@ -260,14 +263,14 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                    </substate> } ) )
                  </interimStates>
                  <touchedAccounts>
-                   ( .Set => ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) ) )
+                   ( .Set => ( SetItem ( #address ( FoundryTest ) ) SetItem ( 491460923342184218035706888008750043977755113263 ) ) )
                  </touchedAccounts>
                  <callState>
                    <id>
-                     ( 728815563385977040452943777879061427756277306518 => 491460923342184218035706888008750043977755113263 )
+                     ( #address ( FoundryTest ) => 491460923342184218035706888008750043977755113263 )
                    </id>
                    <caller>
-                     ( 137122462167341575662000267002353578582749290296 => 728815563385977040452943777879061427756277306518 )
+                     ( 137122462167341575662000267002353578582749290296 => #address ( FoundryTest ) )
                    </caller>
                    <callData>
                      ( b"\n\x92T\xe4" => b"\xe0~\\\x97" +Bytes #buf ( 32 , ?KV0_x:Int ) +Bytes #buf ( 32 , ?KV1_y:Int ) +Bytes #buf ( 32 , ?KV2_z:Int ) )
@@ -293,6 +296,9 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                    <callDepth>
                      ( 0 => 1 )
                    </callDepth>
+                   <codeAddr>
+                     ( #address ( FoundryTest ) => 491460923342184218035706888008750043977755113263 )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -306,7 +312,7 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                      0
                    </refund>
                    <accessedAccounts>
-                     ( .Set => ( SetItem ( 491460923342184218035706888008750043977755113263 ) ( SetItem ( 645326474426547203313410069153905908525362434349 ) SetItem ( 728815563385977040452943777879061427756277306518 ) ) ) )
+                     ( .Set => ( SetItem ( #address ( FoundryCheat ) ) ( SetItem ( #address ( FoundryTest ) ) SetItem ( 491460923342184218035706888008750043977755113263 ) ) ) )
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
@@ -336,7 +342,7 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                  <accounts>
                    ( <account>
                      <acctID>
-                       ( 645326474426547203313410069153905908525362434349 => 491460923342184218035706888008750043977755113263 )
+                       ( #address ( FoundryCheat ) => 491460923342184218035706888008750043977755113263 )
                      </acctID>
                      <balance>
                        0
@@ -357,10 +363,10 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                    </account>
                    ( <account>
                      <acctID>
-                       728815563385977040452943777879061427756277306518
+                       #address ( FoundryTest )
                      </acctID>
                      <balance>
-                       0
+                       maxUInt96
                      </balance>
                      <storage>
                        .Map
@@ -377,7 +383,7 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                      ...
                    </account> => ( <account>
                      <acctID>
-                       645326474426547203313410069153905908525362434349
+                       #address ( FoundryCheat )
                      </acctID>
                      <balance>
                        0
@@ -398,10 +404,10 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                    </account>
                    <account>
                      <acctID>
-                       728815563385977040452943777879061427756277306518
+                       #address ( FoundryTest )
                      </acctID>
                      <balance>
-                       0
+                       maxUInt96
                      </balance>
                      <storage>
                        ( 27 |-> 491460923342184218035706888008750043977755113263 )
@@ -478,26 +484,6 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                .MockFunctionCellMap
              </mockFunctions>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
@@ -545,7 +531,7 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                  <callStack>
                    ( ListItem ( <callState>
                      <id>
-                       728815563385977040452943777879061427756277306518
+                       #address ( FoundryTest )
                      </id>
                      <caller>
                        137122462167341575662000267002353578582749290296
@@ -574,12 +560,57 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                      <callDepth>
                        0
                      </callDepth>
+                     <codeAddr>
+                       #address ( FoundryTest )
+                     </codeAddr>
                      ...
                    </callState> ) => .List )
                  </callStack>
                  <interimStates>
                    ( ListItem ( { <accounts>
                      ( <account>
+                       <acctID>
+                         #address ( FoundryCheat )
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       <storage>
+                         .Map
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         0
+                       </nonce>
+                       ...
+                     </account>
+                     ( <account>
+                       <acctID>
+                         #address ( FoundryTest )
+                       </acctID>
+                       <balance>
+                         maxUInt96
+                       </balance>
+                       <storage>
+                         ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         2
+                       </nonce>
+                       ...
+                     </account>
+                     <account>
                        <acctID>
                          491460923342184218035706888008750043977755113263
                        </acctID>
@@ -599,48 +630,6 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                          1
                        </nonce>
                        ...
-                     </account>
-                     ( <account>
-                       <acctID>
-                         645326474426547203313410069153905908525362434349
-                       </acctID>
-                       <balance>
-                         0
-                       </balance>
-                       <storage>
-                         .Map
-                       </storage>
-                       <origStorage>
-                         .Map
-                       </origStorage>
-                       <transientStorage>
-                         .Map
-                       </transientStorage>
-                       <nonce>
-                         0
-                       </nonce>
-                       ...
-                     </account>
-                     <account>
-                       <acctID>
-                         728815563385977040452943777879061427756277306518
-                       </acctID>
-                       <balance>
-                         0
-                       </balance>
-                       <storage>
-                         ( 27 |-> 491460923342184218035706888008750043977755113263 )
-                       </storage>
-                       <origStorage>
-                         .Map
-                       </origStorage>
-                       <transientStorage>
-                         .Map
-                       </transientStorage>
-                       <nonce>
-                         2
-                       </nonce>
-                       ...
                      </account> ) )
                    </accounts> | <substate>
                      <selfDestruct>
@@ -653,7 +642,7 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                        0
                      </refund>
                      <accessedAccounts>
-                       ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 645326474426547203313410069153905908525362434349 ) )
+                       ( SetItem ( #address ( FoundryCheat ) ) SetItem ( 491460923342184218035706888008750043977755113263 ) )
                      </accessedAccounts>
                      <accessedStorage>
                        .Map
@@ -664,14 +653,14 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                    </substate> } ) => .List )
                  </interimStates>
                  <touchedAccounts>
-                   ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
+                   ( SetItem ( #address ( FoundryTest ) ) SetItem ( 491460923342184218035706888008750043977755113263 ) )
                  </touchedAccounts>
                  <callState>
                    <id>
-                     ( 491460923342184218035706888008750043977755113263 => 728815563385977040452943777879061427756277306518 )
+                     ( 491460923342184218035706888008750043977755113263 => #address ( FoundryTest ) )
                    </id>
                    <caller>
-                     ( 728815563385977040452943777879061427756277306518 => 137122462167341575662000267002353578582749290296 )
+                     ( #address ( FoundryTest ) => 137122462167341575662000267002353578582749290296 )
                    </caller>
                    <callData>
                      ( b"\xe0~\\\x97" => b"\x15T\xa2\xa4" ) +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int )
@@ -697,6 +686,9 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                    <callDepth>
                      ( 1 => 0 )
                    </callDepth>
+                   <codeAddr>
+                     ( 491460923342184218035706888008750043977755113263 => #address ( FoundryTest ) )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -710,7 +702,7 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                      0
                    </refund>
                    <accessedAccounts>
-                     ( SetItem ( 491460923342184218035706888008750043977755113263 ) ( SetItem ( 645326474426547203313410069153905908525362434349 ) SetItem ( 728815563385977040452943777879061427756277306518 ) ) )
+                     ( SetItem ( #address ( FoundryCheat ) ) ( SetItem ( #address ( FoundryTest ) ) SetItem ( 491460923342184218035706888008750043977755113263 ) ) )
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
@@ -740,6 +732,48 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                  <accounts>
                    ( <account>
                      <acctID>
+                       #address ( FoundryCheat )
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       0
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
+                     <acctID>
+                       #address ( FoundryTest )
+                     </acctID>
+                     <balance>
+                       maxUInt96
+                     </balance>
+                     <storage>
+                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       2
+                     </nonce>
+                     ...
+                   </account>
+                   <account>
+                     <acctID>
                        491460923342184218035706888008750043977755113263
                      </acctID>
                      <balance>
@@ -756,48 +790,6 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                      </transientStorage>
                      <nonce>
                        1
-                     </nonce>
-                     ...
-                   </account>
-                   ( <account>
-                     <acctID>
-                       645326474426547203313410069153905908525362434349
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     <storage>
-                       .Map
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <transientStorage>
-                       .Map
-                     </transientStorage>
-                     <nonce>
-                       0
-                     </nonce>
-                     ...
-                   </account>
-                   <account>
-                     <acctID>
-                       728815563385977040452943777879061427756277306518
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <transientStorage>
-                       .Map
-                     </transientStorage>
-                     <nonce>
-                       2
                      </nonce>
                      ...
                    </account> ) )
@@ -862,26 +854,6 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                .MockFunctionCellMap
              </mockFunctions>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( KV2_z:Int =/=Int 0
        andBool ( KV2_z:Int <Int 2
@@ -929,7 +901,7 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                  <callStack>
                    ( ListItem ( <callState>
                      <id>
-                       728815563385977040452943777879061427756277306518
+                       #address ( FoundryTest )
                      </id>
                      <caller>
                        137122462167341575662000267002353578582749290296
@@ -958,12 +930,57 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                      <callDepth>
                        0
                      </callDepth>
+                     <codeAddr>
+                       #address ( FoundryTest )
+                     </codeAddr>
                      ...
                    </callState> ) => .List )
                  </callStack>
                  <interimStates>
                    ( ListItem ( { <accounts>
                      ( <account>
+                       <acctID>
+                         #address ( FoundryCheat )
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       <storage>
+                         .Map
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         0
+                       </nonce>
+                       ...
+                     </account>
+                     ( <account>
+                       <acctID>
+                         #address ( FoundryTest )
+                       </acctID>
+                       <balance>
+                         maxUInt96
+                       </balance>
+                       <storage>
+                         ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         2
+                       </nonce>
+                       ...
+                     </account>
+                     <account>
                        <acctID>
                          491460923342184218035706888008750043977755113263
                        </acctID>
@@ -983,48 +1000,6 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                          1
                        </nonce>
                        ...
-                     </account>
-                     ( <account>
-                       <acctID>
-                         645326474426547203313410069153905908525362434349
-                       </acctID>
-                       <balance>
-                         0
-                       </balance>
-                       <storage>
-                         .Map
-                       </storage>
-                       <origStorage>
-                         .Map
-                       </origStorage>
-                       <transientStorage>
-                         .Map
-                       </transientStorage>
-                       <nonce>
-                         0
-                       </nonce>
-                       ...
-                     </account>
-                     <account>
-                       <acctID>
-                         728815563385977040452943777879061427756277306518
-                       </acctID>
-                       <balance>
-                         0
-                       </balance>
-                       <storage>
-                         ( 27 |-> 491460923342184218035706888008750043977755113263 )
-                       </storage>
-                       <origStorage>
-                         .Map
-                       </origStorage>
-                       <transientStorage>
-                         .Map
-                       </transientStorage>
-                       <nonce>
-                         2
-                       </nonce>
-                       ...
                      </account> ) )
                    </accounts> | <substate>
                      <selfDestruct>
@@ -1037,7 +1012,7 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                        0
                      </refund>
                      <accessedAccounts>
-                       ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 645326474426547203313410069153905908525362434349 ) )
+                       ( SetItem ( #address ( FoundryCheat ) ) SetItem ( 491460923342184218035706888008750043977755113263 ) )
                      </accessedAccounts>
                      <accessedStorage>
                        .Map
@@ -1048,14 +1023,14 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                    </substate> } ) => .List )
                  </interimStates>
                  <touchedAccounts>
-                   ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
+                   ( SetItem ( #address ( FoundryTest ) ) SetItem ( 491460923342184218035706888008750043977755113263 ) )
                  </touchedAccounts>
                  <callState>
                    <id>
-                     ( 491460923342184218035706888008750043977755113263 => 728815563385977040452943777879061427756277306518 )
+                     ( 491460923342184218035706888008750043977755113263 => #address ( FoundryTest ) )
                    </id>
                    <caller>
-                     ( 728815563385977040452943777879061427756277306518 => 137122462167341575662000267002353578582749290296 )
+                     ( #address ( FoundryTest ) => 137122462167341575662000267002353578582749290296 )
                    </caller>
                    <callData>
                      ( b"\xe0~\\\x97" => b"\x15T\xa2\xa4" ) +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes ( #buf ( 32 , KV2_z:Int ) => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" )
@@ -1081,6 +1056,9 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                    <callDepth>
                      ( 1 => 0 )
                    </callDepth>
+                   <codeAddr>
+                     ( 491460923342184218035706888008750043977755113263 => #address ( FoundryTest ) )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -1094,7 +1072,7 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                      0
                    </refund>
                    <accessedAccounts>
-                     ( SetItem ( 491460923342184218035706888008750043977755113263 ) ( SetItem ( 645326474426547203313410069153905908525362434349 ) SetItem ( 728815563385977040452943777879061427756277306518 ) ) )
+                     ( SetItem ( #address ( FoundryCheat ) ) ( SetItem ( #address ( FoundryTest ) ) SetItem ( 491460923342184218035706888008750043977755113263 ) ) )
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
@@ -1124,6 +1102,48 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                  <accounts>
                    ( <account>
                      <acctID>
+                       #address ( FoundryCheat )
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       0
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
+                     <acctID>
+                       #address ( FoundryTest )
+                     </acctID>
+                     <balance>
+                       maxUInt96
+                     </balance>
+                     <storage>
+                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       2
+                     </nonce>
+                     ...
+                   </account>
+                   <account>
+                     <acctID>
                        491460923342184218035706888008750043977755113263
                      </acctID>
                      <balance>
@@ -1140,48 +1160,6 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                      </transientStorage>
                      <nonce>
                        1
-                     </nonce>
-                     ...
-                   </account>
-                   ( <account>
-                     <acctID>
-                       645326474426547203313410069153905908525362434349
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     <storage>
-                       .Map
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <transientStorage>
-                       .Map
-                     </transientStorage>
-                     <nonce>
-                       0
-                     </nonce>
-                     ...
-                   </account>
-                   <account>
-                     <acctID>
-                       728815563385977040452943777879061427756277306518
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <transientStorage>
-                       .Map
-                     </transientStorage>
-                     <nonce>
-                       2
                      </nonce>
                      ...
                    </account> ) )
@@ -1246,26 +1224,6 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                .MockFunctionCellMap
              </mockFunctions>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( KV2_z:Int ==Int 0
        andBool ( KV2_z:Int <Int 2
@@ -1279,7 +1237,9 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
        andBool ( KV0_x:Int <Int pow256
        andBool ( KV1_y:Int <Int pow256
        andBool ( KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int )
-       andBool ( ( notBool ( KV0_x:Int =/=Int 0 andBool maxUInt256 /Word KV0_x:Int <Int KV1_y:Int ) )
+       andBool ( ( KV0_x:Int ==Int 0
+          orBool ( KV1_y:Int <=Int maxUInt256 /Word KV0_x:Int
+                 ))
                )))))))))))))
       [priority(20), label(BASIC-BLOCK-44-TO-42)]
     
@@ -1314,7 +1274,7 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                  <callStack>
                    ( ListItem ( <callState>
                      <id>
-                       728815563385977040452943777879061427756277306518
+                       #address ( FoundryTest )
                      </id>
                      <caller>
                        137122462167341575662000267002353578582749290296
@@ -1343,12 +1303,57 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                      <callDepth>
                        0
                      </callDepth>
+                     <codeAddr>
+                       #address ( FoundryTest )
+                     </codeAddr>
                      ...
                    </callState> ) => .List )
                  </callStack>
                  <interimStates>
                    ( ListItem ( { <accounts>
                      ( <account>
+                       <acctID>
+                         #address ( FoundryCheat )
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       <storage>
+                         .Map
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         0
+                       </nonce>
+                       ...
+                     </account>
+                     ( <account>
+                       <acctID>
+                         #address ( FoundryTest )
+                       </acctID>
+                       <balance>
+                         maxUInt96
+                       </balance>
+                       <storage>
+                         ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         2
+                       </nonce>
+                       ...
+                     </account>
+                     <account>
                        <acctID>
                          491460923342184218035706888008750043977755113263
                        </acctID>
@@ -1368,48 +1373,6 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                          1
                        </nonce>
                        ...
-                     </account>
-                     ( <account>
-                       <acctID>
-                         645326474426547203313410069153905908525362434349
-                       </acctID>
-                       <balance>
-                         0
-                       </balance>
-                       <storage>
-                         .Map
-                       </storage>
-                       <origStorage>
-                         .Map
-                       </origStorage>
-                       <transientStorage>
-                         .Map
-                       </transientStorage>
-                       <nonce>
-                         0
-                       </nonce>
-                       ...
-                     </account>
-                     <account>
-                       <acctID>
-                         728815563385977040452943777879061427756277306518
-                       </acctID>
-                       <balance>
-                         0
-                       </balance>
-                       <storage>
-                         ( 27 |-> 491460923342184218035706888008750043977755113263 )
-                       </storage>
-                       <origStorage>
-                         .Map
-                       </origStorage>
-                       <transientStorage>
-                         .Map
-                       </transientStorage>
-                       <nonce>
-                         2
-                       </nonce>
-                       ...
                      </account> ) )
                    </accounts> | <substate>
                      <selfDestruct>
@@ -1422,7 +1385,7 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                        0
                      </refund>
                      <accessedAccounts>
-                       ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 645326474426547203313410069153905908525362434349 ) )
+                       ( SetItem ( #address ( FoundryCheat ) ) SetItem ( 491460923342184218035706888008750043977755113263 ) )
                      </accessedAccounts>
                      <accessedStorage>
                        .Map
@@ -1433,14 +1396,14 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                    </substate> } ) => .List )
                  </interimStates>
                  <touchedAccounts>
-                   ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
+                   ( SetItem ( #address ( FoundryTest ) ) SetItem ( 491460923342184218035706888008750043977755113263 ) )
                  </touchedAccounts>
                  <callState>
                    <id>
-                     ( 491460923342184218035706888008750043977755113263 => 728815563385977040452943777879061427756277306518 )
+                     ( 491460923342184218035706888008750043977755113263 => #address ( FoundryTest ) )
                    </id>
                    <caller>
-                     ( 728815563385977040452943777879061427756277306518 => 137122462167341575662000267002353578582749290296 )
+                     ( #address ( FoundryTest ) => 137122462167341575662000267002353578582749290296 )
                    </caller>
                    <callData>
                      ( b"\xe0~\\\x97" => b"\x15T\xa2\xa4" ) +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes ( #buf ( 32 , KV2_z:Int ) => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" )
@@ -1466,6 +1429,9 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                    <callDepth>
                      ( 1 => 0 )
                    </callDepth>
+                   <codeAddr>
+                     ( 491460923342184218035706888008750043977755113263 => #address ( FoundryTest ) )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -1479,7 +1445,7 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                      0
                    </refund>
                    <accessedAccounts>
-                     ( SetItem ( 491460923342184218035706888008750043977755113263 ) ( ( SetItem ( 645326474426547203313410069153905908525362434349 ) SetItem ( 728815563385977040452943777879061427756277306518 ) ) => SetItem ( 645326474426547203313410069153905908525362434349 ) ) )
+                     ( SetItem ( 491460923342184218035706888008750043977755113263 ) ( ( SetItem ( #address ( FoundryCheat ) ) SetItem ( #address ( FoundryTest ) ) ) => SetItem ( #address ( FoundryCheat ) ) ) )
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
@@ -1509,6 +1475,48 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                  <accounts>
                    ( <account>
                      <acctID>
+                       #address ( FoundryCheat )
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       0
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
+                     <acctID>
+                       #address ( FoundryTest )
+                     </acctID>
+                     <balance>
+                       maxUInt96
+                     </balance>
+                     <storage>
+                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       2
+                     </nonce>
+                     ...
+                   </account>
+                   <account>
+                     <acctID>
                        491460923342184218035706888008750043977755113263
                      </acctID>
                      <balance>
@@ -1525,48 +1533,6 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                      </transientStorage>
                      <nonce>
                        1
-                     </nonce>
-                     ...
-                   </account>
-                   ( <account>
-                     <acctID>
-                       645326474426547203313410069153905908525362434349
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     <storage>
-                       .Map
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <transientStorage>
-                       .Map
-                     </transientStorage>
-                     <nonce>
-                       0
-                     </nonce>
-                     ...
-                   </account>
-                   <account>
-                     <acctID>
-                       728815563385977040452943777879061427756277306518
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <transientStorage>
-                       .Map
-                     </transientStorage>
-                     <nonce>
-                       2
                      </nonce>
                      ...
                    </account> ) )
@@ -1631,26 +1597,6 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                .MockFunctionCellMap
              </mockFunctions>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( KV2_z:Int ==Int 0
        andBool ( KV0_x:Int =/=Int 0
@@ -1674,8 +1620,5 @@ endmodule
 0 Failure nodes. (0 pending and 0 failing)
 
 Join the Runtime Verification Discord server (https://discord.com/invite/CurfmXNtbN) or Telegram group (https://t.me/rv_kontrol) for support.
-
-See `foundry_success` predicate for more information:
-https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/foundry.md#foundry-success-predicate
 
 Access documentation for Kontrol at https://docs.runtimeverification.com/kontrol
