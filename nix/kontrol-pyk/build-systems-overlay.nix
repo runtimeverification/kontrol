@@ -13,6 +13,7 @@ let
     pyperclip.setuptools = [ ];
     kevm-pyk.poetry-core = [ ];
     kevm-pyk.hatchling = [ ];
+    typing.setuptools = [ ];
   };
 in
 mapAttrs (

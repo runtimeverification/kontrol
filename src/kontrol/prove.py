@@ -35,6 +35,7 @@ from pyk.utils import hash_str, run_process_2, unique
 from rich.progress import Progress, SpinnerColumn, TaskID, TextColumn, TimeElapsedColumn
 
 from .foundry import Foundry, KontrolSemantics, foundry_to_xml
+from .natspec import apply_natspec_preconditions
 from .options import ConfigType
 from .solc_to_k import Contract, decode_kinner_output
 from .utils import console, parse_test_version_tuple, replace_k_words
@@ -812,6 +813,7 @@ def _method_to_cfg(
 
         for final_node in final_states:
             new_init_cterm = _update_cterm_from_node(init_cterm, final_node, config_type, keep_vars)
+            new_init_cterm = apply_natspec_preconditions(new_init_cterm, method, contract, foundry)
             new_node = cfg.create_node(new_init_cterm)
             if graft_setup_proof:
                 cfg.create_edge(final_node.id, new_node.id, depth=1)
@@ -821,6 +823,7 @@ def _method_to_cfg(
                 )
             new_node_ids.append(new_node.id)
     else:
+        init_cterm = apply_natspec_preconditions(init_cterm, method, contract, foundry)
         cfg = KCFG()
         init_node = cfg.create_node(init_cterm)
         new_node_ids = [init_node.id]
