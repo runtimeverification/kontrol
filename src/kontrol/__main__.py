@@ -35,6 +35,7 @@ from .state_record import (
     read_recorded_state_dump,
     recorded_state_to_account_cells,
 )
+from .storage_generation import foundry_storage_generation
 from .utils import (
     _LOG_FORMAT,
     _rv_blue,
@@ -68,6 +69,7 @@ if TYPE_CHECKING:
         SimplifyNodeOptions,
         SplitNodeOptions,
         StepNodeOptions,
+        StorageGenerationOptions,
         UnrefuteNodeOptions,
         VersionOptions,
         ViewKcfgOptions,
@@ -344,6 +346,11 @@ def exec_clean(options: CleanOptions) -> None:
 
 def exec_init(options: InitOptions) -> None:
     init_project(project_root=options.project_root, skip_forge=options.skip_forge)
+
+
+def exec_setup_symbolic_storage(options: StorageGenerationOptions) -> None:
+    foundry = _load_foundry(options.foundry_root, add_enum_constraints=options.enum_constraints)
+    foundry_storage_generation(foundry=foundry, options=options)
 
 
 if __name__ == '__main__':

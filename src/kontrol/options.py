@@ -761,6 +761,39 @@ class ViewKcfgOptions(FoundryTestOptions, LoggingOptions, FoundryOptions):
         )
 
 
+class StorageGenerationOptions(LoggingOptions, FoundryOptions):
+    contract_name: str
+    solidity_version: str
+    output_file: str | None
+    test_contract: bool
+
+    @staticmethod
+    def default() -> dict[str, Any]:
+        return {
+            'solidity_version': '0.8.26',
+            'output_file': None,
+            'test_contract': False,
+        }
+
+    @staticmethod
+    def from_option_string() -> dict[str, str]:
+        return (
+            FoundryOptions.from_option_string()
+            | LoggingOptions.from_option_string()
+            | {
+                'output-file': 'output_file',
+                'test-contract': 'test_contract',
+            }
+        )
+
+    @staticmethod
+    def get_argument_type() -> dict[str, Callable]:
+        return (
+            FoundryOptions.get_argument_type()
+            | LoggingOptions.get_argument_type()
+        )
+
+
 class BuildOptions(LoggingOptions, KOptions, KompileOptions, FoundryOptions, KompileTargetOptions):
     regen: bool
     rekompile: bool
