@@ -4,7 +4,6 @@
 │   pc: 0
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
-│   src: test/nested/SimpleNested.t.sol:7:11
 │   method: test%AssertTest.setUp()
 │
 │  (549 steps)
@@ -13,7 +12,6 @@
 │   pc: 1590
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
-│   src: lib/forge-std/lib/ds-test/src/test.sol:48:62
 │   method: test%AssertTest.test_revert_branch(uint256,uint256)
 ┃
 ┃ (branch)
@@ -26,11 +24,10 @@
 ┃  │   pc: 1590
 ┃  │   callDepth: 0
 ┃  │   statusCode: STATUSCODE:StatusCode
-┃  │   src: lib/forge-std/lib/ds-test/src/test.sol:48:62
 ┃  │   method: test%AssertTest.test_revert_branch(uint256,uint256)
 ┃  │
 ┃  │  (75 steps)
-┃  └─ 15 (leaf, terminal)
+┃  └─ 14 (leaf, terminal)
 ┃      k: #halt ~> CONTINUATION:K
 ┃      pc: 2995
 ┃      callDepth: 0
@@ -46,16 +43,14 @@
    │   pc: 1590
    │   callDepth: 0
    │   statusCode: STATUSCODE:StatusCode
-   │   src: lib/forge-std/lib/ds-test/src/test.sol:48:62
    │   method: test%AssertTest.test_revert_branch(uint256,uint256)
    │
-   │  (40 steps)
-   └─ 16 (leaf, pending)
-       k: #halt ~> CONTINUATION:K
+   │  (38 steps)
+   └─ 15 (leaf, pending)
+       k: #halt ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
        pc: 328
        callDepth: 0
        statusCode: EVMC_SUCCESS
-       src: lib/kontrol-cheatcodes/src/KontrolCheats.sol:8:8
        method: test%AssertTest.test_revert_branch(uint256,uint256)
 
 
@@ -66,13 +61,15 @@
 │   statusCode: STATUSCODE_FINAL:StatusCode
 
 
-Node 16:
+Node 15:
 
 ( <generatedTop>
   <foundry>
     <kevm>
       <k>
         #halt
+        ~> #pc [ STOP ]
+        ~> #execute
         ~> CONTINUATION:K
       </k>
       <mode>
@@ -292,7 +289,7 @@ Node 16:
 
 
 
-Node 15:
+Node 14:
 
 ( <generatedTop>
   <foundry>
@@ -518,7 +515,7 @@ Node 15:
 
 
 
-module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
+module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):1
     
     
     rule [BASIC-BLOCK-1-TO-8]: <foundry>
@@ -741,7 +738,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
                ))))
       [priority(20), label(BASIC-BLOCK-1-TO-8)]
     
-    rule [BASIC-BLOCK-9-TO-15]: <foundry>
+    rule [BASIC-BLOCK-9-TO-14]: <foundry>
            <kevm>
              <k>
                ( JUMPI 1594 bool2Word ( KV1_y:Int <=Int KV0_x:Int )
@@ -962,14 +959,15 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
        andBool ( KV0_x:Int <Int pow256
        andBool ( KV1_y:Int <Int pow256
                )))))))))
-      [priority(20), label(BASIC-BLOCK-9-TO-15)]
+      [priority(20), label(BASIC-BLOCK-9-TO-14)]
     
-    rule [BASIC-BLOCK-10-TO-16]: <foundry>
+    rule [BASIC-BLOCK-10-TO-15]: <foundry>
            <kevm>
              <k>
                ( JUMPI 1594 bool2Word ( KV1_y:Int <=Int KV0_x:Int )
-               ~> #pc [ JUMPI ]
-               ~> #execute => #halt ~> .K )
+               ~> #pc [ JUMPI ] => #halt
+               ~> #pc [ STOP ] )
+               ~> #execute
                ~> _CONTINUATION:K
              </k>
              <mode>
@@ -1185,18 +1183,18 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
        andBool ( KV0_x:Int <Int pow256
        andBool ( KV1_y:Int <Int pow256
                )))))))))
-      [priority(20), label(BASIC-BLOCK-10-TO-16)]
+      [priority(20), label(BASIC-BLOCK-10-TO-15)]
 
 endmodule
 2 Failure nodes. (1 pending and 1 failing)
 
 Pending nodes:
 
-ID: 16:
+ID: 15:
 
 Failing nodes:
 
-  Node id: 15
+  Node id: 14
   Failure reason:
     Matching failed.
     The remaining implication is:
