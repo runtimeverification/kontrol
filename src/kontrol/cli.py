@@ -14,6 +14,7 @@ from .options import (
     BuildOptions,
     CleanOptions,
     ConfigType,
+    CounterexampleOptions,
     GetModelOptions,
     InitOptions,
     ListOptions,
@@ -67,6 +68,7 @@ def generate_options(args: dict[str, Any]) -> LoggingOptions:
         'clean': CleanOptions(args),
         'init': InitOptions(args),
         'setup-symbolic-storage': StorageGenerationOptions(args),
+        'generate-counterexample': CounterexampleOptions(args),
     }
     try:
         return options[command]
@@ -97,6 +99,7 @@ def get_option_string_destination(command: str, option_string: str) -> str:
         'clean': CleanOptions.from_option_string(),
         'init': InitOptions.from_option_string(),
         'setup-symbolic-storage': StorageGenerationOptions.from_option_string(),
+        'generate-counterexample': CounterexampleOptions.from_option_string(),
     }
     option_string_destinations = options[command]
     return option_string_destinations.get(option_string, option_string.replace('-', '_'))
@@ -125,6 +128,7 @@ def get_argument_type_setter(command: str, option_string: str) -> Callable[[str]
         'clean': CleanOptions.get_argument_type(),
         'init': InitOptions.get_argument_type(),
         'setup-symbolic-storage': StorageGenerationOptions.get_argument_type(),
+        'generate-counterexample': CounterexampleOptions.get_argument_type(),
     }
     option_types = options[command]
     return option_types.get(option_string, (lambda x: x))
@@ -881,6 +885,34 @@ def _create_argument_parser() -> ArgumentParser:
         action='store_true',
         default=None,
         help='Also generate KontrolTest base contract',
+    )
+
+    generate_counterexample = command_parser.add_parser(
+        'generate-counterexample',
+        help='Generate concrete counterexample test from Kontrol model',
+        parents=[
+            kontrol_cli_args.logging_args,
+            kontrol_cli_args.foundry_args,
+            config_args.config_args,
+        ],
+    )
+    generate_counterexample.add_argument(
+        'test_name',
+        type=str,
+        help='Name of the test to generate counterexample for',
+    )
+    generate_counterexample.add_argument(
+        '--output-file',
+        dest='output_file',
+        type=str,
+        help='Output file path for counterexample test (default: auto-generated)',
+    )
+    generate_counterexample.add_argument(
+        '--solidity-version',
+        dest='solidity_version',
+        type=str,
+        default='0.8.26',
+        help='Solidity version to use in generated test (default: 0.8.26)',
     )
 
     return parser

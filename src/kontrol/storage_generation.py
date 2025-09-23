@@ -86,6 +86,125 @@ def generate_storage_constants(
     return '\n'.join(lines)
 
 
+def generate_storage_setup_function(contract_name: str, storage_data: dict[str, Any], types: dict[str, Any]) -> str:
+    """Generate a setUp function that initializes all storage variables symbolically."""
+    lines = []
+    lines.append(f'    function setUp{contract_name}Storage({contract_name} _{contract_name.lower()}) internal {{')
+    lines.append(f'        kevm.symbolicStorage(address(_{contract_name.lower()}));')
+    lines.append('')
+    
+    # Generate setup for each storage variable
+    for storage_var in storage_data['storage']:
+        var_name = storage_var['label']
+        var_type = storage_var['type']
+        
+        if is_scalar_type(var_type):
+            # Generate symbolic value for scalar types
+            lines.append(f'        // Setup {var_name} ({var_type})')
+            lines.append(f'        uint256 {var_name}_value = freshUInt256("{var_name}");')
+            
+            # Add constraints based on type
+            if var_type == 't_bool':
+                lines.append(f'        vm.assume({var_name}_value <= 1);')
+            elif var_type.startswith('t_uint'):
+                # Extract bit width from type
+                if '8' in var_type:
+                    lines.append(f'        vm.assume({var_name}_value < 2**8);')
+                elif '16' in var_type:
+                    lines.append(f'        vm.assume({var_name}_value < 2**16);')
+                elif '32' in var_type:
+                    lines.append(f'        vm.assume({var_name}_value < 2**32);')
+                elif '64' in var_type:
+                    lines.append(f'        vm.assume({var_name}_value < 2**64);')
+                elif '128' in var_type:
+                    lines.append(f'        vm.assume({var_name}_value < 2**128);')
+                # For uint256, no constraint needed
+            
+            lines.append(f'        _storeData(')
+            lines.append(f'            address(_{contract_name.lower()}),')
+            lines.append(f'            {contract_name}StorageConstants.STORAGE_{var_name.upper()}_SLOT,')
+            lines.append(f'            {contract_name}StorageConstants.STORAGE_{var_name.upper()}_OFFSET,')
+            lines.append(f'            {contract_name}StorageConstants.STORAGE_{var_name.upper()}_SIZE,')
+            lines.append(f'            {var_name}_value')
+            lines.append(f'        );')
+            lines.append('')
+            
+        elif var_type.startswith('t_mapping'):
+            lines.append(f'        // Setup {var_name} (mapping) - will be populated as needed')
+            lines.append(f'        // Use _storeMappingData() for specific key-value pairs')
+            lines.append('')
+            
+        elif var_type.startswith('t_struct'):
+            lines.append(f'        // Setup {var_name} (struct) - individual members will be set below')
+            lines.append('')
+            # Generate setup for struct members
+            struct_type = types[var_type]
+            for member in struct_type['members']:
+                member_name = member['label']
+                member_type = member['type']
+                if is_scalar_type(member_type):
+                    lines.append(f'        // Setup {var_name}.{member_name} ({member_type})')
+                    lines.append(f'        uint256 {var_name}_{member_name}_value = freshUInt256("{var_name}_{member_name}");')
+                    
+                    if member_type == 't_bool':
+                        lines.append(f'        vm.assume({var_name}_{member_name}_value <= 1);')
+                    elif member_type.startswith('t_uint'):
+                        if '8' in member_type:
+                            lines.append(f'        vm.assume({var_name}_{member_name}_value < 2**8);')
+                        elif '16' in member_type:
+                            lines.append(f'        vm.assume({var_name}_{member_name}_value < 2**16);')
+                        elif '32' in member_type:
+                            lines.append(f'        vm.assume({var_name}_{member_name}_value < 2**32);')
+                        elif '64' in member_type:
+                            lines.append(f'        vm.assume({var_name}_{member_name}_value < 2**64);')
+                        elif '128' in member_type:
+                            lines.append(f'        vm.assume({var_name}_{member_name}_value < 2**128);')
+                    
+                    lines.append(f'        _storeData(')
+                    lines.append(f'            address(_{contract_name.lower()}),')
+                    lines.append(f'            {contract_name}StorageConstants.{var_name.upper()}_{member_name.upper()}_SLOT,')
+                    lines.append(f'            {contract_name}StorageConstants.{var_name.upper()}_{member_name.upper()}_OFFSET,')
+                    lines.append(f'            {contract_name}StorageConstants.{var_name.upper()}_{member_name.upper()}_SIZE,')
+                    lines.append(f'            {var_name}_{member_name}_value')
+                    lines.append(f'        );')
+                    lines.append('')
+    
+    lines.append('    }')
+    return '\n'.join(lines)
+
+
+def generate_complete_test_contract(
+    contract_name: str, solidity_version: str, storage_data: dict[str, Any], types: dict[str, Any]
+) -> str:
+    """Generate a complete test contract with setUp function."""
+    lines = []
+    lines.append(f'pragma solidity {solidity_version};')
+    lines.append('')
+    lines.append(f'import "contracts/{contract_name}.sol";')
+    lines.append('import "test/kontrol/KontrolTest.sol";')
+    lines.append(f'import "test/kontrol/storage/{contract_name}StorageConstants.sol";')
+    lines.append('')
+    lines.append(f'contract {contract_name}Test is KontrolTest {{')
+    lines.append('')
+    
+    # Add the storage setup function
+    lines.append(generate_storage_setup_function(contract_name, storage_data, types))
+    lines.append('')
+    
+    # Add a sample test function
+    lines.append(f'    function test{contract_name}Symbolic() external {{')
+    lines.append(f'        {contract_name} contract = new {contract_name}();')
+    lines.append(f'        setUp{contract_name}Storage(contract);')
+    lines.append('        ')
+    lines.append('        // Your test logic here')
+    lines.append('        // The contract storage is now set up with symbolic values')
+    lines.append('        // that can be used for formal verification')
+    lines.append('    }')
+    lines.append('}')
+    
+    return '\n'.join(lines)
+
+
 def generate_kontrol_test_contract(solidity_version: str) -> str:
     """Generate the KontrolTest base contract."""
     return f'''pragma solidity {solidity_version};
@@ -271,7 +390,7 @@ def run_forge_inspect(foundry: Foundry, contract_name: str) -> dict[str, Any]:
 
 def foundry_storage_generation(foundry: Foundry, options: StorageGenerationOptions) -> None:
     """Generate storage constants and test contracts for a given contract."""
-    console.print(f'[bold blue]Generating storage constants for contract:[/bold blue] {options.contract_name}')
+    console.print(f'[bold blue]Setting up symbolic storage for contract:[/bold blue] {options.contract_name}')
 
     # Get storage layout from forge inspect
     storage_data = run_forge_inspect(foundry, options.contract_name)
@@ -309,4 +428,15 @@ def foundry_storage_generation(foundry: Foundry, options: StorageGenerationOptio
 
         console.print(f'[bold green]Generated KontrolTest contract:[/bold green] {test_contract_path}')
 
-    console.print('[bold green]Storage generation completed successfully![/bold green]')
+        # Generate complete test contract with setUp function
+        complete_test_content = generate_complete_test_contract(
+            options.contract_name, options.solidity_version, storage_data['storage'], storage_data['types']
+        )
+        complete_test_path = foundry._root / 'test' / f'{options.contract_name}Test.sol'
+
+        with open(complete_test_path, 'w') as f:
+            f.write(complete_test_content)
+
+        console.print(f'[bold green]Generated complete test contract:[/bold green] {complete_test_path}')
+
+    console.print('[bold green]Symbolic storage setup completed successfully![/bold green]')

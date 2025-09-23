@@ -794,6 +794,37 @@ class StorageGenerationOptions(LoggingOptions, FoundryOptions):
         )
 
 
+class CounterexampleOptions(LoggingOptions, FoundryOptions):
+    test_name: str
+    output_file: str | None
+    solidity_version: str
+
+    @staticmethod
+    def default() -> dict[str, Any]:
+        return {
+            'output_file': None,
+            'solidity_version': '0.8.26',
+        }
+
+    @staticmethod
+    def from_option_string() -> dict[str, str]:
+        return (
+            FoundryOptions.from_option_string()
+            | LoggingOptions.from_option_string()
+            | {
+                'output-file': 'output_file',
+                'solidity-version': 'solidity_version',
+            }
+        )
+
+    @staticmethod
+    def get_argument_type() -> dict[str, Callable]:
+        return (
+            FoundryOptions.get_argument_type()
+            | LoggingOptions.get_argument_type()
+        )
+
+
 class BuildOptions(LoggingOptions, KOptions, KompileOptions, FoundryOptions, KompileTargetOptions):
     regen: bool
     rekompile: bool

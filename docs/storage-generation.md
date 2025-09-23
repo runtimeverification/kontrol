@@ -6,7 +6,9 @@ Kontrol provides functionality to setup symbolic structured storage constants an
 
 1. **Storage Constants Generation**: Automatically generates Solidity library with storage slot, offset, and size constants for all contract storage variables.
 2. **KontrolTest Base Contract**: Generates a base test contract with utility functions for symbolic storage manipulation.
-3. **Foundry Integration**: Uses `forge inspect` to automatically analyze contract storage layout.
+3. **Complete Test Generation**: Creates full test contracts with automatic setUp functions for symbolic storage initialization.
+4. **Counterexample Generation**: Converts Kontrol models into concrete test cases that reproduce failures.
+5. **Foundry Integration**: Uses `forge inspect` to automatically analyze contract storage layout.
 
 ## Usage
 
@@ -32,7 +34,13 @@ kontrol setup-symbolic-storage ContractName --solidity-version 0.8.24 --output-f
 Options:
 - `--solidity-version`: Specify Solidity version (default: 0.8.26)
 - `--output-file`: Custom output file path
-- `--test-contract`: Also generate KontrolTest base contract
+- `--test-contract`: Also generate KontrolTest base contract and complete test contract
+
+### Counterexample Generation
+
+Counterexample generation is automatically integrated into Kontrol's proof execution. When a violation is detected, Kontrol will automatically generate a concrete test case that reproduces the failure.
+
+The counterexample generation uses the `counterexample_info` option (enabled by default) to extract model assignments and create concrete test cases.
 
 ### Generated Files
 
@@ -73,6 +81,30 @@ contract KontrolTest is Test, KontrolCheats {
     function _storeMappingData(address, uint256, uint256, uint256, uint256, uint256, uint256) internal;
     // ... more utility functions
 }
+```
+
+## Complete Workflow
+
+### 1. Setup Symbolic Storage
+```bash
+# Generate storage constants and test contracts
+kontrol setup-symbolic-storage MyContract --test-contract
+```
+
+### 2. Run Formal Verification
+```bash
+# Run Kontrol proofs
+kontrol prove --match-test 'MyContractTest.testMyContractSymbolic()'
+```
+
+### 3. Counterexample Generation (automatic)
+When a violation is found, Kontrol automatically generates a concrete counterexample test file:
+- `MyContractTestCounterexample.sol` - Concrete test that reproduces the failure
+
+### 4. Run Counterexample Test
+```bash
+# Run the concrete counterexample test
+forge test --match-test 'MyContractTestCounterexample.testMyContractCounterexample'
 ```
 
 ## Example Usage in Test Contracts

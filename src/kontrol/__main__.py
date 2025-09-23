@@ -36,6 +36,7 @@ from .state_record import (
     recorded_state_to_account_cells,
 )
 from .storage_generation import foundry_storage_generation
+from .counterexample_generation import foundry_counterexample_generation
 from .utils import (
     _LOG_FORMAT,
     _rv_blue,
@@ -70,6 +71,7 @@ if TYPE_CHECKING:
         SplitNodeOptions,
         StepNodeOptions,
         StorageGenerationOptions,
+        CounterexampleOptions,
         UnrefuteNodeOptions,
         VersionOptions,
         ViewKcfgOptions,
@@ -351,6 +353,11 @@ def exec_init(options: InitOptions) -> None:
 def exec_setup_symbolic_storage(options: StorageGenerationOptions) -> None:
     foundry = _load_foundry(options.foundry_root, add_enum_constraints=options.enum_constraints)
     foundry_storage_generation(foundry=foundry, options=options)
+
+
+def exec_generate_counterexample(options: CounterexampleOptions) -> None:
+    foundry = _load_foundry(options.foundry_root, add_enum_constraints=options.enum_constraints)
+    foundry_counterexample_generation(foundry=foundry, options=options)
 
 
 if __name__ == '__main__':
