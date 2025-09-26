@@ -98,7 +98,9 @@ def get_storage_layout_from_foundry(
 
     if not contract:
         available_contracts = list(foundry.contracts.keys())
-        raise RuntimeError(f'Contract {contract_name} not found in Foundry project. Available contracts: {available_contracts}')
+        raise RuntimeError(
+            f'Contract {contract_name} not found in Foundry project. Available contracts: {available_contracts}'
+        )
 
     if not contract.has_storage_layout:
         raise RuntimeError(f'Contract {contract_name} does not have storage layout information')

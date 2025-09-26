@@ -1,9 +1,6 @@
 from __future__ import annotations
 
 import sys
-from pathlib import Path
-
-import pytest
 
 from kontrol.foundry import Foundry, foundry_storage_generation
 from kontrol.options import SetupSymbolicStorageOptions
