@@ -719,7 +719,7 @@ CONSOLE_SELECTORS: Final[dict[int, list[str]]] = {
 
 
 def kontrol_test_file_contents() -> str:
-    return '''pragma solidity ^0.8.26;
+    return """pragma solidity ^0.8.26;
 import "forge-std/Vm.sol";
 import "forge-std/Test.sol";
 import "kontrol-cheatcodes/KontrolCheats.sol";
@@ -849,4 +849,4 @@ contract KontrolTest is Test, KontrolCheats {
         bytes32 hashedSlot = keccak256(abi.encodePacked(key, mappingSlot));
         _storeData(contractAddress, uint256(hashedSlot) + subSlot, 0, 32, 0);
     }
-}'''
+}"""
