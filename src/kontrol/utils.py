@@ -747,12 +747,19 @@ contract KontrolTest is Test, KontrolCheats {
         uint256 offset,
         uint256 width
     ) internal view returns (uint256) {
+        require(contractAddress != address(0), 'Invalid contract address');
+        require(width > 0, 'Width must be greater than 0');
         // `offset` and `width` must not overflow the slot
         assert(offset + width <= 32);
-        // Slot read mask
+        
+        // Slot read mask - handle width = 32 case to prevent overflow
         uint256 mask;
-        unchecked {
-            mask = (2 ** (8 * width)) - 1;
+        if (width == 32) {
+            mask = type(uint256).max;
+        } else {
+            unchecked {
+                mask = (2 ** (8 * width)) - 1;
+            }
         }
         // Value right shift
         uint256 shift = 8 * offset;
