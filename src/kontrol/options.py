@@ -159,17 +159,21 @@ class GetModelOptions(FoundryTestOptions, LoggingOptions, RpcOptions, BugReportO
 class InitOptions(LoggingOptions):
     project_root: Path
     skip_forge: bool
+    skip_kontrol_test: bool
 
     @staticmethod
     def default() -> dict[str, Any]:
         return {
             'project_root': Path.cwd(),
             'skip_forge': False,
+            'skip_kontrol_test': False,
         }
 
     @staticmethod
     def from_option_string() -> dict[str, str]:
-        return LoggingOptions.from_option_string()
+        return LoggingOptions.from_option_string() | {
+            'skip-kontrol-test': 'skip_kontrol_test',
+        }
 
     @staticmethod
     def get_argument_type() -> dict[str, Callable]:

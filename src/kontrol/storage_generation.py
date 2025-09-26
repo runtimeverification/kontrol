@@ -9,10 +9,10 @@ from __future__ import annotations
 import logging
 from typing import TYPE_CHECKING, Any
 
-from .foundry import Foundry
-
 if TYPE_CHECKING:
     from typing import Final
+
+    from .foundry import Foundry
 
 _LOGGER: Final = logging.getLogger(__name__)
 

@@ -847,6 +847,12 @@ def _create_argument_parser() -> ArgumentParser:
         action='store_true',
         help='Skip Forge initialisation and add only the files required for Kontrol (for already existing Forge projects).',
     )
+    init.add_argument(
+        '--skip-kontrol-test',
+        dest='skip_kontrol_test',
+        action='store_true',
+        help='Skip generating KontrolTest.sol file.',
+    )
 
     setup_symbolic_storage = command_parser.add_parser(
         'setup-symbolic-storage',

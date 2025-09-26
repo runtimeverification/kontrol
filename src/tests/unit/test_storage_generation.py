@@ -110,9 +110,9 @@ STORAGE_VARIABLE_TEST_DATA: Final = [
         0,
         SIMPLE_STORAGE_DATA[0],
         SIMPLE_TYPES,
-        '''    uint256 public constant STORAGE_NUMBER_SLOT = 0;
+        """    uint256 public constant STORAGE_NUMBER_SLOT = 0;
     uint256 public constant STORAGE_NUMBER_OFFSET = 0;
-    uint256 public constant STORAGE_NUMBER_SIZE = 32;''',
+    uint256 public constant STORAGE_NUMBER_SIZE = 32;""",
     ),
     (
         'address',
@@ -120,9 +120,9 @@ STORAGE_VARIABLE_TEST_DATA: Final = [
         0,
         {'label': 'owner', 'type': 't_address', 'slot': '0', 'offset': 0},
         {'t_address': {'label': 'address', 'numberOfBytes': 20}},
-        '''    uint256 public constant STORAGE_OWNER_SLOT = 0;
+        """    uint256 public constant STORAGE_OWNER_SLOT = 0;
     uint256 public constant STORAGE_OWNER_OFFSET = 0;
-    uint256 public constant STORAGE_OWNER_SIZE = 20;''',
+    uint256 public constant STORAGE_OWNER_SIZE = 20;""",
     ),
 ]
 

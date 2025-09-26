@@ -345,7 +345,9 @@ def exec_clean(options: CleanOptions) -> None:
 
 
 def exec_init(options: InitOptions) -> None:
-    init_project(project_root=options.project_root, skip_forge=options.skip_forge)
+    init_project(
+        project_root=options.project_root, skip_forge=options.skip_forge, skip_kontrol_test=options.skip_kontrol_test
+    )
 
 
 def exec_setup_symbolic_storage(options: SetupSymbolicStorageOptions) -> None:

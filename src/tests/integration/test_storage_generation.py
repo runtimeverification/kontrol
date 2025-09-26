@@ -1,9 +1,13 @@
 from __future__ import annotations
 
 import sys
+from typing import TYPE_CHECKING
 
-from kontrol.foundry import Foundry, foundry_storage_generation
+from kontrol.foundry import foundry_storage_generation
 from kontrol.options import SetupSymbolicStorageOptions
+
+if TYPE_CHECKING:
+    from kontrol.foundry import Foundry
 
 sys.setrecursionlimit(10**7)
 
@@ -26,7 +30,7 @@ def test_setup_symbolic_storage(foundry: Foundry) -> None:
     # Check that output file was created
     token_file = foundry._root / 'test' / 'kontrol' / 'storage' / 'TokenStorageConstants.sol'
 
-    assert token_file.exists(), f"Token file not created: {token_file}"
+    assert token_file.exists(), f'Token file not created: {token_file}'
 
     # Check Token content
     token_content = token_file.read_text()
