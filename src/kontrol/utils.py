@@ -723,6 +723,7 @@ def kontrol_test_file_contents() -> str:
 import "forge-std/Vm.sol";
 import "forge-std/Test.sol";
 import "kontrol-cheatcodes/KontrolCheats.sol";
+
 contract KontrolTest is Test, KontrolCheats {
     enum Mode {
         Assume,
