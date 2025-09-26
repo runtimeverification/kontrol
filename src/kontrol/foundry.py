@@ -1308,11 +1308,18 @@ def init_project(project_root: Path, *, skip_forge: bool, skip_kontrol_test: boo
         kontrol_test_dir = ensure_dir_path(root / 'test' / 'kontrol')
         write_to_file(kontrol_test_dir / 'KontrolTest.sol', kontrol_test_file_contents())
 
-    run_process_2(
-        ['forge', 'install', '--no-git', 'runtimeverification/kontrol-cheatcodes'],
-        logger=_LOGGER,
-        cwd=root,
-    )
+    try:
+        run_process_2(
+            ['forge', 'install', '--no-git', 'runtimeverification/kontrol-cheatcodes'],
+            logger=_LOGGER,
+            cwd=root,
+        )
+    except CalledProcessError as e:
+        # If `kontrol-cheatcodes` is already installed, continue
+        if 'already exists' in e.stderr.lower():
+            _LOGGER.info('kontrol-cheatcodes already installed, skipping installation')
+        else:
+            raise
 
 
 def foundry_storage_generation(foundry: Foundry, options: SetupSymbolicStorageOptions) -> None:
@@ -1365,6 +1372,28 @@ def foundry_storage_generation(foundry: Foundry, options: SetupSymbolicStorageOp
 
         generated_files.append(output_path)
         _LOGGER.info(f'Generated storage constants file: {output_path}')
+
+        # Generate setup contract if requested
+        if options.generate_setup_contracts:
+            from .storage_generation import generate_setup_contract
+
+            setup_contract = generate_setup_contract(contract_name, options.solidity_version, storage, types)
+
+            # Determine setup contract output path
+            if options.output_file:
+                setup_output_path = output_dir / f'{contract_name}StorageSetup.sol'
+            else:
+                setup_output_path = foundry._root / 'test' / 'kontrol' / 'setup' / f'{contract_name}StorageSetup.sol'
+
+            # Ensure setup directory exists
+            setup_output_path.parent.mkdir(parents=True, exist_ok=True)
+
+            # Write setup contract file
+            with open(setup_output_path, 'w') as f:
+                f.write(setup_contract)
+
+            generated_files.append(setup_output_path)
+            _LOGGER.info(f'Generated setup contract file: {setup_output_path}')
 
     _LOGGER.info(
         f'Storage generation completed successfully! Generated {len(generated_files)} files: {[str(f) for f in generated_files]}'
