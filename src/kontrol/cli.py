@@ -876,5 +876,11 @@ def _create_argument_parser() -> ArgumentParser:
         type=str,
         help='Output file path for generated storage constants (default: auto-generated)',
     )
+    setup_symbolic_storage.add_argument(
+        '--skip-kontrol-init',
+        dest='skip_kontrol_init',
+        action='store_true',
+        help='Skip running kontrol init (default: false)',
+    )
 
     return parser

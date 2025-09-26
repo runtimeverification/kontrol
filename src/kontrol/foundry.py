@@ -48,6 +48,7 @@ from .utils import (
     empty_lemmas_file_contents,
     ensure_name_is_unique,
     kontrol_file_contents,
+    kontrol_test_file_contents,
     kontrol_toml_file_contents,
     kontrol_up_to_date,
     write_to_file,
@@ -1301,6 +1302,11 @@ def init_project(project_root: Path, *, skip_forge: bool) -> None:
     write_to_file(root / 'lemmas.k', empty_lemmas_file_contents())
     write_to_file(root / 'KONTROL.md', kontrol_file_contents())
     write_to_file(root / 'kontrol.toml', kontrol_toml_file_contents())
+
+    # Create test/kontrol directory and add KontrolTest.sol
+    kontrol_test_dir = ensure_dir_path(root / 'test' / 'kontrol')
+    write_to_file(kontrol_test_dir / 'KontrolTest.sol', kontrol_test_file_contents())
+
     run_process_2(
         ['forge', 'install', '--no-git', 'runtimeverification/kontrol-cheatcodes'],
         logger=_LOGGER,
@@ -1320,6 +1326,19 @@ def foundry_storage_generation(foundry: Foundry, options: SetupSymbolicStorageOp
         f'[bold blue]Generating storage constants for contracts:[/bold blue] {", ".join(options.contract_names)}'
     )
     _LOGGER.info(f'Starting storage generation for contracts: {", ".join(options.contract_names)}')
+
+    # Run kontrol init with skip_forge=True to ensure KontrolTest.sol is available (unless skipped)
+    if not options.skip_kontrol_init:
+        if not options.skip_kontrol_test:
+            console.print('[bold blue]Initializing Kontrol project...[/bold blue]')
+            _LOGGER.info('Running kontrol init with skip_forge=True to ensure KontrolTest.sol is available')
+            init_project(project_root=foundry._root, skip_forge=True)
+        else:
+            console.print('[bold blue]Skipping KontrolTest.sol generation...[/bold blue]')
+            _LOGGER.info('Skipping KontrolTest.sol generation as requested')
+    else:
+        console.print('[bold blue]Skipping kontrol init...[/bold blue]')
+        _LOGGER.info('Skipping kontrol init as requested')
 
     # Build the project first to ensure storage layout is available
     console.print('[bold blue]Building Foundry project...[/bold blue]')

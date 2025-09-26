@@ -765,12 +765,14 @@ class SetupSymbolicStorageOptions(LoggingOptions, FoundryOptions):
     contract_names: list[str]
     solidity_version: str
     output_file: str | None
+    skip_kontrol_init: bool
 
     @staticmethod
     def default() -> dict[str, Any]:
         return {
             'solidity_version': '0.8.26',
             'output_file': None,
+            'skip_kontrol_init': False,
         }
 
     @staticmethod
@@ -780,6 +782,7 @@ class SetupSymbolicStorageOptions(LoggingOptions, FoundryOptions):
             | LoggingOptions.from_option_string()
             | {
                 'output-file': 'output_file',
+                'skip-kontrol-init': 'skip_kontrol_init',
             }
         )
 
