@@ -847,7 +847,7 @@ def _create_argument_parser() -> ArgumentParser:
         '--skip-kontrol-test',
         dest='skip_kontrol_test',
         action='store_true',
-        help='Skip generating KontrolTest.sol file',
+        help='Skip generating KontrolTest.sol file.',
     )
 
     return parser
