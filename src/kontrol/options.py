@@ -159,17 +159,21 @@ class GetModelOptions(FoundryTestOptions, LoggingOptions, RpcOptions, BugReportO
 class InitOptions(LoggingOptions):
     project_root: Path
     skip_forge: bool
+    skip_kontrol_test: bool
 
     @staticmethod
     def default() -> dict[str, Any]:
         return {
             'project_root': Path.cwd(),
             'skip_forge': False,
+            'skip_kontrol_test': False,
         }
 
     @staticmethod
     def from_option_string() -> dict[str, str]:
-        return LoggingOptions.from_option_string()
+        return LoggingOptions.from_option_string() | {
+            'skip-kontrol-test': 'skip_kontrol_test',
+        }
 
     @staticmethod
     def get_argument_type() -> dict[str, Callable]:
@@ -759,6 +763,39 @@ class ViewKcfgOptions(FoundryTestOptions, LoggingOptions, FoundryOptions):
             | LoggingOptions.get_argument_type()
             | FoundryTestOptions.get_argument_type()
         )
+
+
+class SetupSymbolicStorageOptions(LoggingOptions, FoundryOptions):
+    contract_names: list[str]
+    solidity_version: str
+    output_file: str | None
+    skip_kontrol_init: bool
+    generate_setup_contracts: bool
+
+    @staticmethod
+    def default() -> dict[str, Any]:
+        return {
+            'solidity_version': '0.8.26',
+            'output_file': None,
+            'skip_kontrol_init': False,
+            'generate_setup_contracts': False,
+        }
+
+    @staticmethod
+    def from_option_string() -> dict[str, str]:
+        return (
+            FoundryOptions.from_option_string()
+            | LoggingOptions.from_option_string()
+            | {
+                'output-file': 'output_file',
+                'skip-kontrol-init': 'skip_kontrol_init',
+                'generate-setup-contracts': 'generate_setup_contracts',
+            }
+        )
+
+    @staticmethod
+    def get_argument_type() -> dict[str, Callable]:
+        return FoundryOptions.get_argument_type() | LoggingOptions.get_argument_type()
 
 
 class BuildOptions(LoggingOptions, KOptions, KompileOptions, FoundryOptions, KompileTargetOptions):

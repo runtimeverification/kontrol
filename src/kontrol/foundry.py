@@ -48,6 +48,7 @@ from .utils import (
     empty_lemmas_file_contents,
     ensure_name_is_unique,
     kontrol_file_contents,
+    kontrol_test_file_contents,
     kontrol_toml_file_contents,
     kontrol_up_to_date,
     write_to_file,
@@ -73,6 +74,7 @@ if TYPE_CHECKING:
         RefuteNodeOptions,
         RemoveNodeOptions,
         SectionEdgeOptions,
+        SetupSymbolicStorageOptions,
         SimplifyNodeOptions,
         SplitNodeOptions,
         StepNodeOptions,
@@ -1285,12 +1287,13 @@ def foundry_get_model(
     return '\n'.join(res_lines)
 
 
-def init_project(project_root: Path, *, skip_forge: bool) -> None:
+def init_project(project_root: Path, *, skip_forge: bool, skip_kontrol_test: bool = False) -> None:
     """
     Wrapper around `forge init` that creates new Foundry projects compatible with Kontrol.
 
     :param skip_forge: Skip the `forge init` process, if there already exists a Foundry project.
     :param project_root: Name of the new project that is created.
+    :param skip_kontrol_test: Skip generating KontrolTest.sol file.
     """
 
     if not skip_forge:
@@ -1300,10 +1303,100 @@ def init_project(project_root: Path, *, skip_forge: bool) -> None:
     write_to_file(root / 'lemmas.k', empty_lemmas_file_contents())
     write_to_file(root / 'KONTROL.md', kontrol_file_contents())
     write_to_file(root / 'kontrol.toml', kontrol_toml_file_contents())
-    run_process_2(
-        ['forge', 'install', '--no-git', 'runtimeverification/kontrol-cheatcodes'],
-        logger=_LOGGER,
-        cwd=root,
+
+    if not skip_kontrol_test:
+        kontrol_test_dir = ensure_dir_path(root / 'test' / 'kontrol')
+        write_to_file(kontrol_test_dir / 'KontrolTest.sol', kontrol_test_file_contents())
+
+    try:
+        run_process_2(
+            ['forge', 'install', '--no-git', 'runtimeverification/kontrol-cheatcodes'],
+            logger=_LOGGER,
+            cwd=root,
+        )
+    except CalledProcessError as e:
+        # If `kontrol-cheatcodes` is already installed, continue
+        if 'already exists' in e.stderr.lower():
+            _LOGGER.info('kontrol-cheatcodes already installed, skipping installation')
+        else:
+            raise
+
+
+def foundry_storage_generation(foundry: Foundry, options: SetupSymbolicStorageOptions) -> None:
+    """Generate storage constants for given contracts."""
+    from .storage_generation import (
+        generate_storage_constants,
+        get_storage_layout_from_foundry,
+    )
+    from .utils import console
+
+    console.print(
+        f'[bold blue]Generating storage constants for contracts:[/bold blue] {", ".join(options.contract_names)}'
+    )
+    _LOGGER.info(f'Starting storage generation for contracts: {", ".join(options.contract_names)}')
+
+    # Run kontrol init with skip_forge=True to ensure KontrolTest.sol is available (unless skipped)
+    if not options.skip_kontrol_init:
+        _LOGGER.info('Running kontrol init with skip_forge=True to ensure KontrolTest.sol is available')
+        init_project(project_root=foundry._root, skip_forge=True)
+
+    # Build the project first to ensure storage layout is available
+    _LOGGER.info('Building Foundry project to ensure storage layout is available')
+    foundry.build(metadata=True)
+
+    # Process each contract
+    generated_files = []
+    for contract_name in options.contract_names:
+        _LOGGER.info(f'Processing contract: {contract_name}')
+
+        # Get storage layout from Foundry object
+        contract_name, storage, types = get_storage_layout_from_foundry(foundry, contract_name)
+
+        # Generate storage constants
+        storage_constants = generate_storage_constants(contract_name, options.solidity_version, storage, types)
+
+        # Determine output file path
+        if options.output_file:
+            # If output_file is specified, use it as a directory and append contract name
+            output_dir = Path(options.output_file)
+            output_path = output_dir / f'{contract_name}StorageConstants.sol'
+        else:
+            output_path = foundry._root / 'test' / 'kontrol' / 'storage' / f'{contract_name}StorageConstants.sol'
+
+        # Ensure output directory exists
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+
+        # Write storage constants file
+        with open(output_path, 'w') as f:
+            f.write(storage_constants)
+
+        generated_files.append(output_path)
+        _LOGGER.info(f'Generated storage constants file: {output_path}')
+
+        # Generate setup contract if requested
+        if options.generate_setup_contracts:
+            from .storage_generation import generate_setup_contract
+
+            setup_contract = generate_setup_contract(contract_name, options.solidity_version, storage, types)
+
+            # Determine setup contract output path
+            if options.output_file:
+                setup_output_path = output_dir / f'{contract_name}StorageSetup.sol'
+            else:
+                setup_output_path = foundry._root / 'test' / 'kontrol' / 'setup' / f'{contract_name}StorageSetup.sol'
+
+            # Ensure setup directory exists
+            setup_output_path.parent.mkdir(parents=True, exist_ok=True)
+
+            # Write setup contract file
+            with open(setup_output_path, 'w') as f:
+                f.write(setup_contract)
+
+            generated_files.append(setup_output_path)
+            _LOGGER.info(f'Generated setup contract file: {setup_output_path}')
+
+    _LOGGER.info(
+        f'Storage generation completed successfully! Generated {len(generated_files)} files: {[str(f) for f in generated_files]}'
     )
 
 
