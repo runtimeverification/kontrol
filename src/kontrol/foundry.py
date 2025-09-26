@@ -48,6 +48,7 @@ from .utils import (
     empty_lemmas_file_contents,
     ensure_name_is_unique,
     kontrol_file_contents,
+    kontrol_test_file_contents,
     kontrol_toml_file_contents,
     kontrol_up_to_date,
     write_to_file,
@@ -1285,12 +1286,13 @@ def foundry_get_model(
     return '\n'.join(res_lines)
 
 
-def init_project(project_root: Path, *, skip_forge: bool) -> None:
+def init_project(project_root: Path, *, skip_forge: bool, skip_kontrol_test: bool = False) -> None:
     """
     Wrapper around `forge init` that creates new Foundry projects compatible with Kontrol.
 
     :param skip_forge: Skip the `forge init` process, if there already exists a Foundry project.
     :param project_root: Name of the new project that is created.
+    :param skip_kontrol_test: Skip generating KontrolTest.sol file.
     """
 
     if not skip_forge:
@@ -1300,6 +1302,11 @@ def init_project(project_root: Path, *, skip_forge: bool) -> None:
     write_to_file(root / 'lemmas.k', empty_lemmas_file_contents())
     write_to_file(root / 'KONTROL.md', kontrol_file_contents())
     write_to_file(root / 'kontrol.toml', kontrol_toml_file_contents())
+
+    if not skip_kontrol_test:
+        kontrol_test_dir = ensure_dir_path(root / 'test' / 'kontrol')
+        write_to_file(kontrol_test_dir / 'KontrolTest.sol', kontrol_test_file_contents())
+
     run_process_2(
         ['forge', 'install', '--no-git', 'runtimeverification/kontrol-cheatcodes'],
         logger=_LOGGER,
