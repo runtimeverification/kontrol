@@ -171,12 +171,9 @@ class InitOptions(LoggingOptions):
 
     @staticmethod
     def from_option_string() -> dict[str, str]:
-        return (
-            LoggingOptions.from_option_string()
-            | {
-                'skip-kontrol-test': 'skip_kontrol_test',
-            }
-        )
+        return LoggingOptions.from_option_string() | {
+            'skip-kontrol-test': 'skip_kontrol_test',
+        }
 
     @staticmethod
     def get_argument_type() -> dict[str, Callable]:
