@@ -10,6 +10,7 @@ from pyk.cterm.symbolic import CTermSMTError
 
 from . import VERSION
 from .cli import _create_argument_parser, generate_options, get_argument_type_setter, get_option_string_destination
+from .counterexample_generation import generate_counterexample_test
 from .display import foundry_show, foundry_view
 from .foundry import (
     Foundry,
@@ -224,6 +225,17 @@ def exec_prove(options: ProveOptions) -> None:
             )
             contract, _ = foundry.get_contract_and_method(proof.id.split(':')[0])
             _interpret_proof_failure(proof, options.failure_info, contract.error_selectors)
+
+            # Generate counterexample test if requested
+            if options.generate_counterexample:
+                try:
+                    counterexample_path = generate_counterexample_test(proof, foundry)
+                    console.print(
+                        f':test_tube: [bold yellow]Generated counterexample test: {counterexample_path}[/bold yellow] :test_tube:'
+                    )
+                except Exception as e:
+                    _LOGGER.warning(f'Failed to generate counterexample test: {e}')
+
             refuted_nodes = list(proof.node_refutations.keys())
             if len(refuted_nodes) > 0:
                 print(f'The proof cannot be completed while there are refuted nodes: {refuted_nodes}.')

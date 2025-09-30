@@ -188,7 +188,7 @@ def _generate_main_setup_function(contract_name: str, storage: list[dict[str, An
     for field in supported_fields:
         field_name = field['label']
         type_name = types[field['type']]['label']
-        
+
         if type_name.startswith('struct '):
             # For structs, add parameters for each member
             struct_type_id = field['type']
@@ -226,13 +226,15 @@ def _generate_main_setup_function(contract_name: str, storage: list[dict[str, An
                     member_type = types[member['type']]['label']
                     if _is_supported_type(member_type):
                         member_slot = int(member['slot'])
-                        
+
                         # Clear slot if not already cleared
                         if member_slot not in cleared_slots:
                             storage_prefix = f'STORAGE_{field_name.upper()}'
-                            lines.append(f'        _clearSlot(_contractAddress, {contract_name}StorageConstants.{storage_prefix}_{member["label"].upper()}_SLOT);')
+                            lines.append(
+                                f'        _clearSlot(_contractAddress, {contract_name}StorageConstants.{storage_prefix}_{member["label"].upper()}_SLOT);'
+                            )
                             cleared_slots.add(member_slot)
-                        
+
                         # Generate storage assignment for struct member
                         storage_code = _generate_struct_member_storage_assignment(
                             field_name, member, member_type, contract_name, types[struct_type_id]
@@ -243,7 +245,9 @@ def _generate_main_setup_function(contract_name: str, storage: list[dict[str, An
             # For basic types
             # Clear slot if not already cleared (multiple variables can share the same slot)
             if slot not in cleared_slots:
-                lines.append(f'        _clearSlot(_contractAddress, {contract_name}StorageConstants.STORAGE_{field_name.upper()}_SLOT);')
+                lines.append(
+                    f'        _clearSlot(_contractAddress, {contract_name}StorageConstants.STORAGE_{field_name.upper()}_SLOT);'
+                )
                 cleared_slots.add(slot)
 
             # Generate storage assignment using parameter
@@ -317,10 +321,10 @@ def _generate_struct_member_storage_assignment(
     # Generate the appropriate conversion based on type
     param_name = f'_{field_name}_{member["label"]}'
     conversion = _get_type_conversion(param_name, member_type)
-    
+
     # Use the storage field prefix, not the struct type prefix
     storage_prefix = f'STORAGE_{field_name.upper()}'
-    
+
     return f'_storeData(_contractAddress, {contract_name}StorageConstants.{storage_prefix}_{member["label"].upper()}_SLOT, {contract_name}StorageConstants.{storage_prefix}_{member["label"].upper()}_OFFSET, {contract_name}StorageConstants.{storage_prefix}_{member["label"].upper()}_SIZE, {conversion});'
 
 

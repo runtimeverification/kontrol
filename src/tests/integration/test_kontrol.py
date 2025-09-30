@@ -159,7 +159,7 @@ def test_kontrol_end_to_end(
 
 def test_kontrol_setup_storage(foundry_end_to_end: Foundry, update_expected_output: bool) -> None:
     """Test the setup-storage command with both storage constants and setup contract generation."""
-    
+
     options = SetupStorageOptions(
         {
             'contract_names': ['src%SimpleStorage'],
