@@ -752,14 +752,10 @@ contract KontrolTest is Test, KontrolCheats {
         // `offset` and `width` must not overflow the slot
         require(offset + width <= 32, "Offset + width exceeds slot size");
         
-        // Slot read mask - handle width = 32 case to prevent overflow
+        // Slot read mask; if (2 ** (8 * width)) overflows, (2 ** (8 * width)) - 1 will equal type(uint256).max
         uint256 mask;
-        if (width == 32) {
-            mask = type(uint256).max;
-        } else {
-            unchecked {
-                mask = (2 ** (8 * width)) - 1;
-            }
+        unchecked {
+            mask = (2 ** (8 * width)) - 1;
         }
         // Value right shift
         uint256 shift = 8 * offset;
@@ -775,7 +771,7 @@ contract KontrolTest is Test, KontrolCheats {
         require(offset + width <= 32, "Offset + width exceeds slot size");
         // and `value` must fit into the designated part
         require(width == 32 || value < 2 ** (8 * width), "Value exceeds designated part");
-        // Slot update mask
+        // Slot update mask; if (2 ** (8 * width)) overflows, (2 ** (8 * width)) - 1 will equal type(uint256).max
         uint256 maskLeft;
         unchecked {
             maskLeft = ~((2 ** (8 * (offset + width))) - 1);
