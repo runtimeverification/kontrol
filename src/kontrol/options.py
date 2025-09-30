@@ -765,6 +765,36 @@ class ViewKcfgOptions(FoundryTestOptions, LoggingOptions, FoundryOptions):
         )
 
 
+class SetupStorageOptions(LoggingOptions, FoundryOptions):
+    contract_names: list[str]
+    solidity_version: str
+    output_file: str | None
+    skip_kontrol_init: bool
+
+    @staticmethod
+    def default() -> dict[str, Any]:
+        return {
+            'solidity_version': '0.8.26',
+            'output_file': None,
+            'skip_kontrol_init': False,
+        }
+
+    @staticmethod
+    def from_option_string() -> dict[str, str]:
+        return (
+            FoundryOptions.from_option_string()
+            | LoggingOptions.from_option_string()
+            | {
+                'output-file': 'output_file',
+                'skip-kontrol-init': 'skip_kontrol_init',
+            }
+        )
+
+    @staticmethod
+    def get_argument_type() -> dict[str, Callable]:
+        return FoundryOptions.get_argument_type() | LoggingOptions.get_argument_type()
+
+
 class BuildOptions(LoggingOptions, KOptions, KompileOptions, FoundryOptions, KompileTargetOptions):
     regen: bool
     rekompile: bool
