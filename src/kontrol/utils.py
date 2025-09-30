@@ -769,6 +769,8 @@ contract KontrolTest is Test, KontrolCheats {
         return mask & (slotValue >> shift);
     }
     function _storeData(address contractAddress, uint256 slot, uint256 offset, uint256 width, uint256 value) internal {
+        require(contractAddress != address(0), 'Invalid contract address');
+        require(width > 0, 'Width must be greater than 0');
         // `offset` and `width` must not overflow the slot
         require(offset + width <= 32, "Offset + width exceeds slot size");
         // and `value` must fit into the designated part
