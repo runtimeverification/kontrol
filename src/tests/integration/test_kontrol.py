@@ -181,5 +181,7 @@ def test_kontrol_setup_storage(foundry_end_to_end: Foundry, update_expected_outp
     # Check SimpleStorage content and update expected output
     storage_content = storage_file.read_text()
     assert_or_update_show_output(
-        storage_content, TEST_DATA_DIR / 'show' / 'SimpleStorageStorageConstants.expected', update=update_expected_output
+        storage_content,
+        TEST_DATA_DIR / 'show' / 'SimpleStorageStorageConstants.expected',
+        update=update_expected_output,
     )
