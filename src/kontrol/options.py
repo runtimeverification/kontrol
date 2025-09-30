@@ -765,7 +765,7 @@ class ViewKcfgOptions(FoundryTestOptions, LoggingOptions, FoundryOptions):
         )
 
 
-class SetupSymbolicStorageOptions(LoggingOptions, FoundryOptions):
+class SetupStorageOptions(LoggingOptions, FoundryOptions):
     contract_names: list[str]
     solidity_version: str
     output_file: str | None

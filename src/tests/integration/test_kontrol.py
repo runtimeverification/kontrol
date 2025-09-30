@@ -12,9 +12,9 @@ from pyk.kore.rpc import kore_server
 from pyk.utils import single
 
 from kontrol.display import foundry_show
-from kontrol.foundry import Foundry, init_project
+from kontrol.foundry import Foundry, foundry_storage_generation, init_project
 from kontrol.kompile import foundry_kompile
-from kontrol.options import BuildOptions, ProveOptions, ShowOptions
+from kontrol.options import BuildOptions, ProveOptions, SetupStorageOptions, ShowOptions
 from kontrol.prove import foundry_prove
 from kontrol.utils import append_to_file, foundry_toml_use_optimizer
 
@@ -65,7 +65,8 @@ def foundry_end_to_end(foundry_root_dir: Path | None, tmp_path_factory: TempPath
     with FileLock(str(foundry_root) + '.lock'):
         if not foundry_root.is_dir():
             init_project(project_root=foundry_root, skip_forge=False)
-            copytree(str(TEST_DATA_DIR / 'src'), str(foundry_root / 'test'), dirs_exist_ok=True)
+            copytree(str(TEST_DATA_DIR / 'src'), str(foundry_root / 'src'), dirs_exist_ok=True)
+            copytree(str(TEST_DATA_DIR / 'test'), str(foundry_root / 'test'), dirs_exist_ok=True)
             append_to_file(foundry_root / 'foundry.toml', foundry_toml_use_optimizer())
 
             try:
@@ -154,3 +155,33 @@ def test_kontrol_end_to_end(
 
     # Then
     assert_or_update_show_output(show_res, TEST_DATA_DIR / f'show/{test_id}.expected', update=update_expected_output)
+
+
+def test_kontrol_setup_storage(foundry_end_to_end: Foundry, update_expected_output: bool) -> None:
+    """Test the setup-storage command as part of end-to-end tests."""
+
+    options = SetupStorageOptions(
+        {
+            'contract_names': ['src%SimpleStorage'],
+            'solidity_version': '0.8.26',
+            'output_file': None,
+            'foundry_root': foundry_end_to_end._root,
+            'enum_constraints': False,
+            'log_level': 'INFO',
+        }
+    )
+
+    foundry_storage_generation(foundry_end_to_end, options)
+
+    # Check that output file was created
+    storage_file = foundry_end_to_end._root / 'test' / 'kontrol' / 'storage' / 'SimpleStorageStorageConstants.sol'
+
+    assert storage_file.exists(), f'SimpleStorage file not created: {storage_file}'
+
+    # Check SimpleStorage content and update expected output
+    storage_content = storage_file.read_text()
+    assert_or_update_show_output(
+        storage_content,
+        TEST_DATA_DIR / 'show' / 'SimpleStorageStorageConstants.expected',
+        update=update_expected_output,
+    )

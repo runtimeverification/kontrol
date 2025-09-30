@@ -747,9 +747,12 @@ contract KontrolTest is Test, KontrolCheats {
         uint256 offset,
         uint256 width
     ) internal view returns (uint256) {
+        require(contractAddress != address(0), 'Invalid contract address');
+        require(width > 0, 'Width must be greater than 0');
         // `offset` and `width` must not overflow the slot
-        assert(offset + width <= 32);
-        // Slot read mask
+        require(offset + width <= 32, "Offset + width exceeds slot size");
+        
+        // Slot read mask; if (2 ** (8 * width)) overflows, (2 ** (8 * width)) - 1 will equal type(uint256).max
         uint256 mask;
         unchecked {
             mask = (2 ** (8 * width)) - 1;
@@ -762,11 +765,13 @@ contract KontrolTest is Test, KontrolCheats {
         return mask & (slotValue >> shift);
     }
     function _storeData(address contractAddress, uint256 slot, uint256 offset, uint256 width, uint256 value) internal {
+        require(contractAddress != address(0), 'Invalid contract address');
+        require(width > 0, 'Width must be greater than 0');
         // `offset` and `width` must not overflow the slot
-        assert(offset + width <= 32);
+        require(offset + width <= 32, "Offset + width exceeds slot size");
         // and `value` must fit into the designated part
-        assert(width == 32 || value < 2 ** (8 * width));
-        // Slot update mask
+        require(width == 32 || value < 2 ** (8 * width), "Value exceeds designated part");
+        // Slot update mask; if (2 ** (8 * width)) overflows, (2 ** (8 * width)) - 1 will equal type(uint256).max
         uint256 maskLeft;
         unchecked {
             maskLeft = ~((2 ** (8 * (offset + width))) - 1);

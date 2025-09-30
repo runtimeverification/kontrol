@@ -65,7 +65,7 @@ if TYPE_CHECKING:
         RefuteNodeOptions,
         RemoveNodeOptions,
         SectionEdgeOptions,
-        SetupSymbolicStorageOptions,
+        SetupStorageOptions,
         ShowOptions,
         SimplifyNodeOptions,
         SplitNodeOptions,
@@ -350,7 +350,7 @@ def exec_init(options: InitOptions) -> None:
     )
 
 
-def exec_setup_symbolic_storage(options: SetupSymbolicStorageOptions) -> None:
+def exec_setup_storage(options: SetupStorageOptions) -> None:
     foundry = _load_foundry(options.foundry_root, add_enum_constraints=options.enum_constraints)
     foundry_storage_generation(foundry=foundry, options=options)
 

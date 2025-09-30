@@ -74,7 +74,7 @@ if TYPE_CHECKING:
         RefuteNodeOptions,
         RemoveNodeOptions,
         SectionEdgeOptions,
-        SetupSymbolicStorageOptions,
+        SetupStorageOptions,
         SimplifyNodeOptions,
         SplitNodeOptions,
         StepNodeOptions,
@@ -1322,17 +1322,13 @@ def init_project(project_root: Path, *, skip_forge: bool, skip_kontrol_test: boo
             raise
 
 
-def foundry_storage_generation(foundry: Foundry, options: SetupSymbolicStorageOptions) -> None:
+def foundry_storage_generation(foundry: Foundry, options: SetupStorageOptions) -> None:
     """Generate storage constants for given contracts."""
     from .storage_generation import (
         generate_storage_constants,
         get_storage_layout_from_foundry,
     )
-    from .utils import console
 
-    console.print(
-        f'[bold blue]Generating storage constants for contracts:[/bold blue] {", ".join(options.contract_names)}'
-    )
     _LOGGER.info(f'Starting storage generation for contracts: {", ".join(options.contract_names)}')
 
     # Run kontrol init with skip_forge=True to ensure KontrolTest.sol is available (unless skipped)
