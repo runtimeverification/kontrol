@@ -80,6 +80,8 @@ if TYPE_CHECKING:
         StepNodeOptions,
         UnrefuteNodeOptions,
     )
+    from .storage_generation import generate_setup_contract
+
 
 _LOGGER: Final = logging.getLogger(__name__)
 
@@ -1371,8 +1373,6 @@ def foundry_storage_generation(foundry: Foundry, options: SetupStorageOptions) -
 
         # Generate setup contract if requested
         if options.generate_setup_contracts:
-            from .storage_generation import generate_setup_contract
-
             setup_contract = generate_setup_contract(contract_name, options.solidity_version, storage, types)
 
             # Determine setup contract output path
