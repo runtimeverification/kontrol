@@ -1308,11 +1308,18 @@ def init_project(project_root: Path, *, skip_forge: bool, skip_kontrol_test: boo
         kontrol_test_dir = ensure_dir_path(root / 'test' / 'kontrol')
         write_to_file(kontrol_test_dir / 'KontrolTest.sol', kontrol_test_file_contents())
 
-    run_process_2(
-        ['forge', 'install', '--no-git', 'runtimeverification/kontrol-cheatcodes'],
-        logger=_LOGGER,
-        cwd=root,
-    )
+    try:
+        run_process_2(
+            ['forge', 'install', '--no-git', 'runtimeverification/kontrol-cheatcodes'],
+            logger=_LOGGER,
+            cwd=root,
+        )
+    except CalledProcessError as e:
+        # If `kontrol-cheatcodes` is already installed, continue
+        if 'already exists' in e.stderr.lower():
+            _LOGGER.info('kontrol-cheatcodes already installed, skipping installation')
+        else:
+            raise
 
 
 def foundry_storage_generation(foundry: Foundry, options: SetupSymbolicStorageOptions) -> None:
