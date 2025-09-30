@@ -1328,7 +1328,6 @@ def foundry_storage_generation(foundry: Foundry, options: SetupStorageOptions) -
         generate_storage_constants,
         get_storage_layout_from_foundry,
     )
-    from .utils import console
 
     _LOGGER.info(f'Starting storage generation for contracts: {", ".join(options.contract_names)}')
 
