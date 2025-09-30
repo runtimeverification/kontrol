@@ -24,7 +24,7 @@ from .options import (
     RefuteNodeOptions,
     RemoveNodeOptions,
     SectionEdgeOptions,
-    SetupSymbolicStorageOptions,
+    SetupStorageOptions,
     ShowOptions,
     SimplifyNodeOptions,
     SplitNodeOptions,
@@ -66,7 +66,7 @@ def generate_options(args: dict[str, Any]) -> LoggingOptions:
         'minimize-proof': MinimizeProofOptions(args),
         'clean': CleanOptions(args),
         'init': InitOptions(args),
-        'setup-symbolic-storage': SetupSymbolicStorageOptions(args),
+        'setup-storage': SetupStorageOptions(args),
     }
     try:
         return options[command]
@@ -96,7 +96,7 @@ def get_option_string_destination(command: str, option_string: str) -> str:
         'minimize-proof': MinimizeProofOptions.from_option_string(),
         'clean': CleanOptions.from_option_string(),
         'init': InitOptions.from_option_string(),
-        'setup-symbolic-storage': SetupSymbolicStorageOptions.from_option_string(),
+        'setup-storage': SetupStorageOptions.from_option_string(),
     }
     option_string_destinations = options[command]
     return option_string_destinations.get(option_string, option_string.replace('-', '_'))
@@ -124,7 +124,7 @@ def get_argument_type_setter(command: str, option_string: str) -> Callable[[str]
         'minimize-proof': MinimizeProofOptions.get_argument_type(),
         'clean': CleanOptions.get_argument_type(),
         'init': InitOptions.get_argument_type(),
-        'setup-symbolic-storage': SetupSymbolicStorageOptions.get_argument_type(),
+        'setup-storage': SetupStorageOptions.get_argument_type(),
     }
     option_types = options[command]
     return option_types.get(option_string, (lambda x: x))
@@ -854,8 +854,8 @@ def _create_argument_parser() -> ArgumentParser:
         help='Skip generating KontrolTest.sol file.',
     )
 
-    setup_symbolic_storage = command_parser.add_parser(
-        'setup-symbolic-storage',
+    setup_storage = command_parser.add_parser(
+        'setup-storage',
         help='Generate symbolic structured storage constants',
         parents=[
             kontrol_cli_args.logging_args,
@@ -863,26 +863,26 @@ def _create_argument_parser() -> ArgumentParser:
             config_args.config_args,
         ],
     )
-    setup_symbolic_storage.add_argument(
+    setup_storage.add_argument(
         'contract_names',
         nargs='+',
         type=str,
         help='Name(s) of the contract(s) to generate storage constants for',
     )
-    setup_symbolic_storage.add_argument(
+    setup_storage.add_argument(
         '--solidity-version',
         dest='solidity_version',
         type=str,
         default='0.8.26',
         help='Solidity version to use in generated contracts (default: 0.8.26)',
     )
-    setup_symbolic_storage.add_argument(
+    setup_storage.add_argument(
         '--output-file',
         dest='output_file',
         type=str,
         help='Output file path for generated storage constants (default: auto-generated)',
     )
-    setup_symbolic_storage.add_argument(
+    setup_storage.add_argument(
         '--skip-kontrol-init',
         dest='skip_kontrol_init',
         action='store_true',

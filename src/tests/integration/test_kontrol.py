@@ -12,9 +12,9 @@ from pyk.kore.rpc import kore_server
 from pyk.utils import single
 
 from kontrol.display import foundry_show
-from kontrol.foundry import Foundry, init_project
+from kontrol.foundry import Foundry, foundry_storage_generation, init_project
 from kontrol.kompile import foundry_kompile
-from kontrol.options import BuildOptions, ProveOptions, ShowOptions
+from kontrol.options import BuildOptions, ProveOptions, SetupStorageOptions, ShowOptions
 from kontrol.prove import foundry_prove
 from kontrol.utils import append_to_file, foundry_toml_use_optimizer
 
@@ -154,3 +154,32 @@ def test_kontrol_end_to_end(
 
     # Then
     assert_or_update_show_output(show_res, TEST_DATA_DIR / f'show/{test_id}.expected', update=update_expected_output)
+
+
+def test_setup_storage_end_to_end(
+    foundry_end_to_end: Foundry, 
+    update_expected_output: bool
+) -> None:
+    """Test the setup-storage command as part of end-to-end tests."""
+
+    options = SetupStorageOptions(
+        {
+            'contract_names': ['src%Token'],
+            'solidity_version': '0.8.26',
+            'output_file': None,
+            'foundry_root': foundry_end_to_end._root,
+            'enum_constraints': False,
+            'log_level': 'INFO',
+        }
+    )
+
+    foundry_storage_generation(foundry_end_to_end, options)
+
+    # Check that output file was created
+    token_file = foundry_end_to_end._root / 'test' / 'kontrol' / 'storage' / 'TokenStorageConstants.sol'
+
+    assert token_file.exists(), f'Token file not created: {token_file}'
+
+    # Check Token content and update expected output
+    token_content = token_file.read_text()
+    assert_or_update_show_output(token_content, TEST_DATA_DIR / 'show' / 'TokenStorageConstants.expected', update=update_expected_output)
