@@ -74,6 +74,7 @@ if TYPE_CHECKING:
         RefuteNodeOptions,
         RemoveNodeOptions,
         SectionEdgeOptions,
+        SetupStorageOptions,
         SimplifyNodeOptions,
         SplitNodeOptions,
         StepNodeOptions,
@@ -1319,6 +1320,58 @@ def init_project(project_root: Path, *, skip_forge: bool, skip_kontrol_test: boo
             _LOGGER.info('kontrol-cheatcodes already installed, skipping installation')
         else:
             raise
+
+
+def foundry_storage_generation(foundry: Foundry, options: SetupStorageOptions) -> None:
+    """Generate storage constants for given contracts."""
+    from .storage_generation import (
+        generate_storage_constants,
+        get_storage_layout_from_foundry,
+    )
+
+    _LOGGER.info(f'Starting storage generation for contracts: {", ".join(options.contract_names)}')
+
+    # Run kontrol init with skip_forge=True to ensure KontrolTest.sol is available (unless skipped)
+    if not options.skip_kontrol_init:
+        _LOGGER.info('Running kontrol init with skip_forge=True to ensure KontrolTest.sol is available')
+        init_project(project_root=foundry._root, skip_forge=True)
+
+    # Build the project first to ensure storage layout is available
+    _LOGGER.info('Building Foundry project to ensure storage layout is available')
+    foundry.build(metadata=True)
+
+    # Process each contract
+    generated_files = []
+    for contract_name in options.contract_names:
+        _LOGGER.info(f'Processing contract: {contract_name}')
+
+        # Get storage layout from Foundry object
+        contract_name, storage, types = get_storage_layout_from_foundry(foundry, contract_name)
+
+        # Generate storage constants
+        storage_constants = generate_storage_constants(contract_name, options.solidity_version, storage, types)
+
+        # Determine output file path
+        if options.output_file:
+            # If output_file is specified, use it as a directory and append contract name
+            output_dir = Path(options.output_file)
+            output_path = output_dir / f'{contract_name}StorageConstants.sol'
+        else:
+            output_path = foundry._root / 'test' / 'kontrol' / 'storage' / f'{contract_name}StorageConstants.sol'
+
+        # Ensure output directory exists
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+
+        # Write storage constants file
+        with open(output_path, 'w') as f:
+            f.write(storage_constants)
+
+        generated_files.append(output_path)
+        _LOGGER.info(f'Generated storage constants file: {output_path}')
+
+    _LOGGER.info(
+        f'Storage generation completed successfully! Generated {len(generated_files)} files: {[str(f) for f in generated_files]}'
+    )
 
 
 def foundry_clean(foundry: Foundry, options: CleanOptions) -> None:

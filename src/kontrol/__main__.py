@@ -24,6 +24,7 @@ from .foundry import (
     foundry_simplify_node,
     foundry_split_node,
     foundry_step_node,
+    foundry_storage_generation,
     foundry_unrefute_node,
     init_project,
 )
@@ -64,6 +65,7 @@ if TYPE_CHECKING:
         RefuteNodeOptions,
         RemoveNodeOptions,
         SectionEdgeOptions,
+        SetupStorageOptions,
         ShowOptions,
         SimplifyNodeOptions,
         SplitNodeOptions,
@@ -346,6 +348,11 @@ def exec_init(options: InitOptions) -> None:
     init_project(
         project_root=options.project_root, skip_forge=options.skip_forge, skip_kontrol_test=options.skip_kontrol_test
     )
+
+
+def exec_setup_storage(options: SetupStorageOptions) -> None:
+    foundry = _load_foundry(options.foundry_root, add_enum_constraints=options.enum_constraints)
+    foundry_storage_generation(foundry=foundry, options=options)
 
 
 if __name__ == '__main__':
