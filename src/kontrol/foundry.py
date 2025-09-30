@@ -1330,9 +1330,6 @@ def foundry_storage_generation(foundry: Foundry, options: SetupStorageOptions) -
     )
     from .utils import console
 
-    console.print(
-        f'[bold blue]Generating storage constants for contracts:[/bold blue] {", ".join(options.contract_names)}'
-    )
     _LOGGER.info(f'Starting storage generation for contracts: {", ".join(options.contract_names)}')
 
     # Run kontrol init with skip_forge=True to ensure KontrolTest.sol is available (unless skipped)
