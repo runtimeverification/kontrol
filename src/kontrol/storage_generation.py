@@ -170,7 +170,7 @@ def _generate_storage_constants(contract_name: str, storage: list[dict[str, Any]
 
 def _generate_main_setup_function(contract_name: str, storage: list[dict[str, Any]], types: dict[str, Any]) -> str:
     """Generate the main setup function."""
-    function_name = f'{contract_name.lower()}StorageSetup'
+    function_name = f'{contract_name[0].lower() + contract_name[1:]}StorageSetup'
 
     # Generate function signature with parameters
     supported_fields = []

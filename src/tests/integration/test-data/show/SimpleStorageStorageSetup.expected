@@ -7,7 +7,7 @@ import {SimpleStorageStorageConstants} from "test/kontrol/storage/SimpleStorageS
 contract SimpleStorageStorageSetup is KontrolTest {
     // All storage constants are imported from SimpleStorageStorageConstants
 
-    function simplestorageStorageSetup(address _contractAddress, uint256 _totalSupply, address _owner, uint128 _packedUint1, uint64 _packedUint2, uint32 _packedUint3, uint16 _packedUint4, uint8 _packedUint5, bool _packedBool, uint256 _currentUser_id, address _currentUser_wallet, bool _currentUser_isActive, uint64 _currentUser_lastSeen) public {
+    function simpleStorageStorageSetup(address _contractAddress, uint256 _totalSupply, address _owner, uint256 _currentUser_id, address _currentUser_wallet, bool _currentUser_isActive) public {
         vm.setArbitraryStorage(_contractAddress);
 
         _clearSlot(_contractAddress, SimpleStorageStorageConstants.STORAGE_TOTALSUPPLY_SLOT);
@@ -15,19 +15,6 @@ contract SimpleStorageStorageSetup is KontrolTest {
 
         _clearSlot(_contractAddress, SimpleStorageStorageConstants.STORAGE_OWNER_SLOT);
         _storeData(_contractAddress, SimpleStorageStorageConstants.STORAGE_OWNER_SLOT, SimpleStorageStorageConstants.STORAGE_OWNER_OFFSET, SimpleStorageStorageConstants.STORAGE_OWNER_SIZE, uint160(_owner));
-
-        _clearSlot(_contractAddress, SimpleStorageStorageConstants.STORAGE_PACKEDUINT1_SLOT);
-        _storeData(_contractAddress, SimpleStorageStorageConstants.STORAGE_PACKEDUINT1_SLOT, SimpleStorageStorageConstants.STORAGE_PACKEDUINT1_OFFSET, SimpleStorageStorageConstants.STORAGE_PACKEDUINT1_SIZE, uint256(_packedUint1));
-
-        _storeData(_contractAddress, SimpleStorageStorageConstants.STORAGE_PACKEDUINT2_SLOT, SimpleStorageStorageConstants.STORAGE_PACKEDUINT2_OFFSET, SimpleStorageStorageConstants.STORAGE_PACKEDUINT2_SIZE, uint256(_packedUint2));
-
-        _storeData(_contractAddress, SimpleStorageStorageConstants.STORAGE_PACKEDUINT3_SLOT, SimpleStorageStorageConstants.STORAGE_PACKEDUINT3_OFFSET, SimpleStorageStorageConstants.STORAGE_PACKEDUINT3_SIZE, uint256(_packedUint3));
-
-        _storeData(_contractAddress, SimpleStorageStorageConstants.STORAGE_PACKEDUINT4_SLOT, SimpleStorageStorageConstants.STORAGE_PACKEDUINT4_OFFSET, SimpleStorageStorageConstants.STORAGE_PACKEDUINT4_SIZE, uint256(_packedUint4));
-
-        _storeData(_contractAddress, SimpleStorageStorageConstants.STORAGE_PACKEDUINT5_SLOT, SimpleStorageStorageConstants.STORAGE_PACKEDUINT5_OFFSET, SimpleStorageStorageConstants.STORAGE_PACKEDUINT5_SIZE, uint256(_packedUint5));
-
-        _storeData(_contractAddress, SimpleStorageStorageConstants.STORAGE_PACKEDBOOL_SLOT, SimpleStorageStorageConstants.STORAGE_PACKEDBOOL_OFFSET, SimpleStorageStorageConstants.STORAGE_PACKEDBOOL_SIZE, _packedBool ? 1 : 0);
 
         _clearSlot(_contractAddress, SimpleStorageStorageConstants.STRUCT_SIMPLESTORAGE_USER_ID_SLOT);
         _storeData(_contractAddress, SimpleStorageStorageConstants.STRUCT_SIMPLESTORAGE_USER_ID_SLOT, SimpleStorageStorageConstants.STRUCT_SIMPLESTORAGE_USER_ID_OFFSET, SimpleStorageStorageConstants.STRUCT_SIMPLESTORAGE_USER_ID_SIZE, _currentUser_id);
@@ -37,12 +24,8 @@ contract SimpleStorageStorageSetup is KontrolTest {
 
         _storeData(_contractAddress, SimpleStorageStorageConstants.STRUCT_SIMPLESTORAGE_USER_ISACTIVE_SLOT, SimpleStorageStorageConstants.STRUCT_SIMPLESTORAGE_USER_ISACTIVE_OFFSET, SimpleStorageStorageConstants.STRUCT_SIMPLESTORAGE_USER_ISACTIVE_SIZE, _currentUser_isActive ? 1 : 0);
 
-        _storeData(_contractAddress, SimpleStorageStorageConstants.STRUCT_SIMPLESTORAGE_USER_LASTSEEN_SLOT, SimpleStorageStorageConstants.STRUCT_SIMPLESTORAGE_USER_LASTSEEN_OFFSET, SimpleStorageStorageConstants.STRUCT_SIMPLESTORAGE_USER_LASTSEEN_SIZE, uint256(_currentUser_lastSeen));
-
         // TODO: Add support for the following types:
         // - uint256[] balances
-        // - mapping(address => struct SimpleStorage.User) users
-        // - mapping(address => uint256) allowances
 
     }
 }
