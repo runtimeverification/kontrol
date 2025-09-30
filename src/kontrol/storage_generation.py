@@ -229,8 +229,8 @@ def _generate_main_setup_function(contract_name: str, storage: list[dict[str, An
                         
                         # Clear slot if not already cleared
                         if member_slot not in cleared_slots:
-                            struct_prefix = types[struct_type_id]['label'].replace(' ', '_').replace('.', '_').upper()
-                            lines.append(f'        _clearSlot(_contractAddress, {contract_name}StorageConstants.{struct_prefix}_{member["label"].upper()}_SLOT);')
+                            storage_prefix = f'STORAGE_{field_name.upper()}'
+                            lines.append(f'        _clearSlot(_contractAddress, {contract_name}StorageConstants.{storage_prefix}_{member["label"].upper()}_SLOT);')
                             cleared_slots.add(member_slot)
                         
                         # Generate storage assignment for struct member
@@ -318,10 +318,10 @@ def _generate_struct_member_storage_assignment(
     param_name = f'_{field_name}_{member["label"]}'
     conversion = _get_type_conversion(param_name, member_type)
     
-    # Generate the struct prefix for the constant names
-    struct_prefix = struct_type['label'].replace(' ', '_').replace('.', '_').upper()
+    # Use the storage field prefix, not the struct type prefix
+    storage_prefix = f'STORAGE_{field_name.upper()}'
     
-    return f'_storeData(_contractAddress, {contract_name}StorageConstants.{struct_prefix}_{member["label"].upper()}_SLOT, {contract_name}StorageConstants.{struct_prefix}_{member["label"].upper()}_OFFSET, {contract_name}StorageConstants.{struct_prefix}_{member["label"].upper()}_SIZE, {conversion});'
+    return f'_storeData(_contractAddress, {contract_name}StorageConstants.{storage_prefix}_{member["label"].upper()}_SLOT, {contract_name}StorageConstants.{storage_prefix}_{member["label"].upper()}_OFFSET, {contract_name}StorageConstants.{storage_prefix}_{member["label"].upper()}_SIZE, {conversion});'
 
 
 def _get_type_conversion(field_name: str, type_name: str) -> str:
@@ -331,7 +331,7 @@ def _get_type_conversion(field_name: str, type_name: str) -> str:
     elif type_name == 'address':
         return f'uint160({field_name})'
     elif type_name == 'bool':
-        return f'{field_name} ? 1 : 0'
+        return f'boolToUint256({field_name})'
     elif type_name.startswith('uint'):
         # cast to uint256
         return f'uint256({field_name})'

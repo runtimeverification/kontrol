@@ -741,6 +741,7 @@ contract KontrolTest is Test, KontrolCheats {
             return true;
         }
     }
+
     function _loadData(
         address contractAddress,
         uint256 slot,
@@ -764,6 +765,7 @@ contract KontrolTest is Test, KontrolCheats {
         // Isolate and return data to retrieve
         return mask & (slotValue >> shift);
     }
+
     function _storeData(address contractAddress, uint256 slot, uint256 offset, uint256 width, uint256 value) internal {
         require(contractAddress != address(0), 'Invalid contract address');
         require(width > 0, 'Width must be greater than 0');
@@ -785,6 +787,7 @@ contract KontrolTest is Test, KontrolCheats {
         slotValue = updatedValue | (mask & slotValue);
         vm.store(contractAddress, bytes32(slot), bytes32(slotValue));
     }
+
     function _loadMappingData(
         address contractAddress,
         uint256 mappingSlot,
@@ -796,6 +799,7 @@ contract KontrolTest is Test, KontrolCheats {
         bytes32 hashedSlot = keccak256(abi.encodePacked(key, mappingSlot));
         return _loadData(contractAddress, uint256(hashedSlot) + subSlot, offset, width);
     }
+
     function _storeMappingData(
         address contractAddress,
         uint256 mappingSlot,
@@ -808,9 +812,11 @@ contract KontrolTest is Test, KontrolCheats {
         bytes32 hashedSlot = keccak256(abi.encodePacked(key, mappingSlot));
         _storeData(contractAddress, uint256(hashedSlot) + subSlot, offset, width, value);
     }
+
     function _loadUInt256(address contractAddress, uint256 slot) internal view returns (uint256) {
         return _loadData(contractAddress, slot, 0, 32);
     }
+
     function _loadMappingUInt256(
         address contractAddress,
         uint256 mappingSlot,
@@ -820,9 +826,11 @@ contract KontrolTest is Test, KontrolCheats {
         bytes32 hashedSlot = keccak256(abi.encodePacked(key, mappingSlot));
         return _loadData(contractAddress, uint256(hashedSlot) + subSlot, 0, 32);
     }
+
     function _loadAddress(address contractAddress, uint256 slot) internal view returns (address) {
         return address(uint160(_loadData(contractAddress, slot, 0, 20)));
     }
+
     function _storeMappingUInt256(
         address contractAddress,
         uint256 mappingSlot,
@@ -833,25 +841,37 @@ contract KontrolTest is Test, KontrolCheats {
         bytes32 hashedSlot = keccak256(abi.encodePacked(key, mappingSlot));
         _storeData(contractAddress, uint256(hashedSlot) + subSlot, 0, 32, value);
     }
+
     function _storeUInt256(address contractAddress, uint256 slot, uint256 value) internal {
         _storeData(contractAddress, slot, 0, 32, value);
     }
+
     function _storeAddress(address contractAddress, uint256 slot, address value) internal {
         _storeData(contractAddress, slot, 0, 20, uint160(value));
     }
+
     function _storeBytes32(address contractAddress, uint256 slot, bytes32 value) internal {
         _storeUInt256(contractAddress, slot, uint256(value));
     }
+
     function _assumeNoOverflow(uint256 augend, uint256 addend) internal pure {
         unchecked {
             vm.assume(augend < augend + addend);
         }
     }
+
     function _clearSlot(address contractAddress, uint256 slot) internal {
         _storeUInt256(contractAddress, slot, 0);
     }
+
     function _clearMappingSlot(address contractAddress, uint256 mappingSlot, uint256 key, uint256 subSlot) internal {
         bytes32 hashedSlot = keccak256(abi.encodePacked(key, mappingSlot));
         _storeData(contractAddress, uint256(hashedSlot) + subSlot, 0, 32, 0);
+    }
+
+    function boolToUint256(bool b) internal pure returns (uint256 result) {
+        assembly {
+            result := b
+        }
     }
 }"""

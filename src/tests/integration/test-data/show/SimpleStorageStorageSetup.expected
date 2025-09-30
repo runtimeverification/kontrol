@@ -16,13 +16,13 @@ contract SimpleStorageStorageSetup is KontrolTest {
         _clearSlot(_contractAddress, SimpleStorageStorageConstants.STORAGE_OWNER_SLOT);
         _storeData(_contractAddress, SimpleStorageStorageConstants.STORAGE_OWNER_SLOT, SimpleStorageStorageConstants.STORAGE_OWNER_OFFSET, SimpleStorageStorageConstants.STORAGE_OWNER_SIZE, uint160(_owner));
 
-        _clearSlot(_contractAddress, SimpleStorageStorageConstants.STRUCT_SIMPLESTORAGE_USER_ID_SLOT);
-        _storeData(_contractAddress, SimpleStorageStorageConstants.STRUCT_SIMPLESTORAGE_USER_ID_SLOT, SimpleStorageStorageConstants.STRUCT_SIMPLESTORAGE_USER_ID_OFFSET, SimpleStorageStorageConstants.STRUCT_SIMPLESTORAGE_USER_ID_SIZE, _currentUser_id);
+        _clearSlot(_contractAddress, SimpleStorageStorageConstants.STORAGE_CURRENTUSER_ID_SLOT);
+        _storeData(_contractAddress, SimpleStorageStorageConstants.STORAGE_CURRENTUSER_ID_SLOT, SimpleStorageStorageConstants.STORAGE_CURRENTUSER_ID_OFFSET, SimpleStorageStorageConstants.STORAGE_CURRENTUSER_ID_SIZE, _currentUser_id);
 
-        _clearSlot(_contractAddress, SimpleStorageStorageConstants.STRUCT_SIMPLESTORAGE_USER_WALLET_SLOT);
-        _storeData(_contractAddress, SimpleStorageStorageConstants.STRUCT_SIMPLESTORAGE_USER_WALLET_SLOT, SimpleStorageStorageConstants.STRUCT_SIMPLESTORAGE_USER_WALLET_OFFSET, SimpleStorageStorageConstants.STRUCT_SIMPLESTORAGE_USER_WALLET_SIZE, uint160(_currentUser_wallet));
+        _clearSlot(_contractAddress, SimpleStorageStorageConstants.STORAGE_CURRENTUSER_WALLET_SLOT);
+        _storeData(_contractAddress, SimpleStorageStorageConstants.STORAGE_CURRENTUSER_WALLET_SLOT, SimpleStorageStorageConstants.STORAGE_CURRENTUSER_WALLET_OFFSET, SimpleStorageStorageConstants.STORAGE_CURRENTUSER_WALLET_SIZE, uint160(_currentUser_wallet));
 
-        _storeData(_contractAddress, SimpleStorageStorageConstants.STRUCT_SIMPLESTORAGE_USER_ISACTIVE_SLOT, SimpleStorageStorageConstants.STRUCT_SIMPLESTORAGE_USER_ISACTIVE_OFFSET, SimpleStorageStorageConstants.STRUCT_SIMPLESTORAGE_USER_ISACTIVE_SIZE, _currentUser_isActive ? 1 : 0);
+        _storeData(_contractAddress, SimpleStorageStorageConstants.STORAGE_CURRENTUSER_ISACTIVE_SLOT, SimpleStorageStorageConstants.STORAGE_CURRENTUSER_ISACTIVE_OFFSET, SimpleStorageStorageConstants.STORAGE_CURRENTUSER_ISACTIVE_SIZE, boolToUint256(_currentUser_isActive));
 
         // TODO: Add support for the following types:
         // - uint256[] balances
