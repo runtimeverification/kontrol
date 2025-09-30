@@ -185,3 +185,37 @@ def test_kontrol_setup_storage(foundry_end_to_end: Foundry, update_expected_outp
         TEST_DATA_DIR / 'show' / 'SimpleStorageStorageConstants.expected',
         update=update_expected_output,
     )
+
+
+def test_kontrol_setup_storage_with_contracts(foundry_end_to_end: Foundry, update_expected_output: bool) -> None:
+    """Test the setup-storage command with setup contract generation."""
+    
+    options = SetupStorageOptions(
+        {
+            'contract_names': ['src%SimpleStorage'],
+            'solidity_version': '0.8.26',
+            'output_file': None,
+            'foundry_root': foundry_end_to_end._root,
+            'enum_constraints': False,
+            'log_level': 'INFO',
+            'generate_setup_contracts': True,
+        }
+    )
+
+    foundry_storage_generation(foundry_end_to_end, options)
+
+    # Check that storage constants file was created
+    storage_file = foundry_end_to_end._root / 'test' / 'kontrol' / 'storage' / 'SimpleStorageStorageConstants.sol'
+    assert storage_file.exists(), f'SimpleStorage constants file not created: {storage_file}'
+
+    # Check that setup contract file was created
+    setup_file = foundry_end_to_end._root / 'test' / 'kontrol' / 'setup' / 'SimpleStorageStorageSetup.sol'
+    assert setup_file.exists(), f'SimpleStorage setup file not created: {setup_file}'
+
+    # Check setup contract content and update expected output
+    setup_content = setup_file.read_text()
+    assert_or_update_show_output(
+        setup_content,
+        TEST_DATA_DIR / 'show' / 'SimpleStorageStorageSetup.expected',
+        update=update_expected_output,
+    )

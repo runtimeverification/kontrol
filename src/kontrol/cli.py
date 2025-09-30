@@ -888,7 +888,7 @@ def _create_argument_parser() -> ArgumentParser:
         action='store_true',
         help='Skip running kontrol init (default: false)',
     )
-    setup_symbolic_storage.add_argument(
+    setup_storage.add_argument(
         '--generate-setup-contracts',
         dest='generate_setup_contracts',
         action='store_true',

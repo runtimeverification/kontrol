@@ -188,8 +188,20 @@ def _generate_main_setup_function(contract_name: str, storage: list[dict[str, An
     for field in supported_fields:
         field_name = field['label']
         type_name = types[field['type']]['label']
-        param_type = _get_solidity_type_name(type_name, types)
-        params.append(f'{param_type} _{field_name}')
+        
+        if type_name.startswith('struct '):
+            # For structs, add parameters for each member
+            struct_type_id = field['type']
+            if struct_type_id in types and 'members' in types[struct_type_id]:
+                for member in types[struct_type_id]['members']:
+                    member_type = types[member['type']]['label']
+                    if _is_supported_type(member_type):
+                        param_type = _get_solidity_type_name(member_type, types)
+                        params.append(f'{param_type} _{field_name}_{member["label"]}')
+        else:
+            # For basic types
+            param_type = _get_solidity_type_name(type_name, types)
+            params.append(f'{param_type} _{field_name}')
 
     lines = [
         f'    function {function_name}({", ".join(params)}) public {{',
@@ -197,15 +209,47 @@ def _generate_main_setup_function(contract_name: str, storage: list[dict[str, An
         '',
     ]
 
+    # Track which slots have been cleared to avoid clearing the same slot multiple times
+    cleared_slots = set()
+
     # Generate storage assignments
     for field in supported_fields:
         field_name = field['label']
         type_name = types[field['type']]['label']
+        slot = field['slot']
 
-        # Generate storage assignment using parameter
-        storage_code = _generate_storage_assignment_with_param(field_name, type_name, contract_name)
-        lines.append(f'        {storage_code}')
-        lines.append('')
+        if type_name.startswith('struct '):
+            # For structs, handle each member separately
+            struct_type_id = field['type']
+            if struct_type_id in types and 'members' in types[struct_type_id]:
+                for member in types[struct_type_id]['members']:
+                    member_type = types[member['type']]['label']
+                    if _is_supported_type(member_type):
+                        member_slot = int(member['slot'])
+                        
+                        # Clear slot if not already cleared
+                        if member_slot not in cleared_slots:
+                            struct_prefix = types[struct_type_id]['label'].replace(' ', '_').replace('.', '_').upper()
+                            lines.append(f'        _clearSlot(_contractAddress, {contract_name}StorageConstants.{struct_prefix}_{member["label"].upper()}_SLOT);')
+                            cleared_slots.add(member_slot)
+                        
+                        # Generate storage assignment for struct member
+                        storage_code = _generate_struct_member_storage_assignment(
+                            field_name, member, member_type, contract_name, types[struct_type_id]
+                        )
+                        lines.append(f'        {storage_code}')
+                        lines.append('')
+        else:
+            # For basic types
+            # Clear slot if not already cleared (multiple variables can share the same slot)
+            if slot not in cleared_slots:
+                lines.append(f'        _clearSlot(_contractAddress, {contract_name}StorageConstants.STORAGE_{field_name.upper()}_SLOT);')
+                cleared_slots.add(slot)
+
+            # Generate storage assignment using parameter
+            storage_code = _generate_storage_assignment_with_param(field_name, type_name, contract_name)
+            lines.append(f'        {storage_code}')
+            lines.append('')
 
     # Add TODO comment for unsupported types
     if unsupported_fields:
@@ -227,6 +271,10 @@ def _is_supported_type(type_name: str) -> bool:
 
     # Basic supported types
     if type_name in {'address', 'bool', 'bytes32'} or type_name.startswith(('uint', 'int')):
+        return True
+
+    # Structs are supported since they are stored directly in storage
+    if type_name.startswith('struct '):
         return True
 
     return False
@@ -260,6 +308,20 @@ def _generate_storage_assignment_with_param(field_name: str, type_name: str, con
     conversion = _get_type_conversion(f'_{field_name}', type_name)
 
     return f'_storeData(_contractAddress, {contract_name}StorageConstants.STORAGE_{field_name.upper()}_SLOT, {contract_name}StorageConstants.STORAGE_{field_name.upper()}_OFFSET, {contract_name}StorageConstants.STORAGE_{field_name.upper()}_SIZE, {conversion});'
+
+
+def _generate_struct_member_storage_assignment(
+    field_name: str, member: dict[str, Any], member_type: str, contract_name: str, struct_type: dict[str, Any]
+) -> str:
+    """Generate storage assignment for a struct member using a parameter."""
+    # Generate the appropriate conversion based on type
+    param_name = f'_{field_name}_{member["label"]}'
+    conversion = _get_type_conversion(param_name, member_type)
+    
+    # Generate the struct prefix for the constant names
+    struct_prefix = struct_type['label'].replace(' ', '_').replace('.', '_').upper()
+    
+    return f'_storeData(_contractAddress, {contract_name}StorageConstants.{struct_prefix}_{member["label"].upper()}_SLOT, {contract_name}StorageConstants.{struct_prefix}_{member["label"].upper()}_OFFSET, {contract_name}StorageConstants.{struct_prefix}_{member["label"].upper()}_SIZE, {conversion});'
 
 
 def _get_type_conversion(field_name: str, type_name: str) -> str:
