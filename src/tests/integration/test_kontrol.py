@@ -65,7 +65,8 @@ def foundry_end_to_end(foundry_root_dir: Path | None, tmp_path_factory: TempPath
     with FileLock(str(foundry_root) + '.lock'):
         if not foundry_root.is_dir():
             init_project(project_root=foundry_root, skip_forge=False)
-            copytree(str(TEST_DATA_DIR / 'src'), str(foundry_root / 'test'), dirs_exist_ok=True)
+            copytree(str(TEST_DATA_DIR / 'src'), str(foundry_root / 'src'), dirs_exist_ok=True)
+            copytree(str(TEST_DATA_DIR / 'test'), str(foundry_root / 'test'), dirs_exist_ok=True)
             append_to_file(foundry_root / 'foundry.toml', foundry_toml_use_optimizer())
 
             try:
@@ -156,15 +157,12 @@ def test_kontrol_end_to_end(
     assert_or_update_show_output(show_res, TEST_DATA_DIR / f'show/{test_id}.expected', update=update_expected_output)
 
 
-def test_setup_storage_end_to_end(
-    foundry_end_to_end: Foundry, 
-    update_expected_output: bool
-) -> None:
+def test_kontrol_setup_storage(foundry_end_to_end: Foundry, update_expected_output: bool) -> None:
     """Test the setup-storage command as part of end-to-end tests."""
 
     options = SetupStorageOptions(
         {
-            'contract_names': ['src%Token'],
+            'contract_names': ['src%SimpleStorage'],
             'solidity_version': '0.8.26',
             'output_file': None,
             'foundry_root': foundry_end_to_end._root,
@@ -176,10 +174,12 @@ def test_setup_storage_end_to_end(
     foundry_storage_generation(foundry_end_to_end, options)
 
     # Check that output file was created
-    token_file = foundry_end_to_end._root / 'test' / 'kontrol' / 'storage' / 'TokenStorageConstants.sol'
+    storage_file = foundry_end_to_end._root / 'test' / 'kontrol' / 'storage' / 'SimpleStorageStorageConstants.sol'
 
-    assert token_file.exists(), f'Token file not created: {token_file}'
+    assert storage_file.exists(), f'SimpleStorage file not created: {storage_file}'
 
-    # Check Token content and update expected output
-    token_content = token_file.read_text()
-    assert_or_update_show_output(token_content, TEST_DATA_DIR / 'show' / 'TokenStorageConstants.expected', update=update_expected_output)
+    # Check SimpleStorage content and update expected output
+    storage_content = storage_file.read_text()
+    assert_or_update_show_output(
+        storage_content, TEST_DATA_DIR / 'show' / 'SimpleStorageStorageConstants.expected', update=update_expected_output
+    )

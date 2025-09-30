@@ -28,9 +28,9 @@ jobs:
       - name: 'Run integration tests'
         run: |
           TEST_ARGS="--maxfail=1000 --numprocesses=2 --update-expected-output --force-sequential -vv"
-          # docker exec --user github-user kontrol-ci-integration-${GITHUB_SHA} bash -c "make cov-integration TEST_ARGS='${TEST_ARGS} -k \"not (test_kontrol_cse or test_foundry_minimize_proof or test_kontrol_end_to_end)\"' || true"
-          # docker exec --user github-user kontrol-ci-integration-${GITHUB_SHA} bash -c "make cov-integration TEST_ARGS='${TEST_ARGS} -k \"test_kontrol_cse or test_foundry_minimize_proof\"' || true"
-          docker exec --user github-user kontrol-ci-integration-${GITHUB_SHA} bash -c "make cov-integration TEST_ARGS='${TEST_ARGS} -k \"test_kontrol_end_to_end\"' || true"
+          docker exec --user github-user kontrol-ci-integration-${GITHUB_SHA} bash -c "make cov-integration TEST_ARGS='${TEST_ARGS} -k \"not (test_kontrol_cse or test_foundry_minimize_proof or test_kontrol_end_to_end or test_kontrol_setup_storage)\"' || true"
+          docker exec --user github-user kontrol-ci-integration-${GITHUB_SHA} bash -c "make cov-integration TEST_ARGS='${TEST_ARGS} -k \"test_kontrol_cse or test_foundry_minimize_proof\"' || true"
+          docker exec --user github-user kontrol-ci-integration-${GITHUB_SHA} bash -c "make cov-integration TEST_ARGS='${TEST_ARGS} -k \"test_kontrol_end_to_end or test_kontrol_setup_storage\"' || true"
       - name: 'Copy updated files to host'
         run: |
           docker cp kontrol-ci-integration-${GITHUB_SHA}:/home/github-user/workspace/src/tests/integration/test-data/show ./src/tests/integration/test-data/

@@ -91,7 +91,7 @@ jobs:
             docker exec -u github-user kontrol-ci-integration-${GITHUB_SHA} /bin/bash -c 'CXX=clang++-14 uv run kdist --verbose build -j`nproc` kontrol.*'
       - name: 'Run integration tests'
         run: |
-          TEST_ARGS='-vv --force-sequential -k "not (test_kontrol_cse or test_foundry_minimize_proof or test_kontrol_end_to_end)" --numprocesses=3'
+          TEST_ARGS='-vv --force-sequential -k "not (test_kontrol_cse or test_foundry_minimize_proof or test_kontrol_end_to_end or test_kontrol_setup_storage)" --numprocesses=3'
           docker exec --user github-user kontrol-ci-integration-${GITHUB_SHA} make cov-integration TEST_ARGS="${TEST_ARGS}"
       - name: 'Tear down Docker'
         if: always()
@@ -143,7 +143,7 @@ jobs:
             docker exec -u github-user kontrol-ci-integration-${GITHUB_SHA} /bin/bash -c 'CXX=clang++-14 uv run kdist --verbose build -j`nproc` kontrol.*'
       - name: 'Run end-to-end tests'
         run: |
-          TEST_ARGS='--numprocesses=6 -vv --force-sequential -k "test_kontrol_end_to_end"'
+          TEST_ARGS='--numprocesses=6 -vv --force-sequential -k "test_kontrol_end_to_end or test_kontrol_setup_storage"'
           docker exec --user github-user kontrol-ci-integration-${GITHUB_SHA} make cov-integration TEST_ARGS="${TEST_ARGS}"
       - name: 'Tear down Docker'
         if: always()
