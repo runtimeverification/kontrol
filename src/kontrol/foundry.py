@@ -42,6 +42,7 @@ from pyk.utils import ensure_dir_path, hash_str, run_process_2, single, unique
 
 from . import VERSION
 from .solc_to_k import Contract, _contract_name_from_bytecode
+from .storage_generation import generate_setup_contract
 from .utils import (
     _read_digest_file,
     decode_log_message,
@@ -80,8 +81,6 @@ if TYPE_CHECKING:
         StepNodeOptions,
         UnrefuteNodeOptions,
     )
-    from .storage_generation import generate_setup_contract
-
 
 _LOGGER: Final = logging.getLogger(__name__)
 
