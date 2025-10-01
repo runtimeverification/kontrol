@@ -4,7 +4,6 @@
 │   pc: 0
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
-│   src: test/nested/SimpleNested.t.sol:7:11
 │   method: test%MergeKCFGTest.setUp()
 │
 │  (1925 steps)
@@ -13,7 +12,6 @@
 │   pc: 85
 │   callDepth: 1
 │   statusCode: STATUSCODE:StatusCode
-│   src: test/nested/SimpleNested.t.sol:7:11
 │   method: src%Branches.applyOp(uint256,uint256,bool)
 │
 │  (668|741|460 steps)
@@ -22,7 +20,6 @@
 │   pc: 194
 │   callDepth: 0
 │   statusCode: EVMC_SUCCESS
-│   src: lib/forge-std/src/StdInvariant.sol:69:71
 │   method: test%MergeKCFGTest.test_branch_merge(uint256,uint256,bool)
 ┃
 ┃ (branch)
@@ -32,12 +29,11 @@
 ┃  ┃     0 <=Int KV2_z:Int
 ┃  ┃     ( notBool KV2_z:Int ==Int 0 )
 ┃  │
-┃  ├─ 39 (terminal)
+┃  ├─ 40 (terminal)
 ┃  │   k: #halt ~> CONTINUATION:K
 ┃  │   pc: 194
 ┃  │   callDepth: 0
 ┃  │   statusCode: EVMC_SUCCESS
-┃  │   src: lib/forge-std/src/StdInvariant.sol:69:71
 ┃  │   method: test%MergeKCFGTest.test_branch_merge(uint256,uint256,bool)
 ┃  │
 ┃  ┊  constraint: true
@@ -58,7 +54,6 @@
 ┃  │   pc: 194
 ┃  │   callDepth: 0
 ┃  │   statusCode: EVMC_SUCCESS
-┃  │   src: lib/forge-std/src/StdInvariant.sol:69:71
 ┃  │   method: test%MergeKCFGTest.test_branch_merge(uint256,uint256,bool)
 ┃  │
 ┃  ┊  constraint: true
@@ -80,7 +75,6 @@
    │   pc: 194
    │   callDepth: 0
    │   statusCode: EVMC_SUCCESS
-   │   src: lib/forge-std/src/StdInvariant.sol:69:71
    │   method: test%MergeKCFGTest.test_branch_merge(uint256,uint256,bool)
    │
    ┊  constraint: true
@@ -97,7 +91,6 @@
 │   pc: 85
 │   callDepth: 1
 │   statusCode: STATUSCODE:StatusCode
-│   src: test/nested/SimpleNested.t.sol:7:11
 │   method: src%Branches.applyOp(uint256,uint256,bool)
 
 ┌─ 44 (root, leaf, pending)
@@ -105,7 +98,6 @@
 │   pc: 85
 │   callDepth: 1
 │   statusCode: STATUSCODE:StatusCode
-│   src: test/nested/SimpleNested.t.sol:7:11
 │   method: src%Branches.applyOp(uint256,uint256,bool)
 
 ┌─ 45 (root, leaf, pending)
@@ -113,7 +105,6 @@
 │   pc: 85
 │   callDepth: 1
 │   statusCode: STATUSCODE:StatusCode
-│   src: test/nested/SimpleNested.t.sol:7:11
 │   method: src%Branches.applyOp(uint256,uint256,bool)
 
 
