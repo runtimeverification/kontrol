@@ -48,7 +48,7 @@ def print_constants_for_storage_variables_recursive(
 ) -> str:
     """Recursively generate constants for storage variables."""
     lines = []
-    updated_prefix = prefix + '_' + var['label'].replace('_', '').upper()
+    updated_prefix = prefix + '_' + var['label'].upper()
     updated_slot = slot + int(var['slot'])
     var_type = var['type']
 
