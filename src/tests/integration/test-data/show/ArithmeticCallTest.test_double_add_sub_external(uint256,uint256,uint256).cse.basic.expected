@@ -1,0 +1,4512 @@
+
+┌─ 1 (root, init)
+│   k: #execute ~> CONTINUATION:K
+│   pc: 0
+│   callDepth: 0
+│   statusCode: STATUSCODE:StatusCode
+│   src: test/nested/SimpleNested.t.sol:7:11
+│   method: test%ArithmeticCallTest.setUp()
+│
+│  (546 steps)
+├─ 8 (terminal)
+│   k: #halt ~> CONTINUATION:K
+│   pc: 248
+│   callDepth: 0
+│   statusCode: EVMC_SUCCESS
+│   src: lib/forge-std/src/StdInvariant.sol:77:79
+│   method: test%ArithmeticCallTest.setUp()
+│
+│  (1 step)
+├─ 9
+│   k: #execute ~> CONTINUATION:K
+│   pc: 0
+│   callDepth: 0
+│   statusCode: STATUSCODE:StatusCode
+│   src: test/nested/SimpleNested.t.sol:7:11
+│   method: test%ArithmeticCallTest.test_double_add_sub_external(uint256,uint256,uint256)
+│
+│  (510 steps)
+├─ 11
+│   k: STATICCALL 0 491460923342184218035706888008750043977755113263 128 100 128 32 ~>  ...
+│   pc: 1568
+│   callDepth: 0
+│   statusCode: STATUSCODE:StatusCode
+│   src: lib/forge-std/src/StdInvariant.sol:62:62
+│   method: test%ArithmeticCallTest.test_double_add_sub_external(uint256,uint256,uint256)
+│
+│  (1 step)
+├─ 12
+│   k: #accessAccounts 491460923342184218035706888008750043977755113263 ~> #checkCall 7 ...
+│   pc: 1568
+│   callDepth: 0
+│   statusCode: STATUSCODE:StatusCode
+│   src: lib/forge-std/src/StdInvariant.sol:62:62
+│   method: test%ArithmeticCallTest.test_double_add_sub_external(uint256,uint256,uint256)
+│
+│  (18 steps)
+├─ 13
+│   k: #precompiled? ( 491460923342184218035706888008750043977755113263 , SHANGHAI ) ~> ...
+│   pc: 0
+│   callDepth: 1
+│   statusCode: STATUSCODE:StatusCode
+│   src: test/nested/SimpleNested.t.sol:7:11
+│   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+│
+│  (1 step)
+├─ 14
+│   k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
+│   pc: 0
+│   callDepth: 1
+│   statusCode: STATUSCODE:StatusCode
+│   src: test/nested/SimpleNested.t.sol:7:11
+│   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+│
+│  (3 steps)
+├─ 15 (split)
+│   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+│   pc: 279
+│   callDepth: 1
+│   statusCode: STATUSCODE:StatusCode
+│   src: lib/forge-std/src/StdInvariant.sol:85:87
+│   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃
+┃ (branch)
+┣━━┓ subst: .Subst
+┃  ┃ constraint: true
+┃  │
+┃  ├─ 16 (split)
+┃  │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃  │   pc: 279
+┃  │   callDepth: 1
+┃  │   statusCode: STATUSCODE:StatusCode
+┃  │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃
+┃  ┃ (branch)
+┃  ┣━━┓ subst: .Subst
+┃  ┃  ┃ constraint: true
+┃  ┃  │
+┃  ┃  ├─ 18 (split)
+┃  ┃  │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃  ┃  │   pc: 279
+┃  ┃  │   callDepth: 1
+┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃  │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃  ┃
+┃  ┃  ┃ (branch)
+┃  ┃  ┣━━┓ subst: .Subst
+┃  ┃  ┃  ┃ constraint: true
+┃  ┃  ┃  │
+┃  ┃  ┃  ├─ 22 (split)
+┃  ┃  ┃  │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃  ┃  ┃  │   pc: 279
+┃  ┃  ┃  │   callDepth: 1
+┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃  │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃  ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃  ┃  ┃
+┃  ┃  ┃  ┃ (branch)
+┃  ┃  ┃  ┣━━┓ subst: .Subst
+┃  ┃  ┃  ┃  ┃ constraint: true
+┃  ┃  ┃  ┃  │
+┃  ┃  ┃  ┃  ├─ 30 (split)
+┃  ┃  ┃  ┃  │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃  ┃  ┃  ┃  │   pc: 279
+┃  ┃  ┃  ┃  │   callDepth: 1
+┃  ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃  ┃  │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃  ┃  ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃  ┃  ┃  ┃
+┃  ┃  ┃  ┃  ┃ (branch)
+┃  ┃  ┃  ┃  ┣━━┓ subst: .Subst
+┃  ┃  ┃  ┃  ┃  ┃ constraint: true
+┃  ┃  ┃  ┃  ┃  │
+┃  ┃  ┃  ┃  ┃  ├─ 46 (split)
+┃  ┃  ┃  ┃  ┃  │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃  ┃  ┃  ┃  ┃  │   pc: 279
+┃  ┃  ┃  ┃  ┃  │   callDepth: 1
+┃  ┃  ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃  ┃  ┃  │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃  ┃  ┃  ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃  ┃  ┃  ┃  ┃
+┃  ┃  ┃  ┃  ┃  ┃ (branch)
+┃  ┃  ┃  ┃  ┃  ┣━━┓ subst: .Subst
+┃  ┃  ┃  ┃  ┃  ┃  ┃ constraint: true
+┃  ┃  ┃  ┃  ┃  ┃  │
+┃  ┃  ┃  ┃  ┃  ┃  ├─ 78 (split)
+┃  ┃  ┃  ┃  ┃  ┃  │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃  ┃  ┃  ┃  ┃  ┃  │   pc: 279
+┃  ┃  ┃  ┃  ┃  ┃  │   callDepth: 1
+┃  ┃  ┃  ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃  ┃  ┃  ┃  │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃  ┃  ┃  ┃  ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃  ┃  ┃  ┃  ┃  ┃
+┃  ┃  ┃  ┃  ┃  ┃  ┃ (branch)
+┃  ┃  ┃  ┃  ┃  ┃  ┣━━┓ subst: .Subst
+┃  ┃  ┃  ┃  ┃  ┃  ┃  ┃ constraint: true
+┃  ┃  ┃  ┃  ┃  ┃  ┃  │
+┃  ┃  ┃  ┃  ┃  ┃  ┃  └─ 142 (leaf, pending)
+┃  ┃  ┃  ┃  ┃  ┃  ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃  ┃  ┃  ┃  ┃  ┃  ┃      pc: 279
+┃  ┃  ┃  ┃  ┃  ┃  ┃      callDepth: 1
+┃  ┃  ┃  ┃  ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃  ┃  ┃  ┃  ┃      src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃  ┃  ┃  ┃  ┃  ┃      method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃  ┃  ┃  ┃  ┃  ┃
+┃  ┃  ┃  ┃  ┃  ┃  ┗━━┓ subst: .Subst
+┃  ┃  ┃  ┃  ┃  ┃     ┃ constraint: true
+┃  ┃  ┃  ┃  ┃  ┃     │
+┃  ┃  ┃  ┃  ┃  ┃     └─ 143 (leaf, pending)
+┃  ┃  ┃  ┃  ┃  ┃         k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃  ┃  ┃  ┃  ┃  ┃         pc: 279
+┃  ┃  ┃  ┃  ┃  ┃         callDepth: 1
+┃  ┃  ┃  ┃  ┃  ┃         statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃  ┃  ┃  ┃         src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃  ┃  ┃  ┃  ┃         method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃  ┃  ┃  ┃  ┃
+┃  ┃  ┃  ┃  ┃  ┗━━┓ subst: .Subst
+┃  ┃  ┃  ┃  ┃     ┃ constraint: true
+┃  ┃  ┃  ┃  ┃     │
+┃  ┃  ┃  ┃  ┃     ├─ 79 (split)
+┃  ┃  ┃  ┃  ┃     │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃  ┃  ┃  ┃  ┃     │   pc: 279
+┃  ┃  ┃  ┃  ┃     │   callDepth: 1
+┃  ┃  ┃  ┃  ┃     │   statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃  ┃  ┃     │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃  ┃  ┃  ┃     │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃  ┃  ┃  ┃     ┃
+┃  ┃  ┃  ┃  ┃     ┃ (branch)
+┃  ┃  ┃  ┃  ┃     ┣━━┓ subst: .Subst
+┃  ┃  ┃  ┃  ┃     ┃  ┃ constraint: true
+┃  ┃  ┃  ┃  ┃     ┃  │
+┃  ┃  ┃  ┃  ┃     ┃  └─ 144 (leaf, pending)
+┃  ┃  ┃  ┃  ┃     ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃  ┃  ┃  ┃  ┃     ┃      pc: 279
+┃  ┃  ┃  ┃  ┃     ┃      callDepth: 1
+┃  ┃  ┃  ┃  ┃     ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃  ┃  ┃     ┃      src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃  ┃  ┃  ┃     ┃      method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃  ┃  ┃  ┃     ┃
+┃  ┃  ┃  ┃  ┃     ┗━━┓ subst: .Subst
+┃  ┃  ┃  ┃  ┃        ┃ constraint: true
+┃  ┃  ┃  ┃  ┃        │
+┃  ┃  ┃  ┃  ┃        └─ 145 (leaf, pending)
+┃  ┃  ┃  ┃  ┃            k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃  ┃  ┃  ┃  ┃            pc: 279
+┃  ┃  ┃  ┃  ┃            callDepth: 1
+┃  ┃  ┃  ┃  ┃            statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃  ┃  ┃            src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃  ┃  ┃  ┃            method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃  ┃  ┃  ┃
+┃  ┃  ┃  ┃  ┗━━┓ subst: .Subst
+┃  ┃  ┃  ┃     ┃ constraint: true
+┃  ┃  ┃  ┃     │
+┃  ┃  ┃  ┃     ├─ 47 (split)
+┃  ┃  ┃  ┃     │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃  ┃  ┃  ┃     │   pc: 279
+┃  ┃  ┃  ┃     │   callDepth: 1
+┃  ┃  ┃  ┃     │   statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃  ┃     │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃  ┃  ┃     │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃  ┃  ┃     ┃
+┃  ┃  ┃  ┃     ┃ (branch)
+┃  ┃  ┃  ┃     ┣━━┓ subst: .Subst
+┃  ┃  ┃  ┃     ┃  ┃ constraint: true
+┃  ┃  ┃  ┃     ┃  │
+┃  ┃  ┃  ┃     ┃  ├─ 80 (split)
+┃  ┃  ┃  ┃     ┃  │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃  ┃  ┃  ┃     ┃  │   pc: 279
+┃  ┃  ┃  ┃     ┃  │   callDepth: 1
+┃  ┃  ┃  ┃     ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃  ┃     ┃  │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃  ┃  ┃     ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃  ┃  ┃     ┃  ┃
+┃  ┃  ┃  ┃     ┃  ┃ (branch)
+┃  ┃  ┃  ┃     ┃  ┣━━┓ subst: .Subst
+┃  ┃  ┃  ┃     ┃  ┃  ┃ constraint: true
+┃  ┃  ┃  ┃     ┃  ┃  │
+┃  ┃  ┃  ┃     ┃  ┃  └─ 146 (leaf, pending)
+┃  ┃  ┃  ┃     ┃  ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃  ┃  ┃  ┃     ┃  ┃      pc: 279
+┃  ┃  ┃  ┃     ┃  ┃      callDepth: 1
+┃  ┃  ┃  ┃     ┃  ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃  ┃     ┃  ┃      src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃  ┃  ┃     ┃  ┃      method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃  ┃  ┃     ┃  ┃
+┃  ┃  ┃  ┃     ┃  ┗━━┓ subst: .Subst
+┃  ┃  ┃  ┃     ┃     ┃ constraint: true
+┃  ┃  ┃  ┃     ┃     │
+┃  ┃  ┃  ┃     ┃     └─ 147 (leaf, pending)
+┃  ┃  ┃  ┃     ┃         k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃  ┃  ┃  ┃     ┃         pc: 279
+┃  ┃  ┃  ┃     ┃         callDepth: 1
+┃  ┃  ┃  ┃     ┃         statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃  ┃     ┃         src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃  ┃  ┃     ┃         method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃  ┃  ┃     ┃
+┃  ┃  ┃  ┃     ┗━━┓ subst: .Subst
+┃  ┃  ┃  ┃        ┃ constraint: true
+┃  ┃  ┃  ┃        │
+┃  ┃  ┃  ┃        ├─ 81 (split)
+┃  ┃  ┃  ┃        │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃  ┃  ┃  ┃        │   pc: 279
+┃  ┃  ┃  ┃        │   callDepth: 1
+┃  ┃  ┃  ┃        │   statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃  ┃        │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃  ┃  ┃        │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃  ┃  ┃        ┃
+┃  ┃  ┃  ┃        ┃ (branch)
+┃  ┃  ┃  ┃        ┣━━┓ subst: .Subst
+┃  ┃  ┃  ┃        ┃  ┃ constraint: true
+┃  ┃  ┃  ┃        ┃  │
+┃  ┃  ┃  ┃        ┃  └─ 148 (leaf, pending)
+┃  ┃  ┃  ┃        ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃  ┃  ┃  ┃        ┃      pc: 279
+┃  ┃  ┃  ┃        ┃      callDepth: 1
+┃  ┃  ┃  ┃        ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃  ┃        ┃      src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃  ┃  ┃        ┃      method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃  ┃  ┃        ┃
+┃  ┃  ┃  ┃        ┗━━┓ subst: .Subst
+┃  ┃  ┃  ┃           ┃ constraint: true
+┃  ┃  ┃  ┃           │
+┃  ┃  ┃  ┃           └─ 149 (leaf, pending)
+┃  ┃  ┃  ┃               k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃  ┃  ┃  ┃               pc: 279
+┃  ┃  ┃  ┃               callDepth: 1
+┃  ┃  ┃  ┃               statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃  ┃               src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃  ┃  ┃               method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃  ┃  ┃
+┃  ┃  ┃  ┗━━┓ subst: .Subst
+┃  ┃  ┃     ┃ constraint: true
+┃  ┃  ┃     │
+┃  ┃  ┃     ├─ 31 (split)
+┃  ┃  ┃     │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃  ┃  ┃     │   pc: 279
+┃  ┃  ┃     │   callDepth: 1
+┃  ┃  ┃     │   statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃     │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃  ┃     │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃  ┃     ┃
+┃  ┃  ┃     ┃ (branch)
+┃  ┃  ┃     ┣━━┓ subst: .Subst
+┃  ┃  ┃     ┃  ┃ constraint: true
+┃  ┃  ┃     ┃  │
+┃  ┃  ┃     ┃  ├─ 48 (split)
+┃  ┃  ┃     ┃  │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃  ┃  ┃     ┃  │   pc: 279
+┃  ┃  ┃     ┃  │   callDepth: 1
+┃  ┃  ┃     ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃     ┃  │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃  ┃     ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃  ┃     ┃  ┃
+┃  ┃  ┃     ┃  ┃ (branch)
+┃  ┃  ┃     ┃  ┣━━┓ subst: .Subst
+┃  ┃  ┃     ┃  ┃  ┃ constraint: true
+┃  ┃  ┃     ┃  ┃  │
+┃  ┃  ┃     ┃  ┃  ├─ 82 (split)
+┃  ┃  ┃     ┃  ┃  │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃  ┃  ┃     ┃  ┃  │   pc: 279
+┃  ┃  ┃     ┃  ┃  │   callDepth: 1
+┃  ┃  ┃     ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃     ┃  ┃  │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃  ┃     ┃  ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃  ┃     ┃  ┃  ┃
+┃  ┃  ┃     ┃  ┃  ┃ (branch)
+┃  ┃  ┃     ┃  ┃  ┣━━┓ subst: .Subst
+┃  ┃  ┃     ┃  ┃  ┃  ┃ constraint: true
+┃  ┃  ┃     ┃  ┃  ┃  │
+┃  ┃  ┃     ┃  ┃  ┃  └─ 150 (leaf, pending)
+┃  ┃  ┃     ┃  ┃  ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃  ┃  ┃     ┃  ┃  ┃      pc: 279
+┃  ┃  ┃     ┃  ┃  ┃      callDepth: 1
+┃  ┃  ┃     ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃     ┃  ┃  ┃      src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃  ┃     ┃  ┃  ┃      method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃  ┃     ┃  ┃  ┃
+┃  ┃  ┃     ┃  ┃  ┗━━┓ subst: .Subst
+┃  ┃  ┃     ┃  ┃     ┃ constraint: true
+┃  ┃  ┃     ┃  ┃     │
+┃  ┃  ┃     ┃  ┃     └─ 151 (leaf, pending)
+┃  ┃  ┃     ┃  ┃         k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃  ┃  ┃     ┃  ┃         pc: 279
+┃  ┃  ┃     ┃  ┃         callDepth: 1
+┃  ┃  ┃     ┃  ┃         statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃     ┃  ┃         src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃  ┃     ┃  ┃         method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃  ┃     ┃  ┃
+┃  ┃  ┃     ┃  ┗━━┓ subst: .Subst
+┃  ┃  ┃     ┃     ┃ constraint: true
+┃  ┃  ┃     ┃     │
+┃  ┃  ┃     ┃     ├─ 83 (split)
+┃  ┃  ┃     ┃     │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃  ┃  ┃     ┃     │   pc: 279
+┃  ┃  ┃     ┃     │   callDepth: 1
+┃  ┃  ┃     ┃     │   statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃     ┃     │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃  ┃     ┃     │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃  ┃     ┃     ┃
+┃  ┃  ┃     ┃     ┃ (branch)
+┃  ┃  ┃     ┃     ┣━━┓ subst: .Subst
+┃  ┃  ┃     ┃     ┃  ┃ constraint: true
+┃  ┃  ┃     ┃     ┃  │
+┃  ┃  ┃     ┃     ┃  └─ 152 (leaf, pending)
+┃  ┃  ┃     ┃     ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃  ┃  ┃     ┃     ┃      pc: 279
+┃  ┃  ┃     ┃     ┃      callDepth: 1
+┃  ┃  ┃     ┃     ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃     ┃     ┃      src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃  ┃     ┃     ┃      method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃  ┃     ┃     ┃
+┃  ┃  ┃     ┃     ┗━━┓ subst: .Subst
+┃  ┃  ┃     ┃        ┃ constraint: true
+┃  ┃  ┃     ┃        │
+┃  ┃  ┃     ┃        └─ 153 (leaf, pending)
+┃  ┃  ┃     ┃            k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃  ┃  ┃     ┃            pc: 279
+┃  ┃  ┃     ┃            callDepth: 1
+┃  ┃  ┃     ┃            statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃     ┃            src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃  ┃     ┃            method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃  ┃     ┃
+┃  ┃  ┃     ┗━━┓ subst: .Subst
+┃  ┃  ┃        ┃ constraint: true
+┃  ┃  ┃        │
+┃  ┃  ┃        ├─ 49 (split)
+┃  ┃  ┃        │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃  ┃  ┃        │   pc: 279
+┃  ┃  ┃        │   callDepth: 1
+┃  ┃  ┃        │   statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃        │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃  ┃        │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃  ┃        ┃
+┃  ┃  ┃        ┃ (branch)
+┃  ┃  ┃        ┣━━┓ subst: .Subst
+┃  ┃  ┃        ┃  ┃ constraint: true
+┃  ┃  ┃        ┃  │
+┃  ┃  ┃        ┃  ├─ 84 (split)
+┃  ┃  ┃        ┃  │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃  ┃  ┃        ┃  │   pc: 279
+┃  ┃  ┃        ┃  │   callDepth: 1
+┃  ┃  ┃        ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃        ┃  │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃  ┃        ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃  ┃        ┃  ┃
+┃  ┃  ┃        ┃  ┃ (branch)
+┃  ┃  ┃        ┃  ┣━━┓ subst: .Subst
+┃  ┃  ┃        ┃  ┃  ┃ constraint: true
+┃  ┃  ┃        ┃  ┃  │
+┃  ┃  ┃        ┃  ┃  └─ 154 (leaf, pending)
+┃  ┃  ┃        ┃  ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃  ┃  ┃        ┃  ┃      pc: 279
+┃  ┃  ┃        ┃  ┃      callDepth: 1
+┃  ┃  ┃        ┃  ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃        ┃  ┃      src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃  ┃        ┃  ┃      method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃  ┃        ┃  ┃
+┃  ┃  ┃        ┃  ┗━━┓ subst: .Subst
+┃  ┃  ┃        ┃     ┃ constraint: true
+┃  ┃  ┃        ┃     │
+┃  ┃  ┃        ┃     └─ 155 (leaf, pending)
+┃  ┃  ┃        ┃         k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃  ┃  ┃        ┃         pc: 279
+┃  ┃  ┃        ┃         callDepth: 1
+┃  ┃  ┃        ┃         statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃        ┃         src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃  ┃        ┃         method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃  ┃        ┃
+┃  ┃  ┃        ┗━━┓ subst: .Subst
+┃  ┃  ┃           ┃ constraint: true
+┃  ┃  ┃           │
+┃  ┃  ┃           ├─ 85 (split)
+┃  ┃  ┃           │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃  ┃  ┃           │   pc: 279
+┃  ┃  ┃           │   callDepth: 1
+┃  ┃  ┃           │   statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃           │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃  ┃           │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃  ┃           ┃
+┃  ┃  ┃           ┃ (branch)
+┃  ┃  ┃           ┣━━┓ subst: .Subst
+┃  ┃  ┃           ┃  ┃ constraint: true
+┃  ┃  ┃           ┃  │
+┃  ┃  ┃           ┃  └─ 156 (leaf, pending)
+┃  ┃  ┃           ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃  ┃  ┃           ┃      pc: 279
+┃  ┃  ┃           ┃      callDepth: 1
+┃  ┃  ┃           ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃           ┃      src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃  ┃           ┃      method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃  ┃           ┃
+┃  ┃  ┃           ┗━━┓ subst: .Subst
+┃  ┃  ┃              ┃ constraint: true
+┃  ┃  ┃              │
+┃  ┃  ┃              └─ 157 (leaf, pending)
+┃  ┃  ┃                  k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃  ┃  ┃                  pc: 279
+┃  ┃  ┃                  callDepth: 1
+┃  ┃  ┃                  statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃                  src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃  ┃                  method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃  ┃
+┃  ┃  ┗━━┓ subst: .Subst
+┃  ┃     ┃ constraint: true
+┃  ┃     │
+┃  ┃     ├─ 23 (split)
+┃  ┃     │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃  ┃     │   pc: 279
+┃  ┃     │   callDepth: 1
+┃  ┃     │   statusCode: STATUSCODE:StatusCode
+┃  ┃     │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃     │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃     ┃
+┃  ┃     ┃ (branch)
+┃  ┃     ┣━━┓ subst: .Subst
+┃  ┃     ┃  ┃ constraint: true
+┃  ┃     ┃  │
+┃  ┃     ┃  ├─ 32 (split)
+┃  ┃     ┃  │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃  ┃     ┃  │   pc: 279
+┃  ┃     ┃  │   callDepth: 1
+┃  ┃     ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃     ┃  │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃     ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃     ┃  ┃
+┃  ┃     ┃  ┃ (branch)
+┃  ┃     ┃  ┣━━┓ subst: .Subst
+┃  ┃     ┃  ┃  ┃ constraint: true
+┃  ┃     ┃  ┃  │
+┃  ┃     ┃  ┃  ├─ 50 (split)
+┃  ┃     ┃  ┃  │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃  ┃     ┃  ┃  │   pc: 279
+┃  ┃     ┃  ┃  │   callDepth: 1
+┃  ┃     ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃     ┃  ┃  │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃     ┃  ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃     ┃  ┃  ┃
+┃  ┃     ┃  ┃  ┃ (branch)
+┃  ┃     ┃  ┃  ┣━━┓ subst: .Subst
+┃  ┃     ┃  ┃  ┃  ┃ constraint: true
+┃  ┃     ┃  ┃  ┃  │
+┃  ┃     ┃  ┃  ┃  ├─ 86 (split)
+┃  ┃     ┃  ┃  ┃  │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃  ┃     ┃  ┃  ┃  │   pc: 279
+┃  ┃     ┃  ┃  ┃  │   callDepth: 1
+┃  ┃     ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃     ┃  ┃  ┃  │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃     ┃  ┃  ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃     ┃  ┃  ┃  ┃
+┃  ┃     ┃  ┃  ┃  ┃ (branch)
+┃  ┃     ┃  ┃  ┃  ┣━━┓ subst: .Subst
+┃  ┃     ┃  ┃  ┃  ┃  ┃ constraint: true
+┃  ┃     ┃  ┃  ┃  ┃  │
+┃  ┃     ┃  ┃  ┃  ┃  └─ 158 (leaf, pending)
+┃  ┃     ┃  ┃  ┃  ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃  ┃     ┃  ┃  ┃  ┃      pc: 279
+┃  ┃     ┃  ┃  ┃  ┃      callDepth: 1
+┃  ┃     ┃  ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃     ┃  ┃  ┃  ┃      src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃     ┃  ┃  ┃  ┃      method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃     ┃  ┃  ┃  ┃
+┃  ┃     ┃  ┃  ┃  ┗━━┓ subst: .Subst
+┃  ┃     ┃  ┃  ┃     ┃ constraint: true
+┃  ┃     ┃  ┃  ┃     │
+┃  ┃     ┃  ┃  ┃     └─ 159 (leaf, pending)
+┃  ┃     ┃  ┃  ┃         k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃  ┃     ┃  ┃  ┃         pc: 279
+┃  ┃     ┃  ┃  ┃         callDepth: 1
+┃  ┃     ┃  ┃  ┃         statusCode: STATUSCODE:StatusCode
+┃  ┃     ┃  ┃  ┃         src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃     ┃  ┃  ┃         method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃     ┃  ┃  ┃
+┃  ┃     ┃  ┃  ┗━━┓ subst: .Subst
+┃  ┃     ┃  ┃     ┃ constraint: true
+┃  ┃     ┃  ┃     │
+┃  ┃     ┃  ┃     ├─ 87 (split)
+┃  ┃     ┃  ┃     │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃  ┃     ┃  ┃     │   pc: 279
+┃  ┃     ┃  ┃     │   callDepth: 1
+┃  ┃     ┃  ┃     │   statusCode: STATUSCODE:StatusCode
+┃  ┃     ┃  ┃     │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃     ┃  ┃     │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃     ┃  ┃     ┃
+┃  ┃     ┃  ┃     ┃ (branch)
+┃  ┃     ┃  ┃     ┣━━┓ subst: .Subst
+┃  ┃     ┃  ┃     ┃  ┃ constraint: true
+┃  ┃     ┃  ┃     ┃  │
+┃  ┃     ┃  ┃     ┃  └─ 160 (leaf, pending)
+┃  ┃     ┃  ┃     ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃  ┃     ┃  ┃     ┃      pc: 279
+┃  ┃     ┃  ┃     ┃      callDepth: 1
+┃  ┃     ┃  ┃     ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃     ┃  ┃     ┃      src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃     ┃  ┃     ┃      method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃     ┃  ┃     ┃
+┃  ┃     ┃  ┃     ┗━━┓ subst: .Subst
+┃  ┃     ┃  ┃        ┃ constraint: true
+┃  ┃     ┃  ┃        │
+┃  ┃     ┃  ┃        └─ 161 (leaf, pending)
+┃  ┃     ┃  ┃            k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃  ┃     ┃  ┃            pc: 279
+┃  ┃     ┃  ┃            callDepth: 1
+┃  ┃     ┃  ┃            statusCode: STATUSCODE:StatusCode
+┃  ┃     ┃  ┃            src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃     ┃  ┃            method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃     ┃  ┃
+┃  ┃     ┃  ┗━━┓ subst: .Subst
+┃  ┃     ┃     ┃ constraint: true
+┃  ┃     ┃     │
+┃  ┃     ┃     ├─ 51 (split)
+┃  ┃     ┃     │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃  ┃     ┃     │   pc: 279
+┃  ┃     ┃     │   callDepth: 1
+┃  ┃     ┃     │   statusCode: STATUSCODE:StatusCode
+┃  ┃     ┃     │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃     ┃     │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃     ┃     ┃
+┃  ┃     ┃     ┃ (branch)
+┃  ┃     ┃     ┣━━┓ subst: .Subst
+┃  ┃     ┃     ┃  ┃ constraint: true
+┃  ┃     ┃     ┃  │
+┃  ┃     ┃     ┃  ├─ 88 (split)
+┃  ┃     ┃     ┃  │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃  ┃     ┃     ┃  │   pc: 279
+┃  ┃     ┃     ┃  │   callDepth: 1
+┃  ┃     ┃     ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃     ┃     ┃  │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃     ┃     ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃     ┃     ┃  ┃
+┃  ┃     ┃     ┃  ┃ (branch)
+┃  ┃     ┃     ┃  ┣━━┓ subst: .Subst
+┃  ┃     ┃     ┃  ┃  ┃ constraint: true
+┃  ┃     ┃     ┃  ┃  │
+┃  ┃     ┃     ┃  ┃  └─ 162 (leaf, pending)
+┃  ┃     ┃     ┃  ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃  ┃     ┃     ┃  ┃      pc: 279
+┃  ┃     ┃     ┃  ┃      callDepth: 1
+┃  ┃     ┃     ┃  ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃     ┃     ┃  ┃      src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃     ┃     ┃  ┃      method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃     ┃     ┃  ┃
+┃  ┃     ┃     ┃  ┗━━┓ subst: .Subst
+┃  ┃     ┃     ┃     ┃ constraint: true
+┃  ┃     ┃     ┃     │
+┃  ┃     ┃     ┃     └─ 163 (leaf, pending)
+┃  ┃     ┃     ┃         k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃  ┃     ┃     ┃         pc: 279
+┃  ┃     ┃     ┃         callDepth: 1
+┃  ┃     ┃     ┃         statusCode: STATUSCODE:StatusCode
+┃  ┃     ┃     ┃         src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃     ┃     ┃         method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃     ┃     ┃
+┃  ┃     ┃     ┗━━┓ subst: .Subst
+┃  ┃     ┃        ┃ constraint: true
+┃  ┃     ┃        │
+┃  ┃     ┃        ├─ 89 (split)
+┃  ┃     ┃        │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃  ┃     ┃        │   pc: 279
+┃  ┃     ┃        │   callDepth: 1
+┃  ┃     ┃        │   statusCode: STATUSCODE:StatusCode
+┃  ┃     ┃        │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃     ┃        │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃     ┃        ┃
+┃  ┃     ┃        ┃ (branch)
+┃  ┃     ┃        ┣━━┓ subst: .Subst
+┃  ┃     ┃        ┃  ┃ constraint: true
+┃  ┃     ┃        ┃  │
+┃  ┃     ┃        ┃  └─ 164 (leaf, pending)
+┃  ┃     ┃        ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃  ┃     ┃        ┃      pc: 279
+┃  ┃     ┃        ┃      callDepth: 1
+┃  ┃     ┃        ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃     ┃        ┃      src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃     ┃        ┃      method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃     ┃        ┃
+┃  ┃     ┃        ┗━━┓ subst: .Subst
+┃  ┃     ┃           ┃ constraint: true
+┃  ┃     ┃           │
+┃  ┃     ┃           └─ 165 (leaf, pending)
+┃  ┃     ┃               k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃  ┃     ┃               pc: 279
+┃  ┃     ┃               callDepth: 1
+┃  ┃     ┃               statusCode: STATUSCODE:StatusCode
+┃  ┃     ┃               src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃     ┃               method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃     ┃
+┃  ┃     ┗━━┓ subst: .Subst
+┃  ┃        ┃ constraint: true
+┃  ┃        │
+┃  ┃        ├─ 33 (split)
+┃  ┃        │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃  ┃        │   pc: 279
+┃  ┃        │   callDepth: 1
+┃  ┃        │   statusCode: STATUSCODE:StatusCode
+┃  ┃        │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃        │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃        ┃
+┃  ┃        ┃ (branch)
+┃  ┃        ┣━━┓ subst: .Subst
+┃  ┃        ┃  ┃ constraint: true
+┃  ┃        ┃  │
+┃  ┃        ┃  ├─ 52 (split)
+┃  ┃        ┃  │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃  ┃        ┃  │   pc: 279
+┃  ┃        ┃  │   callDepth: 1
+┃  ┃        ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃        ┃  │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃        ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃        ┃  ┃
+┃  ┃        ┃  ┃ (branch)
+┃  ┃        ┃  ┣━━┓ subst: .Subst
+┃  ┃        ┃  ┃  ┃ constraint: true
+┃  ┃        ┃  ┃  │
+┃  ┃        ┃  ┃  ├─ 90 (split)
+┃  ┃        ┃  ┃  │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃  ┃        ┃  ┃  │   pc: 279
+┃  ┃        ┃  ┃  │   callDepth: 1
+┃  ┃        ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃        ┃  ┃  │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃        ┃  ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃        ┃  ┃  ┃
+┃  ┃        ┃  ┃  ┃ (branch)
+┃  ┃        ┃  ┃  ┣━━┓ subst: .Subst
+┃  ┃        ┃  ┃  ┃  ┃ constraint: true
+┃  ┃        ┃  ┃  ┃  │
+┃  ┃        ┃  ┃  ┃  └─ 166 (leaf, pending)
+┃  ┃        ┃  ┃  ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃  ┃        ┃  ┃  ┃      pc: 279
+┃  ┃        ┃  ┃  ┃      callDepth: 1
+┃  ┃        ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃        ┃  ┃  ┃      src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃        ┃  ┃  ┃      method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃        ┃  ┃  ┃
+┃  ┃        ┃  ┃  ┗━━┓ subst: .Subst
+┃  ┃        ┃  ┃     ┃ constraint: true
+┃  ┃        ┃  ┃     │
+┃  ┃        ┃  ┃     └─ 167 (leaf, pending)
+┃  ┃        ┃  ┃         k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃  ┃        ┃  ┃         pc: 279
+┃  ┃        ┃  ┃         callDepth: 1
+┃  ┃        ┃  ┃         statusCode: STATUSCODE:StatusCode
+┃  ┃        ┃  ┃         src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃        ┃  ┃         method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃        ┃  ┃
+┃  ┃        ┃  ┗━━┓ subst: .Subst
+┃  ┃        ┃     ┃ constraint: true
+┃  ┃        ┃     │
+┃  ┃        ┃     ├─ 91 (split)
+┃  ┃        ┃     │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃  ┃        ┃     │   pc: 279
+┃  ┃        ┃     │   callDepth: 1
+┃  ┃        ┃     │   statusCode: STATUSCODE:StatusCode
+┃  ┃        ┃     │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃        ┃     │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃        ┃     ┃
+┃  ┃        ┃     ┃ (branch)
+┃  ┃        ┃     ┣━━┓ subst: .Subst
+┃  ┃        ┃     ┃  ┃ constraint: true
+┃  ┃        ┃     ┃  │
+┃  ┃        ┃     ┃  └─ 168 (leaf, pending)
+┃  ┃        ┃     ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃  ┃        ┃     ┃      pc: 279
+┃  ┃        ┃     ┃      callDepth: 1
+┃  ┃        ┃     ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃        ┃     ┃      src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃        ┃     ┃      method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃        ┃     ┃
+┃  ┃        ┃     ┗━━┓ subst: .Subst
+┃  ┃        ┃        ┃ constraint: true
+┃  ┃        ┃        │
+┃  ┃        ┃        └─ 169 (leaf, pending)
+┃  ┃        ┃            k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃  ┃        ┃            pc: 279
+┃  ┃        ┃            callDepth: 1
+┃  ┃        ┃            statusCode: STATUSCODE:StatusCode
+┃  ┃        ┃            src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃        ┃            method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃        ┃
+┃  ┃        ┗━━┓ subst: .Subst
+┃  ┃           ┃ constraint: true
+┃  ┃           │
+┃  ┃           ├─ 53 (split)
+┃  ┃           │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃  ┃           │   pc: 279
+┃  ┃           │   callDepth: 1
+┃  ┃           │   statusCode: STATUSCODE:StatusCode
+┃  ┃           │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃           │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃           ┃
+┃  ┃           ┃ (branch)
+┃  ┃           ┣━━┓ subst: .Subst
+┃  ┃           ┃  ┃ constraint: true
+┃  ┃           ┃  │
+┃  ┃           ┃  ├─ 92 (split)
+┃  ┃           ┃  │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃  ┃           ┃  │   pc: 279
+┃  ┃           ┃  │   callDepth: 1
+┃  ┃           ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃           ┃  │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃           ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃           ┃  ┃
+┃  ┃           ┃  ┃ (branch)
+┃  ┃           ┃  ┣━━┓ subst: .Subst
+┃  ┃           ┃  ┃  ┃ constraint: true
+┃  ┃           ┃  ┃  │
+┃  ┃           ┃  ┃  └─ 170 (leaf, pending)
+┃  ┃           ┃  ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃  ┃           ┃  ┃      pc: 279
+┃  ┃           ┃  ┃      callDepth: 1
+┃  ┃           ┃  ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃           ┃  ┃      src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃           ┃  ┃      method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃           ┃  ┃
+┃  ┃           ┃  ┗━━┓ subst: .Subst
+┃  ┃           ┃     ┃ constraint: true
+┃  ┃           ┃     │
+┃  ┃           ┃     └─ 171 (leaf, pending)
+┃  ┃           ┃         k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃  ┃           ┃         pc: 279
+┃  ┃           ┃         callDepth: 1
+┃  ┃           ┃         statusCode: STATUSCODE:StatusCode
+┃  ┃           ┃         src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃           ┃         method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃           ┃
+┃  ┃           ┗━━┓ subst: .Subst
+┃  ┃              ┃ constraint: true
+┃  ┃              │
+┃  ┃              ├─ 93 (split)
+┃  ┃              │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃  ┃              │   pc: 279
+┃  ┃              │   callDepth: 1
+┃  ┃              │   statusCode: STATUSCODE:StatusCode
+┃  ┃              │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃              │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃              ┃
+┃  ┃              ┃ (branch)
+┃  ┃              ┣━━┓ subst: .Subst
+┃  ┃              ┃  ┃ constraint: true
+┃  ┃              ┃  │
+┃  ┃              ┃  └─ 172 (leaf, pending)
+┃  ┃              ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃  ┃              ┃      pc: 279
+┃  ┃              ┃      callDepth: 1
+┃  ┃              ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃              ┃      src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃              ┃      method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃              ┃
+┃  ┃              ┗━━┓ subst: .Subst
+┃  ┃                 ┃ constraint: true
+┃  ┃                 │
+┃  ┃                 └─ 173 (leaf, pending)
+┃  ┃                     k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃  ┃                     pc: 279
+┃  ┃                     callDepth: 1
+┃  ┃                     statusCode: STATUSCODE:StatusCode
+┃  ┃                     src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃                     method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃
+┃  ┗━━┓ subst: .Subst
+┃     ┃ constraint: true
+┃     │
+┃     ├─ 19 (split)
+┃     │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃     │   pc: 279
+┃     │   callDepth: 1
+┃     │   statusCode: STATUSCODE:StatusCode
+┃     │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃     │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃     ┃
+┃     ┃ (branch)
+┃     ┣━━┓ subst: .Subst
+┃     ┃  ┃ constraint: true
+┃     ┃  │
+┃     ┃  ├─ 24 (split)
+┃     ┃  │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃     ┃  │   pc: 279
+┃     ┃  │   callDepth: 1
+┃     ┃  │   statusCode: STATUSCODE:StatusCode
+┃     ┃  │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃     ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃     ┃  ┃
+┃     ┃  ┃ (branch)
+┃     ┃  ┣━━┓ subst: .Subst
+┃     ┃  ┃  ┃ constraint: true
+┃     ┃  ┃  │
+┃     ┃  ┃  ├─ 34 (split)
+┃     ┃  ┃  │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃     ┃  ┃  │   pc: 279
+┃     ┃  ┃  │   callDepth: 1
+┃     ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃     ┃  ┃  │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃     ┃  ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃     ┃  ┃  ┃
+┃     ┃  ┃  ┃ (branch)
+┃     ┃  ┃  ┣━━┓ subst: .Subst
+┃     ┃  ┃  ┃  ┃ constraint: true
+┃     ┃  ┃  ┃  │
+┃     ┃  ┃  ┃  ├─ 54 (split)
+┃     ┃  ┃  ┃  │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃     ┃  ┃  ┃  │   pc: 279
+┃     ┃  ┃  ┃  │   callDepth: 1
+┃     ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃     ┃  ┃  ┃  │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃     ┃  ┃  ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃     ┃  ┃  ┃  ┃
+┃     ┃  ┃  ┃  ┃ (branch)
+┃     ┃  ┃  ┃  ┣━━┓ subst: .Subst
+┃     ┃  ┃  ┃  ┃  ┃ constraint: true
+┃     ┃  ┃  ┃  ┃  │
+┃     ┃  ┃  ┃  ┃  ├─ 94 (split)
+┃     ┃  ┃  ┃  ┃  │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃     ┃  ┃  ┃  ┃  │   pc: 279
+┃     ┃  ┃  ┃  ┃  │   callDepth: 1
+┃     ┃  ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃     ┃  ┃  ┃  ┃  │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃     ┃  ┃  ┃  ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃     ┃  ┃  ┃  ┃  ┃
+┃     ┃  ┃  ┃  ┃  ┃ (branch)
+┃     ┃  ┃  ┃  ┃  ┣━━┓ subst: .Subst
+┃     ┃  ┃  ┃  ┃  ┃  ┃ constraint: true
+┃     ┃  ┃  ┃  ┃  ┃  │
+┃     ┃  ┃  ┃  ┃  ┃  └─ 174 (leaf, pending)
+┃     ┃  ┃  ┃  ┃  ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃     ┃  ┃  ┃  ┃  ┃      pc: 279
+┃     ┃  ┃  ┃  ┃  ┃      callDepth: 1
+┃     ┃  ┃  ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
+┃     ┃  ┃  ┃  ┃  ┃      src: lib/forge-std/src/StdInvariant.sol:85:87
+┃     ┃  ┃  ┃  ┃  ┃      method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃     ┃  ┃  ┃  ┃  ┃
+┃     ┃  ┃  ┃  ┃  ┗━━┓ subst: .Subst
+┃     ┃  ┃  ┃  ┃     ┃ constraint: true
+┃     ┃  ┃  ┃  ┃     │
+┃     ┃  ┃  ┃  ┃     └─ 175 (leaf, pending)
+┃     ┃  ┃  ┃  ┃         k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃     ┃  ┃  ┃  ┃         pc: 279
+┃     ┃  ┃  ┃  ┃         callDepth: 1
+┃     ┃  ┃  ┃  ┃         statusCode: STATUSCODE:StatusCode
+┃     ┃  ┃  ┃  ┃         src: lib/forge-std/src/StdInvariant.sol:85:87
+┃     ┃  ┃  ┃  ┃         method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃     ┃  ┃  ┃  ┃
+┃     ┃  ┃  ┃  ┗━━┓ subst: .Subst
+┃     ┃  ┃  ┃     ┃ constraint: true
+┃     ┃  ┃  ┃     │
+┃     ┃  ┃  ┃     ├─ 95 (split)
+┃     ┃  ┃  ┃     │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃     ┃  ┃  ┃     │   pc: 279
+┃     ┃  ┃  ┃     │   callDepth: 1
+┃     ┃  ┃  ┃     │   statusCode: STATUSCODE:StatusCode
+┃     ┃  ┃  ┃     │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃     ┃  ┃  ┃     │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃     ┃  ┃  ┃     ┃
+┃     ┃  ┃  ┃     ┃ (branch)
+┃     ┃  ┃  ┃     ┣━━┓ subst: .Subst
+┃     ┃  ┃  ┃     ┃  ┃ constraint: true
+┃     ┃  ┃  ┃     ┃  │
+┃     ┃  ┃  ┃     ┃  └─ 176 (leaf, pending)
+┃     ┃  ┃  ┃     ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃     ┃  ┃  ┃     ┃      pc: 279
+┃     ┃  ┃  ┃     ┃      callDepth: 1
+┃     ┃  ┃  ┃     ┃      statusCode: STATUSCODE:StatusCode
+┃     ┃  ┃  ┃     ┃      src: lib/forge-std/src/StdInvariant.sol:85:87
+┃     ┃  ┃  ┃     ┃      method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃     ┃  ┃  ┃     ┃
+┃     ┃  ┃  ┃     ┗━━┓ subst: .Subst
+┃     ┃  ┃  ┃        ┃ constraint: true
+┃     ┃  ┃  ┃        │
+┃     ┃  ┃  ┃        └─ 177 (leaf, pending)
+┃     ┃  ┃  ┃            k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃     ┃  ┃  ┃            pc: 279
+┃     ┃  ┃  ┃            callDepth: 1
+┃     ┃  ┃  ┃            statusCode: STATUSCODE:StatusCode
+┃     ┃  ┃  ┃            src: lib/forge-std/src/StdInvariant.sol:85:87
+┃     ┃  ┃  ┃            method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃     ┃  ┃  ┃
+┃     ┃  ┃  ┗━━┓ subst: .Subst
+┃     ┃  ┃     ┃ constraint: true
+┃     ┃  ┃     │
+┃     ┃  ┃     ├─ 55 (split)
+┃     ┃  ┃     │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃     ┃  ┃     │   pc: 279
+┃     ┃  ┃     │   callDepth: 1
+┃     ┃  ┃     │   statusCode: STATUSCODE:StatusCode
+┃     ┃  ┃     │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃     ┃  ┃     │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃     ┃  ┃     ┃
+┃     ┃  ┃     ┃ (branch)
+┃     ┃  ┃     ┣━━┓ subst: .Subst
+┃     ┃  ┃     ┃  ┃ constraint: true
+┃     ┃  ┃     ┃  │
+┃     ┃  ┃     ┃  ├─ 96 (split)
+┃     ┃  ┃     ┃  │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃     ┃  ┃     ┃  │   pc: 279
+┃     ┃  ┃     ┃  │   callDepth: 1
+┃     ┃  ┃     ┃  │   statusCode: STATUSCODE:StatusCode
+┃     ┃  ┃     ┃  │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃     ┃  ┃     ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃     ┃  ┃     ┃  ┃
+┃     ┃  ┃     ┃  ┃ (branch)
+┃     ┃  ┃     ┃  ┣━━┓ subst: .Subst
+┃     ┃  ┃     ┃  ┃  ┃ constraint: true
+┃     ┃  ┃     ┃  ┃  │
+┃     ┃  ┃     ┃  ┃  └─ 178 (leaf, pending)
+┃     ┃  ┃     ┃  ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃     ┃  ┃     ┃  ┃      pc: 279
+┃     ┃  ┃     ┃  ┃      callDepth: 1
+┃     ┃  ┃     ┃  ┃      statusCode: STATUSCODE:StatusCode
+┃     ┃  ┃     ┃  ┃      src: lib/forge-std/src/StdInvariant.sol:85:87
+┃     ┃  ┃     ┃  ┃      method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃     ┃  ┃     ┃  ┃
+┃     ┃  ┃     ┃  ┗━━┓ subst: .Subst
+┃     ┃  ┃     ┃     ┃ constraint: true
+┃     ┃  ┃     ┃     │
+┃     ┃  ┃     ┃     └─ 179 (leaf, pending)
+┃     ┃  ┃     ┃         k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃     ┃  ┃     ┃         pc: 279
+┃     ┃  ┃     ┃         callDepth: 1
+┃     ┃  ┃     ┃         statusCode: STATUSCODE:StatusCode
+┃     ┃  ┃     ┃         src: lib/forge-std/src/StdInvariant.sol:85:87
+┃     ┃  ┃     ┃         method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃     ┃  ┃     ┃
+┃     ┃  ┃     ┗━━┓ subst: .Subst
+┃     ┃  ┃        ┃ constraint: true
+┃     ┃  ┃        │
+┃     ┃  ┃        ├─ 97 (split)
+┃     ┃  ┃        │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃     ┃  ┃        │   pc: 279
+┃     ┃  ┃        │   callDepth: 1
+┃     ┃  ┃        │   statusCode: STATUSCODE:StatusCode
+┃     ┃  ┃        │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃     ┃  ┃        │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃     ┃  ┃        ┃
+┃     ┃  ┃        ┃ (branch)
+┃     ┃  ┃        ┣━━┓ subst: .Subst
+┃     ┃  ┃        ┃  ┃ constraint: true
+┃     ┃  ┃        ┃  │
+┃     ┃  ┃        ┃  └─ 180 (leaf, pending)
+┃     ┃  ┃        ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃     ┃  ┃        ┃      pc: 279
+┃     ┃  ┃        ┃      callDepth: 1
+┃     ┃  ┃        ┃      statusCode: STATUSCODE:StatusCode
+┃     ┃  ┃        ┃      src: lib/forge-std/src/StdInvariant.sol:85:87
+┃     ┃  ┃        ┃      method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃     ┃  ┃        ┃
+┃     ┃  ┃        ┗━━┓ subst: .Subst
+┃     ┃  ┃           ┃ constraint: true
+┃     ┃  ┃           │
+┃     ┃  ┃           └─ 181 (leaf, pending)
+┃     ┃  ┃               k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃     ┃  ┃               pc: 279
+┃     ┃  ┃               callDepth: 1
+┃     ┃  ┃               statusCode: STATUSCODE:StatusCode
+┃     ┃  ┃               src: lib/forge-std/src/StdInvariant.sol:85:87
+┃     ┃  ┃               method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃     ┃  ┃
+┃     ┃  ┗━━┓ subst: .Subst
+┃     ┃     ┃ constraint: true
+┃     ┃     │
+┃     ┃     ├─ 35 (split)
+┃     ┃     │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃     ┃     │   pc: 279
+┃     ┃     │   callDepth: 1
+┃     ┃     │   statusCode: STATUSCODE:StatusCode
+┃     ┃     │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃     ┃     │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃     ┃     ┃
+┃     ┃     ┃ (branch)
+┃     ┃     ┣━━┓ subst: .Subst
+┃     ┃     ┃  ┃ constraint: true
+┃     ┃     ┃  │
+┃     ┃     ┃  ├─ 56 (split)
+┃     ┃     ┃  │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃     ┃     ┃  │   pc: 279
+┃     ┃     ┃  │   callDepth: 1
+┃     ┃     ┃  │   statusCode: STATUSCODE:StatusCode
+┃     ┃     ┃  │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃     ┃     ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃     ┃     ┃  ┃
+┃     ┃     ┃  ┃ (branch)
+┃     ┃     ┃  ┣━━┓ subst: .Subst
+┃     ┃     ┃  ┃  ┃ constraint: true
+┃     ┃     ┃  ┃  │
+┃     ┃     ┃  ┃  ├─ 98 (split)
+┃     ┃     ┃  ┃  │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃     ┃     ┃  ┃  │   pc: 279
+┃     ┃     ┃  ┃  │   callDepth: 1
+┃     ┃     ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃     ┃     ┃  ┃  │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃     ┃     ┃  ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃     ┃     ┃  ┃  ┃
+┃     ┃     ┃  ┃  ┃ (branch)
+┃     ┃     ┃  ┃  ┣━━┓ subst: .Subst
+┃     ┃     ┃  ┃  ┃  ┃ constraint: true
+┃     ┃     ┃  ┃  ┃  │
+┃     ┃     ┃  ┃  ┃  └─ 182 (leaf, pending)
+┃     ┃     ┃  ┃  ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃     ┃     ┃  ┃  ┃      pc: 279
+┃     ┃     ┃  ┃  ┃      callDepth: 1
+┃     ┃     ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
+┃     ┃     ┃  ┃  ┃      src: lib/forge-std/src/StdInvariant.sol:85:87
+┃     ┃     ┃  ┃  ┃      method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃     ┃     ┃  ┃  ┃
+┃     ┃     ┃  ┃  ┗━━┓ subst: .Subst
+┃     ┃     ┃  ┃     ┃ constraint: true
+┃     ┃     ┃  ┃     │
+┃     ┃     ┃  ┃     └─ 183 (leaf, pending)
+┃     ┃     ┃  ┃         k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃     ┃     ┃  ┃         pc: 279
+┃     ┃     ┃  ┃         callDepth: 1
+┃     ┃     ┃  ┃         statusCode: STATUSCODE:StatusCode
+┃     ┃     ┃  ┃         src: lib/forge-std/src/StdInvariant.sol:85:87
+┃     ┃     ┃  ┃         method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃     ┃     ┃  ┃
+┃     ┃     ┃  ┗━━┓ subst: .Subst
+┃     ┃     ┃     ┃ constraint: true
+┃     ┃     ┃     │
+┃     ┃     ┃     ├─ 99 (split)
+┃     ┃     ┃     │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃     ┃     ┃     │   pc: 279
+┃     ┃     ┃     │   callDepth: 1
+┃     ┃     ┃     │   statusCode: STATUSCODE:StatusCode
+┃     ┃     ┃     │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃     ┃     ┃     │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃     ┃     ┃     ┃
+┃     ┃     ┃     ┃ (branch)
+┃     ┃     ┃     ┣━━┓ subst: .Subst
+┃     ┃     ┃     ┃  ┃ constraint: true
+┃     ┃     ┃     ┃  │
+┃     ┃     ┃     ┃  └─ 184 (leaf, pending)
+┃     ┃     ┃     ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃     ┃     ┃     ┃      pc: 279
+┃     ┃     ┃     ┃      callDepth: 1
+┃     ┃     ┃     ┃      statusCode: STATUSCODE:StatusCode
+┃     ┃     ┃     ┃      src: lib/forge-std/src/StdInvariant.sol:85:87
+┃     ┃     ┃     ┃      method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃     ┃     ┃     ┃
+┃     ┃     ┃     ┗━━┓ subst: .Subst
+┃     ┃     ┃        ┃ constraint: true
+┃     ┃     ┃        │
+┃     ┃     ┃        └─ 185 (leaf, pending)
+┃     ┃     ┃            k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃     ┃     ┃            pc: 279
+┃     ┃     ┃            callDepth: 1
+┃     ┃     ┃            statusCode: STATUSCODE:StatusCode
+┃     ┃     ┃            src: lib/forge-std/src/StdInvariant.sol:85:87
+┃     ┃     ┃            method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃     ┃     ┃
+┃     ┃     ┗━━┓ subst: .Subst
+┃     ┃        ┃ constraint: true
+┃     ┃        │
+┃     ┃        ├─ 57 (split)
+┃     ┃        │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃     ┃        │   pc: 279
+┃     ┃        │   callDepth: 1
+┃     ┃        │   statusCode: STATUSCODE:StatusCode
+┃     ┃        │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃     ┃        │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃     ┃        ┃
+┃     ┃        ┃ (branch)
+┃     ┃        ┣━━┓ subst: .Subst
+┃     ┃        ┃  ┃ constraint: true
+┃     ┃        ┃  │
+┃     ┃        ┃  ├─ 100 (split)
+┃     ┃        ┃  │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃     ┃        ┃  │   pc: 279
+┃     ┃        ┃  │   callDepth: 1
+┃     ┃        ┃  │   statusCode: STATUSCODE:StatusCode
+┃     ┃        ┃  │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃     ┃        ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃     ┃        ┃  ┃
+┃     ┃        ┃  ┃ (branch)
+┃     ┃        ┃  ┣━━┓ subst: .Subst
+┃     ┃        ┃  ┃  ┃ constraint: true
+┃     ┃        ┃  ┃  │
+┃     ┃        ┃  ┃  └─ 186 (leaf, pending)
+┃     ┃        ┃  ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃     ┃        ┃  ┃      pc: 279
+┃     ┃        ┃  ┃      callDepth: 1
+┃     ┃        ┃  ┃      statusCode: STATUSCODE:StatusCode
+┃     ┃        ┃  ┃      src: lib/forge-std/src/StdInvariant.sol:85:87
+┃     ┃        ┃  ┃      method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃     ┃        ┃  ┃
+┃     ┃        ┃  ┗━━┓ subst: .Subst
+┃     ┃        ┃     ┃ constraint: true
+┃     ┃        ┃     │
+┃     ┃        ┃     └─ 187 (leaf, pending)
+┃     ┃        ┃         k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃     ┃        ┃         pc: 279
+┃     ┃        ┃         callDepth: 1
+┃     ┃        ┃         statusCode: STATUSCODE:StatusCode
+┃     ┃        ┃         src: lib/forge-std/src/StdInvariant.sol:85:87
+┃     ┃        ┃         method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃     ┃        ┃
+┃     ┃        ┗━━┓ subst: .Subst
+┃     ┃           ┃ constraint: true
+┃     ┃           │
+┃     ┃           ├─ 101 (split)
+┃     ┃           │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃     ┃           │   pc: 279
+┃     ┃           │   callDepth: 1
+┃     ┃           │   statusCode: STATUSCODE:StatusCode
+┃     ┃           │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃     ┃           │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃     ┃           ┃
+┃     ┃           ┃ (branch)
+┃     ┃           ┣━━┓ subst: .Subst
+┃     ┃           ┃  ┃ constraint: true
+┃     ┃           ┃  │
+┃     ┃           ┃  └─ 188 (leaf, pending)
+┃     ┃           ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃     ┃           ┃      pc: 279
+┃     ┃           ┃      callDepth: 1
+┃     ┃           ┃      statusCode: STATUSCODE:StatusCode
+┃     ┃           ┃      src: lib/forge-std/src/StdInvariant.sol:85:87
+┃     ┃           ┃      method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃     ┃           ┃
+┃     ┃           ┗━━┓ subst: .Subst
+┃     ┃              ┃ constraint: true
+┃     ┃              │
+┃     ┃              └─ 189 (leaf, pending)
+┃     ┃                  k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃     ┃                  pc: 279
+┃     ┃                  callDepth: 1
+┃     ┃                  statusCode: STATUSCODE:StatusCode
+┃     ┃                  src: lib/forge-std/src/StdInvariant.sol:85:87
+┃     ┃                  method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃     ┃
+┃     ┗━━┓ subst: .Subst
+┃        ┃ constraint: true
+┃        │
+┃        ├─ 25 (split)
+┃        │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃        │   pc: 279
+┃        │   callDepth: 1
+┃        │   statusCode: STATUSCODE:StatusCode
+┃        │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃        │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃        ┃
+┃        ┃ (branch)
+┃        ┣━━┓ subst: .Subst
+┃        ┃  ┃ constraint: true
+┃        ┃  │
+┃        ┃  ├─ 36 (split)
+┃        ┃  │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃        ┃  │   pc: 279
+┃        ┃  │   callDepth: 1
+┃        ┃  │   statusCode: STATUSCODE:StatusCode
+┃        ┃  │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃        ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃        ┃  ┃
+┃        ┃  ┃ (branch)
+┃        ┃  ┣━━┓ subst: .Subst
+┃        ┃  ┃  ┃ constraint: true
+┃        ┃  ┃  │
+┃        ┃  ┃  ├─ 58 (split)
+┃        ┃  ┃  │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃        ┃  ┃  │   pc: 279
+┃        ┃  ┃  │   callDepth: 1
+┃        ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃        ┃  ┃  │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃        ┃  ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃        ┃  ┃  ┃
+┃        ┃  ┃  ┃ (branch)
+┃        ┃  ┃  ┣━━┓ subst: .Subst
+┃        ┃  ┃  ┃  ┃ constraint: true
+┃        ┃  ┃  ┃  │
+┃        ┃  ┃  ┃  ├─ 102 (split)
+┃        ┃  ┃  ┃  │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃        ┃  ┃  ┃  │   pc: 279
+┃        ┃  ┃  ┃  │   callDepth: 1
+┃        ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃        ┃  ┃  ┃  │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃        ┃  ┃  ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃        ┃  ┃  ┃  ┃
+┃        ┃  ┃  ┃  ┃ (branch)
+┃        ┃  ┃  ┃  ┣━━┓ subst: .Subst
+┃        ┃  ┃  ┃  ┃  ┃ constraint: true
+┃        ┃  ┃  ┃  ┃  │
+┃        ┃  ┃  ┃  ┃  └─ 190 (leaf, pending)
+┃        ┃  ┃  ┃  ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃        ┃  ┃  ┃  ┃      pc: 279
+┃        ┃  ┃  ┃  ┃      callDepth: 1
+┃        ┃  ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
+┃        ┃  ┃  ┃  ┃      src: lib/forge-std/src/StdInvariant.sol:85:87
+┃        ┃  ┃  ┃  ┃      method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃        ┃  ┃  ┃  ┃
+┃        ┃  ┃  ┃  ┗━━┓ subst: .Subst
+┃        ┃  ┃  ┃     ┃ constraint: true
+┃        ┃  ┃  ┃     │
+┃        ┃  ┃  ┃     └─ 191 (leaf, pending)
+┃        ┃  ┃  ┃         k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃        ┃  ┃  ┃         pc: 279
+┃        ┃  ┃  ┃         callDepth: 1
+┃        ┃  ┃  ┃         statusCode: STATUSCODE:StatusCode
+┃        ┃  ┃  ┃         src: lib/forge-std/src/StdInvariant.sol:85:87
+┃        ┃  ┃  ┃         method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃        ┃  ┃  ┃
+┃        ┃  ┃  ┗━━┓ subst: .Subst
+┃        ┃  ┃     ┃ constraint: true
+┃        ┃  ┃     │
+┃        ┃  ┃     ├─ 103 (split)
+┃        ┃  ┃     │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃        ┃  ┃     │   pc: 279
+┃        ┃  ┃     │   callDepth: 1
+┃        ┃  ┃     │   statusCode: STATUSCODE:StatusCode
+┃        ┃  ┃     │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃        ┃  ┃     │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃        ┃  ┃     ┃
+┃        ┃  ┃     ┃ (branch)
+┃        ┃  ┃     ┣━━┓ subst: .Subst
+┃        ┃  ┃     ┃  ┃ constraint: true
+┃        ┃  ┃     ┃  │
+┃        ┃  ┃     ┃  └─ 192 (leaf, pending)
+┃        ┃  ┃     ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃        ┃  ┃     ┃      pc: 279
+┃        ┃  ┃     ┃      callDepth: 1
+┃        ┃  ┃     ┃      statusCode: STATUSCODE:StatusCode
+┃        ┃  ┃     ┃      src: lib/forge-std/src/StdInvariant.sol:85:87
+┃        ┃  ┃     ┃      method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃        ┃  ┃     ┃
+┃        ┃  ┃     ┗━━┓ subst: .Subst
+┃        ┃  ┃        ┃ constraint: true
+┃        ┃  ┃        │
+┃        ┃  ┃        └─ 193 (leaf, pending)
+┃        ┃  ┃            k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃        ┃  ┃            pc: 279
+┃        ┃  ┃            callDepth: 1
+┃        ┃  ┃            statusCode: STATUSCODE:StatusCode
+┃        ┃  ┃            src: lib/forge-std/src/StdInvariant.sol:85:87
+┃        ┃  ┃            method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃        ┃  ┃
+┃        ┃  ┗━━┓ subst: .Subst
+┃        ┃     ┃ constraint: true
+┃        ┃     │
+┃        ┃     ├─ 59 (split)
+┃        ┃     │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃        ┃     │   pc: 279
+┃        ┃     │   callDepth: 1
+┃        ┃     │   statusCode: STATUSCODE:StatusCode
+┃        ┃     │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃        ┃     │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃        ┃     ┃
+┃        ┃     ┃ (branch)
+┃        ┃     ┣━━┓ subst: .Subst
+┃        ┃     ┃  ┃ constraint: true
+┃        ┃     ┃  │
+┃        ┃     ┃  ├─ 104 (split)
+┃        ┃     ┃  │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃        ┃     ┃  │   pc: 279
+┃        ┃     ┃  │   callDepth: 1
+┃        ┃     ┃  │   statusCode: STATUSCODE:StatusCode
+┃        ┃     ┃  │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃        ┃     ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃        ┃     ┃  ┃
+┃        ┃     ┃  ┃ (branch)
+┃        ┃     ┃  ┣━━┓ subst: .Subst
+┃        ┃     ┃  ┃  ┃ constraint: true
+┃        ┃     ┃  ┃  │
+┃        ┃     ┃  ┃  └─ 194 (leaf, pending)
+┃        ┃     ┃  ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃        ┃     ┃  ┃      pc: 279
+┃        ┃     ┃  ┃      callDepth: 1
+┃        ┃     ┃  ┃      statusCode: STATUSCODE:StatusCode
+┃        ┃     ┃  ┃      src: lib/forge-std/src/StdInvariant.sol:85:87
+┃        ┃     ┃  ┃      method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃        ┃     ┃  ┃
+┃        ┃     ┃  ┗━━┓ subst: .Subst
+┃        ┃     ┃     ┃ constraint: true
+┃        ┃     ┃     │
+┃        ┃     ┃     └─ 195 (leaf, pending)
+┃        ┃     ┃         k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃        ┃     ┃         pc: 279
+┃        ┃     ┃         callDepth: 1
+┃        ┃     ┃         statusCode: STATUSCODE:StatusCode
+┃        ┃     ┃         src: lib/forge-std/src/StdInvariant.sol:85:87
+┃        ┃     ┃         method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃        ┃     ┃
+┃        ┃     ┗━━┓ subst: .Subst
+┃        ┃        ┃ constraint: true
+┃        ┃        │
+┃        ┃        ├─ 105 (split)
+┃        ┃        │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃        ┃        │   pc: 279
+┃        ┃        │   callDepth: 1
+┃        ┃        │   statusCode: STATUSCODE:StatusCode
+┃        ┃        │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃        ┃        │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃        ┃        ┃
+┃        ┃        ┃ (branch)
+┃        ┃        ┣━━┓ subst: .Subst
+┃        ┃        ┃  ┃ constraint: true
+┃        ┃        ┃  │
+┃        ┃        ┃  └─ 196 (leaf, pending)
+┃        ┃        ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃        ┃        ┃      pc: 279
+┃        ┃        ┃      callDepth: 1
+┃        ┃        ┃      statusCode: STATUSCODE:StatusCode
+┃        ┃        ┃      src: lib/forge-std/src/StdInvariant.sol:85:87
+┃        ┃        ┃      method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃        ┃        ┃
+┃        ┃        ┗━━┓ subst: .Subst
+┃        ┃           ┃ constraint: true
+┃        ┃           │
+┃        ┃           └─ 197 (leaf, pending)
+┃        ┃               k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃        ┃               pc: 279
+┃        ┃               callDepth: 1
+┃        ┃               statusCode: STATUSCODE:StatusCode
+┃        ┃               src: lib/forge-std/src/StdInvariant.sol:85:87
+┃        ┃               method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃        ┃
+┃        ┗━━┓ subst: .Subst
+┃           ┃ constraint: true
+┃           │
+┃           ├─ 37 (split)
+┃           │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃           │   pc: 279
+┃           │   callDepth: 1
+┃           │   statusCode: STATUSCODE:StatusCode
+┃           │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃           │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃           ┃
+┃           ┃ (branch)
+┃           ┣━━┓ subst: .Subst
+┃           ┃  ┃ constraint: true
+┃           ┃  │
+┃           ┃  ├─ 60 (split)
+┃           ┃  │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃           ┃  │   pc: 279
+┃           ┃  │   callDepth: 1
+┃           ┃  │   statusCode: STATUSCODE:StatusCode
+┃           ┃  │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃           ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃           ┃  ┃
+┃           ┃  ┃ (branch)
+┃           ┃  ┣━━┓ subst: .Subst
+┃           ┃  ┃  ┃ constraint: true
+┃           ┃  ┃  │
+┃           ┃  ┃  ├─ 106 (split)
+┃           ┃  ┃  │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃           ┃  ┃  │   pc: 279
+┃           ┃  ┃  │   callDepth: 1
+┃           ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃           ┃  ┃  │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃           ┃  ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃           ┃  ┃  ┃
+┃           ┃  ┃  ┃ (branch)
+┃           ┃  ┃  ┣━━┓ subst: .Subst
+┃           ┃  ┃  ┃  ┃ constraint: true
+┃           ┃  ┃  ┃  │
+┃           ┃  ┃  ┃  └─ 198 (leaf, pending)
+┃           ┃  ┃  ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃           ┃  ┃  ┃      pc: 279
+┃           ┃  ┃  ┃      callDepth: 1
+┃           ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
+┃           ┃  ┃  ┃      src: lib/forge-std/src/StdInvariant.sol:85:87
+┃           ┃  ┃  ┃      method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃           ┃  ┃  ┃
+┃           ┃  ┃  ┗━━┓ subst: .Subst
+┃           ┃  ┃     ┃ constraint: true
+┃           ┃  ┃     │
+┃           ┃  ┃     └─ 199 (leaf, pending)
+┃           ┃  ┃         k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃           ┃  ┃         pc: 279
+┃           ┃  ┃         callDepth: 1
+┃           ┃  ┃         statusCode: STATUSCODE:StatusCode
+┃           ┃  ┃         src: lib/forge-std/src/StdInvariant.sol:85:87
+┃           ┃  ┃         method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃           ┃  ┃
+┃           ┃  ┗━━┓ subst: .Subst
+┃           ┃     ┃ constraint: true
+┃           ┃     │
+┃           ┃     ├─ 107 (split)
+┃           ┃     │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃           ┃     │   pc: 279
+┃           ┃     │   callDepth: 1
+┃           ┃     │   statusCode: STATUSCODE:StatusCode
+┃           ┃     │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃           ┃     │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃           ┃     ┃
+┃           ┃     ┃ (branch)
+┃           ┃     ┣━━┓ subst: .Subst
+┃           ┃     ┃  ┃ constraint: true
+┃           ┃     ┃  │
+┃           ┃     ┃  └─ 200 (leaf, pending)
+┃           ┃     ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃           ┃     ┃      pc: 279
+┃           ┃     ┃      callDepth: 1
+┃           ┃     ┃      statusCode: STATUSCODE:StatusCode
+┃           ┃     ┃      src: lib/forge-std/src/StdInvariant.sol:85:87
+┃           ┃     ┃      method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃           ┃     ┃
+┃           ┃     ┗━━┓ subst: .Subst
+┃           ┃        ┃ constraint: true
+┃           ┃        │
+┃           ┃        └─ 201 (leaf, pending)
+┃           ┃            k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃           ┃            pc: 279
+┃           ┃            callDepth: 1
+┃           ┃            statusCode: STATUSCODE:StatusCode
+┃           ┃            src: lib/forge-std/src/StdInvariant.sol:85:87
+┃           ┃            method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃           ┃
+┃           ┗━━┓ subst: .Subst
+┃              ┃ constraint: true
+┃              │
+┃              ├─ 61 (split)
+┃              │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃              │   pc: 279
+┃              │   callDepth: 1
+┃              │   statusCode: STATUSCODE:StatusCode
+┃              │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃              │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃              ┃
+┃              ┃ (branch)
+┃              ┣━━┓ subst: .Subst
+┃              ┃  ┃ constraint: true
+┃              ┃  │
+┃              ┃  ├─ 108 (split)
+┃              ┃  │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃              ┃  │   pc: 279
+┃              ┃  │   callDepth: 1
+┃              ┃  │   statusCode: STATUSCODE:StatusCode
+┃              ┃  │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃              ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃              ┃  ┃
+┃              ┃  ┃ (branch)
+┃              ┃  ┣━━┓ subst: .Subst
+┃              ┃  ┃  ┃ constraint: true
+┃              ┃  ┃  │
+┃              ┃  ┃  └─ 202 (leaf, pending)
+┃              ┃  ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃              ┃  ┃      pc: 279
+┃              ┃  ┃      callDepth: 1
+┃              ┃  ┃      statusCode: STATUSCODE:StatusCode
+┃              ┃  ┃      src: lib/forge-std/src/StdInvariant.sol:85:87
+┃              ┃  ┃      method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃              ┃  ┃
+┃              ┃  ┗━━┓ subst: .Subst
+┃              ┃     ┃ constraint: true
+┃              ┃     │
+┃              ┃     └─ 203 (leaf, pending)
+┃              ┃         k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃              ┃         pc: 279
+┃              ┃         callDepth: 1
+┃              ┃         statusCode: STATUSCODE:StatusCode
+┃              ┃         src: lib/forge-std/src/StdInvariant.sol:85:87
+┃              ┃         method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃              ┃
+┃              ┗━━┓ subst: .Subst
+┃                 ┃ constraint: true
+┃                 │
+┃                 ├─ 109 (split)
+┃                 │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃                 │   pc: 279
+┃                 │   callDepth: 1
+┃                 │   statusCode: STATUSCODE:StatusCode
+┃                 │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃                 │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃                 ┃
+┃                 ┃ (branch)
+┃                 ┣━━┓ subst: .Subst
+┃                 ┃  ┃ constraint: true
+┃                 ┃  │
+┃                 ┃  └─ 204 (leaf, pending)
+┃                 ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃                 ┃      pc: 279
+┃                 ┃      callDepth: 1
+┃                 ┃      statusCode: STATUSCODE:StatusCode
+┃                 ┃      src: lib/forge-std/src/StdInvariant.sol:85:87
+┃                 ┃      method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃                 ┃
+┃                 ┗━━┓ subst: .Subst
+┃                    ┃ constraint: true
+┃                    │
+┃                    └─ 205 (leaf, pending)
+┃                        k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+┃                        pc: 279
+┃                        callDepth: 1
+┃                        statusCode: STATUSCODE:StatusCode
+┃                        src: lib/forge-std/src/StdInvariant.sol:85:87
+┃                        method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃
+┗━━┓ subst: .Subst
+   ┃ constraint: true
+   │
+   ├─ 17 (split)
+   │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+   │   pc: 279
+   │   callDepth: 1
+   │   statusCode: STATUSCODE:StatusCode
+   │   src: lib/forge-std/src/StdInvariant.sol:85:87
+   │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+   ┃
+   ┃ (branch)
+   ┣━━┓ subst: .Subst
+   ┃  ┃ constraint: true
+   ┃  │
+   ┃  ├─ 20 (split)
+   ┃  │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+   ┃  │   pc: 279
+   ┃  │   callDepth: 1
+   ┃  │   statusCode: STATUSCODE:StatusCode
+   ┃  │   src: lib/forge-std/src/StdInvariant.sol:85:87
+   ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+   ┃  ┃
+   ┃  ┃ (branch)
+   ┃  ┣━━┓ subst: .Subst
+   ┃  ┃  ┃ constraint: true
+   ┃  ┃  │
+   ┃  ┃  ├─ 26 (split)
+   ┃  ┃  │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+   ┃  ┃  │   pc: 279
+   ┃  ┃  │   callDepth: 1
+   ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+   ┃  ┃  │   src: lib/forge-std/src/StdInvariant.sol:85:87
+   ┃  ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+   ┃  ┃  ┃
+   ┃  ┃  ┃ (branch)
+   ┃  ┃  ┣━━┓ subst: .Subst
+   ┃  ┃  ┃  ┃ constraint: true
+   ┃  ┃  ┃  │
+   ┃  ┃  ┃  ├─ 38 (split)
+   ┃  ┃  ┃  │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+   ┃  ┃  ┃  │   pc: 279
+   ┃  ┃  ┃  │   callDepth: 1
+   ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+   ┃  ┃  ┃  │   src: lib/forge-std/src/StdInvariant.sol:85:87
+   ┃  ┃  ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+   ┃  ┃  ┃  ┃
+   ┃  ┃  ┃  ┃ (branch)
+   ┃  ┃  ┃  ┣━━┓ subst: .Subst
+   ┃  ┃  ┃  ┃  ┃ constraint: true
+   ┃  ┃  ┃  ┃  │
+   ┃  ┃  ┃  ┃  ├─ 62 (split)
+   ┃  ┃  ┃  ┃  │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+   ┃  ┃  ┃  ┃  │   pc: 279
+   ┃  ┃  ┃  ┃  │   callDepth: 1
+   ┃  ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+   ┃  ┃  ┃  ┃  │   src: lib/forge-std/src/StdInvariant.sol:85:87
+   ┃  ┃  ┃  ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+   ┃  ┃  ┃  ┃  ┃
+   ┃  ┃  ┃  ┃  ┃ (branch)
+   ┃  ┃  ┃  ┃  ┣━━┓ subst: .Subst
+   ┃  ┃  ┃  ┃  ┃  ┃ constraint: true
+   ┃  ┃  ┃  ┃  ┃  │
+   ┃  ┃  ┃  ┃  ┃  └─ 110 (leaf, pending)
+   ┃  ┃  ┃  ┃  ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+   ┃  ┃  ┃  ┃  ┃      pc: 279
+   ┃  ┃  ┃  ┃  ┃      callDepth: 1
+   ┃  ┃  ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
+   ┃  ┃  ┃  ┃  ┃      src: lib/forge-std/src/StdInvariant.sol:85:87
+   ┃  ┃  ┃  ┃  ┃      method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+   ┃  ┃  ┃  ┃  ┃
+   ┃  ┃  ┃  ┃  ┗━━┓ subst: .Subst
+   ┃  ┃  ┃  ┃     ┃ constraint: true
+   ┃  ┃  ┃  ┃     │
+   ┃  ┃  ┃  ┃     └─ 111 (leaf, pending)
+   ┃  ┃  ┃  ┃         k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+   ┃  ┃  ┃  ┃         pc: 279
+   ┃  ┃  ┃  ┃         callDepth: 1
+   ┃  ┃  ┃  ┃         statusCode: STATUSCODE:StatusCode
+   ┃  ┃  ┃  ┃         src: lib/forge-std/src/StdInvariant.sol:85:87
+   ┃  ┃  ┃  ┃         method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+   ┃  ┃  ┃  ┃
+   ┃  ┃  ┃  ┗━━┓ subst: .Subst
+   ┃  ┃  ┃     ┃ constraint: true
+   ┃  ┃  ┃     │
+   ┃  ┃  ┃     ├─ 63 (split)
+   ┃  ┃  ┃     │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+   ┃  ┃  ┃     │   pc: 279
+   ┃  ┃  ┃     │   callDepth: 1
+   ┃  ┃  ┃     │   statusCode: STATUSCODE:StatusCode
+   ┃  ┃  ┃     │   src: lib/forge-std/src/StdInvariant.sol:85:87
+   ┃  ┃  ┃     │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+   ┃  ┃  ┃     ┃
+   ┃  ┃  ┃     ┃ (branch)
+   ┃  ┃  ┃     ┣━━┓ subst: .Subst
+   ┃  ┃  ┃     ┃  ┃ constraint: true
+   ┃  ┃  ┃     ┃  │
+   ┃  ┃  ┃     ┃  └─ 112 (leaf, pending)
+   ┃  ┃  ┃     ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+   ┃  ┃  ┃     ┃      pc: 279
+   ┃  ┃  ┃     ┃      callDepth: 1
+   ┃  ┃  ┃     ┃      statusCode: STATUSCODE:StatusCode
+   ┃  ┃  ┃     ┃      src: lib/forge-std/src/StdInvariant.sol:85:87
+   ┃  ┃  ┃     ┃      method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+   ┃  ┃  ┃     ┃
+   ┃  ┃  ┃     ┗━━┓ subst: .Subst
+   ┃  ┃  ┃        ┃ constraint: true
+   ┃  ┃  ┃        │
+   ┃  ┃  ┃        └─ 113 (leaf, pending)
+   ┃  ┃  ┃            k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+   ┃  ┃  ┃            pc: 279
+   ┃  ┃  ┃            callDepth: 1
+   ┃  ┃  ┃            statusCode: STATUSCODE:StatusCode
+   ┃  ┃  ┃            src: lib/forge-std/src/StdInvariant.sol:85:87
+   ┃  ┃  ┃            method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+   ┃  ┃  ┃
+   ┃  ┃  ┗━━┓ subst: .Subst
+   ┃  ┃     ┃ constraint: true
+   ┃  ┃     │
+   ┃  ┃     ├─ 39 (split)
+   ┃  ┃     │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+   ┃  ┃     │   pc: 279
+   ┃  ┃     │   callDepth: 1
+   ┃  ┃     │   statusCode: STATUSCODE:StatusCode
+   ┃  ┃     │   src: lib/forge-std/src/StdInvariant.sol:85:87
+   ┃  ┃     │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+   ┃  ┃     ┃
+   ┃  ┃     ┃ (branch)
+   ┃  ┃     ┣━━┓ subst: .Subst
+   ┃  ┃     ┃  ┃ constraint: true
+   ┃  ┃     ┃  │
+   ┃  ┃     ┃  ├─ 64 (split)
+   ┃  ┃     ┃  │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+   ┃  ┃     ┃  │   pc: 279
+   ┃  ┃     ┃  │   callDepth: 1
+   ┃  ┃     ┃  │   statusCode: STATUSCODE:StatusCode
+   ┃  ┃     ┃  │   src: lib/forge-std/src/StdInvariant.sol:85:87
+   ┃  ┃     ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+   ┃  ┃     ┃  ┃
+   ┃  ┃     ┃  ┃ (branch)
+   ┃  ┃     ┃  ┣━━┓ subst: .Subst
+   ┃  ┃     ┃  ┃  ┃ constraint: true
+   ┃  ┃     ┃  ┃  │
+   ┃  ┃     ┃  ┃  └─ 114 (leaf, pending)
+   ┃  ┃     ┃  ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+   ┃  ┃     ┃  ┃      pc: 279
+   ┃  ┃     ┃  ┃      callDepth: 1
+   ┃  ┃     ┃  ┃      statusCode: STATUSCODE:StatusCode
+   ┃  ┃     ┃  ┃      src: lib/forge-std/src/StdInvariant.sol:85:87
+   ┃  ┃     ┃  ┃      method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+   ┃  ┃     ┃  ┃
+   ┃  ┃     ┃  ┗━━┓ subst: .Subst
+   ┃  ┃     ┃     ┃ constraint: true
+   ┃  ┃     ┃     │
+   ┃  ┃     ┃     └─ 115 (leaf, pending)
+   ┃  ┃     ┃         k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+   ┃  ┃     ┃         pc: 279
+   ┃  ┃     ┃         callDepth: 1
+   ┃  ┃     ┃         statusCode: STATUSCODE:StatusCode
+   ┃  ┃     ┃         src: lib/forge-std/src/StdInvariant.sol:85:87
+   ┃  ┃     ┃         method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+   ┃  ┃     ┃
+   ┃  ┃     ┗━━┓ subst: .Subst
+   ┃  ┃        ┃ constraint: true
+   ┃  ┃        │
+   ┃  ┃        ├─ 65 (split)
+   ┃  ┃        │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+   ┃  ┃        │   pc: 279
+   ┃  ┃        │   callDepth: 1
+   ┃  ┃        │   statusCode: STATUSCODE:StatusCode
+   ┃  ┃        │   src: lib/forge-std/src/StdInvariant.sol:85:87
+   ┃  ┃        │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+   ┃  ┃        ┃
+   ┃  ┃        ┃ (branch)
+   ┃  ┃        ┣━━┓ subst: .Subst
+   ┃  ┃        ┃  ┃ constraint: true
+   ┃  ┃        ┃  │
+   ┃  ┃        ┃  └─ 116 (leaf, pending)
+   ┃  ┃        ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+   ┃  ┃        ┃      pc: 279
+   ┃  ┃        ┃      callDepth: 1
+   ┃  ┃        ┃      statusCode: STATUSCODE:StatusCode
+   ┃  ┃        ┃      src: lib/forge-std/src/StdInvariant.sol:85:87
+   ┃  ┃        ┃      method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+   ┃  ┃        ┃
+   ┃  ┃        ┗━━┓ subst: .Subst
+   ┃  ┃           ┃ constraint: true
+   ┃  ┃           │
+   ┃  ┃           └─ 117 (leaf, pending)
+   ┃  ┃               k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+   ┃  ┃               pc: 279
+   ┃  ┃               callDepth: 1
+   ┃  ┃               statusCode: STATUSCODE:StatusCode
+   ┃  ┃               src: lib/forge-std/src/StdInvariant.sol:85:87
+   ┃  ┃               method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+   ┃  ┃
+   ┃  ┗━━┓ subst: .Subst
+   ┃     ┃ constraint: true
+   ┃     │
+   ┃     ├─ 27 (split)
+   ┃     │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+   ┃     │   pc: 279
+   ┃     │   callDepth: 1
+   ┃     │   statusCode: STATUSCODE:StatusCode
+   ┃     │   src: lib/forge-std/src/StdInvariant.sol:85:87
+   ┃     │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+   ┃     ┃
+   ┃     ┃ (branch)
+   ┃     ┣━━┓ subst: .Subst
+   ┃     ┃  ┃ constraint: true
+   ┃     ┃  │
+   ┃     ┃  ├─ 40 (split)
+   ┃     ┃  │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+   ┃     ┃  │   pc: 279
+   ┃     ┃  │   callDepth: 1
+   ┃     ┃  │   statusCode: STATUSCODE:StatusCode
+   ┃     ┃  │   src: lib/forge-std/src/StdInvariant.sol:85:87
+   ┃     ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+   ┃     ┃  ┃
+   ┃     ┃  ┃ (branch)
+   ┃     ┃  ┣━━┓ subst: .Subst
+   ┃     ┃  ┃  ┃ constraint: true
+   ┃     ┃  ┃  │
+   ┃     ┃  ┃  ├─ 66 (split)
+   ┃     ┃  ┃  │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+   ┃     ┃  ┃  │   pc: 279
+   ┃     ┃  ┃  │   callDepth: 1
+   ┃     ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+   ┃     ┃  ┃  │   src: lib/forge-std/src/StdInvariant.sol:85:87
+   ┃     ┃  ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+   ┃     ┃  ┃  ┃
+   ┃     ┃  ┃  ┃ (branch)
+   ┃     ┃  ┃  ┣━━┓ subst: .Subst
+   ┃     ┃  ┃  ┃  ┃ constraint: true
+   ┃     ┃  ┃  ┃  │
+   ┃     ┃  ┃  ┃  └─ 118 (leaf, pending)
+   ┃     ┃  ┃  ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+   ┃     ┃  ┃  ┃      pc: 279
+   ┃     ┃  ┃  ┃      callDepth: 1
+   ┃     ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
+   ┃     ┃  ┃  ┃      src: lib/forge-std/src/StdInvariant.sol:85:87
+   ┃     ┃  ┃  ┃      method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+   ┃     ┃  ┃  ┃
+   ┃     ┃  ┃  ┗━━┓ subst: .Subst
+   ┃     ┃  ┃     ┃ constraint: true
+   ┃     ┃  ┃     │
+   ┃     ┃  ┃     └─ 119 (leaf, pending)
+   ┃     ┃  ┃         k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+   ┃     ┃  ┃         pc: 279
+   ┃     ┃  ┃         callDepth: 1
+   ┃     ┃  ┃         statusCode: STATUSCODE:StatusCode
+   ┃     ┃  ┃         src: lib/forge-std/src/StdInvariant.sol:85:87
+   ┃     ┃  ┃         method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+   ┃     ┃  ┃
+   ┃     ┃  ┗━━┓ subst: .Subst
+   ┃     ┃     ┃ constraint: true
+   ┃     ┃     │
+   ┃     ┃     ├─ 67 (split)
+   ┃     ┃     │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+   ┃     ┃     │   pc: 279
+   ┃     ┃     │   callDepth: 1
+   ┃     ┃     │   statusCode: STATUSCODE:StatusCode
+   ┃     ┃     │   src: lib/forge-std/src/StdInvariant.sol:85:87
+   ┃     ┃     │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+   ┃     ┃     ┃
+   ┃     ┃     ┃ (branch)
+   ┃     ┃     ┣━━┓ subst: .Subst
+   ┃     ┃     ┃  ┃ constraint: true
+   ┃     ┃     ┃  │
+   ┃     ┃     ┃  └─ 120 (leaf, pending)
+   ┃     ┃     ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+   ┃     ┃     ┃      pc: 279
+   ┃     ┃     ┃      callDepth: 1
+   ┃     ┃     ┃      statusCode: STATUSCODE:StatusCode
+   ┃     ┃     ┃      src: lib/forge-std/src/StdInvariant.sol:85:87
+   ┃     ┃     ┃      method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+   ┃     ┃     ┃
+   ┃     ┃     ┗━━┓ subst: .Subst
+   ┃     ┃        ┃ constraint: true
+   ┃     ┃        │
+   ┃     ┃        └─ 121 (leaf, pending)
+   ┃     ┃            k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+   ┃     ┃            pc: 279
+   ┃     ┃            callDepth: 1
+   ┃     ┃            statusCode: STATUSCODE:StatusCode
+   ┃     ┃            src: lib/forge-std/src/StdInvariant.sol:85:87
+   ┃     ┃            method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+   ┃     ┃
+   ┃     ┗━━┓ subst: .Subst
+   ┃        ┃ constraint: true
+   ┃        │
+   ┃        ├─ 41 (split)
+   ┃        │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+   ┃        │   pc: 279
+   ┃        │   callDepth: 1
+   ┃        │   statusCode: STATUSCODE:StatusCode
+   ┃        │   src: lib/forge-std/src/StdInvariant.sol:85:87
+   ┃        │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+   ┃        ┃
+   ┃        ┃ (branch)
+   ┃        ┣━━┓ subst: .Subst
+   ┃        ┃  ┃ constraint: true
+   ┃        ┃  │
+   ┃        ┃  ├─ 68 (split)
+   ┃        ┃  │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+   ┃        ┃  │   pc: 279
+   ┃        ┃  │   callDepth: 1
+   ┃        ┃  │   statusCode: STATUSCODE:StatusCode
+   ┃        ┃  │   src: lib/forge-std/src/StdInvariant.sol:85:87
+   ┃        ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+   ┃        ┃  ┃
+   ┃        ┃  ┃ (branch)
+   ┃        ┃  ┣━━┓ subst: .Subst
+   ┃        ┃  ┃  ┃ constraint: true
+   ┃        ┃  ┃  │
+   ┃        ┃  ┃  └─ 122 (leaf, pending)
+   ┃        ┃  ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+   ┃        ┃  ┃      pc: 279
+   ┃        ┃  ┃      callDepth: 1
+   ┃        ┃  ┃      statusCode: STATUSCODE:StatusCode
+   ┃        ┃  ┃      src: lib/forge-std/src/StdInvariant.sol:85:87
+   ┃        ┃  ┃      method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+   ┃        ┃  ┃
+   ┃        ┃  ┗━━┓ subst: .Subst
+   ┃        ┃     ┃ constraint: true
+   ┃        ┃     │
+   ┃        ┃     └─ 123 (leaf, pending)
+   ┃        ┃         k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+   ┃        ┃         pc: 279
+   ┃        ┃         callDepth: 1
+   ┃        ┃         statusCode: STATUSCODE:StatusCode
+   ┃        ┃         src: lib/forge-std/src/StdInvariant.sol:85:87
+   ┃        ┃         method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+   ┃        ┃
+   ┃        ┗━━┓ subst: .Subst
+   ┃           ┃ constraint: true
+   ┃           │
+   ┃           ├─ 69 (split)
+   ┃           │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+   ┃           │   pc: 279
+   ┃           │   callDepth: 1
+   ┃           │   statusCode: STATUSCODE:StatusCode
+   ┃           │   src: lib/forge-std/src/StdInvariant.sol:85:87
+   ┃           │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+   ┃           ┃
+   ┃           ┃ (branch)
+   ┃           ┣━━┓ subst: .Subst
+   ┃           ┃  ┃ constraint: true
+   ┃           ┃  │
+   ┃           ┃  └─ 124 (leaf, pending)
+   ┃           ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+   ┃           ┃      pc: 279
+   ┃           ┃      callDepth: 1
+   ┃           ┃      statusCode: STATUSCODE:StatusCode
+   ┃           ┃      src: lib/forge-std/src/StdInvariant.sol:85:87
+   ┃           ┃      method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+   ┃           ┃
+   ┃           ┗━━┓ subst: .Subst
+   ┃              ┃ constraint: true
+   ┃              │
+   ┃              └─ 125 (leaf, pending)
+   ┃                  k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+   ┃                  pc: 279
+   ┃                  callDepth: 1
+   ┃                  statusCode: STATUSCODE:StatusCode
+   ┃                  src: lib/forge-std/src/StdInvariant.sol:85:87
+   ┃                  method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+   ┃
+   ┗━━┓ subst: .Subst
+      ┃ constraint: true
+      │
+      ├─ 21 (split)
+      │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+      │   pc: 279
+      │   callDepth: 1
+      │   statusCode: STATUSCODE:StatusCode
+      │   src: lib/forge-std/src/StdInvariant.sol:85:87
+      │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+      ┃
+      ┃ (branch)
+      ┣━━┓ subst: .Subst
+      ┃  ┃ constraint: true
+      ┃  │
+      ┃  ├─ 28 (split)
+      ┃  │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+      ┃  │   pc: 279
+      ┃  │   callDepth: 1
+      ┃  │   statusCode: STATUSCODE:StatusCode
+      ┃  │   src: lib/forge-std/src/StdInvariant.sol:85:87
+      ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+      ┃  ┃
+      ┃  ┃ (branch)
+      ┃  ┣━━┓ subst: .Subst
+      ┃  ┃  ┃ constraint: true
+      ┃  ┃  │
+      ┃  ┃  ├─ 42 (split)
+      ┃  ┃  │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+      ┃  ┃  │   pc: 279
+      ┃  ┃  │   callDepth: 1
+      ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+      ┃  ┃  │   src: lib/forge-std/src/StdInvariant.sol:85:87
+      ┃  ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+      ┃  ┃  ┃
+      ┃  ┃  ┃ (branch)
+      ┃  ┃  ┣━━┓ subst: .Subst
+      ┃  ┃  ┃  ┃ constraint: true
+      ┃  ┃  ┃  │
+      ┃  ┃  ┃  ├─ 70 (split)
+      ┃  ┃  ┃  │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+      ┃  ┃  ┃  │   pc: 279
+      ┃  ┃  ┃  │   callDepth: 1
+      ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+      ┃  ┃  ┃  │   src: lib/forge-std/src/StdInvariant.sol:85:87
+      ┃  ┃  ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+      ┃  ┃  ┃  ┃
+      ┃  ┃  ┃  ┃ (branch)
+      ┃  ┃  ┃  ┣━━┓ subst: .Subst
+      ┃  ┃  ┃  ┃  ┃ constraint: true
+      ┃  ┃  ┃  ┃  │
+      ┃  ┃  ┃  ┃  └─ 126 (leaf, pending)
+      ┃  ┃  ┃  ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+      ┃  ┃  ┃  ┃      pc: 279
+      ┃  ┃  ┃  ┃      callDepth: 1
+      ┃  ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
+      ┃  ┃  ┃  ┃      src: lib/forge-std/src/StdInvariant.sol:85:87
+      ┃  ┃  ┃  ┃      method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+      ┃  ┃  ┃  ┃
+      ┃  ┃  ┃  ┗━━┓ subst: .Subst
+      ┃  ┃  ┃     ┃ constraint: true
+      ┃  ┃  ┃     │
+      ┃  ┃  ┃     └─ 127 (leaf, pending)
+      ┃  ┃  ┃         k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+      ┃  ┃  ┃         pc: 279
+      ┃  ┃  ┃         callDepth: 1
+      ┃  ┃  ┃         statusCode: STATUSCODE:StatusCode
+      ┃  ┃  ┃         src: lib/forge-std/src/StdInvariant.sol:85:87
+      ┃  ┃  ┃         method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+      ┃  ┃  ┃
+      ┃  ┃  ┗━━┓ subst: .Subst
+      ┃  ┃     ┃ constraint: true
+      ┃  ┃     │
+      ┃  ┃     ├─ 71 (split)
+      ┃  ┃     │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+      ┃  ┃     │   pc: 279
+      ┃  ┃     │   callDepth: 1
+      ┃  ┃     │   statusCode: STATUSCODE:StatusCode
+      ┃  ┃     │   src: lib/forge-std/src/StdInvariant.sol:85:87
+      ┃  ┃     │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+      ┃  ┃     ┃
+      ┃  ┃     ┃ (branch)
+      ┃  ┃     ┣━━┓ subst: .Subst
+      ┃  ┃     ┃  ┃ constraint: true
+      ┃  ┃     ┃  │
+      ┃  ┃     ┃  └─ 128 (leaf, pending)
+      ┃  ┃     ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+      ┃  ┃     ┃      pc: 279
+      ┃  ┃     ┃      callDepth: 1
+      ┃  ┃     ┃      statusCode: STATUSCODE:StatusCode
+      ┃  ┃     ┃      src: lib/forge-std/src/StdInvariant.sol:85:87
+      ┃  ┃     ┃      method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+      ┃  ┃     ┃
+      ┃  ┃     ┗━━┓ subst: .Subst
+      ┃  ┃        ┃ constraint: true
+      ┃  ┃        │
+      ┃  ┃        └─ 129 (leaf, pending)
+      ┃  ┃            k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+      ┃  ┃            pc: 279
+      ┃  ┃            callDepth: 1
+      ┃  ┃            statusCode: STATUSCODE:StatusCode
+      ┃  ┃            src: lib/forge-std/src/StdInvariant.sol:85:87
+      ┃  ┃            method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+      ┃  ┃
+      ┃  ┗━━┓ subst: .Subst
+      ┃     ┃ constraint: true
+      ┃     │
+      ┃     ├─ 43 (split)
+      ┃     │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+      ┃     │   pc: 279
+      ┃     │   callDepth: 1
+      ┃     │   statusCode: STATUSCODE:StatusCode
+      ┃     │   src: lib/forge-std/src/StdInvariant.sol:85:87
+      ┃     │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+      ┃     ┃
+      ┃     ┃ (branch)
+      ┃     ┣━━┓ subst: .Subst
+      ┃     ┃  ┃ constraint: true
+      ┃     ┃  │
+      ┃     ┃  ├─ 72 (split)
+      ┃     ┃  │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+      ┃     ┃  │   pc: 279
+      ┃     ┃  │   callDepth: 1
+      ┃     ┃  │   statusCode: STATUSCODE:StatusCode
+      ┃     ┃  │   src: lib/forge-std/src/StdInvariant.sol:85:87
+      ┃     ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+      ┃     ┃  ┃
+      ┃     ┃  ┃ (branch)
+      ┃     ┃  ┣━━┓ subst: .Subst
+      ┃     ┃  ┃  ┃ constraint: true
+      ┃     ┃  ┃  │
+      ┃     ┃  ┃  └─ 130 (leaf, pending)
+      ┃     ┃  ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+      ┃     ┃  ┃      pc: 279
+      ┃     ┃  ┃      callDepth: 1
+      ┃     ┃  ┃      statusCode: STATUSCODE:StatusCode
+      ┃     ┃  ┃      src: lib/forge-std/src/StdInvariant.sol:85:87
+      ┃     ┃  ┃      method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+      ┃     ┃  ┃
+      ┃     ┃  ┗━━┓ subst: .Subst
+      ┃     ┃     ┃ constraint: true
+      ┃     ┃     │
+      ┃     ┃     └─ 131 (leaf, pending)
+      ┃     ┃         k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+      ┃     ┃         pc: 279
+      ┃     ┃         callDepth: 1
+      ┃     ┃         statusCode: STATUSCODE:StatusCode
+      ┃     ┃         src: lib/forge-std/src/StdInvariant.sol:85:87
+      ┃     ┃         method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+      ┃     ┃
+      ┃     ┗━━┓ subst: .Subst
+      ┃        ┃ constraint: true
+      ┃        │
+      ┃        ├─ 73 (split)
+      ┃        │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+      ┃        │   pc: 279
+      ┃        │   callDepth: 1
+      ┃        │   statusCode: STATUSCODE:StatusCode
+      ┃        │   src: lib/forge-std/src/StdInvariant.sol:85:87
+      ┃        │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+      ┃        ┃
+      ┃        ┃ (branch)
+      ┃        ┣━━┓ subst: .Subst
+      ┃        ┃  ┃ constraint: true
+      ┃        ┃  │
+      ┃        ┃  └─ 132 (leaf, pending)
+      ┃        ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+      ┃        ┃      pc: 279
+      ┃        ┃      callDepth: 1
+      ┃        ┃      statusCode: STATUSCODE:StatusCode
+      ┃        ┃      src: lib/forge-std/src/StdInvariant.sol:85:87
+      ┃        ┃      method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+      ┃        ┃
+      ┃        ┗━━┓ subst: .Subst
+      ┃           ┃ constraint: true
+      ┃           │
+      ┃           └─ 133 (leaf, pending)
+      ┃               k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+      ┃               pc: 279
+      ┃               callDepth: 1
+      ┃               statusCode: STATUSCODE:StatusCode
+      ┃               src: lib/forge-std/src/StdInvariant.sol:85:87
+      ┃               method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+      ┃
+      ┗━━┓ subst: .Subst
+         ┃ constraint: true
+         │
+         ├─ 29 (split)
+         │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+         │   pc: 279
+         │   callDepth: 1
+         │   statusCode: STATUSCODE:StatusCode
+         │   src: lib/forge-std/src/StdInvariant.sol:85:87
+         │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+         ┃
+         ┃ (branch)
+         ┣━━┓ subst: .Subst
+         ┃  ┃ constraint: true
+         ┃  │
+         ┃  ├─ 44 (split)
+         ┃  │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+         ┃  │   pc: 279
+         ┃  │   callDepth: 1
+         ┃  │   statusCode: STATUSCODE:StatusCode
+         ┃  │   src: lib/forge-std/src/StdInvariant.sol:85:87
+         ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+         ┃  ┃
+         ┃  ┃ (branch)
+         ┃  ┣━━┓ subst: .Subst
+         ┃  ┃  ┃ constraint: true
+         ┃  ┃  │
+         ┃  ┃  ├─ 74 (split)
+         ┃  ┃  │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+         ┃  ┃  │   pc: 279
+         ┃  ┃  │   callDepth: 1
+         ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+         ┃  ┃  │   src: lib/forge-std/src/StdInvariant.sol:85:87
+         ┃  ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+         ┃  ┃  ┃
+         ┃  ┃  ┃ (branch)
+         ┃  ┃  ┣━━┓ subst: .Subst
+         ┃  ┃  ┃  ┃ constraint: true
+         ┃  ┃  ┃  │
+         ┃  ┃  ┃  └─ 134 (leaf, pending)
+         ┃  ┃  ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+         ┃  ┃  ┃      pc: 279
+         ┃  ┃  ┃      callDepth: 1
+         ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
+         ┃  ┃  ┃      src: lib/forge-std/src/StdInvariant.sol:85:87
+         ┃  ┃  ┃      method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+         ┃  ┃  ┃
+         ┃  ┃  ┗━━┓ subst: .Subst
+         ┃  ┃     ┃ constraint: true
+         ┃  ┃     │
+         ┃  ┃     └─ 135 (leaf, pending)
+         ┃  ┃         k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+         ┃  ┃         pc: 279
+         ┃  ┃         callDepth: 1
+         ┃  ┃         statusCode: STATUSCODE:StatusCode
+         ┃  ┃         src: lib/forge-std/src/StdInvariant.sol:85:87
+         ┃  ┃         method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+         ┃  ┃
+         ┃  ┗━━┓ subst: .Subst
+         ┃     ┃ constraint: true
+         ┃     │
+         ┃     ├─ 75 (split)
+         ┃     │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+         ┃     │   pc: 279
+         ┃     │   callDepth: 1
+         ┃     │   statusCode: STATUSCODE:StatusCode
+         ┃     │   src: lib/forge-std/src/StdInvariant.sol:85:87
+         ┃     │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+         ┃     ┃
+         ┃     ┃ (branch)
+         ┃     ┣━━┓ subst: .Subst
+         ┃     ┃  ┃ constraint: true
+         ┃     ┃  │
+         ┃     ┃  └─ 136 (leaf, pending)
+         ┃     ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+         ┃     ┃      pc: 279
+         ┃     ┃      callDepth: 1
+         ┃     ┃      statusCode: STATUSCODE:StatusCode
+         ┃     ┃      src: lib/forge-std/src/StdInvariant.sol:85:87
+         ┃     ┃      method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+         ┃     ┃
+         ┃     ┗━━┓ subst: .Subst
+         ┃        ┃ constraint: true
+         ┃        │
+         ┃        └─ 137 (leaf, pending)
+         ┃            k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+         ┃            pc: 279
+         ┃            callDepth: 1
+         ┃            statusCode: STATUSCODE:StatusCode
+         ┃            src: lib/forge-std/src/StdInvariant.sol:85:87
+         ┃            method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+         ┃
+         ┗━━┓ subst: .Subst
+            ┃ constraint: true
+            │
+            ├─ 45 (split)
+            │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+            │   pc: 279
+            │   callDepth: 1
+            │   statusCode: STATUSCODE:StatusCode
+            │   src: lib/forge-std/src/StdInvariant.sol:85:87
+            │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+            ┃
+            ┃ (branch)
+            ┣━━┓ subst: .Subst
+            ┃  ┃ constraint: true
+            ┃  │
+            ┃  ├─ 76 (split)
+            ┃  │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+            ┃  │   pc: 279
+            ┃  │   callDepth: 1
+            ┃  │   statusCode: STATUSCODE:StatusCode
+            ┃  │   src: lib/forge-std/src/StdInvariant.sol:85:87
+            ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+            ┃  ┃
+            ┃  ┃ (branch)
+            ┃  ┣━━┓ subst: .Subst
+            ┃  ┃  ┃ constraint: true
+            ┃  ┃  │
+            ┃  ┃  └─ 138 (leaf, pending)
+            ┃  ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+            ┃  ┃      pc: 279
+            ┃  ┃      callDepth: 1
+            ┃  ┃      statusCode: STATUSCODE:StatusCode
+            ┃  ┃      src: lib/forge-std/src/StdInvariant.sol:85:87
+            ┃  ┃      method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+            ┃  ┃
+            ┃  ┗━━┓ subst: .Subst
+            ┃     ┃ constraint: true
+            ┃     │
+            ┃     └─ 139 (leaf, pending)
+            ┃         k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+            ┃         pc: 279
+            ┃         callDepth: 1
+            ┃         statusCode: STATUSCODE:StatusCode
+            ┃         src: lib/forge-std/src/StdInvariant.sol:85:87
+            ┃         method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+            ┃
+            ┗━━┓ subst: .Subst
+               ┃ constraint: true
+               │
+               ├─ 77 (split)
+               │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+               │   pc: 279
+               │   callDepth: 1
+               │   statusCode: STATUSCODE:StatusCode
+               │   src: lib/forge-std/src/StdInvariant.sol:85:87
+               │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+               ┃
+               ┃ (branch)
+               ┣━━┓ subst: .Subst
+               ┃  ┃ constraint: true
+               ┃  │
+               ┃  └─ 140 (leaf, pending)
+               ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+               ┃      pc: 279
+               ┃      callDepth: 1
+               ┃      statusCode: STATUSCODE:StatusCode
+               ┃      src: lib/forge-std/src/StdInvariant.sol:85:87
+               ┃      method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+               ┃
+               ┗━━┓ subst: .Subst
+                  ┃ constraint: true
+                  │
+                  └─ 141 (leaf, pending)
+                      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+                      pc: 279
+                      callDepth: 1
+                      statusCode: STATUSCODE:StatusCode
+                      src: lib/forge-std/src/StdInvariant.sol:85:87
+                      method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+
+
+┌─ 10 (root, leaf, target, terminal)
+│   k: #halt ~> CONTINUATION:K
+│   pc: PC_CELL_5d410f2a:Int
+│   callDepth: CALLDEPTH_CELL_5d410f2a:Int
+│   statusCode: STATUSCODE_FINAL:StatusCode
+
+
+
+module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):0
+    
+    
+    rule [BASIC-BLOCK-1-TO-8]: <foundry>
+           <kevm>
+             <k>
+               ( #execute => #halt )
+               ~> _CONTINUATION
+             </k>
+             <mode>
+               NORMAL
+             </mode>
+             <schedule>
+               SHANGHAI
+             </schedule>
+             <useGas>
+               false
+             </useGas>
+             <ethereum>
+               <evm>
+                 <output>
+                   b""
+                 </output>
+                 <statusCode>
+                   ( _STATUSCODE => EVMC_SUCCESS )
+                 </statusCode>
+                 <callStack>
+                   .List
+                 </callStack>
+                 <interimStates>
+                   .List
+                 </interimStates>
+                 <touchedAccounts>
+                   ( .Set => ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) ) )
+                 </touchedAccounts>
+                 <callState>
+                   <id>
+                     728815563385977040452943777879061427756277306518
+                   </id>
+                   <caller>
+                     CALLER_ID:Int
+                   </caller>
+                   <callData>
+                     b"\n\x92T\xe4"
+                   </callData>
+                   <callValue>
+                     0
+                   </callValue>
+                   <wordStack>
+                     ( .WordStack => ( selector ( "setUp()" ) : .WordStack ) )
+                   </wordStack>
+                   <localMem>
+                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00`\x80`@R4\x80\x15a\x00\x10W`\x00\x80\xfd[Pa\x02\xfc\x80a\x00 `\x009`\x00\xf3\xfe`\x80`@R4\x80\x15a\x00\x10W`\x00\x80\xfd[P`\x046\x10a\x00WW`\x005`\xe0\x1c\x80cw\x16\x02\xf7\x14a\x00\\W\x80c\x9c&\xe07\x14a\x00\x81W\x80c\xb6}w\xc5\x14a\x00\x94W\x80c\xd8 \xf0[\x14a\x00\xa7W\x80c\xf4\xfa\xc2q\x14a\x00\xbaW[`\x00\x80\xfd[a\x00oa\x00j6`\x04a\x01\x8dV[a\x00\xcdV[`@Q\x90\x81R` \x01`@Q\x80\x91\x03\x90\xf3[a\x00oa\x00\x8f6`\x04a\x01\xafV[a\x00\xe0V[a\x00oa\x00\xa26`\x04a\x01\x8dV[a\x01aV[a\x00oa\x00\xb56`\x04a\x01\xdbV[a\x01mV[a\x00oa\x00\xc86`\x04a\x01\xdbV[a\x01}V[`\x00a\x00\xd9\x82\x84a\x02'V[\x93\x92PPPV[`@Qcw\x16\x02\xf7`\xe0\x1b\x81R`\x04\x81\x01\x84\x90R`$\x81\x01\x83\x90R`\x00\x90\x81\x900\x90cw\x16\x02\xf7\x90`D\x01` `@Q\x80\x83\x03\x81\x86Z\xfa\x15\x80\x15a\x01(W=`\x00\x80>=`\x00\xfd[PPPP`@Q=`\x1f\x19`\x1f\x82\x01\x16\x82\x01\x80`@RP\x81\x01\x90a\x01L\x91\x90a\x02?V[\x90Pa\x01X\x83\x82a\x02XV[\x95\x94PPPPPV[`\x00a\x00\xd9\x82\x84a\x02XV[`\x00a\x00\xd9`\x0f\x83\x90\x0b\x84a\x02oV[`\x00a\x00\xd9`\x0f\x83\x90\x0b\x84a\x02\xaeV[`\x00\x80`@\x83\x85\x03\x12\x15a\x01\xa0W`\x00\x80\xfd[PP\x805\x92` \x90\x91\x015\x91PV[`\x00\x80`\x00``\x84\x86\x03\x12\x15a\x01\xc4W`\x00\x80\xfd[PP\x815\x93` \x83\x015\x93P`@\x90\x92\x015\x91\x90PV[`\x00\x80`@\x83\x85\x03\x12\x15a\x01\xeeW`\x00\x80\xfd[\x825\x91P` \x83\x015\x80`\x0f\x0b\x81\x14a\x02\x06W`\x00\x80\xfd[\x80\x91PP\x92P\x92\x90PV[cNH{q`\xe0\x1b`\x00R`\x11`\x04R`$`\x00\xfd[`\x00\x82\x19\x82\x11\x15a\x02:Wa\x02:a\x02\x11V[P\x01\x90V[`\x00` \x82\x84\x03\x12\x15a\x02QW`\x00\x80\xfd[PQ\x91\x90PV[`\x00\x82\x82\x10\x15a\x02jWa\x02ja\x02\x11V[P\x03\x90V[`\x00\x80\x83\x12\x80\x15`\x01`\xff\x1b\x85\x01\x84\x12\x16\x15a\x02\x8dWa\x02\x8da\x02\x11V[`\x01`\x01`\xff\x1b\x03\x84\x01\x83\x13\x81\x16\x15a\x02\xa8Wa\x02\xa8a\x02\x11V[PP\x03\x90V[`\x00\x80\x82\x12\x80\x15`\x01`\x01`\xff\x1b\x03\x84\x90\x03\x85\x13\x16\x15a\x02\xd0Wa\x02\xd0a\x02\x11V[`\x01`\xff\x1b\x83\x90\x03\x84\x12\x81\x16\x15a\x02\xe9Wa\x02\xe9a\x02\x11V[PP\x01\x90V\xfe\xa1dsolcC\x00\x08\r\x00\n" )
+                   </localMem>
+                   <memoryUsed>
+                     0
+                   </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
+                   <static>
+                     false
+                   </static>
+                   <callDepth>
+                     0
+                   </callDepth>
+                   ...
+                 </callState>
+                 <substate>
+                   <log>
+                     .List
+                   </log>
+                   <refund>
+                     0
+                   </refund>
+                   <accessedAccounts>
+                     ( .Set => ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) ) )
+                   </accessedAccounts>
+                   <accessedStorage>
+                     .Map
+                   </accessedStorage>
+                   ...
+                 </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
+                   ...
+                 </block>
+                 ...
+               </evm>
+               <network>
+                 <chainID>
+                   1
+                 </chainID>
+                 <accounts>
+                   ( <account>
+                     <acctID>
+                       ( 645326474426547203313410069153905908525362434349 => 491460923342184218035706888008750043977755113263 )
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       ( 0 => 1 )
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
+                     <acctID>
+                       728815563385977040452943777879061427756277306518
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       ( ( 11 |-> 1 )
+                       ( 7 |-> 1 ) )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       1
+                     </nonce>
+                     ...
+                   </account> => ( <account>
+                     <acctID>
+                       645326474426547203313410069153905908525362434349
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       0
+                     </nonce>
+                     ...
+                   </account>
+                   <account>
+                     <acctID>
+                       728815563385977040452943777879061427756277306518
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       ( ( 11 |-> 1 )
+                       ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( 7 |-> 1 ) ) )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       2
+                     </nonce>
+                     ...
+                   </account> ) ) )
+                 </accounts>
+                 ...
+               </network>
+             </ethereum>
+             ...
+           </kevm>
+           <stackChecks>
+             true
+           </stackChecks>
+           <cheatcodes>
+             <prank>
+               <active>
+                 false
+               </active>
+               <singleCall>
+                 false
+               </singleCall>
+               ...
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 false
+               </isRevertExpected>
+               ...
+             </expectedRevert>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 false
+               </isOpcodeExpected>
+               ...
+             </expectedOpcode>
+             <expectEmit>
+               <recordEvent>
+                 false
+               </recordEvent>
+               <isEventExpected>
+                 false
+               </isEventExpected>
+               ...
+             </expectEmit>
+             <whitelist>
+               <isCallWhitelistActive>
+                 false
+               </isCallWhitelistActive>
+               <isStorageWhitelistActive>
+                 false
+               </isStorageWhitelistActive>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
+             </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
+           </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
+         </foundry>
+      requires ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+               ))))))))))))
+      [priority(20), label(BASIC-BLOCK-1-TO-8)]
+    
+    rule [BASIC-BLOCK-8-TO-9]: <foundry>
+           <kevm>
+             <k>
+               ( #halt => #execute )
+               ~> _CONTINUATION
+             </k>
+             <mode>
+               NORMAL
+             </mode>
+             <schedule>
+               SHANGHAI
+             </schedule>
+             <useGas>
+               false
+             </useGas>
+             <ethereum>
+               <evm>
+                 <output>
+                   b""
+                 </output>
+                 <statusCode>
+                   ( EVMC_SUCCESS => ?_STATUSCODE )
+                 </statusCode>
+                 <callStack>
+                   .List
+                 </callStack>
+                 <interimStates>
+                   .List
+                 </interimStates>
+                 <touchedAccounts>
+                   ( ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) ) => .Set )
+                 </touchedAccounts>
+                 <callState>
+                   <id>
+                     728815563385977040452943777879061427756277306518
+                   </id>
+                   <caller>
+                     CALLER_ID:Int
+                   </caller>
+                   <callData>
+                     ( b"\n\x92T\xe4" => b"\x922\xed\x8c" +Bytes #buf ( 32 , ?KV0_x ) +Bytes #buf ( 32 , ?KV1_y ) +Bytes #buf ( 32 , ?KV2_z ) )
+                   </callData>
+                   <callValue>
+                     0
+                   </callValue>
+                   <wordStack>
+                     ( ( selector ( "setUp()" ) : .WordStack ) => .WordStack )
+                   </wordStack>
+                   <localMem>
+                     ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00`\x80`@R4\x80\x15a\x00\x10W`\x00\x80\xfd[Pa\x02\xfc\x80a\x00 `\x009`\x00\xf3\xfe`\x80`@R4\x80\x15a\x00\x10W`\x00\x80\xfd[P`\x046\x10a\x00WW`\x005`\xe0\x1c\x80cw\x16\x02\xf7\x14a\x00\\W\x80c\x9c&\xe07\x14a\x00\x81W\x80c\xb6}w\xc5\x14a\x00\x94W\x80c\xd8 \xf0[\x14a\x00\xa7W\x80c\xf4\xfa\xc2q\x14a\x00\xbaW[`\x00\x80\xfd[a\x00oa\x00j6`\x04a\x01\x8dV[a\x00\xcdV[`@Q\x90\x81R` \x01`@Q\x80\x91\x03\x90\xf3[a\x00oa\x00\x8f6`\x04a\x01\xafV[a\x00\xe0V[a\x00oa\x00\xa26`\x04a\x01\x8dV[a\x01aV[a\x00oa\x00\xb56`\x04a\x01\xdbV[a\x01mV[a\x00oa\x00\xc86`\x04a\x01\xdbV[a\x01}V[`\x00a\x00\xd9\x82\x84a\x02'V[\x93\x92PPPV[`@Qcw\x16\x02\xf7`\xe0\x1b\x81R`\x04\x81\x01\x84\x90R`$\x81\x01\x83\x90R`\x00\x90\x81\x900\x90cw\x16\x02\xf7\x90`D\x01` `@Q\x80\x83\x03\x81\x86Z\xfa\x15\x80\x15a\x01(W=`\x00\x80>=`\x00\xfd[PPPP`@Q=`\x1f\x19`\x1f\x82\x01\x16\x82\x01\x80`@RP\x81\x01\x90a\x01L\x91\x90a\x02?V[\x90Pa\x01X\x83\x82a\x02XV[\x95\x94PPPPPV[`\x00a\x00\xd9\x82\x84a\x02XV[`\x00a\x00\xd9`\x0f\x83\x90\x0b\x84a\x02oV[`\x00a\x00\xd9`\x0f\x83\x90\x0b\x84a\x02\xaeV[`\x00\x80`@\x83\x85\x03\x12\x15a\x01\xa0W`\x00\x80\xfd[PP\x805\x92` \x90\x91\x015\x91PV[`\x00\x80`\x00``\x84\x86\x03\x12\x15a\x01\xc4W`\x00\x80\xfd[PP\x815\x93` \x83\x015\x93P`@\x90\x92\x015\x91\x90PV[`\x00\x80`@\x83\x85\x03\x12\x15a\x01\xeeW`\x00\x80\xfd[\x825\x91P` \x83\x015\x80`\x0f\x0b\x81\x14a\x02\x06W`\x00\x80\xfd[\x80\x91PP\x92P\x92\x90PV[cNH{q`\xe0\x1b`\x00R`\x11`\x04R`$`\x00\xfd[`\x00\x82\x19\x82\x11\x15a\x02:Wa\x02:a\x02\x11V[P\x01\x90V[`\x00` \x82\x84\x03\x12\x15a\x02QW`\x00\x80\xfd[PQ\x91\x90PV[`\x00\x82\x82\x10\x15a\x02jWa\x02ja\x02\x11V[P\x03\x90V[`\x00\x80\x83\x12\x80\x15`\x01`\xff\x1b\x85\x01\x84\x12\x16\x15a\x02\x8dWa\x02\x8da\x02\x11V[`\x01`\x01`\xff\x1b\x03\x84\x01\x83\x13\x81\x16\x15a\x02\xa8Wa\x02\xa8a\x02\x11V[PP\x03\x90V[`\x00\x80\x82\x12\x80\x15`\x01`\x01`\xff\x1b\x03\x84\x90\x03\x85\x13\x16\x15a\x02\xd0Wa\x02\xd0a\x02\x11V[`\x01`\xff\x1b\x83\x90\x03\x84\x12\x81\x16\x15a\x02\xe9Wa\x02\xe9a\x02\x11V[PP\x01\x90V\xfe\xa1dsolcC\x00\x08\r\x00\n" => b"" )
+                   </localMem>
+                   <memoryUsed>
+                     0
+                   </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
+                   <static>
+                     false
+                   </static>
+                   <callDepth>
+                     0
+                   </callDepth>
+                   ...
+                 </callState>
+                 <substate>
+                   <log>
+                     .List
+                   </log>
+                   <refund>
+                     0
+                   </refund>
+                   <accessedAccounts>
+                     ( ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) ) => .Set )
+                   </accessedAccounts>
+                   <accessedStorage>
+                     .Map
+                   </accessedStorage>
+                   ...
+                 </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
+                   ...
+                 </block>
+                 ...
+               </evm>
+               <network>
+                 <chainID>
+                   1
+                 </chainID>
+                 <accounts>
+                   ( <account>
+                     <acctID>
+                       491460923342184218035706888008750043977755113263
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       1
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
+                     <acctID>
+                       645326474426547203313410069153905908525362434349
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       0
+                     </nonce>
+                     ...
+                   </account>
+                   <account>
+                     <acctID>
+                       728815563385977040452943777879061427756277306518
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       ( ( 11 |-> 1 )
+                       ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( 7 |-> 1 ) ) )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       2
+                     </nonce>
+                     ...
+                   </account> ) )
+                 </accounts>
+                 ...
+               </network>
+             </ethereum>
+             ...
+           </kevm>
+           <stackChecks>
+             true
+           </stackChecks>
+           <cheatcodes>
+             <prank>
+               <active>
+                 false
+               </active>
+               <singleCall>
+                 false
+               </singleCall>
+               ...
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 false
+               </isRevertExpected>
+               ...
+             </expectedRevert>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 false
+               </isOpcodeExpected>
+               ...
+             </expectedOpcode>
+             <expectEmit>
+               <recordEvent>
+                 false
+               </recordEvent>
+               <isEventExpected>
+                 false
+               </isEventExpected>
+               ...
+             </expectEmit>
+             <whitelist>
+               <isCallWhitelistActive>
+                 false
+               </isCallWhitelistActive>
+               <isStorageWhitelistActive>
+                 false
+               </isStorageWhitelistActive>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
+             </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
+           </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
+         </foundry>
+      requires ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+               ))))))))))))
+       ensures ( 0 <=Int ?KV0_x
+       andBool ( 0 <=Int ?KV1_y
+       andBool ( 0 <=Int ?KV2_z
+       andBool ( ?KV0_x <Int pow256
+       andBool ( ?KV1_y <Int pow256
+       andBool ( ?KV2_z <Int pow256
+               ))))))
+      [priority(20), label(BASIC-BLOCK-8-TO-9)]
+    
+    rule [BASIC-BLOCK-9-TO-11]: <foundry>
+           <kevm>
+             <k>
+               ( .K => STATICCALL 0 491460923342184218035706888008750043977755113263 128 100 128 32
+               ~> #pc [ STATICCALL ] )
+               ~> #execute
+               ~> _CONTINUATION
+             </k>
+             <mode>
+               NORMAL
+             </mode>
+             <schedule>
+               SHANGHAI
+             </schedule>
+             <useGas>
+               false
+             </useGas>
+             <ethereum>
+               <evm>
+                 <output>
+                   b""
+                 </output>
+                 <callStack>
+                   .List
+                 </callStack>
+                 <interimStates>
+                   .List
+                 </interimStates>
+                 <touchedAccounts>
+                   .Set
+                 </touchedAccounts>
+                 <callState>
+                   <id>
+                     728815563385977040452943777879061427756277306518
+                   </id>
+                   <caller>
+                     CALLER_ID:Int
+                   </caller>
+                   <callData>
+                     b"\x922\xed\x8c" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int )
+                   </callData>
+                   <callValue>
+                     0
+                   </callValue>
+                   <wordStack>
+                     ( .WordStack => ( 228 : ( selector ( "add_sub_external(uint256,uint256,uint256)" ) : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( KV2_z:Int : ( KV1_y:Int : ( KV0_x:Int : ( 247 : ( selector ( "test_double_add_sub_external(uint256,uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) ) ) )
+                   </wordStack>
+                   <localMem>
+                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x9c&\xe07" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int ) )
+                   </localMem>
+                   <memoryUsed>
+                     0
+                   </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
+                   <static>
+                     false
+                   </static>
+                   <callDepth>
+                     0
+                   </callDepth>
+                   ...
+                 </callState>
+                 <substate>
+                   <log>
+                     .List
+                   </log>
+                   <refund>
+                     0
+                   </refund>
+                   <accessedAccounts>
+                     .Set
+                   </accessedAccounts>
+                   <accessedStorage>
+                     .Map
+                   </accessedStorage>
+                   ...
+                 </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
+                   ...
+                 </block>
+                 ...
+               </evm>
+               <network>
+                 <chainID>
+                   1
+                 </chainID>
+                 <accounts>
+                   ( <account>
+                     <acctID>
+                       491460923342184218035706888008750043977755113263
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       1
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
+                     <acctID>
+                       645326474426547203313410069153905908525362434349
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       0
+                     </nonce>
+                     ...
+                   </account>
+                   <account>
+                     <acctID>
+                       728815563385977040452943777879061427756277306518
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       ( ( 11 |-> 1 )
+                       ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( 7 |-> 1 ) ) )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       2
+                     </nonce>
+                     ...
+                   </account> ) )
+                 </accounts>
+                 ...
+               </network>
+             </ethereum>
+             ...
+           </kevm>
+           <stackChecks>
+             true
+           </stackChecks>
+           <cheatcodes>
+             <prank>
+               <active>
+                 false
+               </active>
+               <singleCall>
+                 false
+               </singleCall>
+               ...
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 false
+               </isRevertExpected>
+               ...
+             </expectedRevert>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 false
+               </isOpcodeExpected>
+               ...
+             </expectedOpcode>
+             <expectEmit>
+               <recordEvent>
+                 false
+               </recordEvent>
+               <isEventExpected>
+                 false
+               </isEventExpected>
+               ...
+             </expectEmit>
+             <whitelist>
+               <isCallWhitelistActive>
+                 false
+               </isCallWhitelistActive>
+               <isStorageWhitelistActive>
+                 false
+               </isStorageWhitelistActive>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
+             </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
+           </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
+         </foundry>
+      requires ( 0 <=Int KV0_x:Int
+       andBool ( 0 <=Int KV1_y:Int
+       andBool ( 0 <=Int KV2_z:Int
+       andBool ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( KV0_x:Int <Int pow256
+       andBool ( KV1_y:Int <Int pow256
+       andBool ( KV2_z:Int <Int pow256
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+               ))))))))))))))))))
+      [priority(20), label(BASIC-BLOCK-9-TO-11)]
+    
+    rule [BASIC-BLOCK-11-TO-12]: <foundry>
+           <kevm>
+             <k>
+               ( STATICCALL 0 491460923342184218035706888008750043977755113263 128 100 128 32 ~> .K => #accessAccounts 491460923342184218035706888008750043977755113263
+               ~> #checkCall 728815563385977040452943777879061427756277306518 0
+               ~> #call 728815563385977040452943777879061427756277306518 491460923342184218035706888008750043977755113263 491460923342184218035706888008750043977755113263 0 0 b"\x9c&\xe07" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int ) true
+               ~> #return 128 32 )
+               ~> #pc [ STATICCALL ]
+               ~> #execute
+               ~> _CONTINUATION
+             </k>
+             <mode>
+               NORMAL
+             </mode>
+             <schedule>
+               SHANGHAI
+             </schedule>
+             <useGas>
+               false
+             </useGas>
+             <ethereum>
+               <evm>
+                 <output>
+                   b""
+                 </output>
+                 <callStack>
+                   .List
+                 </callStack>
+                 <interimStates>
+                   .List
+                 </interimStates>
+                 <touchedAccounts>
+                   .Set
+                 </touchedAccounts>
+                 <callState>
+                   <id>
+                     728815563385977040452943777879061427756277306518
+                   </id>
+                   <caller>
+                     CALLER_ID:Int
+                   </caller>
+                   <callData>
+                     b"\x922\xed\x8c" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int )
+                   </callData>
+                   <callValue>
+                     0
+                   </callValue>
+                   <wordStack>
+                     ( 228 : ( selector ( "add_sub_external(uint256,uint256,uint256)" ) : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( KV2_z:Int : ( KV1_y:Int : ( KV0_x:Int : ( 247 : ( selector ( "test_double_add_sub_external(uint256,uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) ) )
+                   </wordStack>
+                   <localMem>
+                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x9c&\xe07" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int )
+                   </localMem>
+                   <memoryUsed>
+                     0
+                   </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
+                   <static>
+                     false
+                   </static>
+                   <callDepth>
+                     0
+                   </callDepth>
+                   ...
+                 </callState>
+                 <substate>
+                   <log>
+                     .List
+                   </log>
+                   <refund>
+                     0
+                   </refund>
+                   <accessedAccounts>
+                     .Set
+                   </accessedAccounts>
+                   <accessedStorage>
+                     .Map
+                   </accessedStorage>
+                   ...
+                 </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
+                   ...
+                 </block>
+                 ...
+               </evm>
+               <network>
+                 <chainID>
+                   1
+                 </chainID>
+                 <accounts>
+                   ( <account>
+                     <acctID>
+                       491460923342184218035706888008750043977755113263
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       1
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
+                     <acctID>
+                       645326474426547203313410069153905908525362434349
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       0
+                     </nonce>
+                     ...
+                   </account>
+                   <account>
+                     <acctID>
+                       728815563385977040452943777879061427756277306518
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       ( ( 11 |-> 1 )
+                       ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( 7 |-> 1 ) ) )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       2
+                     </nonce>
+                     ...
+                   </account> ) )
+                 </accounts>
+                 ...
+               </network>
+             </ethereum>
+             ...
+           </kevm>
+           <stackChecks>
+             true
+           </stackChecks>
+           <cheatcodes>
+             <prank>
+               <active>
+                 false
+               </active>
+               <singleCall>
+                 false
+               </singleCall>
+               ...
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 false
+               </isRevertExpected>
+               ...
+             </expectedRevert>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 false
+               </isOpcodeExpected>
+               ...
+             </expectedOpcode>
+             <expectEmit>
+               <recordEvent>
+                 false
+               </recordEvent>
+               <isEventExpected>
+                 false
+               </isEventExpected>
+               ...
+             </expectEmit>
+             <whitelist>
+               <isCallWhitelistActive>
+                 false
+               </isCallWhitelistActive>
+               <isStorageWhitelistActive>
+                 false
+               </isStorageWhitelistActive>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
+             </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
+           </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
+         </foundry>
+      requires ( 0 <=Int KV0_x:Int
+       andBool ( 0 <=Int KV1_y:Int
+       andBool ( 0 <=Int KV2_z:Int
+       andBool ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( KV0_x:Int <Int pow256
+       andBool ( KV1_y:Int <Int pow256
+       andBool ( KV2_z:Int <Int pow256
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+               ))))))))))))))))))
+      [priority(20), label(BASIC-BLOCK-11-TO-12)]
+    
+    rule [BASIC-BLOCK-12-TO-13]: <foundry>
+           <kevm>
+             <k>
+               ( #accessAccounts 491460923342184218035706888008750043977755113263
+               ~> #checkCall 728815563385977040452943777879061427756277306518 0
+               ~> #call 728815563385977040452943777879061427756277306518 491460923342184218035706888008750043977755113263 491460923342184218035706888008750043977755113263 0 0 b"\x9c&\xe07" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int ) true => #precompiled? ( 491460923342184218035706888008750043977755113263 , SHANGHAI )
+               ~> #execute )
+               ~> #return 128 32
+               ~> #pc [ STATICCALL ]
+               ~> #execute
+               ~> _CONTINUATION
+             </k>
+             <mode>
+               NORMAL
+             </mode>
+             <schedule>
+               SHANGHAI
+             </schedule>
+             <useGas>
+               false
+             </useGas>
+             <ethereum>
+               <evm>
+                 <output>
+                   b""
+                 </output>
+                 <callStack>
+                   ( .List => ListItem ( <callState>
+                     <id>
+                       728815563385977040452943777879061427756277306518
+                     </id>
+                     <caller>
+                       CALLER_ID:Int
+                     </caller>
+                     <callData>
+                       b"\x922\xed\x8c" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int )
+                     </callData>
+                     <callValue>
+                       0
+                     </callValue>
+                     <wordStack>
+                       ( 228 : ( selector ( "add_sub_external(uint256,uint256,uint256)" ) : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( KV2_z:Int : ( KV1_y:Int : ( KV0_x:Int : ( 247 : ( selector ( "test_double_add_sub_external(uint256,uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) ) )
+                     </wordStack>
+                     <localMem>
+                       b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x9c&\xe07" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int )
+                     </localMem>
+                     <memoryUsed>
+                       0
+                     </memoryUsed>
+                     <callGas>
+                       0
+                     </callGas>
+                     <static>
+                       false
+                     </static>
+                     <callDepth>
+                       0
+                     </callDepth>
+                     ...
+                   </callState> ) )
+                 </callStack>
+                 <interimStates>
+                   ( .List => ListItem ( { <accounts>
+                     ( <account>
+                       <acctID>
+                         491460923342184218035706888008750043977755113263
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       <storage>
+                         .Map
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         1
+                       </nonce>
+                       ...
+                     </account>
+                     ( <account>
+                       <acctID>
+                         645326474426547203313410069153905908525362434349
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       <storage>
+                         .Map
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         0
+                       </nonce>
+                       ...
+                     </account>
+                     <account>
+                       <acctID>
+                         728815563385977040452943777879061427756277306518
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       <storage>
+                         ( ( 11 |-> 1 )
+                         ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                         ( 7 |-> 1 ) ) )
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         2
+                       </nonce>
+                       ...
+                     </account> ) )
+                   </accounts> | <substate>
+                     <selfDestruct>
+                       SELFDESTRUCT_CELL:Set
+                     </selfDestruct>
+                     <log>
+                       .List
+                     </log>
+                     <refund>
+                       0
+                     </refund>
+                     <accessedAccounts>
+                       SetItem ( 491460923342184218035706888008750043977755113263 )
+                     </accessedAccounts>
+                     <accessedStorage>
+                       .Map
+                     </accessedStorage>
+                   </substate> } ) )
+                 </interimStates>
+                 <touchedAccounts>
+                   ( .Set => ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) ) )
+                 </touchedAccounts>
+                 <callState>
+                   <id>
+                     ( 728815563385977040452943777879061427756277306518 => 491460923342184218035706888008750043977755113263 )
+                   </id>
+                   <caller>
+                     ( CALLER_ID:Int => 728815563385977040452943777879061427756277306518 )
+                   </caller>
+                   <callData>
+                     ( b"\x922\xed\x8c" => b"\x9c&\xe07" ) +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int )
+                   </callData>
+                   <callValue>
+                     0
+                   </callValue>
+                   <wordStack>
+                     ( ( 228 : ( selector ( "add_sub_external(uint256,uint256,uint256)" ) : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( KV2_z:Int : ( KV1_y:Int : ( KV0_x:Int : ( 247 : ( selector ( "test_double_add_sub_external(uint256,uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) ) ) => .WordStack )
+                   </wordStack>
+                   <localMem>
+                     ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x9c&\xe07" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int ) => b"" )
+                   </localMem>
+                   <memoryUsed>
+                     0
+                   </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
+                   <static>
+                     ( false => true )
+                   </static>
+                   <callDepth>
+                     ( 0 => 1 )
+                   </callDepth>
+                   ...
+                 </callState>
+                 <substate>
+                   <selfDestruct>
+                     SELFDESTRUCT_CELL:Set
+                   </selfDestruct>
+                   <log>
+                     .List
+                   </log>
+                   <refund>
+                     0
+                   </refund>
+                   <accessedAccounts>
+                     ( .Set => ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) ) )
+                   </accessedAccounts>
+                   <accessedStorage>
+                     .Map
+                   </accessedStorage>
+                 </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
+                   ...
+                 </block>
+                 ...
+               </evm>
+               <network>
+                 <chainID>
+                   1
+                 </chainID>
+                 <accounts>
+                   ( <account>
+                     <acctID>
+                       491460923342184218035706888008750043977755113263
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       1
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
+                     <acctID>
+                       645326474426547203313410069153905908525362434349
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       0
+                     </nonce>
+                     ...
+                   </account>
+                   <account>
+                     <acctID>
+                       728815563385977040452943777879061427756277306518
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       ( ( 11 |-> 1 )
+                       ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( 7 |-> 1 ) ) )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       2
+                     </nonce>
+                     ...
+                   </account> ) )
+                 </accounts>
+                 ...
+               </network>
+             </ethereum>
+             ...
+           </kevm>
+           <stackChecks>
+             true
+           </stackChecks>
+           <cheatcodes>
+             <prank>
+               <active>
+                 false
+               </active>
+               <singleCall>
+                 false
+               </singleCall>
+               ...
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 false
+               </isRevertExpected>
+               ...
+             </expectedRevert>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 false
+               </isOpcodeExpected>
+               ...
+             </expectedOpcode>
+             <expectEmit>
+               <recordEvent>
+                 false
+               </recordEvent>
+               <isEventExpected>
+                 false
+               </isEventExpected>
+               ...
+             </expectEmit>
+             <whitelist>
+               <isCallWhitelistActive>
+                 false
+               </isCallWhitelistActive>
+               <isStorageWhitelistActive>
+                 false
+               </isStorageWhitelistActive>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
+             </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
+           </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
+         </foundry>
+      requires ( 0 <=Int KV0_x:Int
+       andBool ( 0 <=Int KV1_y:Int
+       andBool ( 0 <=Int KV2_z:Int
+       andBool ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( KV0_x:Int <Int pow256
+       andBool ( KV1_y:Int <Int pow256
+       andBool ( KV2_z:Int <Int pow256
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+               ))))))))))))))))))
+      [priority(20), label(BASIC-BLOCK-12-TO-13)]
+    
+    rule [BASIC-BLOCK-13-TO-14]: <foundry>
+           <kevm>
+             <k>
+               ( #precompiled? ( 491460923342184218035706888008750043977755113263 , SHANGHAI ) ~> .K => .K )
+               ~> #execute
+               ~> #return 128 32
+               ~> #pc [ STATICCALL ]
+               ~> #execute
+               ~> _CONTINUATION
+             </k>
+             <mode>
+               NORMAL
+             </mode>
+             <schedule>
+               SHANGHAI
+             </schedule>
+             <useGas>
+               false
+             </useGas>
+             <ethereum>
+               <evm>
+                 <output>
+                   b""
+                 </output>
+                 <callStack>
+                   ListItem ( <callState>
+                     <id>
+                       728815563385977040452943777879061427756277306518
+                     </id>
+                     <caller>
+                       CALLER_ID:Int
+                     </caller>
+                     <callData>
+                       b"\x922\xed\x8c" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int )
+                     </callData>
+                     <callValue>
+                       0
+                     </callValue>
+                     <wordStack>
+                       ( 228 : ( selector ( "add_sub_external(uint256,uint256,uint256)" ) : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( KV2_z:Int : ( KV1_y:Int : ( KV0_x:Int : ( 247 : ( selector ( "test_double_add_sub_external(uint256,uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) ) )
+                     </wordStack>
+                     <localMem>
+                       b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x9c&\xe07" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int )
+                     </localMem>
+                     <memoryUsed>
+                       0
+                     </memoryUsed>
+                     <callGas>
+                       0
+                     </callGas>
+                     <static>
+                       false
+                     </static>
+                     <callDepth>
+                       0
+                     </callDepth>
+                     ...
+                   </callState> )
+                 </callStack>
+                 <interimStates>
+                   ListItem ( { <accounts>
+                     ( <account>
+                       <acctID>
+                         491460923342184218035706888008750043977755113263
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       <storage>
+                         .Map
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         1
+                       </nonce>
+                       ...
+                     </account>
+                     ( <account>
+                       <acctID>
+                         645326474426547203313410069153905908525362434349
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       <storage>
+                         .Map
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         0
+                       </nonce>
+                       ...
+                     </account>
+                     <account>
+                       <acctID>
+                         728815563385977040452943777879061427756277306518
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       <storage>
+                         ( ( 11 |-> 1 )
+                         ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                         ( 7 |-> 1 ) ) )
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         2
+                       </nonce>
+                       ...
+                     </account> ) )
+                   </accounts> | <substate>
+                     <selfDestruct>
+                       SELFDESTRUCT_CELL:Set
+                     </selfDestruct>
+                     <log>
+                       .List
+                     </log>
+                     <refund>
+                       0
+                     </refund>
+                     <accessedAccounts>
+                       SetItem ( 491460923342184218035706888008750043977755113263 )
+                     </accessedAccounts>
+                     <accessedStorage>
+                       .Map
+                     </accessedStorage>
+                   </substate> } )
+                 </interimStates>
+                 <touchedAccounts>
+                   ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
+                 </touchedAccounts>
+                 <callState>
+                   <id>
+                     491460923342184218035706888008750043977755113263
+                   </id>
+                   <caller>
+                     728815563385977040452943777879061427756277306518
+                   </caller>
+                   <callData>
+                     b"\x9c&\xe07" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int )
+                   </callData>
+                   <callValue>
+                     0
+                   </callValue>
+                   <wordStack>
+                     .WordStack
+                   </wordStack>
+                   <localMem>
+                     b""
+                   </localMem>
+                   <memoryUsed>
+                     0
+                   </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
+                   <static>
+                     true
+                   </static>
+                   <callDepth>
+                     1
+                   </callDepth>
+                   ...
+                 </callState>
+                 <substate>
+                   <selfDestruct>
+                     SELFDESTRUCT_CELL:Set
+                   </selfDestruct>
+                   <log>
+                     .List
+                   </log>
+                   <refund>
+                     0
+                   </refund>
+                   <accessedAccounts>
+                     ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
+                   </accessedAccounts>
+                   <accessedStorage>
+                     .Map
+                   </accessedStorage>
+                 </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
+                   ...
+                 </block>
+                 ...
+               </evm>
+               <network>
+                 <chainID>
+                   1
+                 </chainID>
+                 <accounts>
+                   ( <account>
+                     <acctID>
+                       491460923342184218035706888008750043977755113263
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       1
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
+                     <acctID>
+                       645326474426547203313410069153905908525362434349
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       0
+                     </nonce>
+                     ...
+                   </account>
+                   <account>
+                     <acctID>
+                       728815563385977040452943777879061427756277306518
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       ( ( 11 |-> 1 )
+                       ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( 7 |-> 1 ) ) )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       2
+                     </nonce>
+                     ...
+                   </account> ) )
+                 </accounts>
+                 ...
+               </network>
+             </ethereum>
+             ...
+           </kevm>
+           <stackChecks>
+             true
+           </stackChecks>
+           <cheatcodes>
+             <prank>
+               <active>
+                 false
+               </active>
+               <singleCall>
+                 false
+               </singleCall>
+               ...
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 false
+               </isRevertExpected>
+               ...
+             </expectedRevert>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 false
+               </isOpcodeExpected>
+               ...
+             </expectedOpcode>
+             <expectEmit>
+               <recordEvent>
+                 false
+               </recordEvent>
+               <isEventExpected>
+                 false
+               </isEventExpected>
+               ...
+             </expectEmit>
+             <whitelist>
+               <isCallWhitelistActive>
+                 false
+               </isCallWhitelistActive>
+               <isStorageWhitelistActive>
+                 false
+               </isStorageWhitelistActive>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
+             </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
+           </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
+         </foundry>
+      requires ( 0 <=Int KV0_x:Int
+       andBool ( 0 <=Int KV1_y:Int
+       andBool ( 0 <=Int KV2_z:Int
+       andBool ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( KV0_x:Int <Int pow256
+       andBool ( KV1_y:Int <Int pow256
+       andBool ( KV2_z:Int <Int pow256
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+               ))))))))))))))))))
+      [priority(20), label(BASIC-BLOCK-13-TO-14)]
+    
+    rule [BASIC-BLOCK-14-TO-15]: <foundry>
+           <kevm>
+             <k>
+               ( .K => #checkDepthExceeded
+               ~> #call 491460923342184218035706888008750043977755113263 491460923342184218035706888008750043977755113263 491460923342184218035706888008750043977755113263 0 0 b"w\x16\x02\xf7" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) true
+               ~> #return 128 32
+               ~> #pc [ STATICCALL ] )
+               ~> #execute
+               ~> #return 128 32
+               ~> #pc [ STATICCALL ]
+               ~> #execute
+               ~> _CONTINUATION
+             </k>
+             <mode>
+               NORMAL
+             </mode>
+             <schedule>
+               SHANGHAI
+             </schedule>
+             <useGas>
+               false
+             </useGas>
+             <ethereum>
+               <evm>
+                 <output>
+                   b""
+                 </output>
+                 <callStack>
+                   ListItem ( <callState>
+                     <id>
+                       728815563385977040452943777879061427756277306518
+                     </id>
+                     <caller>
+                       CALLER_ID:Int
+                     </caller>
+                     <callData>
+                       b"\x922\xed\x8c" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int )
+                     </callData>
+                     <callValue>
+                       0
+                     </callValue>
+                     <wordStack>
+                       ( 228 : ( selector ( "add_sub_external(uint256,uint256,uint256)" ) : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( KV2_z:Int : ( KV1_y:Int : ( KV0_x:Int : ( 247 : ( selector ( "test_double_add_sub_external(uint256,uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) ) )
+                     </wordStack>
+                     <localMem>
+                       b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x9c&\xe07" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int )
+                     </localMem>
+                     <memoryUsed>
+                       0
+                     </memoryUsed>
+                     <callGas>
+                       0
+                     </callGas>
+                     <static>
+                       false
+                     </static>
+                     <callDepth>
+                       0
+                     </callDepth>
+                     ...
+                   </callState> )
+                 </callStack>
+                 <interimStates>
+                   ListItem ( { <accounts>
+                     ( <account>
+                       <acctID>
+                         491460923342184218035706888008750043977755113263
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       <storage>
+                         .Map
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         1
+                       </nonce>
+                       ...
+                     </account>
+                     ( <account>
+                       <acctID>
+                         645326474426547203313410069153905908525362434349
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       <storage>
+                         .Map
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         0
+                       </nonce>
+                       ...
+                     </account>
+                     <account>
+                       <acctID>
+                         728815563385977040452943777879061427756277306518
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       <storage>
+                         ( ( 11 |-> 1 )
+                         ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                         ( 7 |-> 1 ) ) )
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         2
+                       </nonce>
+                       ...
+                     </account> ) )
+                   </accounts> | <substate>
+                     <selfDestruct>
+                       SELFDESTRUCT_CELL:Set
+                     </selfDestruct>
+                     <log>
+                       .List
+                     </log>
+                     <refund>
+                       0
+                     </refund>
+                     <accessedAccounts>
+                       SetItem ( 491460923342184218035706888008750043977755113263 )
+                     </accessedAccounts>
+                     <accessedStorage>
+                       .Map
+                     </accessedStorage>
+                   </substate> } )
+                 </interimStates>
+                 <touchedAccounts>
+                   ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
+                 </touchedAccounts>
+                 <callState>
+                   <id>
+                     491460923342184218035706888008750043977755113263
+                   </id>
+                   <caller>
+                     728815563385977040452943777879061427756277306518
+                   </caller>
+                   <callData>
+                     b"\x9c&\xe07" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int )
+                   </callData>
+                   <callValue>
+                     0
+                   </callValue>
+                   <wordStack>
+                     ( .WordStack => ( 196 : ( selector ( "add(uint256,uint256)" ) : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( 0 : ( KV2_z:Int : ( KV1_y:Int : ( KV0_x:Int : ( 111 : ( selector ( "add_sub_external(uint256,uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) ) ) ) )
+                   </wordStack>
+                   <localMem>
+                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00w\x16\x02\xf7" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) )
+                   </localMem>
+                   <memoryUsed>
+                     0
+                   </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
+                   <static>
+                     true
+                   </static>
+                   <callDepth>
+                     1
+                   </callDepth>
+                   ...
+                 </callState>
+                 <substate>
+                   <selfDestruct>
+                     SELFDESTRUCT_CELL:Set
+                   </selfDestruct>
+                   <log>
+                     .List
+                   </log>
+                   <refund>
+                     0
+                   </refund>
+                   <accessedAccounts>
+                     ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
+                   </accessedAccounts>
+                   <accessedStorage>
+                     .Map
+                   </accessedStorage>
+                 </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
+                   ...
+                 </block>
+                 ...
+               </evm>
+               <network>
+                 <chainID>
+                   1
+                 </chainID>
+                 <accounts>
+                   ( <account>
+                     <acctID>
+                       491460923342184218035706888008750043977755113263
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       1
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
+                     <acctID>
+                       645326474426547203313410069153905908525362434349
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       0
+                     </nonce>
+                     ...
+                   </account>
+                   <account>
+                     <acctID>
+                       728815563385977040452943777879061427756277306518
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       ( ( 11 |-> 1 )
+                       ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( 7 |-> 1 ) ) )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       2
+                     </nonce>
+                     ...
+                   </account> ) )
+                 </accounts>
+                 ...
+               </network>
+             </ethereum>
+             ...
+           </kevm>
+           <stackChecks>
+             true
+           </stackChecks>
+           <cheatcodes>
+             <prank>
+               <active>
+                 false
+               </active>
+               <singleCall>
+                 false
+               </singleCall>
+               ...
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 false
+               </isRevertExpected>
+               ...
+             </expectedRevert>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 false
+               </isOpcodeExpected>
+               ...
+             </expectedOpcode>
+             <expectEmit>
+               <recordEvent>
+                 false
+               </recordEvent>
+               <isEventExpected>
+                 false
+               </isEventExpected>
+               ...
+             </expectEmit>
+             <whitelist>
+               <isCallWhitelistActive>
+                 false
+               </isCallWhitelistActive>
+               <isStorageWhitelistActive>
+                 false
+               </isStorageWhitelistActive>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
+             </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
+           </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
+         </foundry>
+      requires ( 0 <=Int KV0_x:Int
+       andBool ( 0 <=Int KV1_y:Int
+       andBool ( 0 <=Int KV2_z:Int
+       andBool ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( KV0_x:Int <Int pow256
+       andBool ( KV1_y:Int <Int pow256
+       andBool ( KV2_z:Int <Int pow256
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+               ))))))))))))))))))
+      [priority(20), label(BASIC-BLOCK-14-TO-15)]
+
+endmodule
