@@ -158,7 +158,7 @@ def _extract_concrete_values(model: list[tuple[str, str]], method) -> dict[str, 
                 # Extract the parameter name from the symbolic variable
                 # Format: KV0_totalSupply:Int -> totalSupply
                 param_name = var.split('_', 1)[1].split(':')[0]
-                
+
                 # Convert the term to a concrete value
                 concrete_value = _convert_term_to_value(term)
                 if concrete_value is not None:
@@ -167,20 +167,20 @@ def _extract_concrete_values(model: list[tuple[str, str]], method) -> dict[str, 
 
     # Create a mapping from symbolic variable names to original parameter names
     var_to_param = {}
-    
+
     try:
         for input_param in method.inputs:
             # The symbolic variable name is stored in input_param.arg_name
             # Format: KV0_totalSupply -> _totalSupply (for _totalSupply)
             # Format: KV0_someParam -> someParam (for someParam)
             var_to_param[input_param.arg_name] = input_param.name
-    except Exception as e:
+    except Exception:
         # Fallback: try to access as attributes
         if hasattr(method, 'inputs') and hasattr(method.inputs, '__iter__'):
             for input_param in list(method.inputs):
                 try:
                     var_to_param[input_param.arg_name] = input_param.name
-                except Exception as e2:
+                except Exception:
                     continue
 
     # Parse model variables and extract values
@@ -245,7 +245,7 @@ def _find_original_test_file(foundry: Foundry, test_id: str) -> Path | None:
                 has_contract = contract_name in content
                 if has_method and has_contract:
                     return test_file
-        except Exception as e:
+        except Exception:
             continue
 
     return None
@@ -291,13 +291,13 @@ def _copy_and_modify_test_file(original_file: Path, method_name: str, concrete_v
     # The concrete_values dict is keyed by the suffix after KV{idx}_
     # We need to match these to the actual parameter names
     assignments = []
-    
+
     for param_name in actual_param_names:
         # Try to find this parameter in concrete_values
         # It might be stored without the leading underscore
         value = None
         param_type = param_types.get(param_name, "uint256")
-        
+
         # Try exact match first
         if param_name in concrete_values:
             value = concrete_values[param_name]
@@ -307,7 +307,7 @@ def _copy_and_modify_test_file(original_file: Path, method_name: str, concrete_v
         # Try with leading underscore added
         elif f'_{param_name}' in concrete_values:
             value = concrete_values[f'_{param_name}']
-        
+
         if value is not None:
             assignments.append(f'        {param_name} = {_format_value(value, param_type)};')
 
