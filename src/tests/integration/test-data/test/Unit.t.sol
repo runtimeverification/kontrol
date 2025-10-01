@@ -439,7 +439,7 @@ contract UnitTest is Test {
         assertEq(balance, 79228162514264337593543950335); // 2^128
     }
 
-    function test_counterexample(uint256 value, address addr, bool flag) public {
+    function test_counterexample(uint256 value, address addr, bool flag) public pure {
         // This test will fail, triggering counterexample generation
         assert(value != 10);
     }

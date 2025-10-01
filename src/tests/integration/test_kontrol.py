@@ -205,18 +205,12 @@ def test_kontrol_counterexample_generation(foundry_end_to_end: Foundry, update_e
     # Run kontrol prove with --generate-counterexample on a test that will fail
     prove_options = ProveOptions(
         {
-            'tests': ['UnitTest.test_counterexample'],
+            'tests': [('UnitTest.test_counterexample', None)],
             'workers': 1,
             'foundry_root': foundry_end_to_end._root,
             'max_depth': 10000,
             'max_iterations': 10000,
-            'reinit': False,
-            'bug_report': None,
-            'xml_test_report': False,
-            'failure_info': False,
-            'auto_abstract_gas': False,
-            'run_constructor': False,
-            'symbolic_caller': False,
+            'failure_info': True,
             'generate_counterexample': True,  # Enable counterexample generation
         }
     )

@@ -439,12 +439,7 @@ contract UnitTest is Test {
         assertEq(balance, 79228162514264337593543950335); // 2^128
     }
 
-    function test_counterexample(uint256 value, address addr, bool flag) public {
-        // Counterexample values from failed proof:
-        value = 10;
-        addr = address(0);
-        flag = false;
-
+    function test_counterexample(uint256 value, address addr, bool flag) public pure {
         // This test will fail, triggering counterexample generation
         assert(value != 10);
     }
@@ -460,4 +455,16 @@ contract UnitTest is Test {
     function min(uint256 a, uint256 b) internal pure returns (uint256) {
         return a > b ? b : a;
     }
+
+
+    function test_counterexample_ce0(uint256 value, address addr, bool flag) public pure {
+            // Counterexample values from failed proof:
+            value = 10;
+            addr = address(0);
+            flag = false;
+    
+            // This test will fail, triggering counterexample generation
+            assert(value != 10);
+        }
+
 }

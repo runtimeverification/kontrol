@@ -1,14 +1,18 @@
-"""
-Counterexample generation functionality for Kontrol.
+"""Counterexample test generation for Kontrol (refactored).
 
-This module provides functionality to generate Solidity test contracts with concrete
-counterexample values extracted from failed proofs.
+This module extracts concrete counterexample values from a failed APR proof
+and produces a Forge (Foundry) Solidity test that reproduces the issue.
+
 """
 
 from __future__ import annotations
 
 import logging
-from typing import TYPE_CHECKING, Any, Final
+import re
+from dataclasses import dataclass
+from typing import TYPE_CHECKING, Any, Iterable, Optional
+
+from pyk.proof.reachability import APRFailureInfo
 
 if TYPE_CHECKING:
     from pathlib import Path
@@ -17,625 +21,545 @@ if TYPE_CHECKING:
 
     from .foundry import Foundry
 
-_LOGGER: Final = logging.getLogger(__name__)
+_LOGGER = logging.getLogger(__name__)
+
+
+@dataclass(frozen=True)
+class ParsedTestId:
+    """Structured information derived from a Kontrol test/proof id.
+
+    Examples of incoming ids:
+        - "test%SimpleStorageTest.test_storage_setup(...):0"
+        - "SimpleStorageTest.test_storage_setup(...):0"
+    """
+
+    raw: str
+    contract_name: str
+    method_name: str
+    clean_test_id: str
+    test_contract_id: str
 
 
 def generate_counterexample_test(
     proof: APRProof,
     foundry: Foundry,
-    output_dir: Path | None = None,
-) -> Path:
-    """Generate a Solidity test contract with concrete counterexample values.
+    output_dir: Optional[Path] = None,
+) -> Optional[Path]:
+    _LOGGER.info(f'Starting counterexample generation for proof: {proof.id}')
+    failure_info = getattr(proof, 'failure_info', None)
+    if not isinstance(failure_info, APRFailureInfo):
+        _LOGGER.warning('Proof failure info is not APRFailureInfo, cannot generate counterexample')
+        return None
+    if not failure_info.failing_nodes:
+        _LOGGER.warning('No failing nodes available for counterexample generation')
+        return None
 
-    Args:
-        proof: The failed proof containing model information
-        foundry: The Foundry instance
-        output_dir: Directory to write the counterexample test (default: test/counterexamples/)
+    parsed = _parse_test_id(proof.id)
+    _LOGGER.info(f'Parsed test ID: {parsed}')
+    method = _try_get_contract_method(foundry, parsed)
 
-    Returns:
-        Path to the generated counterexample test file
-    """
-    if not proof.failure_info or not hasattr(proof.failure_info, 'models'):
-        raise ValueError('No failure info or models available for counterexample generation')
+    # Must find the original test file or bail.
+    original_test_file = _find_original_test_file(foundry, parsed)
+    _LOGGER.info(f'Found original test file: {original_test_file}')
+    if not (original_test_file and original_test_file.exists()):
+        _LOGGER.warning(
+            'Counterexample generation failed: could not locate original test file for %s',
+            proof.id,
+        )
+        return None
 
-    if not hasattr(proof.failure_info, 'failing_nodes') or not proof.failure_info.failing_nodes:
-        raise ValueError('No failing nodes available for counterexample generation')
+    # Set output directory to same as original test file
+    if output_dir is None:
+        output_dir = original_test_file.parent
+    output_dir.mkdir(parents=True, exist_ok=True)
+    out_path = output_dir / f'{parsed.contract_name}CounterexampleTest.t.sol'
 
-    # Use the first failing node for counterexample generation
-    failing_node_id = next(iter(proof.failure_info.failing_nodes))  # type: ignore
-
-    if failing_node_id not in proof.failure_info.models:
-        raise ValueError(f'No model available for failing node {failing_node_id}')
-
-    model = proof.failure_info.models[failing_node_id]
-
-    # Extract test information
-    test_id = proof.id
-    # Replace % with / to get proper path
-    test_path = test_id.replace('%', '/')
-
-    # Extract contract name and method from path like 'test/SimpleStorageTest.test_storage_setup(...):0'
-    if '/' in test_path:
-        path_parts = test_path.split('/')
-        contract_and_method = path_parts[-1]  # Get 'SimpleStorageTest.test_storage_setup(...):0'
-    else:
-        contract_and_method = test_path
-
-    contract_name, method_name = contract_and_method.split('.', 1)
-
-    # Remove version number from method_name if present (e.g., 'test_storage_setup(...):0' -> 'test_storage_setup(...)')
-    if ':' in method_name:
-        method_name = method_name.rsplit(':', 1)[0]
-
-    # Extract just the function name without parameter types (e.g., 'test_storage_setup(...)' -> 'test_storage_setup')
-    if '(' in method_name:
-        method_name = method_name.split('(')[0]
-
-    # Create clean test_id without version for method lookup
-    clean_test_id = f'{contract_name}.{method_name}'
-
-    # For test contracts, use the full path with % instead of /
-    test_contract_id = f'test%{contract_name}.{method_name}'
-
-    # Get the contract and method information
-    try:
-        contract, method = foundry.get_contract_and_method(clean_test_id)
-    except KeyError:
+    # Copy original test file to counterexample file if it doesn't exist
+    original_src: str = ''
+    if not out_path.exists():
         try:
-            contract, method = foundry.get_contract_and_method(test_contract_id)
-        except KeyError:
-            # If it's a test contract, we'll extract the method info from the test file
-            method = None
-            contract = None
+            original_src = original_test_file.read_text(encoding='utf-8')
+            out_path.write_text(original_src, encoding='utf-8')
+            _LOGGER.info('Copied original test file to %s', out_path)
+        except Exception as e:
+            _LOGGER.warning('Failed to copy original test file: %s', e)
+            return None
 
-    # Convert model to concrete values
-    concrete_values = _extract_concrete_values(model, method)
+    # Determine continuing index per base method in case there's more than one counterexample
+    start_idx = _next_ce_index_start(out_path, parsed.method_name)
 
-    # Find and copy the original test file
-    original_test_file = _find_original_test_file(foundry, test_id)
+    # Iterate through all failing nodes and generate a function for each
+    node_ids = sorted(failure_info.failing_nodes)
+    functions: list[str] = []
+    for i, node_id in enumerate(node_ids):
+        model = failure_info.models.get(node_id)
+        if not model:
+            _LOGGER.warning('No model for failing node %r; skipping', node_id)
+            continue
 
-    # If we have the contract, try to get the file path from it
-    if contract and hasattr(contract, 'contract_name_with_path'):
-        contract_path = contract.contract_name_with_path
-        # Convert % to / and try to find the file
-        file_path = contract_path.replace('%', '/') + '.sol'
-        potential_file = foundry._root / file_path
-        if potential_file.exists():
-            original_test_file = potential_file
-        else:
-            # Try with .t.sol extension
-            file_path_t = contract_path.replace('%', '/') + '.t.sol'
-            potential_file_t = foundry._root / file_path_t
-            if potential_file_t.exists():
-                original_test_file = potential_file_t
+        concrete_values = _extract_concrete_values(model, method)
+        new_method_name = f'{parsed.method_name}_ce{start_idx + i}'
 
-    if original_test_file and original_test_file.exists():
-        # Copy the original test file and insert concrete assignments
-        test_contract = _copy_and_modify_test_file(original_test_file, method_name, concrete_values, method)
-    else:
-        # Fallback to generating a new test contract
-        test_contract = _generate_counterexample_test_contract(
-            contract_name=contract_name,
-            method_name=method_name,
+        # Extract the original function, rename it, and insert assignments at the top
+        fn_src = _extract_and_modify_function(
+            content=original_src,
+            original_method_name=parsed.method_name,
+            new_method_name=new_method_name,
             concrete_values=concrete_values,
             method=method,
         )
+        functions.append(fn_src)
+        _LOGGER.info('Prepared counterexample function clone (%s, node=%s)', new_method_name, node_id)
 
-    if output_dir is None:
-        # Placing the counterexample test file in the same directory as the original test file
-        if original_test_file and original_test_file.exists():
-            output_dir = original_test_file.parent
-        else:
-            output_dir = foundry._root / 'test'
+    if not functions:
+        _LOGGER.warning('No functions generated for %s (no models matched)', proof.id)
+        return out_path
 
-    output_dir.mkdir(parents=True, exist_ok=True)
-    output_file = output_dir / f'{contract_name}CounterexampleTest.t.sol'
+    # Append cloned functions into the original contract before its closing brace
+    ok = _append_functions_to_original_contract(out_path, parsed.contract_name, functions)
+    if not ok:
+        _LOGGER.warning('Counterexample generation failed: could not append functions into %s', out_path)
+        return None
 
-    # Write the test contract
-    with open(output_file, 'w') as f:
-        f.write(test_contract)
-
-    _LOGGER.info(f'Generated counterexample test: {output_file}')
-    return output_file
+    _LOGGER.info('Appended %d function(s) to %s', len(functions), out_path)
+    return out_path
 
 
-def _extract_concrete_values(model: list[tuple[str, str]], method: Any) -> dict[str, Any]:
-    """Extract concrete values from the model for method parameters.
+def _parse_test_id(test_id: str) -> ParsedTestId:
+    """Normalize a Kontrol test/proof id to a structured form.
 
-    Args:
-        model: List of (variable, term) tuples from the model
-        method: The contract method being tested (can be None for test contracts)
-
-    Returns:
-        Dictionary mapping parameter names to concrete values
+    - Replaces '%' with '/' for path-like splits but ultimately extracts the
+      final "Contract.function(...):version" segment.
+    - Strips ":<version>" suffix and "(…)" parameter list from the method.
     """
-    concrete_values = {}
+    # Keep raw for diagnostics
+    raw = test_id
+
+    # Extract tail segment after the final '/' or '%'
+    sep_idx = max(raw.rfind('/'), raw.rfind('%'))
+    tail = raw[sep_idx + 1 :] if sep_idx >= 0 else raw
+
+    # Split contract and method portion
+    try:
+        contract_and_method = tail
+        contract, method = contract_and_method.split('.', 1)
+    except ValueError as exc:  # no '.' separator
+        raise ValueError(f'Unrecognized test id format: {test_id!r}') from exc
+
+    # Remove version suffix ":N" if present
+    if ':' in method:
+        method = method.rsplit(':', 1)[0]
+
+    # Remove parameter list if present
+    if '(' in method:
+        method = method.split('(', 1)[0]
+
+    clean_test_id = f'{contract}.{method}'
+    test_contract_id = f'test%{contract}.{method}'
+
+    return ParsedTestId(
+        raw=raw,
+        contract_name=contract,
+        method_name=method,
+        clean_test_id=clean_test_id,
+        test_contract_id=test_contract_id,
+    )
+
+
+def _try_get_contract_method(foundry: Foundry, parsed: ParsedTestId) -> Optional[Any]:
+    """Try to resolve (contract, method) via Foundry metadata.
+
+    Returns the *method* object (if any) so that we can read parameter names/types.
+    """
+    try:
+        _contract, method = foundry.get_contract_and_method(parsed.clean_test_id)
+        return method
+    except KeyError:
+        try:
+            _contract, method = foundry.get_contract_and_method(parsed.test_contract_id)
+            return method
+        except KeyError:
+            return None
+
+
+def _extract_concrete_values(
+    model: Iterable[tuple[str, str]],
+    method: Optional[Any],
+) -> dict[str, Any]:
+    """Extract concrete parameter values from a model.
+
+    If method*is known, we map symbolic variable names (e.g., KV0_totalSupply)
+    to canonical parameter names (including leading underscores). Otherwise we
+    attempt a best-effort extraction by parsing KV*_suffix tokens.
+    """
+    concrete: dict[str, Any] = {}
 
     if method is None:
-        # For test contracts, extract parameter names directly from model variables
         for var, term in model:
-            # Look for symbolic variables that match the pattern KV{idx}_{paramName}
             if var.startswith('KV') and '_' in var:
-                # Extract the parameter name from the symbolic variable
-                # Format: KV0_totalSupply:Int -> totalSupply
-                param_name = var.split('_', 1)[1].split(':')[0]
+                # KV0_totalSupply:Int -> totalSupply
+                suffix = var.split('_', 1)[1]
+                param_name = suffix.split(':', 1)[0]
+                value = _convert_term_to_value(term)
+                if value is not None:
+                    concrete[param_name] = value
+        return concrete
 
-                # Convert the term to a concrete value
-                concrete_value = _convert_term_to_value(term)
-                if concrete_value is not None:
-                    concrete_values[param_name] = concrete_value
-        return concrete_values
+    # Build var->param mapping from ABI-like info
+    var_to_param: dict[str, str] = {}
+    inputs = getattr(method, 'inputs', None)
+    if inputs is not None:
+        for inp in list(inputs):
+            arg_name = getattr(inp, 'arg_name', None)
+            name = getattr(inp, 'name', None)
+            if arg_name and name:
+                var_to_param[arg_name] = name
 
-    # Create a mapping from symbolic variable names to original parameter names
-    var_to_param = {}
-
-    try:
-        for input_param in method.inputs:
-            # The symbolic variable name is stored in input_param.arg_name
-            # Format: KV0_totalSupply -> _totalSupply (for _totalSupply)
-            # Format: KV0_someParam -> someParam (for someParam)
-            var_to_param[input_param.arg_name] = input_param.name
-    except Exception:
-        # Fallback: try to access as attributes
-        if hasattr(method, 'inputs') and hasattr(method.inputs, '__iter__'):
-            for input_param in list(method.inputs):
-                try:
-                    var_to_param[input_param.arg_name] = input_param.name
-                except Exception:
-                    continue
-
-    # Parse model variables and extract values
     for var, term in model:
-        # Look for symbolic variables that match method parameters
         if var in var_to_param:
-            # Use the original parameter name (preserving underscores)
-            param_name = var_to_param[var]
+            pname = var_to_param[var]
+            value = _convert_term_to_value(term)
+            if value is not None:
+                concrete[pname] = value
 
-            # Convert the term to a concrete value
-            concrete_value = _convert_term_to_value(term)
-            if concrete_value is not None:
-                concrete_values[param_name] = concrete_value
-
-    return concrete_values
+    return concrete
 
 
-def _find_original_test_file(foundry: Foundry, test_id: str) -> Path | None:
-    """Find the original test file for a given test ID.
+def _find_original_test_file(foundry: Foundry, parsed: ParsedTestId) -> Optional[Path]:
+    """Find the original test file using the test ID path.
 
-    Args:
-        foundry: The Foundry instance
-        test_id: The test ID (e.g., "test%SimpleStorageTest.test_storage_setup(...):0")
-
-    Returns:
-        Path to the original test file, or None if not found
+    The test ID contains path information with % as separator, which we convert to /.
     """
-    # Replace % with / to get proper path
-    test_path = test_id.replace('%', '/')
+    # Convert % to / in the raw test ID to get the file path
+    test_path = parsed.raw.replace('%', '/')
 
-    # Extract contract name and method from path
-    if '/' in test_path:
-        path_parts = test_path.split('/')
-        contract_and_method = path_parts[-1]  # Get "SimpleStorageTest.test_storage_setup(...):0"
-    else:
-        contract_and_method = test_path
+    # Remove the version suffix and parameter list to get just the file path
+    if ':' in test_path:
+        test_path = test_path.rsplit(':', 1)[0]
+    if '(' in test_path:
+        test_path = test_path.rsplit('(', 1)[0]
 
-    contract_name, method_name = contract_and_method.split('.', 1)
+    # Remove the function name to get just the directory path
+    # e.g., "test/UnitTest.test_counterexample" -> "test/UnitTest"
+    if '.' in test_path:
+        test_path = test_path.rsplit('.', 1)[0]
 
-    # Remove version number from method_name if present
-    if ':' in method_name:
-        method_name = method_name.rsplit(':', 1)[0]
-
-    # Extract just the function name without parameter types (e.g., "test_storage_setup(...)" -> "test_storage_setup")
-    if '(' in method_name:
-        method_name = method_name.split('(')[0]
-
-    # Look for test files in the test directory
+    # The issue is that the contract name in the test ID might not match the file name
+    # For example: "test/UnitTest" should map to "test/Unit.t.sol"
+    # Let's try to find the file by searching for the contract name in the test directory
     test_dir = foundry._root / 'test'
     if not test_dir.exists():
         return None
 
-    # Search for files that might contain the test
-    test_files = list(test_dir.glob('*.sol'))
+    # Search for files containing the contract name
+    candidates = list(test_dir.rglob('*.t.sol')) + list(test_dir.rglob('*.sol'))
 
-    for test_file in test_files:
+    for candidate in candidates:
         try:
-            with open(test_file, 'r') as f:
-                content = f.read()
-                # Check if this file contains the test method and contract
-                has_method = f'function {method_name}(' in content
-                has_contract = contract_name in content
-                if has_method and has_contract:
-                    return test_file
+            text = candidate.read_text(encoding='utf-8')
+            if f'contract {parsed.contract_name}' in text:
+                return candidate
         except Exception:
             continue
 
     return None
 
 
-def _copy_and_modify_test_file(
-    original_file: Path, method_name: str, concrete_values: dict[str, Any], method: Any
+_ASSIGNMENT_MARKER = '// Counterexample values from failed proof:'
+
+
+def _extract_and_modify_function(
+    *,
+    content: str,
+    original_method_name: str,
+    new_method_name: str,
+    concrete_values: dict[str, Any],
+    method: Optional[Any],
 ) -> str:
-    """Copy the original test file and insert concrete assignments into the failing method.
+    """Extract a function from the original file, rename it, and insert assignments at the top."""
 
-    Args:
-        original_file: Path to the original test file
-        method_name: Name of the failing test method
-        concrete_values: Dictionary of parameter names to concrete values (keyed by symbolic var name suffix)
-        method: The contract method object
+    # First, get the modified content with assignments injected
+    modified_content = _insert_assignments_into_function(
+        content=content,
+        method_name=original_method_name,
+        method=method,
+        concrete_values=concrete_values,
+    )
 
-    Returns:
-        Modified test file content
+    # Extract just the modified function
+    sig_re = re.compile(
+        rf'(function\s+{re.escape(original_method_name)}\s*\([^)]*\)[^{{]*\{{[^}}]*\}})',
+        re.DOTALL,
+    )
+    m = sig_re.search(modified_content)
+    if not m:
+        raise ValueError(f'Could not locate function {original_method_name} in source.')
+
+    func_text = m.group(1)
+
+    # Rename the function
+    func_text = re.sub(
+        rf'function\s+{re.escape(original_method_name)}\s*\(',
+        f'function {new_method_name}(',
+        func_text,
+        count=1,
+    )
+
+    indented_func = '    ' + func_text.replace('\n', '\n    ')
+    return '\n' + indented_func + '\n'
+
+
+def _insert_assignments_into_function(
+    *,
+    content: str,
+    method_name: str,
+    method: Optional[Any],
+    concrete_values: dict[str, Any],
+) -> str:
+    """Insert assignments at the beginning of the actual function body.
+
+    Robust to modifiers (public view returns (...) virtual override ...),
+    line breaks, and spacing. Idempotent per-function via _ASSIGNMENT_MARKER.
     """
-    with open(original_file, 'r') as f:
-        content = f.read()
+    text = content
 
-    # Extract the actual parameter names from the function signature in the file
+    # 1) Find the start of the target function signature: `function <name>(`
+    sig_needle = f'function {method_name}('
+    sig_pos = text.find(sig_needle)
+    if sig_pos == -1:
+        # Try a looser search tolerating extra spaces/newlines between tokens
+        m = re.search(rf'\bfunction\s+{re.escape(method_name)}\s*\(', text)
+        if not m:
+            return text
+        sig_pos = m.start()
+
+    # 2) From the first '(' after the method name, find the matching ')'
+    paren_start = text.find('(', sig_pos)
+    if paren_start == -1:
+        return text
+
+    depth = 0
+    i = paren_start
+    while i < len(text):
+        if text[i] == '(':
+            depth += 1
+        elif text[i] == ')':
+            depth -= 1
+            if depth == 0:
+                break
+        i += 1
+    if i >= len(text) or depth != 0:
+        return text
+    paren_end = i  # index of the closing ')'
+
+    # 3) After the signature, skip whitespace/modifiers until the opening '{'
+    j = paren_end + 1
+    while j < len(text) and text[j].isspace():
+        j += 1
+
+    # Skip modifier/returns tokens until '{'
+    # (We don't try to parse them; just scan until first '{')
+    brace_pos = text.find('{', j)
+    if brace_pos == -1:
+        return text
+
+    # 4) Find the end of the function by brace counting from this '{'
+    depth = 0
+    k = brace_pos
+    while k < len(text):
+        if text[k] == '{':
+            depth += 1
+        elif text[k] == '}':
+            depth -= 1
+            if depth == 0:
+                break
+        k += 1
+    if k >= len(text) or depth != 0:
+        return text
+    func_start = sig_pos
+    func_body_open = brace_pos
+    func_end = k  # index of the matching closing '}'
+
+    # 5) Extract params to map assignments
+    params_segment = text[paren_start + 1 : paren_end].strip()
+    actual_param_names: list[str] = []
+    param_types: dict[str, str] = {}
+    if params_segment:
+        # split on commas at top level (there are no nested parens in types/names)
+        for raw in [p.strip() for p in params_segment.split(',') if p.strip()]:
+            parts = raw.split()
+            if len(parts) >= 2:
+                ptype = parts[0]
+                pname = parts[-1]
+                actual_param_names.append(pname)
+                param_types[pname] = ptype
+
+    # 6) Build assignment lines
+    def _lookup_value(name: str) -> Optional[Any]:
+        if name in concrete_values:
+            return concrete_values[name]
+        if name.startswith('_') and name[1:] in concrete_values:
+            return concrete_values[name[1:]]
+        alt = f'_{name}'
+        if alt in concrete_values:
+            return concrete_values[alt]
+        return None
+
+    assignments: list[str] = []
+    for pname in actual_param_names:
+        v = _lookup_value(pname)
+        if v is None:
+            continue
+        ptype = param_types.get(pname, 'uint256')
+        assignments.append(f'        {pname} = {_format_value(v, ptype)};')
+
+    if not assignments:
+        # Nothing to insert; keep function unchanged
+        return text
+
+    # 7) Idempotence: if marker already inside this function, do nothing
+    func_block = text[func_start : func_end + 1]
+    if _ASSIGNMENT_MARKER in func_block:
+        return text
+
+    # 8) Insert assignments right after the opening '{'
+    insert_block = '        ' + _ASSIGNMENT_MARKER + '\n' + '\n'.join(assignments) + '\n'
+    new_text = text[: func_body_open + 1] + '\n' + insert_block + text[func_body_open + 1 :]
+
+    return new_text
+
+
+def _next_ce_index_start(out_path: Path, base_method_name: str) -> int:
+    try:
+        text = out_path.read_text(encoding='utf-8')
+    except Exception:
+        return 0
+    pat = re.compile(rf'function\s+{re.escape(base_method_name)}_ce(\d+)\s*\(')
+    nums = [int(m.group(1)) for m in pat.finditer(text)]
+    return (max(nums) + 1) if nums else 0
+
+
+def _append_functions_to_original_contract(
+    out_path: Path,
+    contract_name: str,
+    functions: list[str],
+) -> bool:
+    """Insert functions before the final '}' of the original contract.
+    Returns True on success, False on failure (malformed file, etc.).
+    """
+    try:
+        text = out_path.read_text(encoding='utf-8')
+    except Exception:
+        return False
+
+    # Look for the original contract using regex to handle inheritance, modifiers, etc.
     import re
 
-    function_sig_pattern = r'function\s+' + re.escape(method_name) + r'\s*\(([^)]*)\)'
-    match = re.search(function_sig_pattern, content)
+    # Pattern to match: contract ContractName [anything] {
+    contract_pattern = rf'contract\s+{re.escape(contract_name)}\s+[^{{]*\{{'
+    if not re.search(contract_pattern, text):
+        _LOGGER.warning('Could not find contract %s in %s', contract_name, out_path)
+        return False
 
-    actual_param_names = []
-    param_types = {}
-    if match:
-        params_str = match.group(1)
-        # Parse each parameter: "uint256 totalSupply, address _owner, ..."
-        for param in params_str.split(','):
-            param = param.strip()
-            if param:
-                parts = param.split()
-                if len(parts) >= 2:
-                    param_type = parts[0]
-                    param_name = parts[1]
-                    actual_param_names.append(param_name)
-                    param_types[param_name] = param_type
+    # Find the last closing brace of the contract
+    last_brace = text.rfind('}')
+    if last_brace == -1:
+        return False
 
-    # Map concrete values to actual parameter names
-    # The concrete_values dict is keyed by the suffix after KV{idx}_
-    # We need to match these to the actual parameter names
-    assignments = []
+    # Join functions with proper spacing
+    functions_text = '\n'.join(functions)
+    new_text = text[:last_brace] + '\n' + functions_text + '\n' + text[last_brace:]
+    try:
+        out_path.write_text(new_text, encoding='utf-8')
+        return True
+    except Exception:
+        return False
 
-    for param_name in actual_param_names:
-        # Try to find this parameter in concrete_values
-        # It might be stored without the leading underscore
-        value = None
-        param_type = param_types.get(param_name, 'uint256')
 
-        # Try exact match first
-        if param_name in concrete_values:
-            value = concrete_values[param_name]
-        # Try without leading underscore
-        elif param_name.startswith('_') and param_name[1:] in concrete_values:
-            value = concrete_values[param_name[1:]]
-        # Try with leading underscore added
-        elif f'_{param_name}' in concrete_values:
-            value = concrete_values[f'_{param_name}']
-
-        if value is not None:
-            assignments.append(f'        {param_name} = {_format_value(value, param_type)};')
-
-    # Find the test method and insert assignments
-    import re
-
-    # Pattern to match the function signature
-    function_pattern = r'(function\s+' + re.escape(method_name) + r'\s*\([^{]*\)\s*public[^{]*\{)'
-
-    def insert_assignments(match: Any) -> str:
-        function_start = match.group(1)
-        return (
-            f'{function_start}\n        // Counterexample values from failed proof:\n' + '\n'.join(assignments) + '\n'
-        )
-
-    # Replace the function with assignments inserted
-    modified_content = re.sub(function_pattern, insert_assignments, content)
-
-    # If no match found, try a more flexible pattern
-    if modified_content == content:
-        # Look for the function and insert after the opening brace
-        lines = content.split('\n')
-        modified_lines = []
-        in_target_function = False
-        brace_count = 0
-
-        for line in lines:
-            modified_lines.append(line)
-
-            # Check if we're entering the target function
-            if f'function {method_name}(' in line and 'public' in line:
-                in_target_function = True
-                brace_count = 0
-
-            if in_target_function:
-                # Count braces to find the opening brace
-                brace_count += line.count('{') - line.count('}')
-
-                # If we just entered the function body (opening brace)
-                if brace_count == 1 and '{' in line:
-                    # Insert assignments after the opening brace
-                    modified_lines.append('        // Counterexample values from failed proof:')
-                    for assignment in assignments:
-                        modified_lines.append(assignment)
-                    in_target_function = False
-
-        modified_content = '\n'.join(modified_lines)
-
-    return modified_content
+_int_token_re = re.compile(r'^(-?\d+)(?::Int)?$')
+_bool_token_re = re.compile(r'^(true|false)(?::Bool)?$', re.IGNORECASE)
+_hex_re = re.compile(r'^0x[0-9a-fA-F]+$')
+_addr_token_re = re.compile(r'^(0x[0-9a-fA-F]+|-?\d+):Addr$')
 
 
 def _convert_term_to_value(term: str) -> Any:
-    """Convert a K term to a concrete Solidity value.
+    """Convert a K term string into a concrete Python value usable in Solidity.
 
-    Args:
-        term: The K term (e.g., "123", "0x1234", "true")
-
-    Returns:
-        The concrete value or None if conversion fails
+    Handles ints, bools, hex strings, and simple address encodings.
+    Returns None on unknown formats.
     """
-    # Remove K-specific syntax
-    term = term.strip()
+    t = term.strip()
 
-    # Handle integers
-    if term.isdigit():
-        return int(term)
-
-    # Handle hex values
-    if term.startswith('0x'):
-        return term
-
-    # Handle boolean values
-    if term.lower() in ('true', 'false'):
-        return term.lower() == 'true'
-
-    # Handle quoted strings
-    if term.startswith('"') and term.endswith('"'):
-        return term[1:-1]
-
-    # Handle K-specific integer tokens
-    if term.endswith(':Int'):
+    # int or Int token
+    m = _int_token_re.match(t)
+    if m:
         try:
-            return int(term[:-4])
+            return int(m.group(1))
         except ValueError:
-            pass
+            return None
 
-    # Handle K-specific boolean tokens
-    if term.endswith(':Bool'):
-        return term[:-5].lower() == 'true'
+    # plain hex literal
+    if _hex_re.match(t):
+        return t
 
-    # Handle K-specific address tokens
-    if term.endswith(':Addr'):
-        addr = term[:-5]
-        if addr.startswith('0x'):
-            return addr
-        else:
-            # Convert to hex if it's a decimal
-            try:
-                return hex(int(addr))
-            except ValueError:
-                pass
+    # bool or Bool token
+    m = _bool_token_re.match(t)
+    if m:
+        return m.group(1).lower() == 'true'
 
-    _LOGGER.warning(f'Could not convert term to concrete value: {term!r}')
+    # quoted string
+    if len(t) >= 2 and t[0] == '"' and t[-1] == '"':
+        return t[1:-1]
+
+    # Addr token: decimal or hex -> hex string
+    m = _addr_token_re.match(t)
+    if m:
+        raw = m.group(1)
+        if raw.startswith('0x'):
+            return raw
+        try:
+            return hex(int(raw))
+        except ValueError:
+            return None
+
+    _LOGGER.warning('Could not convert term to concrete value: %r', term)
     return None
 
 
-def _generate_counterexample_test_contract(
-    contract_name: str,
-    method_name: str,
-    concrete_values: dict[str, Any],
-    method: Any,
-) -> str:
-    """Generate a Solidity test contract with concrete counterexample values.
-
-    Args:
-        contract_name: Name of the contract being tested
-        method_name: Name of the method being tested
-        concrete_values: Dictionary of parameter names to concrete values
-        method: The contract method object
-
-    Returns:
-        The generated Solidity test contract code
-    """
-    # Generate concrete assignments for the test function
-    assignments = []
-    for param_name, value in concrete_values.items():
-        # Try to determine the correct type for formatting
-        param_type = 'uint256'  # Default fallback
-        if method and hasattr(method, 'inputs'):
-            for input_param in method.inputs:
-                if input_param.name == param_name:
-                    param_type = input_param.type
-                    break
-        assignments.append(f'        {param_name} = {_format_value(value, param_type)};')
-
-    # Generate parameter list for the test function
-    param_list = []
-    if method and hasattr(method, 'inputs'):
-        for param in method.inputs:
-            param_name = param.name
-            param_type = param.type
-            param_list.append(f'{param_type} {param_name}')
-    else:
-        # If no method info, generate parameters from concrete values
-        for param_name in concrete_values.keys():
-            param_list.append(f'uint256 {param_name}')
-
-    # Generate the test contract
-    test_contract = f"""// SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.13;
-
-import {{Test, console}} from "forge-std/Test.sol";
-import {{{contract_name}}} from "../src/{contract_name}.sol";
-
-contract {contract_name}TestCounterexample is Test {{
-    {contract_name} public {contract_name.lower()};
-
-    function setUp() public {{
-        {contract_name.lower()} = new {contract_name}();
-    }}
-
-    function {method_name}({', '.join(param_list)}) public {{
-        // Counterexample values from failed proof:
-{chr(10).join(assignments)}
-
-        // Original test logic would go here
-        // This test reproduces the counterexample that caused the proof to fail
-        console.log("Counterexample test executed with concrete values");
-    }}
-}}
-"""
-
-    return test_contract
-
-
-def _generate_test_contract(
-    contract_name: str,
-    method_name: str,
-    concrete_values: dict[str, Any],
-    method: Any,
-) -> str:
-    """Generate a Solidity test contract with concrete counterexample values.
-
-    Args:
-        contract_name: Name of the contract being tested
-        method_name: Name of the method being tested
-        concrete_values: Dictionary of parameter names to concrete values
-        method: The contract method object
-
-    Returns:
-        The generated Solidity test contract code
-    """
-    # Generate parameter list for the test function
-    param_list = []
-    for param in method.parameters:
-        param_name = param['name']
-        param_type = param['type']
-
-        if param_name in concrete_values:
-            value = concrete_values[param_name]
-            param_list.append(f'{param_type} {param_name} = {_format_value(value, param_type)}')
-        else:
-            # Use a default value if no concrete value available
-            param_list.append(f'{param_type} {param_name} = {_get_default_value(param_type)}')
-
-    # Generate the test contract
-    test_contract = f"""// SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.13;
-
-import "forge-std/Test.sol";
-import "forge-std/console.sol";
-import "src/{contract_name}.sol";
-
-/**
- * @title {contract_name}Counterexample
- * @dev Counterexample test generated from failed proof
- * @notice This test reproduces the counterexample that caused the proof to fail
- */
-contract {contract_name}Counterexample is Test {{
-    {contract_name} public {contract_name.lower()};
-
-    function setUp() public {{
-        {contract_name.lower()} = new {contract_name}();
-    }}
-
-    /**
-     * @dev Test that reproduces the counterexample
-     * This test uses concrete values extracted from the failed proof model
-     */
-    function testCounterexample() public {{
-        // Counterexample values from failed proof:
-"""
-
-    # Add comments showing the extracted values
-    for param_name, value in concrete_values.items():
-        test_contract += f'        // {param_name} = {value}\n'
-
-    test_contract += f"""
-        // Call the method with concrete values
-        {contract_name.lower()}.{method_name}(
-"""
-
-    # Add the method call with concrete values
-    param_values = []
-    for param in method.parameters:
-        param_name = param['name']
-        if param_name in concrete_values:
-            param_values.append(param_name)
-        else:
-            param_values.append(_get_default_value(param['type']))
-
-    test_contract += '            ' + ',\n            '.join(param_values) + '\n        );\n'
-
-    # Add assertions to verify the counterexample
-    test_contract += """
-        // The proof failed, so this test should demonstrate the issue
-        // Add specific assertions here based on what the proof was trying to verify
-        console.log("Counterexample test executed with concrete values");
-    }
-}
-"""
-
-    return test_contract
-
-
 def _format_value(value: Any, param_type: str) -> str:
-    """Format a concrete value for use in Solidity code.
-
-    Args:
-        value: The concrete value
-        param_type: The Solidity parameter type
-
-    Returns:
-        Formatted string for the value
-    """
-    # Handle bool type specifically - convert 0/1 to false/true
+    """Format a concrete value as a Solidity literal for the given param type."""
+    # bool
     if param_type == 'bool':
         if isinstance(value, bool):
             return 'true' if value else 'false'
-        elif isinstance(value, int):
+        if isinstance(value, int):
             return 'true' if value != 0 else 'false'
-        else:
-            return 'false'
-    # Handle address type - wrap in address()
-    elif param_type == 'address':
-        if isinstance(value, str) and value.startswith('0x'):
-            return f'address({value})'
-        elif isinstance(value, int):
-            if value == 0:
-                return 'address(0)'
-            else:
-                return f'address({hex(value)})'
-        else:
-            return 'address(0)'
-    elif isinstance(value, bool):
-        return 'true' if value else 'false'
-    elif isinstance(value, int):
-        return str(value)
-    elif isinstance(value, str):
-        if value.startswith('0x'):
-            return value
-        else:
-            return f'{value!r}'
-    else:
-        return str(value)
-
-
-def _get_default_value(param_type: str) -> str:
-    """Get a default value for a Solidity parameter type.
-
-    Args:
-        param_type: The Solidity parameter type
-
-    Returns:
-        Default value string
-    """
-    if param_type.startswith('uint') or param_type.startswith('int'):
-        return '0'
-    elif param_type == 'bool':
         return 'false'
-    elif param_type == 'address':
+
+    # address
+    if param_type == 'address':
+        if isinstance(value, str) and _hex_re.match(value):
+            return f'address({value})'
+        if isinstance(value, int):
+            return 'address(0)' if value == 0 else f'address({hex(value)})'
         return 'address(0)'
-    elif param_type == 'string':
+
+    # bytes / string (very basic handling)
+    if param_type == 'string':
+        if isinstance(value, str):
+            return value if value.startswith('"') else f'{value!r}'
         return '""'
-    elif param_type == 'bytes':
+    if param_type == 'bytes':
+        if isinstance(value, str) and _hex_re.match(value):
+            return value
         return '""'
-    else:
-        return '0'
+
+    # numeric fallbacks
+    if isinstance(value, bool):
+        return '1' if value else '0'
+    if isinstance(value, int):
+        return str(value)
+    if isinstance(value, str):
+        return value if value.startswith('0x') else repr(value)
+
+    return str(value)
