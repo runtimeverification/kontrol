@@ -82,7 +82,6 @@ if TYPE_CHECKING:
         UnrefuteNodeOptions,
     )
 
-
 _LOGGER: Final = logging.getLogger(__name__)
 
 

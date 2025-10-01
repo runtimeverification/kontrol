@@ -224,7 +224,6 @@ def exec_prove(options: ProveOptions) -> None:
             )
             contract, _ = foundry.get_contract_and_method(proof.id.split(':')[0])
             _interpret_proof_failure(proof, options.failure_info, contract.error_selectors)
-
             refuted_nodes = list(proof.node_refutations.keys())
             if len(refuted_nodes) > 0:
                 print(f'The proof cannot be completed while there are refuted nodes: {refuted_nodes}.')
