@@ -222,7 +222,7 @@ def test_kontrol_counterexample_generation(foundry_end_to_end: Foundry, update_e
     )
 
     # Run the prove command (this should fail and generate a counterexample)
-    foundry_prove(foundry_end_to_end, prove_options)
+    foundry_prove(prove_options, foundry_end_to_end)
 
     # Check that the counterexample file was created in the same directory as the original test
     counterexample_file = foundry_end_to_end._root / 'test' / 'UnitTestCounterexampleTest.t.sol'

@@ -81,7 +81,6 @@ if TYPE_CHECKING:
         StepNodeOptions,
         UnrefuteNodeOptions,
     )
-    from .storage_generation import generate_setup_contract
 
 
 _LOGGER: Final = logging.getLogger(__name__)

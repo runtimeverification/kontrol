@@ -8,10 +8,11 @@ counterexample values extracted from failed proofs.
 from __future__ import annotations
 
 import logging
-from pathlib import Path
 from typing import TYPE_CHECKING, Any, Final
 
 if TYPE_CHECKING:
+    from pathlib import Path
+
     from pyk.proof.reachability import APRProof
 
     from .foundry import Foundry
@@ -35,16 +36,16 @@ def generate_counterexample_test(
         Path to the generated counterexample test file
     """
     if not proof.failure_info or not hasattr(proof.failure_info, 'models'):
-        raise ValueError("No failure info or models available for counterexample generation")
+        raise ValueError('No failure info or models available for counterexample generation')
 
-    if not proof.failure_info.failing_nodes:
-        raise ValueError("No failing nodes available for counterexample generation")
+    if not hasattr(proof.failure_info, 'failing_nodes') or not proof.failure_info.failing_nodes:
+        raise ValueError('No failing nodes available for counterexample generation')
 
     # Use the first failing node for counterexample generation
-    failing_node_id = next(iter(proof.failure_info.failing_nodes))
+    failing_node_id = next(iter(proof.failure_info.failing_nodes))  # type: ignore
 
     if failing_node_id not in proof.failure_info.models:
-        raise ValueError(f"No model available for failing node {failing_node_id}")
+        raise ValueError(f'No model available for failing node {failing_node_id}')
 
     model = proof.failure_info.models[failing_node_id]
 
@@ -53,28 +54,28 @@ def generate_counterexample_test(
     # Replace % with / to get proper path
     test_path = test_id.replace('%', '/')
 
-    # Extract contract name and method from path like "test/SimpleStorageTest.test_storage_setup(...):0"
+    # Extract contract name and method from path like 'test/SimpleStorageTest.test_storage_setup(...):0'
     if '/' in test_path:
         path_parts = test_path.split('/')
-        contract_and_method = path_parts[-1]  # Get "SimpleStorageTest.test_storage_setup(...):0"
+        contract_and_method = path_parts[-1]  # Get 'SimpleStorageTest.test_storage_setup(...):0'
     else:
         contract_and_method = test_path
 
     contract_name, method_name = contract_and_method.split('.', 1)
 
-    # Remove version number from method_name if present (e.g., "test_storage_setup(...):0" -> "test_storage_setup(...)")
+    # Remove version number from method_name if present (e.g., 'test_storage_setup(...):0' -> 'test_storage_setup(...)')
     if ':' in method_name:
         method_name = method_name.rsplit(':', 1)[0]
 
-    # Extract just the function name without parameter types (e.g., "test_storage_setup(...)" -> "test_storage_setup")
+    # Extract just the function name without parameter types (e.g., 'test_storage_setup(...)' -> 'test_storage_setup')
     if '(' in method_name:
         method_name = method_name.split('(')[0]
 
     # Create clean test_id without version for method lookup
-    clean_test_id = f"{contract_name}.{method_name}"
+    clean_test_id = f'{contract_name}.{method_name}'
 
     # For test contracts, use the full path with % instead of /
-    test_contract_id = f"test%{contract_name}.{method_name}"
+    test_contract_id = f'test%{contract_name}.{method_name}'
 
     # Get the contract and method information
     try:
@@ -138,7 +139,7 @@ def generate_counterexample_test(
     return output_file
 
 
-def _extract_concrete_values(model: list[tuple[str, str]], method) -> dict[str, Any]:
+def _extract_concrete_values(model: list[tuple[str, str]], method: Any) -> dict[str, Any]:
     """Extract concrete values from the model for method parameters.
 
     Args:
@@ -251,7 +252,9 @@ def _find_original_test_file(foundry: Foundry, test_id: str) -> Path | None:
     return None
 
 
-def _copy_and_modify_test_file(original_file: Path, method_name: str, concrete_values: dict[str, Any], method) -> str:
+def _copy_and_modify_test_file(
+    original_file: Path, method_name: str, concrete_values: dict[str, Any], method: Any
+) -> str:
     """Copy the original test file and insert concrete assignments into the failing method.
 
     Args:
@@ -296,7 +299,7 @@ def _copy_and_modify_test_file(original_file: Path, method_name: str, concrete_v
         # Try to find this parameter in concrete_values
         # It might be stored without the leading underscore
         value = None
-        param_type = param_types.get(param_name, "uint256")
+        param_type = param_types.get(param_name, 'uint256')
 
         # Try exact match first
         if param_name in concrete_values:
@@ -317,7 +320,7 @@ def _copy_and_modify_test_file(original_file: Path, method_name: str, concrete_v
     # Pattern to match the function signature
     function_pattern = r'(function\s+' + re.escape(method_name) + r'\s*\([^{]*\)\s*public[^{]*\{)'
 
-    def insert_assignments(match):
+    def insert_assignments(match: Any) -> str:
         function_start = match.group(1)
         return (
             f'{function_start}\n        // Counterexample values from failed proof:\n' + '\n'.join(assignments) + '\n'
@@ -410,7 +413,7 @@ def _convert_term_to_value(term: str) -> Any:
             except ValueError:
                 pass
 
-    _LOGGER.warning(f"Could not convert term to concrete value: {term}")
+    _LOGGER.warning(f'Could not convert term to concrete value: {term!r}')
     return None
 
 
@@ -418,7 +421,7 @@ def _generate_counterexample_test_contract(
     contract_name: str,
     method_name: str,
     concrete_values: dict[str, Any],
-    method,
+    method: Any,
 ) -> str:
     """Generate a Solidity test contract with concrete counterexample values.
 
@@ -435,7 +438,7 @@ def _generate_counterexample_test_contract(
     assignments = []
     for param_name, value in concrete_values.items():
         # Try to determine the correct type for formatting
-        param_type = "uint256"  # Default fallback
+        param_type = 'uint256'  # Default fallback
         if method and hasattr(method, 'inputs'):
             for input_param in method.inputs:
                 if input_param.name == param_name:
@@ -456,7 +459,7 @@ def _generate_counterexample_test_contract(
             param_list.append(f'uint256 {param_name}')
 
     # Generate the test contract
-    test_contract = f'''// SPDX-License-Identifier: UNLICENSED
+    test_contract = f"""// SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
 import {{Test, console}} from "forge-std/Test.sol";
@@ -478,7 +481,7 @@ contract {contract_name}TestCounterexample is Test {{
         console.log("Counterexample test executed with concrete values");
     }}
 }}
-'''
+"""
 
     return test_contract
 
@@ -487,7 +490,7 @@ def _generate_test_contract(
     contract_name: str,
     method_name: str,
     concrete_values: dict[str, Any],
-    method,
+    method: Any,
 ) -> str:
     """Generate a Solidity test contract with concrete counterexample values.
 
@@ -514,7 +517,7 @@ def _generate_test_contract(
             param_list.append(f'{param_type} {param_name} = {_get_default_value(param_type)}')
 
     # Generate the test contract
-    test_contract = f'''// SPDX-License-Identifier: UNLICENSED
+    test_contract = f"""// SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
 import "forge-std/Test.sol";
@@ -539,16 +542,16 @@ contract {contract_name}Counterexample is Test {{
      */
     function testCounterexample() public {{
         // Counterexample values from failed proof:
-'''
+"""
 
     # Add comments showing the extracted values
     for param_name, value in concrete_values.items():
         test_contract += f'        // {param_name} = {value}\n'
 
-    test_contract += f'''
+    test_contract += f"""
         // Call the method with concrete values
         {contract_name.lower()}.{method_name}(
-'''
+"""
 
     # Add the method call with concrete values
     param_values = []
@@ -562,13 +565,13 @@ contract {contract_name}Counterexample is Test {{
     test_contract += '            ' + ',\n            '.join(param_values) + '\n        );\n'
 
     # Add assertions to verify the counterexample
-    test_contract += '''
+    test_contract += """
         // The proof failed, so this test should demonstrate the issue
         // Add specific assertions here based on what the proof was trying to verify
         console.log("Counterexample test executed with concrete values");
     }
 }
-'''
+"""
 
     return test_contract
 
@@ -610,7 +613,7 @@ def _format_value(value: Any, param_type: str) -> str:
         if value.startswith('0x'):
             return value
         else:
-            return f'"{value}"'
+            return f'{value!r}'
     else:
         return str(value)
 
