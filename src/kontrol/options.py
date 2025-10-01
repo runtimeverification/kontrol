@@ -770,6 +770,7 @@ class SetupStorageOptions(LoggingOptions, FoundryOptions):
     solidity_version: str
     output_file: str | None
     skip_kontrol_init: bool
+    generate_setup_contracts: bool
 
     @staticmethod
     def default() -> dict[str, Any]:
@@ -777,6 +778,7 @@ class SetupStorageOptions(LoggingOptions, FoundryOptions):
             'solidity_version': '0.8.26',
             'output_file': None,
             'skip_kontrol_init': False,
+            'generate_setup_contracts': False,
         }
 
     @staticmethod
@@ -787,6 +789,7 @@ class SetupStorageOptions(LoggingOptions, FoundryOptions):
             | {
                 'output-file': 'output_file',
                 'skip-kontrol-init': 'skip_kontrol_init',
+                'generate-setup-contracts': 'generate_setup_contracts',
             }
         )
 

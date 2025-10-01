@@ -2,35 +2,37 @@
 pragma solidity ^0.8.13;
 
 contract SimpleStorage {
-    uint256 public totalSupply;
-    address public owner;
-    uint256[] public balances;
+    uint256 public totalSupply;        // slot 0
+    address public owner;              // slot 1
+    uint256[] public balances;         // slot 2
     
     struct User {
-        uint256 id;
-        address wallet;
-        bool isActive;
-        uint256 lastSeen;
+        uint256 id;                    // slot 3, offset 0
+        address wallet;                // slot 4, offset 0
+        bool isActive;                 // slot 4, offset 20
     }
     
-    mapping(address => User) public users;
-    mapping(address => uint256) public allowances;
+    User public currentUser;           // slots 3-4
     
     constructor() {
         owner = msg.sender;
         totalSupply = 1000000;
-    }
-    
-    function addUser(address _wallet, uint256 _id) external {
-        users[_wallet] = User({
-            id: _id,
-            wallet: _wallet,
-            isActive: true,
-            lastSeen: block.timestamp
+        currentUser = User({
+            id: 1,
+            wallet: msg.sender,
+            isActive: true
         });
     }
     
     function updateBalance(uint256 _amount) external {
         balances.push(_amount);
+    }
+    
+    function updateCurrentUser(uint256 _id, address _wallet, bool _isActive) external {
+        currentUser = User({
+            id: _id,
+            wallet: _wallet,
+            isActive: _isActive
+        });
     }
 }

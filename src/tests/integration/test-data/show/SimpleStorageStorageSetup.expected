@@ -1,0 +1,31 @@
+pragma solidity 0.8.26;
+
+import {SimpleStorage} from "src/SimpleStorage.sol";
+import {KontrolTest} from "test/kontrol/KontrolTest.sol";
+import {SimpleStorageStorageConstants} from "test/kontrol/storage/SimpleStorageStorageConstants.sol";
+
+contract SimpleStorageStorageSetup is KontrolTest {
+    // All storage constants are imported from SimpleStorageStorageConstants
+
+    function simpleStorageStorageSetup(address _contractAddress, uint256 _totalSupply, address _owner, uint256 _currentUser_id, address _currentUser_wallet, bool _currentUser_isActive) public {
+        vm.setArbitraryStorage(_contractAddress);
+
+        _clearSlot(_contractAddress, SimpleStorageStorageConstants.STORAGE_TOTALSUPPLY_SLOT);
+        _storeData(_contractAddress, SimpleStorageStorageConstants.STORAGE_TOTALSUPPLY_SLOT, SimpleStorageStorageConstants.STORAGE_TOTALSUPPLY_OFFSET, SimpleStorageStorageConstants.STORAGE_TOTALSUPPLY_SIZE, _totalSupply);
+
+        _clearSlot(_contractAddress, SimpleStorageStorageConstants.STORAGE_OWNER_SLOT);
+        _storeData(_contractAddress, SimpleStorageStorageConstants.STORAGE_OWNER_SLOT, SimpleStorageStorageConstants.STORAGE_OWNER_OFFSET, SimpleStorageStorageConstants.STORAGE_OWNER_SIZE, uint160(_owner));
+
+        _clearSlot(_contractAddress, SimpleStorageStorageConstants.STORAGE_CURRENTUSER_ID_SLOT);
+        _storeData(_contractAddress, SimpleStorageStorageConstants.STORAGE_CURRENTUSER_ID_SLOT, SimpleStorageStorageConstants.STORAGE_CURRENTUSER_ID_OFFSET, SimpleStorageStorageConstants.STORAGE_CURRENTUSER_ID_SIZE, _currentUser_id);
+
+        _clearSlot(_contractAddress, SimpleStorageStorageConstants.STORAGE_CURRENTUSER_WALLET_SLOT);
+        _storeData(_contractAddress, SimpleStorageStorageConstants.STORAGE_CURRENTUSER_WALLET_SLOT, SimpleStorageStorageConstants.STORAGE_CURRENTUSER_WALLET_OFFSET, SimpleStorageStorageConstants.STORAGE_CURRENTUSER_WALLET_SIZE, uint160(_currentUser_wallet));
+
+        _storeData(_contractAddress, SimpleStorageStorageConstants.STORAGE_CURRENTUSER_ISACTIVE_SLOT, SimpleStorageStorageConstants.STORAGE_CURRENTUSER_ISACTIVE_OFFSET, SimpleStorageStorageConstants.STORAGE_CURRENTUSER_ISACTIVE_SIZE, boolToUint256(_currentUser_isActive));
+
+        // TODO: Add support for the following types:
+        // - uint256[] balances
+
+    }
+}
