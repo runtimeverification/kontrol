@@ -9,8 +9,9 @@ from __future__ import annotations
 
 import logging
 import re
+from collections.abc import Iterable
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Any, Iterable, Optional
+from typing import TYPE_CHECKING, Any
 
 from pyk.proof.reachability import APRFailureInfo
 
@@ -43,8 +44,8 @@ class ParsedTestId:
 def generate_counterexample_test(
     proof: APRProof,
     foundry: Foundry,
-    output_dir: Optional[Path] = None,
-) -> Optional[Path]:
+    output_dir: Path | None = None,
+) -> Path | None:
     _LOGGER.info(f'Starting counterexample generation for proof: {proof.id}')
     failure_info = getattr(proof, 'failure_info', None)
     if not isinstance(failure_info, APRFailureInfo):
@@ -166,7 +167,7 @@ def _parse_test_id(test_id: str) -> ParsedTestId:
     )
 
 
-def _try_get_contract_method(foundry: Foundry, parsed: ParsedTestId) -> Optional[Any]:
+def _try_get_contract_method(foundry: Foundry, parsed: ParsedTestId) -> Any | None:
     """Try to resolve (contract, method) via Foundry metadata.
 
     Returns the *method* object (if any) so that we can read parameter names/types.
@@ -184,7 +185,7 @@ def _try_get_contract_method(foundry: Foundry, parsed: ParsedTestId) -> Optional
 
 def _extract_concrete_values(
     model: Iterable[tuple[str, str]],
-    method: Optional[Any],
+    method: Any | None,
 ) -> dict[str, Any]:
     """Extract concrete parameter values from a model.
 
@@ -225,7 +226,7 @@ def _extract_concrete_values(
     return concrete
 
 
-def _find_original_test_file(foundry: Foundry, parsed: ParsedTestId) -> Optional[Path]:
+def _find_original_test_file(foundry: Foundry, parsed: ParsedTestId) -> Path | None:
     """Find the original test file using the test ID path.
 
     The test ID contains path information with % as separator, which we convert to /.
@@ -274,7 +275,7 @@ def _extract_and_modify_function(
     original_method_name: str,
     new_method_name: str,
     concrete_values: dict[str, Any],
-    method: Optional[Any],
+    method: Any | None,
 ) -> str:
     """Extract a function from the original file, rename it, and insert assignments at the top."""
 
@@ -313,7 +314,7 @@ def _insert_assignments_into_function(
     *,
     content: str,
     method_name: str,
-    method: Optional[Any],
+    method: Any | None,
     concrete_values: dict[str, Any],
 ) -> str:
     """Insert assignments at the beginning of the actual function body.
@@ -395,7 +396,7 @@ def _insert_assignments_into_function(
                 param_types[pname] = ptype
 
     # 6) Build assignment lines
-    def _lookup_value(name: str) -> Optional[Any]:
+    def _lookup_value(name: str) -> Any | None:
         if name in concrete_values:
             return concrete_values[name]
         if name.startswith('_') and name[1:] in concrete_values:
