@@ -440,6 +440,11 @@ contract UnitTest is Test {
     }
 
     function test_counterexample(uint256 value, address addr, bool flag) public {
+        // Counterexample values from failed proof:
+        value = 10;
+        addr = address(0);
+        flag = false;
+
         // This test will fail, triggering counterexample generation
         assert(value != 10);
     }

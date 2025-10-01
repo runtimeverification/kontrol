@@ -197,3 +197,41 @@ def test_kontrol_setup_storage(foundry_end_to_end: Foundry, update_expected_outp
         TEST_DATA_DIR / 'show' / 'SimpleStorageStorageSetup.expected',
         update=update_expected_output,
     )
+
+
+def test_kontrol_counterexample_generation(foundry_end_to_end: Foundry, update_expected_output: bool) -> None:
+    """Test counterexample generation for a failing proof."""
+
+    # Run kontrol prove with --generate-counterexample on a test that will fail
+    prove_options = ProveOptions(
+        {
+            'tests': ['UnitTest.test_counterexample'],
+            'workers': 1,
+            'foundry_root': foundry_end_to_end._root,
+            'max_depth': 10000,
+            'max_iterations': 10000,
+            'reinit': False,
+            'bug_report': None,
+            'xml_test_report': False,
+            'failure_info': False,
+            'auto_abstract_gas': False,
+            'run_constructor': False,
+            'symbolic_caller': False,
+            'generate_counterexample': True,  # Enable counterexample generation
+        }
+    )
+
+    # Run the prove command (this should fail and generate a counterexample)
+    foundry_prove(foundry_end_to_end, prove_options)
+
+    # Check that the counterexample file was created in the same directory as the original test
+    counterexample_file = foundry_end_to_end._root / 'test' / 'UnitTestCounterexampleTest.t.sol'
+    assert counterexample_file.exists(), f'Counterexample file not created: {counterexample_file}'
+
+    # Check counterexample content and update expected output
+    counterexample_content = counterexample_file.read_text()
+    assert_or_update_show_output(
+        counterexample_content,
+        TEST_DATA_DIR / 'show' / 'UnitTestCounterexampleTest.expected',
+        update=update_expected_output,
+    )
