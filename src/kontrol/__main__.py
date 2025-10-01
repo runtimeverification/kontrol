@@ -228,12 +228,38 @@ def exec_prove(options: ProveOptions) -> None:
 
             # Generate counterexample test if requested
             if options.generate_counterexample:
+                # Debug: Print models and path conditions for failing nodes
+                if proof.failure_info and hasattr(proof.failure_info, 'failing_nodes'):
+                    print(f"\n=== DEBUG: Counterexample Generation ===")
+                    print(f"Proof ID: {proof.id}")
+                    print(f"Failing nodes: {list(proof.failure_info.failing_nodes)}")
+                    
+                    if hasattr(proof.failure_info, 'path_conditions'):
+                        print(f"Path conditions:")
+                        for node_id in proof.failure_info.failing_nodes:
+                            if node_id in proof.failure_info.path_conditions:
+                                print(f"  Node {node_id}: {proof.failure_info.path_conditions[node_id]}")
+                    
+                    if hasattr(proof.failure_info, 'models'):
+                        print(f"Models:")
+                        for node_id in proof.failure_info.failing_nodes:
+                            if node_id in proof.failure_info.models:
+                                print(f"  Node {node_id}:")
+                                for var, term in proof.failure_info.models[node_id]:
+                                    print(f"    {var} = {term}")
+                            else:
+                                print(f"  Node {node_id}: No model available")
+                    print(f"=== END DEBUG ===\n")
+                
                 try:
+                    print(f"DEBUG: Starting counterexample generation for proof: {proof.id}")
                     counterexample_path = generate_counterexample_test(proof, foundry)
                     console.print(
                         f':test_tube: [bold yellow]Generated counterexample test: {counterexample_path}[/bold yellow] :test_tube:'
                     )
                 except Exception as e:
+                    import traceback
+                    print(f"DEBUG: Full traceback: {traceback.format_exc()}")
                     _LOGGER.warning(f'Failed to generate counterexample test: {e}')
 
             refuted_nodes = list(proof.node_refutations.keys())
