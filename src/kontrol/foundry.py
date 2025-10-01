@@ -42,6 +42,7 @@ from pyk.utils import ensure_dir_path, hash_str, run_process_2, single, unique
 
 from . import VERSION
 from .solc_to_k import Contract, _contract_name_from_bytecode
+from .storage_generation import generate_setup_contract
 from .utils import (
     _read_digest_file,
     decode_log_message,
@@ -1368,6 +1369,26 @@ def foundry_storage_generation(foundry: Foundry, options: SetupStorageOptions) -
 
         generated_files.append(output_path)
         _LOGGER.info(f'Generated storage constants file: {output_path}')
+
+        # Generate setup contract if requested
+        if options.generate_setup_contracts:
+            setup_contract = generate_setup_contract(contract_name, options.solidity_version, storage, types)
+
+            # Determine setup contract output path
+            if options.output_file:
+                setup_output_path = output_dir / f'{contract_name}StorageSetup.sol'
+            else:
+                setup_output_path = foundry._root / 'test' / 'kontrol' / 'setup' / f'{contract_name}StorageSetup.sol'
+
+            # Ensure setup directory exists
+            setup_output_path.parent.mkdir(parents=True, exist_ok=True)
+
+            # Write setup contract file
+            with open(setup_output_path, 'w') as f:
+                f.write(setup_contract)
+
+            generated_files.append(setup_output_path)
+            _LOGGER.info(f'Generated setup contract file: {setup_output_path}')
 
     _LOGGER.info(
         f'Storage generation completed successfully! Generated {len(generated_files)} files: {[str(f) for f in generated_files]}'

@@ -158,7 +158,7 @@ def test_kontrol_end_to_end(
 
 
 def test_kontrol_setup_storage(foundry_end_to_end: Foundry, update_expected_output: bool) -> None:
-    """Test the setup-storage command as part of end-to-end tests."""
+    """Test the setup-storage command with both storage constants and setup contract generation."""
 
     options = SetupStorageOptions(
         {
@@ -168,20 +168,32 @@ def test_kontrol_setup_storage(foundry_end_to_end: Foundry, update_expected_outp
             'foundry_root': foundry_end_to_end._root,
             'enum_constraints': False,
             'log_level': 'INFO',
+            'generate_setup_contracts': True,
         }
     )
 
     foundry_storage_generation(foundry_end_to_end, options)
 
-    # Check that output file was created
+    # Check that storage constants file was created
     storage_file = foundry_end_to_end._root / 'test' / 'kontrol' / 'storage' / 'SimpleStorageStorageConstants.sol'
+    assert storage_file.exists(), f'SimpleStorage constants file not created: {storage_file}'
 
-    assert storage_file.exists(), f'SimpleStorage file not created: {storage_file}'
-
-    # Check SimpleStorage content and update expected output
+    # Check storage constants content and update expected output
     storage_content = storage_file.read_text()
     assert_or_update_show_output(
         storage_content,
         TEST_DATA_DIR / 'show' / 'SimpleStorageStorageConstants.expected',
+        update=update_expected_output,
+    )
+
+    # Check that setup contract file was created
+    setup_file = foundry_end_to_end._root / 'test' / 'kontrol' / 'setup' / 'SimpleStorageStorageSetup.sol'
+    assert setup_file.exists(), f'SimpleStorage setup file not created: {setup_file}'
+
+    # Check setup contract content and update expected output
+    setup_content = setup_file.read_text()
+    assert_or_update_show_output(
+        setup_content,
+        TEST_DATA_DIR / 'show' / 'SimpleStorageStorageSetup.expected',
         update=update_expected_output,
     )
