@@ -34,6 +34,7 @@ from pyk.proof.reachability import APRFailureInfo, APRProof
 from pyk.utils import hash_str, run_process_2, unique
 from rich.progress import Progress, SpinnerColumn, TaskID, TextColumn, TimeElapsedColumn
 
+from .counterexample_generation import generate_counterexample_test
 from .foundry import Foundry, KontrolSemantics, foundry_to_xml
 from .natspec import apply_natspec_preconditions
 from .options import ConfigType
@@ -543,6 +544,26 @@ def _run_cfg_group(
                 proof.error_info = failure_info
             elif isinstance(failure_info, APRFailureInfo):
                 proof.failure_info = KontrolAPRFailureInfo(failure_info)
+
+        # Generate counterexample tests for failed proofs if requested
+        if options.generate_counterexample:
+            for proof in proofs:
+                if (
+                    proof.failure_info
+                    and hasattr(proof.failure_info, 'failing_nodes')
+                    and proof.failure_info.failing_nodes
+                ):
+                    try:
+                        _LOGGER.info(f'Attempting to generate counterexample for proof: {proof.id}')
+                        counterexample_path = generate_counterexample_test(proof, foundry)
+                        if counterexample_path:
+                            console.print(
+                                f':test_tube: [bold yellow]Generated counterexample test: {counterexample_path}[/bold yellow] :test_tube:'
+                            )
+                        else:
+                            _LOGGER.warning(f'Counterexample generation returned None for proof: {proof.id}')
+                    except Exception as e:
+                        _LOGGER.warning(f'Failed to generate counterexample test: {e}')
 
         return proofs
 
