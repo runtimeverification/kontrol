@@ -455,4 +455,15 @@ contract UnitTest is Test {
     function min(uint256 a, uint256 b) internal pure returns (uint256) {
         return a > b ? b : a;
     }
+
+
+    function test_counterexample_ce0(uint256 value, address addr, bool flag) public pure {
+            // Counterexample values from failed proof:
+            value = 10;
+            addr = address(0);
+            flag = false;
+    
+            // This test will fail, triggering counterexample generation
+            assert(value != 10);
+        }
 }
