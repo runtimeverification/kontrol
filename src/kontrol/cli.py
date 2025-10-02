@@ -547,6 +547,13 @@ def _create_argument_parser() -> ArgumentParser:
         action='store_true',
         help="Make the caller ('msg.sender' and 'tx.origin') symbolic.",
     )
+    prove_args.add_argument(
+        '--generate-counterexample',
+        dest='generate_counterexample',
+        default=None,
+        action='store_true',
+        help='Generate a Solidity test contract with concrete counterexample values when proofs fail.',
+    )
 
     show_args = command_parser.add_parser(
         'show',
