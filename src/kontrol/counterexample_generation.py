@@ -253,7 +253,7 @@ def _find_original_test_file(foundry: Foundry, parsed: ParsedTestId) -> Path | N
         return None
 
     # Search for files containing the contract name
-    candidates = list(test_dir.rglob('*.t.sol')) + list(test_dir.rglob('*.sol'))
+    candidates = list(test_dir.rglob('*.sol'))
 
     for candidate in candidates:
         try:
