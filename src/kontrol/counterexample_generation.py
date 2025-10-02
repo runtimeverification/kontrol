@@ -483,7 +483,7 @@ _hex_re = re.compile(r'^0x[0-9a-fA-F]+$')
 _addr_token_re = re.compile(r'^(0x[0-9a-fA-F]+|-?\d+):Addr$')
 
 
-def _convert_term_to_value(term: str) -> Any:
+def _convert_term_to_value(term: str) -> int | str | bool | None:
     """Convert a K term string into a concrete Python value usable in Solidity.
 
     Handles ints, bools, hex strings, and simple address encodings.
