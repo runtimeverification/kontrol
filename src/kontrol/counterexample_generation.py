@@ -307,7 +307,7 @@ def _extract_and_modify_function(
     )
 
     indented_func = '    ' + func_text.replace('\n', '\n    ')
-    return '\n' + indented_func + '\n'
+    return '\n' + indented_func
 
 
 def _insert_assignments_into_function(
