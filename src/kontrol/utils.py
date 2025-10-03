@@ -52,7 +52,7 @@ def _track_event(event: str, properties: dict | None = None) -> None:
 
     try:
         requests.post(
-            'http://localhost:5000/track',
+            'http://localhost:5000/track',  # TODO: replace with the telemetry proxy server ip
             json={'user_id': _get_user_id(), 'event': event, 'properties': properties or {}},
             timeout=2,
         )
