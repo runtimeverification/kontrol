@@ -211,7 +211,7 @@ def exec_prove(options: ProveOptions) -> None:
             init_accounts=init_accounts,
         )
     except CTermSMTError as err:
-        # Track final results
+        # Track smt solver errors
         _track_event(
             'kontrol_prove_smt_error',
             {
