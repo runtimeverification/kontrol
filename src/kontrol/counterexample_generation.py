@@ -298,15 +298,15 @@ def _extract_and_modify_function(
 
     func_text = m.group(1)
 
-    # Rename the function
+    # Rename the function and remove all parameters
     func_text = re.sub(
-        rf'function\s+{re.escape(original_method_name)}\s*\(',
-        f'function {new_method_name}(',
+        rf'function\s+{re.escape(original_method_name)}\s*\([^)]*\)',
+        f'function {new_method_name}()',
         func_text,
         count=1,
     )
 
-    indented_func = '    ' + func_text.replace('\n', '\n    ')
+    indented_func = '    ' + func_text
     return '\n' + indented_func
 
 
@@ -324,7 +324,7 @@ def _insert_assignments_into_function(
     """
     text = content
 
-    # 1) Find the start of the target function signature: `function <name>(`
+    # Find the start of the target function signature: `function <name>(`
     sig_needle = f'function {method_name}('
     sig_pos = text.find(sig_needle)
     if sig_pos == -1:
@@ -334,7 +334,7 @@ def _insert_assignments_into_function(
             return text
         sig_pos = m.start()
 
-    # 2) From the first '(' after the method name, find the matching ')'
+    # From the first '(' after the method name, find the matching ')'
     paren_start = text.find('(', sig_pos)
     if paren_start == -1:
         return text
@@ -353,18 +353,17 @@ def _insert_assignments_into_function(
         return text
     paren_end = i  # index of the closing ')'
 
-    # 3) After the signature, skip whitespace/modifiers until the opening '{'
+    # After the signature, skip whitespace/modifiers until the opening '{'
     j = paren_end + 1
     while j < len(text) and text[j].isspace():
         j += 1
 
     # Skip modifier/returns tokens until '{'
-    # (We don't try to parse them; just scan until first '{')
     brace_pos = text.find('{', j)
     if brace_pos == -1:
         return text
 
-    # 4) Find the end of the function by brace counting from this '{'
+    # Find the end of the function by brace counting from this '{'
     depth = 0
     k = brace_pos
     while k < len(text):
@@ -381,7 +380,7 @@ def _insert_assignments_into_function(
     func_body_open = brace_pos
     func_end = k  # index of the matching closing '}'
 
-    # 5) Extract params to map assignments
+    # Extract params to map assignments
     params_segment = text[paren_start + 1 : paren_end].strip()
     actual_param_names: list[str] = []
     param_types: dict[str, str] = {}
@@ -395,7 +394,7 @@ def _insert_assignments_into_function(
                 actual_param_names.append(pname)
                 param_types[pname] = ptype
 
-    # 6) Build assignment lines
+    # Build assignment lines
     def _lookup_value(name: str) -> Any | None:
         if name in concrete_values:
             return concrete_values[name]
@@ -412,18 +411,18 @@ def _insert_assignments_into_function(
         if v is None:
             continue
         ptype = param_types.get(pname, 'uint256')
-        assignments.append(f'        {pname} = {_format_value(v, ptype)};')
+        assignments.append(f'        {ptype} {pname} = {_format_value(v, ptype)};')
 
     if not assignments:
         # Nothing to insert; keep function unchanged
         return text
 
-    # 7) Idempotence: if marker already inside this function, do nothing
+    # If marker already inside this function, do not add assignments
     func_block = text[func_start : func_end + 1]
     if _ASSIGNMENT_MARKER in func_block:
         return text
 
-    # 8) Insert assignments right after the opening '{'
+    # Insert assignments after the opening '{'
     insert_block = '        ' + _ASSIGNMENT_MARKER + '\n' + '\n'.join(assignments) + '\n'
     new_text = text[: func_body_open + 1] + '\n' + insert_block + text[func_body_open + 1 :]
 
