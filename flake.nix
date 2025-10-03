@@ -70,8 +70,15 @@
       };
       kontrolOverlay = final: prev:
       let
+        kontrol-pyk-pyproject = final.callPackage ./nix/kontrol-pyk-pyproject {
+          inherit uv2nix;
+        };
         kontrol-pyk = final.callPackage ./nix/kontrol-pyk {
-          inherit pyproject-nix pyproject-build-systems uv2nix;
+          inherit pyproject-nix pyproject-build-systems kontrol-pyk-pyproject;
+          pyproject-overlays = [
+            (k-framework.overlays.pyk-pyproject system)
+            (kevm.overlays.pyk-pyproject system)
+          ];
           python = final."python${pythonVer}";
         };
         kontrol = final.callPackage ./nix/kontrol {
@@ -79,7 +86,7 @@
           rev = self.rev or null;
         };
       in {
-        inherit kontrol;
+        inherit kontrol kontrol-pyk-pyproject;
       };
       solcMkDefaultOverlay = final: prev: {
         solcMkDefault = solc.mkDefault;
@@ -148,13 +155,19 @@
         '';
       };
       packages = rec {
-        kontrol = pkgs.kontrol;
-        uv = pkgs.uv;
+        inherit (pkgs) kontrol uv kontrol-pyk kontrol-pyk-pyproject;
         default = kontrol;
       };
     }) // {
-      overlays.default = final: prev: {
-        inherit (self.packages.${final.system}) kontrol;
+      overlays = {
+        default = final: prev: {
+          inherit (self.packages.${final.system}) kontrol;
+        };
+        # this pyproject-nix overlay allows for overriding the python packages that are otherwise locked in `uv.lock`
+        # by using this overlay in dependant nix flakes, you ensure that nix overrides also override the python package     
+        pyk-pyproject = system: final: prev: {
+          inherit (self.packages.${system}.kontrol-pyk-pyproject.lockFileOverlay final prev) kontrol-pyk;
+        };
       };
     };
 }
