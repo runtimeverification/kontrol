@@ -457,13 +457,13 @@ contract UnitTest is Test {
     }
 
 
-    function test_counterexample_ce0(uint256 value, address addr, bool flag) public pure {
-            // Counterexample values from failed proof:
-            value = 10;
-            addr = address(0);
-            flag = false;
-    
-            // This test will fail, triggering counterexample generation
-            assert(value != 10);
-        }
+    function test_counterexample_ce0() public pure {
+        // Counterexample values from failed proof:
+        uint256 value = 10;
+        address addr = address(0);
+        bool flag = false;
+
+        // This test will fail, triggering counterexample generation
+        assert(value != 10);
+    }
 }
