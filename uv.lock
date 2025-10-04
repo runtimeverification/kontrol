@@ -621,8 +621,8 @@ wheels = [
 
 [[package]]
 name = "kevm-pyk"
-version = "1.0.867"
-source = { git = "https://github.com/runtimeverification/evm-semantics.git?subdirectory=kevm-pyk&rev=v1.0.867#5575a43336731c550ce9333b3c96166364637a93" }
+version = "1.0.868"
+source = { git = "https://github.com/runtimeverification/evm-semantics.git?subdirectory=kevm-pyk&rev=v1.0.868#ca6b239045e7e1a3a52ea67ab46e663e006eba0b" }
 dependencies = [
     { name = "frozendict" },
     { name = "kframework" },
@@ -632,7 +632,7 @@ dependencies = [
 
 [[package]]
 name = "kframework"
-version = "7.1.288"
+version = "7.1.289"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "coloredlogs" },
@@ -649,9 +649,9 @@ dependencies = [
     { name = "tomli" },
     { name = "xdg-base-dirs" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/ce/03/7ccd18f17c7d2f9b5b37041592e2e36b7dc054a0fecb05e8c39a4bcecf15/kframework-7.1.288.tar.gz", hash = "sha256:e08e5ee2821b8c8bb7da8871c8ef1e77fad3b5c2d1a6eaa5e08879f970f4c0ed", size = 242925, upload-time = "2025-09-18T05:48:02.013Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/62/94/c9eb33d5facd51e576b91571b858860e4187bfb41804398c261d45b0cf71/kframework-7.1.289.tar.gz", hash = "sha256:66b97e7738261f1484521ad91950c4011bfd3d13e4a90f5d49fcbd525e69fbb4", size = 242939, upload-time = "2025-10-01T13:00:28.326Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/fd/c5/64c539ea000ce6bdea700e0774d67d8506123ac046ee81d7eb8a7ce9a9ba/kframework-7.1.288-py3-none-any.whl", hash = "sha256:0b922c332550e9b50e70d0f34a89ed5dd281df8ddbb04ee883de7d089cf3b272", size = 294117, upload-time = "2025-09-18T05:48:00.422Z" },
+    { url = "https://files.pythonhosted.org/packages/72/3c/55c8cc40f358e7975e4511c458b0187dd288bb8e095f53fda3721c994b5f/kframework-7.1.289-py3-none-any.whl", hash = "sha256:68c1c776d951262b09e60f12d62c76158765254e0a4310a46f934481f837b30c", size = 294139, upload-time = "2025-10-01T13:00:25.316Z" },
 ]
 
 [[package]]
@@ -692,7 +692,7 @@ dev = [
 requires-dist = [
     { name = "eth-abi", specifier = ">=5.2.0" },
     { name = "eth-utils", specifier = ">=5,<6" },
-    { name = "kevm-pyk", git = "https://github.com/runtimeverification/evm-semantics.git?subdirectory=kevm-pyk&rev=v1.0.867" },
+    { name = "kevm-pyk", git = "https://github.com/runtimeverification/evm-semantics.git?subdirectory=kevm-pyk&rev=v1.0.868" },
     { name = "openzeppelin-solidity-grammar-parser", specifier = ">=0.0.5" },
     { name = "pycryptodome", specifier = ">=3.20.0,<4" },
     { name = "pyevmasm", specifier = ">=0.2.3,<0.3" },
@@ -1145,7 +1145,7 @@ wheels = [
 
 [[package]]
 name = "pydantic"
-version = "2.11.9"
+version = "2.11.10"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "annotated-types" },
@@ -1153,9 +1153,9 @@ dependencies = [
     { name = "typing-extensions" },
     { name = "typing-inspection" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/ff/5d/09a551ba512d7ca404d785072700d3f6727a02f6f3c24ecfd081c7cf0aa8/pydantic-2.11.9.tar.gz", hash = "sha256:6b8ffda597a14812a7975c90b82a8a2e777d9257aba3453f973acd3c032a18e2", size = 788495, upload-time = "2025-09-13T11:26:39.325Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/ae/54/ecab642b3bed45f7d5f59b38443dcb36ef50f85af192e6ece103dbfe9587/pydantic-2.11.10.tar.gz", hash = "sha256:dc280f0982fbda6c38fada4e476dc0a4f3aeaf9c6ad4c28df68a666ec3c61423", size = 788494, upload-time = "2025-10-04T10:40:41.338Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/3e/d3/108f2006987c58e76691d5ae5d200dd3e0f532cb4e5fa3560751c3a1feba/pydantic-2.11.9-py3-none-any.whl", hash = "sha256:c42dd626f5cfc1c6950ce6205ea58c93efa406da65f479dcb4029d5934857da2", size = 444855, upload-time = "2025-09-13T11:26:36.909Z" },
+    { url = "https://files.pythonhosted.org/packages/bd/1f/73c53fcbfb0b5a78f91176df41945ca466e71e9d9d836e5c522abda39ee7/pydantic-2.11.10-py3-none-any.whl", hash = "sha256:802a655709d49bd004c31e865ef37da30b540786a46bfce02333e0e24b5fe29a", size = 444823, upload-time = "2025-10-04T10:40:39.055Z" },
 ]
 
 [[package]]
