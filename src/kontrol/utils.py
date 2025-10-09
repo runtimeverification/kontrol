@@ -33,7 +33,7 @@ _LOGGER: Final = logging.getLogger(__name__)
 
 def _get_user_id() -> str:
     """Get or create persistent anonymous user ID"""
-    config_dir = Path.home() / '.kontrol'
+    config_dir = Path.home() / '.kprofile'
     config_dir.mkdir(exist_ok=True)
     user_id_file = config_dir / 'user_id'
 
@@ -47,7 +47,7 @@ def _get_user_id() -> str:
 
 def _track_event(event: str, properties: dict | None = None) -> None:
     """Send telemetry event to proxy server"""
-    if os.getenv('KONTROL_TELEMETRY') == '0':
+    if os.getenv('K_TELEMETRY') == '0':
         return
 
     try:
