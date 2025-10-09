@@ -170,13 +170,9 @@ def exec_build(options: BuildOptions) -> None:
 def exec_prove(options: ProveOptions) -> None:
     _LOGGER.debug(options)
 
-    # Track prove start
     _track_event(
         'kontrol_prove_start',
         {
-            'workers': options.workers,
-            'max_depth': options.max_depth,
-            'smt_timeout': options.smt_timeout,
             'reinit': options.reinit,
         },
     )
@@ -216,6 +212,7 @@ def exec_prove(options: ProveOptions) -> None:
             'kontrol_prove_smt_error',
             {
                 'smt_timeout': options.smt_timeout,
+                'smt_retry_limit': options.smt_retry_limit,
             },
         )
         raise RuntimeError(
