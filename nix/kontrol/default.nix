@@ -86,21 +86,16 @@ stdenv.mkDerivation {
     } --set NIX_LIBS "${nixLibs}" --set KDIST_DIR $out
   '';
 
-  passthru = if solc_version == null then
-  let
-    kontrol-pyk-with-solc = new_solc_version: kontrol-pyk.override ( oldArgs: {
-      kontrol-pyk-pyproject = oldArgs.kontrol-pyk-pyproject.override { solc_version = new_solc_version; };
-    });
-  in {
+  passthru = if solc_version == null then {
     # list all supported solc versions here
     solc_0_8_13 = callPackage ./default.nix (args // {
-      kontrol-pyk = kontrol-pyk-with-solc solc_0_8_13;
+      solc_version = solc_0_8_13;
     });
     solc_0_8_15 = callPackage ./default.nix (args // {
-      kontrol-pyk = kontrol-pyk-with-solc solc_0_8_15;
+      solc_version = solc_0_8_15;
     });
     solc_0_8_22 = callPackage ./default.nix (args // {
-      kontrol-pyk = kontrol-pyk-with-solc solc_0_8_22;
+      solc_version = solc_0_8_22;
     });
   } else { };
 }
