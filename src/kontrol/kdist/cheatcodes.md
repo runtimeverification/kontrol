@@ -1888,7 +1888,12 @@ Selectors for **implemented** cheat code functions.
     rule ( selector ( "mockFunction(address,address,bytes)" )      => 2918731041 )
     rule ( selector ( "copyStorage(address,address)" )             => 540912653  )
     rule ( selector ( "forgetBranch(uint256,uint8,uint256)" )      => 1720990067 )
+    rule ( selector ( "toString(address)" )                        => 1456103998 )
+    rule ( selector ( "toString(bytes)" )                          => 1907020045 )
+    rule ( selector ( "toString(bytes32)" )                        => 2971277800 )
+    rule ( selector ( "toString(bool)" )                           => 1910302682 )
     rule ( selector ( "toString(uint256)" )                        => 1761649582 )
+    rule ( selector ( "toString(int256)" )                        = > 2736964622 )
 
 ```
 
@@ -1931,11 +1936,6 @@ Selectors for **unimplemented** cheat code functions.
     rule selector ( "writeLine(string,string)" )                => 1637714303
     rule selector ( "closeFile(string)" )                       => 1220748319
     rule selector ( "removeFile(string)" )                      => 4054835277
-    rule selector ( "toString(address)" )                       => 1456103998
-    rule selector ( "toString(bytes)" )                         => 1907020045
-    rule selector ( "toString(bytes32)" )                       => 2971277800
-    rule selector ( "toString(bool)" )                          => 1910302682
-    rule selector ( "toString(int256)" )                        => 2736964622
     rule selector ( "recordLogs()" )                            => 1101999954
     rule selector ( "getRecordedLogs()" )                       => 420828068
     rule selector ( "snapshot()" )                              => 2534502746
