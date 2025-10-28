@@ -1896,7 +1896,6 @@ Selectors for **implemented** cheat code functions.
     rule ( selector ( "toString(bool)" )                           => 1910302682 )
     rule ( selector ( "toString(uint256)" )                        => 1761649582 )
     rule ( selector ( "toString(int256)" )                         => 2736964622 )
-
 ```
 
 Selectors for **unimplemented** cheat code functions.
