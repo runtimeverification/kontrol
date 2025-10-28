@@ -642,7 +642,6 @@ function toString(int256) external returns (string memory);
       [preserves-definedness]
 ```
 
-
 Expecting the next call to revert
 ---------------------------------
 
