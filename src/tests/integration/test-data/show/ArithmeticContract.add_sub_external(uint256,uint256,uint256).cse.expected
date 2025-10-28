@@ -766,7 +766,7 @@
 ┃  ┃  ┃  │
 ┃  ┃  ┃  │  (6 steps)
 ┃  ┃  ┃  └─ 78 (leaf, pending)
-┃  ┃  ┃      k: 1 ~> #push ~> #setLocalMem 128 32 b"" ~> #pc [ STATICCALL ] ~> #endPrank ~> #exe ...
+┃  ┃  ┃      k: #refund 0 ~> 1 ~> #push ~> #setLocalMem 128 32 b"" ~> #pc [ STATICCALL ] ~> #end ...
 ┃  ┃  ┃      pc: 279
 ┃  ┃  ┃      callDepth: DEPTH_CELL:Int
 ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
@@ -869,7 +869,7 @@
 ┃  ┃  ┃  │
 ┃  ┃  ┃  │  (6 steps)
 ┃  ┃  ┃  └─ 82 (leaf, pending)
-┃  ┃  ┃      k: 1 ~> #push ~> #setLocalMem 128 32 b"" ~> #pc [ STATICCALL ] ~> #endPrank ~> #exe ...
+┃  ┃  ┃      k: #refund 0 ~> 1 ~> #push ~> #setLocalMem 128 32 b"" ~> #pc [ STATICCALL ] ~> #end ...
 ┃  ┃  ┃      pc: 279
 ┃  ┃  ┃      callDepth: DEPTH_CELL:Int
 ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
@@ -1204,7 +1204,7 @@
    ┃  ┃  │   src: lib/forge-std/src/StdInvariant.sol:85:87
    ┃  ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
    ┃  ┃  │
-   ┃  ┃  │  (188 steps)
+   ┃  ┃  │  (189 steps)
    ┃  ┃  └─ 94 (leaf, pending)
    ┃  ┃      k: JUMPI 593 bool2Word ( ( (chop ( lengthBytes ( OUTPUT_CELL:Bytes ) )) s<Word (32) ...
    ┃  ┃      pc: 588
@@ -1225,7 +1225,7 @@
    ┃     │   src: lib/forge-std/src/StdInvariant.sol:85:87
    ┃     │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
    ┃     │
-   ┃     │  (188 steps)
+   ┃     │  (189 steps)
    ┃     └─ 95 (leaf, pending)
    ┃         k: JUMPI 593 bool2Word ( ( (chop ( lengthBytes ( OUTPUT_CELL:Bytes ) )) s<Word (32) ...
    ┃         pc: 588
@@ -4054,6 +4054,7 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
            <kevm>
              <k>
                ( #consoleLog 1997931255 #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int )
+               ~> #refund 0
                ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
@@ -4247,6 +4248,7 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
            <kevm>
              <k>
                ( #consoleLog 1997931255 #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int )
+               ~> #refund 0
                ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
@@ -7673,7 +7675,8 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
     rule [BASIC-BLOCK-126-TO-78]: <foundry>
            <kevm>
              <k>
-               ( #next [ STATICCALL ] ~> .K => 1
+               ( #next [ STATICCALL ] ~> .K => #refund 0
+               ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
                ~> #pc [ STATICCALL ] )
@@ -7878,7 +7881,8 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
     rule [BASIC-BLOCK-128-TO-82]: <foundry>
            <kevm>
              <k>
-               ( #next [ STATICCALL ] ~> .K => 1
+               ( #next [ STATICCALL ] ~> .K => #refund 0
+               ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
                ~> #pc [ STATICCALL ] )
@@ -8084,6 +8088,7 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => #consoleLog 1997931255 #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int )
+               ~> #refund 0
                ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
@@ -8290,6 +8295,7 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => #consoleLog 1997931255 #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int )
+               ~> #refund 0
                ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
@@ -8496,6 +8502,7 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => #consoleLog 1997931255 #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int )
+               ~> #refund 0
                ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
@@ -9221,6 +9228,7 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => #consoleLog 1997931255 #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int )
+               ~> #refund 0
                ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
@@ -9430,6 +9438,7 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => #consoleLog 1997931255 #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int )
+               ~> #refund 0
                ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
