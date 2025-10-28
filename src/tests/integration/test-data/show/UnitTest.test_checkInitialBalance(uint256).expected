@@ -18,14 +18,14 @@
 │
 │  (1 step)
 ├─ 4
-│   k: 1 ~> #push ~> #setLocalMem 0 0 b"" ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUA ...
+│   k: #refund 0 ~> 1 ~> #push ~> #setLocalMem 0 0 b"" ~> #pc [ STATICCALL ] ~> #execut ...
 │   pc: 16676
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │   src: lib/forge-std/src/console.sol:11:22
 │   method: test%UnitTest.test_checkInitialBalance(uint256)
 │
-│  (645 steps)
+│  (646 steps)
 ├─ 5
 │   k: #consoleLog 3054400204 b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0 ...
 │   pc: 16676
@@ -36,14 +36,14 @@
 │
 │  (1 step)
 ├─ 6
-│   k: 1 ~> #push ~> #setLocalMem 0 0 b"" ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUA ...
+│   k: #refund 0 ~> 1 ~> #push ~> #setLocalMem 0 0 b"" ~> #pc [ STATICCALL ] ~> #execut ...
 │   pc: 16676
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │   src: lib/forge-std/src/console.sol:11:22
 │   method: test%UnitTest.test_checkInitialBalance(uint256)
 │
-│  (204 steps)
+│  (205 steps)
 ├─ 7 (terminal)
 │   k: #halt ~> CONTINUATION:K
 │   pc: 1038
@@ -70,6 +70,7 @@ module SUMMARY-TEST%UNITTEST.TEST-CHECKINITIALBALANCE(UINT256):0
            <kevm>
              <k>
                ( .K => #consoleLog 3054400204 b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00@\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x16Test contract balance:\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+               ~> #refund 0
                ~> 1
                ~> #push
                ~> #setLocalMem 0 0 b""
@@ -290,6 +291,7 @@ module SUMMARY-TEST%UNITTEST.TEST-CHECKINITIALBALANCE(UINT256):0
            <kevm>
              <k>
                ( #consoleLog 3054400204 b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00@\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x16Test contract balance:\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" ~> .K => .K )
+               ~> #refund 0
                ~> 1
                ~> #push
                ~> #setLocalMem 0 0 b""
@@ -510,6 +512,7 @@ module SUMMARY-TEST%UNITTEST.TEST-CHECKINITIALBALANCE(UINT256):0
            <kevm>
              <k>
                ( .K => #consoleLog 3054400204 b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00@" +Bytes #buf ( 32 , KV0_amount:Int ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0eSymbolic value\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" ~> .K )
+               ~> #refund 0
                ~> 1
                ~> #push
                ~> #setLocalMem 0 0 b""
@@ -730,6 +733,7 @@ module SUMMARY-TEST%UNITTEST.TEST-CHECKINITIALBALANCE(UINT256):0
            <kevm>
              <k>
                ( #consoleLog 3054400204 b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00@" +Bytes #buf ( 32 , KV0_amount:Int ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0eSymbolic value\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" ~> .K => .K )
+               ~> #refund 0
                ~> 1
                ~> #push
                ~> #setLocalMem 0 0 b""
@@ -949,7 +953,8 @@ module SUMMARY-TEST%UNITTEST.TEST-CHECKINITIALBALANCE(UINT256):0
     rule [BASIC-BLOCK-6-TO-7]: <foundry>
            <kevm>
              <k>
-               ( 1
+               ( #refund 0
+               ~> 1
                ~> #push
                ~> #setLocalMem 0 0 b""
                ~> #pc [ STATICCALL ]

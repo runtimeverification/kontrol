@@ -81,7 +81,7 @@
 ┃  ┃  ┃  ┃  │
 ┃  ┃  ┃  ┃  │  (5 steps)
 ┃  ┃  ┃  ┃  └─ 98 (leaf, pending)
-┃  ┃  ┃  ┃      k: #consoleLog 1756313567 b"" ~> 1 ~> #push ~> #setLocalMem 128 32 b"" ~> #pc [ STA ...
+┃  ┃  ┃  ┃      k: #consoleLog 1756313567 b"" ~> #refund 0 ~> 1 ~> #push ~> #setLocalMem 128 32 b"" ...
 ┃  ┃  ┃  ┃      pc: 145
 ┃  ┃  ┃  ┃      callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
@@ -164,7 +164,7 @@
 ┃  ┃  ┃  ┃  │
 ┃  ┃  ┃  ┃  │  (5 steps)
 ┃  ┃  ┃  ┃  └─ 101 (leaf, pending)
-┃  ┃  ┃  ┃      k: #consoleLog 1756313567 b"" ~> 1 ~> #push ~> #setLocalMem 128 32 b"" ~> #pc [ STA ...
+┃  ┃  ┃  ┃      k: #consoleLog 1756313567 b"" ~> #refund 0 ~> 1 ~> #push ~> #setLocalMem 128 32 b"" ...
 ┃  ┃  ┃  ┃      pc: 145
 ┃  ┃  ┃  ┃      callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
@@ -787,7 +787,7 @@
 ┃  ┃  ┃  │
 ┃  ┃  ┃  │  (6 steps)
 ┃  ┃  ┃  └─ 78 (leaf, pending)
-┃  ┃  ┃      k: 1 ~> #push ~> #setLocalMem 128 32 b"" ~> #pc [ STATICCALL ] ~> #endPrank ~> #exe ...
+┃  ┃  ┃      k: #refund 0 ~> 1 ~> #push ~> #setLocalMem 128 32 b"" ~> #pc [ STATICCALL ] ~> #end ...
 ┃  ┃  ┃      pc: 145
 ┃  ┃  ┃      callDepth: DEPTH_CELL:Int
 ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
@@ -813,7 +813,7 @@
 ┃  ┃  ┃  │
 ┃  ┃  ┃  │  (5 steps)
 ┃  ┃  ┃  └─ 79 (leaf, pending)
-┃  ┃  ┃      k: #consoleLog 1756313567 b"" ~> 1 ~> #push ~> #setLocalMem 128 32 b"" ~> #pc [ STA ...
+┃  ┃  ┃      k: #consoleLog 1756313567 b"" ~> #refund 0 ~> 1 ~> #push ~> #setLocalMem 128 32 b"" ...
 ┃  ┃  ┃      pc: 145
 ┃  ┃  ┃      callDepth: DEPTH_CELL:Int
 ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
@@ -896,7 +896,7 @@
 ┃  ┃  ┃  │
 ┃  ┃  ┃  │  (6 steps)
 ┃  ┃  ┃  └─ 82 (leaf, pending)
-┃  ┃  ┃      k: 1 ~> #push ~> #setLocalMem 128 32 b"" ~> #pc [ STATICCALL ] ~> #endPrank ~> #exe ...
+┃  ┃  ┃      k: #refund 0 ~> 1 ~> #push ~> #setLocalMem 128 32 b"" ~> #pc [ STATICCALL ] ~> #end ...
 ┃  ┃  ┃      pc: 145
 ┃  ┃  ┃      callDepth: DEPTH_CELL:Int
 ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
@@ -922,7 +922,7 @@
 ┃  ┃  ┃  │
 ┃  ┃  ┃  │  (5 steps)
 ┃  ┃  ┃  └─ 83 (leaf, pending)
-┃  ┃  ┃      k: #consoleLog 1756313567 b"" ~> 1 ~> #push ~> #setLocalMem 128 32 b"" ~> #pc [ STA ...
+┃  ┃  ┃      k: #consoleLog 1756313567 b"" ~> #refund 0 ~> 1 ~> #push ~> #setLocalMem 128 32 b"" ...
 ┃  ┃  ┃      pc: 145
 ┃  ┃  ┃      callDepth: DEPTH_CELL:Int
 ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
@@ -1016,7 +1016,7 @@
 ┃     ┃  ┃  │
 ┃     ┃  ┃  │  (5 steps)
 ┃     ┃  ┃  └─ 86 (leaf, pending)
-┃     ┃  ┃      k: #consoleLog 1756313567 b"" ~> 1 ~> #push ~> #setLocalMem 128 32 b"" ~> #pc [ STA ...
+┃     ┃  ┃      k: #consoleLog 1756313567 b"" ~> #refund 0 ~> 1 ~> #push ~> #setLocalMem 128 32 b"" ...
 ┃     ┃  ┃      pc: 145
 ┃     ┃  ┃      callDepth: DEPTH_CELL:Int
 ┃     ┃  ┃      statusCode: STATUSCODE:StatusCode
@@ -1222,7 +1222,7 @@
    ┣━━┓
    ┃  │
    ┃  ├─ 20 (split)
-   ┃  │   k: #consoleLog 1756313567 b"" ~> 1 ~> #push ~> #setLocalMem 128 32 b"" ~> #pc [ STA ...
+   ┃  │   k: #consoleLog 1756313567 b"" ~> #refund 0 ~> 1 ~> #push ~> #setLocalMem 128 32 b"" ...
    ┃  │   pc: 145
    ┃  │   callDepth: CALLDEPTH_CELL:Int
    ┃  │   statusCode: STATUSCODE:StatusCode
@@ -1235,14 +1235,14 @@
    ┃  ┃  ┃     0 ==Int ( (chop ( lengthBytes ( OUTPUT_CELL:Bytes ) )) s<Word (32) )
    ┃  ┃  │
    ┃  ┃  ├─ 140
-   ┃  ┃  │   k: #consoleLog 1756313567 b"" ~> 1 ~> #push ~> #setLocalMem 128 32 b"" ~> #pc [ STA ...
+   ┃  ┃  │   k: #consoleLog 1756313567 b"" ~> #refund 0 ~> 1 ~> #push ~> #setLocalMem 128 32 b"" ...
    ┃  ┃  │   pc: 145
    ┃  ┃  │   callDepth: CALLDEPTH_CELL:Int
    ┃  ┃  │   statusCode: STATUSCODE:StatusCode
    ┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
    ┃  ┃  │   method: test%Enum.enum_storage_range()
    ┃  ┃  │
-   ┃  ┃  │  (188 steps)
+   ┃  ┃  │  (189 steps)
    ┃  ┃  └─ 94 (leaf, pending)
    ┃  ┃      k: JUMPI 520 bool2Word ( ( (chop ( lengthBytes ( OUTPUT_CELL:Bytes ) )) s<Word (32) ...
    ┃  ┃      pc: 515
@@ -1256,14 +1256,14 @@
    ┃     ┃     ( notBool 0 ==Int ( (chop ( lengthBytes ( OUTPUT_CELL:Bytes ) )) s<Word (32) ) )
    ┃     │
    ┃     ├─ 141
-   ┃     │   k: #consoleLog 1756313567 b"" ~> 1 ~> #push ~> #setLocalMem 128 32 b"" ~> #pc [ STA ...
+   ┃     │   k: #consoleLog 1756313567 b"" ~> #refund 0 ~> 1 ~> #push ~> #setLocalMem 128 32 b"" ...
    ┃     │   pc: 145
    ┃     │   callDepth: CALLDEPTH_CELL:Int
    ┃     │   statusCode: STATUSCODE:StatusCode
    ┃     │   src: test/nested/SimpleNested.t.sol:7:11
    ┃     │   method: test%Enum.enum_storage_range()
    ┃     │
-   ┃     │  (188 steps)
+   ┃     │  (189 steps)
    ┃     └─ 95 (leaf, pending)
    ┃         k: JUMPI 520 bool2Word ( ( (chop ( lengthBytes ( OUTPUT_CELL:Bytes ) )) s<Word (32) ...
    ┃         pc: 515
@@ -4499,6 +4499,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
            <kevm>
              <k>
                ( #consoleLog 1756313567 b""
+               ~> #refund 0
                ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
@@ -4721,6 +4722,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
            <kevm>
              <k>
                ( #consoleLog 1756313567 b""
+               ~> #refund 0
                ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
@@ -8648,7 +8650,8 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
     rule [BASIC-BLOCK-126-TO-78]: <foundry>
            <kevm>
              <k>
-               ( #next [ STATICCALL ] ~> .K => 1
+               ( #next [ STATICCALL ] ~> .K => #refund 0
+               ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
                ~> #pc [ STATICCALL ] )
@@ -8895,7 +8898,8 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
     rule [BASIC-BLOCK-128-TO-82]: <foundry>
            <kevm>
              <k>
-               ( #next [ STATICCALL ] ~> .K => 1
+               ( #next [ STATICCALL ] ~> .K => #refund 0
+               ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
                ~> #pc [ STATICCALL ] )
@@ -9143,6 +9147,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => #consoleLog 1756313567 b""
+               ~> #refund 0
                ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
@@ -9391,6 +9396,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => #consoleLog 1756313567 b""
+               ~> #refund 0
                ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
@@ -9639,6 +9645,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => #consoleLog 1756313567 b""
+               ~> #refund 0
                ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
@@ -10361,6 +10368,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => #consoleLog 1756313567 b""
+               ~> #refund 0
                ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
@@ -10612,6 +10620,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => #consoleLog 1756313567 b""
+               ~> #refund 0
                ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
