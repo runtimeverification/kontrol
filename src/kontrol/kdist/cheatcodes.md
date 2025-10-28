@@ -562,7 +562,6 @@ function toString(int256) external returns (string memory);
 ```
 
 ```k
-
     syntax String ::= toChecksumAddress( Int )                         [function]
                     | toChecksumAddress0( String, String, Int, String) [function]
                     | toAddress( Int )                                 [function]
