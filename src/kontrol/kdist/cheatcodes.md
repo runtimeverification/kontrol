@@ -561,82 +561,86 @@ function toString(uint256) external returns (string memory);
 function toString(int256) external returns (string memory);
 ```
 
-```{.k .symbolik}
+```k
 
-   syntax String ::= toChecksumAddress( Int )                         [function]
-                   | toChecksumAddress0( String, String, Int, String) [function]
-                   | toAddress( Int )                                 [function]
-                   | wordToHex( Int )                                 [function]
-                   | toUpper( String )                                [function, total]
+    syntax String ::= toChecksumAddress( Int )                         [function]
+                    | toChecksumAddress0( String, String, Int, String) [function]
+                    | toAddress( Int )                                 [function]
+                    | wordToHex( Int )                                 [function]
+                    | toUpper( String )                                [function, total]
  // ----------------------------------------------
    
-   rule toUpper( "a" ) => "A"
-   rule toUpper( "b" ) => "B"
-   rule toUpper( "c" ) => "C"
-   rule toUpper( "d" ) => "D"
-   rule toUpper( "e" ) => "E"
-   rule toUpper( "f" ) => "F"
-   rule toUpper( CHAR ) => CHAR [owise]
+    rule toUpper( "a" ) => "A"
+    rule toUpper( "b" ) => "B"
+    rule toUpper( "c" ) => "C"
+    rule toUpper( "d" ) => "D"
+    rule toUpper( "e" ) => "E"
+    rule toUpper( "f" ) => "F"
+    rule toUpper( CHAR ) => CHAR [owise]
 
-   rule wordToHex( VALUE ) => Bytes2Hex( Int2Bytes( 32, VALUE, BE) )
+    rule wordToHex( VALUE ) => Bytes2Hex( Int2Bytes( 32, VALUE, BE) )
 
-   rule toAddress( ADDR ) => Bytes2Hex( Int2Bytes( 20, ADDR, BE) )
+    rule toAddress( ADDR ) => Bytes2Hex( Int2Bytes( 20, ADDR, BE) )
    
-   // EIP-55 checksum address, see: https://eips.ethereum.org/EIPS/eip-55
-   rule toChecksumAddress( ADDR ) => toChecksumAddress0( toAddress( ADDR ), wordToHex( keccak( String2Bytes( toAddress( ADDR ) ) ) ), 0, "0x")
+    // EIP-55 checksum address, see: https://eips.ethereum.org/EIPS/eip-55
+    rule toChecksumAddress( ADDR ) => toChecksumAddress0( toAddress( ADDR ), wordToHex( keccak( String2Bytes( toAddress( ADDR ) ) ) ), 0, "0x")
 
-   rule toChecksumAddress0( _ADDR, _HASH, INDEX, RESULT ) => RESULT
+    rule toChecksumAddress0( _ADDR, _HASH, INDEX, RESULT ) => RESULT
       requires INDEX >=Int 40
 
-   rule toChecksumAddress0( ADDR, HASH, INDEX, RESULT ) => toChecksumAddress0( ADDR, HASH, INDEX +Int 1, RESULT +String toUpper( substrString( ADDR, INDEX, INDEX +Int 1 ) ) )
+    rule toChecksumAddress0( ADDR, HASH, INDEX, RESULT ) => toChecksumAddress0( ADDR, HASH, INDEX +Int 1, RESULT +String toUpper( substrString( ADDR, INDEX, INDEX +Int 1 ) ) )
       requires INDEX <Int 40 andBool findString( "abcdef", substrString( ADDR, INDEX, INDEX +Int 1 ), 0 ) >Int -1 andBool String2Base( substrString( HASH, INDEX, INDEX +Int 1 ), 16 ) >Int 7
 
-   rule toChecksumAddress0( ADDR, HASH, INDEX, RESULT ) => toChecksumAddress0( ADDR, HASH, INDEX +Int 1, RESULT +String substrString(ADDR, INDEX, INDEX +Int 1) )
+    rule toChecksumAddress0( ADDR, HASH, INDEX, RESULT ) => toChecksumAddress0( ADDR, HASH, INDEX +Int 1, RESULT +String substrString(ADDR, INDEX, INDEX +Int 1) )
       [owise]
 
-   rule [toString-address]:
-         <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
-         <output> _ => #enc( #tuple( #string( toChecksumAddress( #asWord(#range(ARGS, 12, 20 ) ) ) ) ) ) </output>
+    rule [toString-address]:
+          <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
+          <output> _ => #enc( #tuple( #string( toChecksumAddress( #asWord(#range(ARGS, 12, 20 ) ) ) ) ) ) </output>
       requires SELECTOR ==Int selector ( "toString(address)" )
-       [preserves-definedness]
+      [preserves-definedness]
 
-   rule [toString-bytes]:
-         <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
-         <output> _ => #enc( #tuple( #string( "0x" +String Bytes2Hex(#range(ARGS, #asWord(#range(ARGS, 0, 32 )) +Int 32, #asWord(#range(ARGS, #asWord(#range(ARGS, 0, 32 )), 32)) ) ) ) ) ) </output>
+    // ABI-encoding for dynamic bytes:
+    // OFFSET := #range(ARGS, 0, 32 )                                     encodes the "head": an offset pointing the "body"
+    // LEGNTH := #range(ARGS, #asWord(OFFSET), 32)                        encodes the lenght of the byte string
+    // DATA   := #range(ARGS, #asWord(OFFSET) +Int 32, #asWord(LENGTH ) ) encodes the contents
+    rule [toString-bytes]:
+          <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
+          <output> _ => #enc( #tuple( #string( "0x" +String Bytes2Hex(#range(ARGS, #asWord(#range(ARGS, 0, 32 )) +Int 32, #asWord(#range(ARGS, #asWord(#range(ARGS, 0, 32 )), 32) ) ) ) ) ) ) </output>
       requires SELECTOR ==Int selector ( "toString(bytes)" )
-       [preserves-definedness]
+      [preserves-definedness]
 
-   rule [toString-bytes32]:
-         <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
-         <output> _ => #enc( #tuple( #string( "0x" +String Bytes2Hex(#range(ARGS, 0, 32 ) ) ) ) ) </output>
+    rule [toString-bytes32]:
+          <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
+          <output> _ => #enc( #tuple( #string( "0x" +String Bytes2Hex(#range(ARGS, 0, 32 ) ) ) ) ) </output>
       requires SELECTOR ==Int selector ( "toString(bytes32)" )
-       [preserves-definedness]
+      [preserves-definedness]
 
-   rule [toString-true]:
-         <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
-         <output> _ => #enc( #tuple( #string( "true" ) ) ) </output>
+    rule [toString-true]:
+          <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
+          <output> _ => #enc( #tuple( #string( "true" ) ) ) </output>
       requires SELECTOR ==Int selector ( "toString(bool)" ) andBool
                #asWord(#range(ARGS, 0, 32 )) ==Int 1
-       [preserves-definedness]
+      [preserves-definedness]
 
-   rule [toString-false]:
-         <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
-         <output> _ => #enc( #tuple( #string( "false" ) ) ) </output>
+    rule [toString-false]:
+          <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
+          <output> _ => #enc( #tuple( #string( "false" ) ) ) </output>
       requires SELECTOR ==Int selector ( "toString(bool)" ) andBool
                #asWord(#range(ARGS, 0, 32 )) ==Int 0
-       [preserves-definedness]
+      [preserves-definedness]
 
-   rule [toString-uint256]:
-         <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
-         <output> _ => #enc( #tuple( #string( Int2String( #asWord(ARGS) ) ) ) ) </output>
+    rule [toString-uint256]:
+          <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
+          <output> _ => #enc( #tuple( #string( Int2String( #asWord(ARGS) ) ) ) ) </output>
       requires SELECTOR ==Int selector ( "toString(uint256)" )
-       [preserves-definedness]
+      [preserves-definedness]
 
-   rule [toString-int256]:
-         <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
-         <output> _ => #enc( #tuple( #string( Int2String( Bytes2Int(ARGS, BE, Signed) ) ) ) ) </output>
+    rule [toString-int256]:
+          <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
+          <output> _ => #enc( #tuple( #string( Int2String( Bytes2Int(ARGS, BE, Signed) ) ) ) ) </output>
       requires SELECTOR ==Int selector ( "toString(int256)" )
-       [preserves-definedness]
+      [preserves-definedness]
 ```
 
 
