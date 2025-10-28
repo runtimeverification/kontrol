@@ -80,7 +80,7 @@
 ┃  ┃  ┃  ┃  │
 ┃  ┃  ┃  ┃  │  (5 steps)
 ┃  ┃  ┃  ┃  └─ 98 (leaf, pending)
-┃  ┃  ┃  ┃      k: #consoleLog 2889346747 #buf ( 32 , KV0_x:Int ) ~> 1 ~> #push ~> #setLocalMem 128 ...
+┃  ┃  ┃  ┃      k: #consoleLog 2889346747 #buf ( 32 , KV0_x:Int ) ~> #refund 0 ~> 1 ~> #push ~> #se ...
 ┃  ┃  ┃  ┃      pc: 148
 ┃  ┃  ┃  ┃      callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
@@ -159,7 +159,7 @@
 ┃  ┃  ┃  ┃  │
 ┃  ┃  ┃  ┃  │  (5 steps)
 ┃  ┃  ┃  ┃  └─ 101 (leaf, pending)
-┃  ┃  ┃  ┃      k: #consoleLog 2889346747 #buf ( 32 , KV0_x:Int ) ~> 1 ~> #push ~> #setLocalMem 128 ...
+┃  ┃  ┃  ┃      k: #consoleLog 2889346747 #buf ( 32 , KV0_x:Int ) ~> #refund 0 ~> 1 ~> #push ~> #se ...
 ┃  ┃  ┃  ┃      pc: 148
 ┃  ┃  ┃  ┃      callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
@@ -766,7 +766,7 @@
 ┃  ┃  ┃  │
 ┃  ┃  ┃  │  (6 steps)
 ┃  ┃  ┃  └─ 78 (leaf, pending)
-┃  ┃  ┃      k: 1 ~> #push ~> #setLocalMem 128 32 b"" ~> #pc [ STATICCALL ] ~> #endPrank ~> #exe ...
+┃  ┃  ┃      k: #refund 0 ~> 1 ~> #push ~> #setLocalMem 128 32 b"" ~> #pc [ STATICCALL ] ~> #end ...
 ┃  ┃  ┃      pc: 148
 ┃  ┃  ┃      callDepth: DEPTH_CELL:Int
 ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
@@ -790,7 +790,7 @@
 ┃  ┃  ┃  │
 ┃  ┃  ┃  │  (5 steps)
 ┃  ┃  ┃  └─ 79 (leaf, pending)
-┃  ┃  ┃      k: #consoleLog 2889346747 #buf ( 32 , KV0_x:Int ) ~> 1 ~> #push ~> #setLocalMem 128 ...
+┃  ┃  ┃      k: #consoleLog 2889346747 #buf ( 32 , KV0_x:Int ) ~> #refund 0 ~> 1 ~> #push ~> #se ...
 ┃  ┃  ┃      pc: 148
 ┃  ┃  ┃      callDepth: DEPTH_CELL:Int
 ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
@@ -869,7 +869,7 @@
 ┃  ┃  ┃  │
 ┃  ┃  ┃  │  (6 steps)
 ┃  ┃  ┃  └─ 82 (leaf, pending)
-┃  ┃  ┃      k: 1 ~> #push ~> #setLocalMem 128 32 b"" ~> #pc [ STATICCALL ] ~> #endPrank ~> #exe ...
+┃  ┃  ┃      k: #refund 0 ~> 1 ~> #push ~> #setLocalMem 128 32 b"" ~> #pc [ STATICCALL ] ~> #end ...
 ┃  ┃  ┃      pc: 148
 ┃  ┃  ┃      callDepth: DEPTH_CELL:Int
 ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
@@ -893,7 +893,7 @@
 ┃  ┃  ┃  │
 ┃  ┃  ┃  │  (5 steps)
 ┃  ┃  ┃  └─ 83 (leaf, pending)
-┃  ┃  ┃      k: #consoleLog 2889346747 #buf ( 32 , KV0_x:Int ) ~> 1 ~> #push ~> #setLocalMem 128 ...
+┃  ┃  ┃      k: #consoleLog 2889346747 #buf ( 32 , KV0_x:Int ) ~> #refund 0 ~> 1 ~> #push ~> #se ...
 ┃  ┃  ┃      pc: 148
 ┃  ┃  ┃      callDepth: DEPTH_CELL:Int
 ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
@@ -983,7 +983,7 @@
 ┃     ┃  ┃  │
 ┃     ┃  ┃  │  (5 steps)
 ┃     ┃  ┃  └─ 86 (leaf, pending)
-┃     ┃  ┃      k: #consoleLog 2889346747 #buf ( 32 , KV0_x:Int ) ~> 1 ~> #push ~> #setLocalMem 128 ...
+┃     ┃  ┃      k: #consoleLog 2889346747 #buf ( 32 , KV0_x:Int ) ~> #refund 0 ~> 1 ~> #push ~> #se ...
 ┃     ┃  ┃      pc: 148
 ┃     ┃  ┃      callDepth: DEPTH_CELL:Int
 ┃     ┃  ┃      statusCode: STATUSCODE:StatusCode
@@ -1184,7 +1184,7 @@
    ┣━━┓
    ┃  │
    ┃  ├─ 20 (split)
-   ┃  │   k: #consoleLog 2889346747 #buf ( 32 , KV0_x:Int ) ~> 1 ~> #push ~> #setLocalMem 128 ...
+   ┃  │   k: #consoleLog 2889346747 #buf ( 32 , KV0_x:Int ) ~> #refund 0 ~> 1 ~> #push ~> #se ...
    ┃  │   pc: 148
    ┃  │   callDepth: CALLDEPTH_CELL:Int
    ┃  │   statusCode: STATUSCODE:StatusCode
@@ -1197,14 +1197,14 @@
    ┃  ┃  ┃     0 ==Int ( (chop ( lengthBytes ( OUTPUT_CELL:Bytes ) )) s<Word (32) )
    ┃  ┃  │
    ┃  ┃  ├─ 140
-   ┃  ┃  │   k: #consoleLog 2889346747 #buf ( 32 , KV0_x:Int ) ~> 1 ~> #push ~> #setLocalMem 128 ...
+   ┃  ┃  │   k: #consoleLog 2889346747 #buf ( 32 , KV0_x:Int ) ~> #refund 0 ~> 1 ~> #push ~> #se ...
    ┃  ┃  │   pc: 148
    ┃  ┃  │   callDepth: CALLDEPTH_CELL:Int
    ┃  ┃  │   statusCode: STATUSCODE:StatusCode
    ┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
    ┃  ┃  │   method: src%cse%Identity.applyOp(uint256)
    ┃  ┃  │
-   ┃  ┃  │  (188 steps)
+   ┃  ┃  │  (189 steps)
    ┃  ┃  └─ 94 (leaf, pending)
    ┃  ┃      k: JUMPI 245 bool2Word ( ( (chop ( lengthBytes ( OUTPUT_CELL:Bytes ) )) s<Word (32) ...
    ┃  ┃      pc: 240
@@ -1218,14 +1218,14 @@
    ┃     ┃     ( notBool ( (chop ( lengthBytes ( OUTPUT_CELL:Bytes ) )) s<Word (32) ) ==Int 0 )
    ┃     │
    ┃     ├─ 141
-   ┃     │   k: #consoleLog 2889346747 #buf ( 32 , KV0_x:Int ) ~> 1 ~> #push ~> #setLocalMem 128 ...
+   ┃     │   k: #consoleLog 2889346747 #buf ( 32 , KV0_x:Int ) ~> #refund 0 ~> 1 ~> #push ~> #se ...
    ┃     │   pc: 148
    ┃     │   callDepth: CALLDEPTH_CELL:Int
    ┃     │   statusCode: STATUSCODE:StatusCode
    ┃     │   src: test/nested/SimpleNested.t.sol:7:11
    ┃     │   method: src%cse%Identity.applyOp(uint256)
    ┃     │
-   ┃     │  (188 steps)
+   ┃     │  (189 steps)
    ┃     └─ 95 (leaf, pending)
    ┃         k: JUMPI 245 bool2Word ( ( (chop ( lengthBytes ( OUTPUT_CELL:Bytes ) )) s<Word (32) ...
    ┃         pc: 240
@@ -3998,6 +3998,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
            <kevm>
              <k>
                ( #consoleLog 2889346747 #buf ( 32 , KV0_x:Int )
+               ~> #refund 0
                ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
@@ -4187,6 +4188,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
            <kevm>
              <k>
                ( #consoleLog 2889346747 #buf ( 32 , KV0_x:Int )
+               ~> #refund 0
                ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
@@ -7545,7 +7547,8 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
     rule [BASIC-BLOCK-126-TO-78]: <foundry>
            <kevm>
              <k>
-               ( #next [ STATICCALL ] ~> .K => 1
+               ( #next [ STATICCALL ] ~> .K => #refund 0
+               ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
                ~> #pc [ STATICCALL ] )
@@ -7746,7 +7749,8 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
     rule [BASIC-BLOCK-128-TO-82]: <foundry>
            <kevm>
              <k>
-               ( #next [ STATICCALL ] ~> .K => 1
+               ( #next [ STATICCALL ] ~> .K => #refund 0
+               ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
                ~> #pc [ STATICCALL ] )
@@ -7948,6 +7952,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => #consoleLog 2889346747 #buf ( 32 , KV0_x:Int )
+               ~> #refund 0
                ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
@@ -8150,6 +8155,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => #consoleLog 2889346747 #buf ( 32 , KV0_x:Int )
+               ~> #refund 0
                ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
@@ -8352,6 +8358,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => #consoleLog 2889346747 #buf ( 32 , KV0_x:Int )
+               ~> #refund 0
                ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
@@ -8962,6 +8969,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => #consoleLog 2889346747 #buf ( 32 , KV0_x:Int )
+               ~> #refund 0
                ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
@@ -9167,6 +9175,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => #consoleLog 2889346747 #buf ( 32 , KV0_x:Int )
+               ~> #refund 0
                ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
