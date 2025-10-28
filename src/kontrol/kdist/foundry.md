@@ -130,10 +130,11 @@ and enable the Pyk wrapper to process the custom-step logic for processing logs.
     syntax KItem ::= "#consoleLog" Int Bytes [symbol(console_log)]
  // --------------------------------------------------------------
     rule [console.log]:
-         <k> STATICCALL _GCAP #address(FoundryConsole) ARGSTART ARGWIDTH RETSTART RETWIDTH 
+         <k> STATICCALL GCAP #address(FoundryConsole) ARGSTART ARGWIDTH RETSTART RETWIDTH
           => #consoleLog #asWord(#range(LM, ARGSTART, 4)) #range(LM, ARGSTART +Int 4, ARGWIDTH -Int 4)
-          ~> 1 ~> #push ~> #setLocalMem RETSTART RETWIDTH .Bytes ... </k>
+          ~> #refund GCALL ~> 1 ~> #push ~> #setLocalMem RETSTART RETWIDTH .Bytes ... </k>
          <localMem> LM </localMem>
+         <callGas> GCALL </callGas>
       [priority(30)]
 ```
 We define a new status code:
