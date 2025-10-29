@@ -1057,24 +1057,21 @@ The `ECDSASign` function returns the signed data in [r,s,v] form, which we conve
 Finally, we abi-encode the result with the following signature (uint8,bytes32,bytes32)
 
 ```k
-    syntax KItem ::= "#sign_encode" Bytes [symbol(sign_encode)]
+    syntax Bytes ::= #enc_sig( Bytes ) [function, symbol(enc_sig)]
+
+    rule #enc_sig( SIG ) =>
+         #enc( #tuple(
+            #uint8(  #asWord( #range( SIG,  0,  1 ) ) ),
+            #bytes32(#asWord( #range( SIG, 33, 32 ) ) ),
+            #bytes32(#asWord( #range( SIG,  1, 32 ) ) )
+        ) )
 
     rule [cheatcode.call.sign]:
-         <k> #cheatcode_call SELECTOR ARGS =>
-             #sign_encode #sign( #range( ARGS, 32, 32 ), #range( ARGS, 0, 32 ) )
-             ...
-         </k>
+         <k> #cheatcode_call SELECTOR ARGS => . K ... </k>
+         <output> _ => #enc_sig( #sign( #range( ARGS, 32, 32 ), #range( ARGS, 0, 32 ) ) ) </output>
       requires SELECTOR ==Int selector ( "sign(uint256,bytes32)" )
       [preserves-definedness]
 
-    rule [cheatcode.call.sign.encode]:
-         <k> #sign_encode SIG => .K ... </k>
-         <output> _ => #enc( #tuple(
-            #uint8(  #asWord( #range( SIG,  0,  1 ) ) ),
-            #bytes32(#asWord( #range( SIG,  1, 32 ) ) ),
-            #bytes32(#asWord( #range( SIG, 33, 32 ) ) )
-         ) ) </output>
-      [preserves-definedness]
 ```
 
 Otherwise, throw an error for any other call to the Foundry contract.
