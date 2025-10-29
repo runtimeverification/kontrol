@@ -1054,12 +1054,26 @@ function sign(uint256 privateKey, bytes32 digest) external returns (uint8 v, byt
 This rule takes the `privateKey` to sign using `#range(ARGS,0,32)` and the `digest` to be signed using `#range(ARGS, 32, 32)`,
 then performs the signature by passing them to the `ECDSASign ( Bytes, Bytes )` function (from KEVM).
 The `ECDSASign` function returns the signed data in [r,s,v] form, which we convert to a `Bytes` using `#parseByteStack`.
+Finally, we abi-encode the result with the following signature (uint8,bytes32,bytes32)
 
 ```k
+    syntax KItem ::= "#sign_encode" Bytes [symbol(sign_encode)]
+
     rule [cheatcode.call.sign]:
-         <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
-         <output> _ => #sign(#range(ARGS, 32, 32),#range(ARGS,0,32)) </output>
+         <k> #cheatcode_call SELECTOR ARGS =>
+             #sign_encode #sign( #range( ARGS, 32, 32 ), #range( ARGS, 0, 32 ) )
+             ...
+         </k>
       requires SELECTOR ==Int selector ( "sign(uint256,bytes32)" )
+      [preserves-definedness]
+
+    rule [cheatcode.call.sign.encode]:
+         <k> #sign_encode SIG => .K ... </k>
+         <output> _ => #enc( #tuple(
+            #uint8(  #asWord( #range( SIG,  0,  1 ) ) ),
+            #bytes32(#asWord( #range( SIG,  1, 32 ) ) ),
+            #bytes32(#asWord( #range( SIG, 33, 32 ) ) )
+         ) ) </output>
       [preserves-definedness]
 ```
 
