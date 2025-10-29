@@ -1061,9 +1061,9 @@ Finally, we abi-encode the result with the following signature (uint8,bytes32,by
 
     rule #encSig( SIG ) =>
          #enc( #tuple(
-            #uint8(  #asWord( #range( SIG,  0,  1 ) ) ),
-            #bytes32(#asWord( #range( SIG, 33, 32 ) ) ),
-            #bytes32(#asWord( #range( SIG,  1, 32 ) ) )
+            #uint8(  #asWord( #range( SIG, 64,  1 ) ) ), // v
+            #bytes32(#asWord( #range( SIG,  0, 32 ) ) ), // r
+            #bytes32(#asWord( #range( SIG, 32, 32 ) ) )  // s
         ) )
 
     rule [cheatcode.call.sign]:
