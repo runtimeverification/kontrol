@@ -1067,7 +1067,7 @@ Finally, we abi-encode the result with the following signature (uint8,bytes32,by
         ) )
 
     rule [cheatcode.call.sign]:
-         <k> #cheatcode_call SELECTOR ARGS => . K ... </k>
+         <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
          <output> _ => #encSig( #sign( #range( ARGS, 32, 32 ), #range( ARGS, 0, 32 ) ) ) </output>
       requires SELECTOR ==Int selector ( "sign(uint256,bytes32)" )
       [preserves-definedness]
