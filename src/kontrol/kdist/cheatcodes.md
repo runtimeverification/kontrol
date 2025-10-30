@@ -1146,13 +1146,24 @@ function sign(uint256 privateKey, bytes32 digest) external returns (uint8 v, byt
 This rule takes the `privateKey` to sign using `#range(ARGS,0,32)` and the `digest` to be signed using `#range(ARGS, 32, 32)`,
 then performs the signature by passing them to the `ECDSASign ( Bytes, Bytes )` function (from KEVM).
 The `ECDSASign` function returns the signed data in [r,s,v] form, which we convert to a `Bytes` using `#parseByteStack`.
+Finally, we abi-encode the result with the following signature (uint8,bytes32,bytes32)
 
 ```k
+    syntax Bytes ::= #encSig( Bytes ) [function, symbol(enc_sig)]
+
+    rule #encSig( SIG ) =>
+         #enc( #tuple(
+            #uint8(  #asWord( #range( SIG, 64,  1 ) ) +Int 27 ), // v
+            #bytes32(#asWord( #range( SIG,  0, 32 ) ) ),         // r
+            #bytes32(#asWord( #range( SIG, 32, 32 ) ) )          // s
+        ) )
+
     rule [cheatcode.call.sign]:
          <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
-         <output> _ => #sign(#range(ARGS, 32, 32),#range(ARGS,0,32)) </output>
+         <output> _ => #encSig( #sign( #range( ARGS, 32, 32 ), #range( ARGS, 0, 32 ) ) ) </output>
       requires SELECTOR ==Int selector ( "sign(uint256,bytes32)" )
       [preserves-definedness]
+
 ```
 
 Otherwise, throw an error for any other call to the Foundry contract.
