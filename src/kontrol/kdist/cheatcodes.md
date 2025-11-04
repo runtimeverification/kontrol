@@ -957,6 +957,8 @@ It is applied by default.
 Expecting Events
 ----------------
 ```
+function expectEmit() external;
+function expectEmit(address emitter) external;
 function expectEmit(bool checkTopic1, bool checkTopic2, bool checkTopic3, bool checkData) external;
 function expectEmit(bool checkTopic1, bool checkTopic2, bool checkTopic3, bool checkData, address emitter) external;
 ```
@@ -965,6 +967,7 @@ Assert a specific log is emitted before the end of the current function.
 
 Call the cheat code, specifying whether we should check the first, second or third topic, and the log data.
 Topic 0 is always checked.
+`expectEmit()` checks them all.
 Emit the event we are supposed to see before the end of the current function.
 Perform the call.
 If the event is not available in the current scope (e.g. if we are using an interface, or an external smart contract), we can define the event ourselves with an identical event signature.
@@ -975,6 +978,14 @@ Without checking the emitter address: Asserts the topics match without checking 
 With address: Asserts the topics match and that the emitting address matches.
 
 ```k
+    rule [cheatcode.call.expectEmitNoArgs]:
+         <k> #cheatcode_call SELECTOR _ARGS => #setExpectEmit true true true true .Account ... </k>
+      requires SELECTOR ==Int selector ( "expectEmit()" )
+
+    rule [cheatcode.call.expectEmitNoArgsAddr]:
+         <k> #cheatcode_call SELECTOR ARGS => #setExpectEmit true true true true #asWord(#range(ARGS, 0, 32)) ... </k>
+      requires SELECTOR ==Int selector ( "expectEmit(address)" )
+
     rule [cheatcode.call.expectEmit]:
          <k> #cheatcode_call SELECTOR ARGS => #setExpectEmit word2Bool(#asWord(#range(ARGS, 0, 32))) word2Bool(#asWord(#range(ARGS, 32, 32))) word2Bool(#asWord(#range(ARGS, 64, 32))) word2Bool(#asWord(#range(ARGS, 96, 32))) .Account ... </k>
       requires SELECTOR ==Int selector ( "expectEmit(bool,bool,bool,bool)" )
@@ -1868,6 +1879,8 @@ Selectors for **implemented** cheat code functions.
     rule ( selector ( "expectRegularCall(address,uint256,bytes)" ) => 1973496647 )
     rule ( selector ( "expectCreate(address,uint256,bytes)" )      => 658968394  )
     rule ( selector ( "expectCreate2(address,uint256,bytes)" )     => 3854582462 )
+    rule ( selector ( "expectEmit()" )                             => 1141821709 )
+    rule ( selector ( "expectEmit(address)" )                      => 2260296205 )
     rule ( selector ( "expectEmit(bool,bool,bool,bool)" )          => 1226622914 )
     rule ( selector ( "expectEmit(bool,bool,bool,bool,address)" )  => 2176505587 )
     rule ( selector ( "sign(uint256,bytes32)" )                    => 3812747940 )
