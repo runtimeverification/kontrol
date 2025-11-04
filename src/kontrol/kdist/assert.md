@@ -48,18 +48,18 @@ These macros expand into the `#assert` production defined earlier, providing an 
     rule #assert_gt W1 W2 ERR     => #assert (W1 >Int W2)   ERR +Bytes String2Bytes(": " +String Int2String(W1) +String " <= " +String Int2String(W2))
     rule #assert_lt W1 W2 ERR     => #assert (W1 <Int W2)   ERR +Bytes String2Bytes(": " +String Int2String(W1) +String " >= " +String Int2String(W2))
     rule #assert_not_eq W1 W2 ERR => #assert (W1 =/=Int W2) ERR +Bytes String2Bytes(": " +String Int2String(W1) +String " == " +String Int2String(W2))
-    rule #assert_approx_eq_abs W1 W2 W3 ERR => #assert ((maxInt(W1, W2) -Int minInt(W1, W2)) <=Int W3) ERR 
+    rule #assert_approx_eq_abs W1 W2 W3 ERR => #assert ((maxInt(W1, W2) -Int minInt(W1, W2)) <=Int W3) ERR
       +Bytes String2Bytes(": " +String Int2String(W1) +String " !~= " +String Int2String(W2) +String " (max delta: " +String Int2String(W3) +String ", real delta: " +String Int2String(maxInt(W1, W2) -Int minInt(W1, W2)) +String ")")
-    rule #assert_approx_eq_rel W1 W2 W3 ERR => #assert (W1 ==Int W2) ERR 
-                                        +Bytes String2Bytes(": " +String Int2String(W1) +String " !~= " +String Int2String(W2) 
-                                                                 +String " (max delta: " +String Int2String(W3 divInt (10 ^Int 16)) 
+    rule #assert_approx_eq_rel W1 W2 W3 ERR => #assert (W1 ==Int W2) ERR
+                                        +Bytes String2Bytes(": " +String Int2String(W1) +String " !~= " +String Int2String(W2)
+                                                                 +String " (max delta: " +String Int2String(W3 divInt (10 ^Int 16))
                                                                  +String "% , real delta: undefined)")
       requires W2 ==Int 0
-    rule #assert_approx_eq_rel W1 W2 W3 ERR => #assert ((((maxInt(W1, W2) -Int minInt(W1, W2)) *Int (10 ^Int 18)) divInt absInt(W2)) <=Int W3) ERR 
-                                        +Bytes String2Bytes(": " +String Int2String(W1) +String " !~= " +String Int2String(W2) 
-                                                                 +String " (max delta: " +String Int2String(W3 divInt (10 ^Int 16)) +String "% , real delta: " 
+    rule #assert_approx_eq_rel W1 W2 W3 ERR => #assert ((((maxInt(W1, W2) -Int minInt(W1, W2)) *Int (10 ^Int 18)) divInt absInt(W2)) <=Int W3) ERR
+                                        +Bytes String2Bytes(": " +String Int2String(W1) +String " !~= " +String Int2String(W2)
+                                                                 +String " (max delta: " +String Int2String(W3 divInt (10 ^Int 16)) +String "% , real delta: "
                                                                  +String Int2String((((maxInt(W1, W2) -Int minInt(W1, W2)) *Int (10 ^Int 18)) divInt absInt(W2)) divInt (10 ^Int 16)) +String "%)")
-      requires W2 =/=Int 0   
+      requires W2 =/=Int 0
 ```
 
 Capturing cheat code calls
@@ -76,7 +76,7 @@ Capturing cheat code calls
     [preserves-definedness]
 
     rule [cheatcode.call.assertEq.Darray]:
-         <k> #cheatcode_call SELECTOR ARGS => 
+         <k> #cheatcode_call SELECTOR ARGS =>
                #let ARG1_START = #asWord(#range(ARGS,  0, 32)) #in
                #let ARG2_START = #asWord(#range(ARGS, 32, 32)) #in
                #let ARG1_LEN   = #asWord(#range(ARGS, ARG1_START, 32)) #in
@@ -91,6 +91,19 @@ Capturing cheat code calls
         orBool SELECTOR ==Int selector ( "assertEq(address[],address[])" )
     [preserves-definedness]
 
+    rule [cheatcode.call.assertEq.Dtype]:
+         <k> #cheatcode_call SELECTOR ARGS =>
+               #let ARG1_START = #asWord(#range(ARGS,  0, 32)) #in
+               #let ARG2_START = #asWord(#range(ARGS, 32, 32)) #in
+               #let ARG1_LEN   = #asWord(#range(ARGS, ARG1_START, 32)) #in
+               #let ARG2_LEN   = #asWord(#range(ARGS, ARG2_START, 32)) #in
+               #let ARG1_VALUE = #asWord(#range(ARGS, 32 +Int ARG1_START, ARG1_LEN)) #in
+               #let ARG2_VALUE = #asWord(#range(ARGS, 32 +Int ARG2_START, ARG2_LEN)) #in
+                 #assert_eq ARG1_VALUE ARG2_VALUE String2Bytes("assertion failed") ... </k>
+      requires SELECTOR ==Int selector ( "assertEq(string,string)" )
+        orBool SELECTOR ==Int selector ( "assertEq(bytes,bytes)" )
+    [preserves-definedness]
+
     rule [cheatcode.call.assertEq.err]:
          <k> #cheatcode_call SELECTOR ARGS => #assert_eq #asWord(#range(ARGS, 0, 32)) #asWord(#range(ARGS, 32, 32)) #range(ARGS, 96, #asWord(#range(ARGS, 64, 32))) ... </k>
       requires SELECTOR ==Int selector ( "assertEq(address,address,string)" )
@@ -101,7 +114,7 @@ Capturing cheat code calls
     [preserves-definedness]
 
     rule [cheatcode.call.assertEq.Darray.err]:
-         <k> #cheatcode_call SELECTOR ARGS => 
+         <k> #cheatcode_call SELECTOR ARGS =>
                #let ARG1_START = #asWord(#range(ARGS,  0, 32)) #in
                #let ARG2_START = #asWord(#range(ARGS, 32, 32)) #in
                #let ERR_START  = #asWord(#range(ARGS, 64, 32)) #in
@@ -117,6 +130,22 @@ Capturing cheat code calls
         orBool SELECTOR ==Int selector ( "assertEq(bool[],bool[],string)"       )
         orBool SELECTOR ==Int selector ( "assertEq(bytes32[],bytes32[],string)" )
         orBool SELECTOR ==Int selector ( "assertEq(address[],address[],string)" )
+    [preserves-definedness]
+
+    rule [cheatcode.call.assertEq.Dtype.err]:
+        <k> #cheatcode_call SELECTOR ARGS =>
+              #let ARG1_START = #asWord(#range(ARGS,  0, 32)) #in
+              #let ARG2_START = #asWord(#range(ARGS, 32, 32)) #in
+              #let ERR_START  = #asWord(#range(ARGS, 64, 32)) #in
+              #let ARG1_LEN   = #asWord(#range(ARGS, ARG1_START, 32)) #in
+              #let ARG2_LEN   = #asWord(#range(ARGS, ARG2_START, 32)) #in
+              #let ERR_LEN    = #asWord(#range(ARGS,  ERR_START, 32)) #in
+              #let ARG1_VALUE = #asWord(#range(ARGS, 32 +Int ARG1_START, ARG1_LEN)) #in
+              #let ARG2_VALUE = #asWord(#range(ARGS, 32 +Int ARG2_START, ARG2_LEN)) #in
+              #let ERR_BYTES  = #range(ARGS, 32 +Int ERR_START, ERR_LEN) #in
+                #assert_eq ARG1_VALUE ARG2_VALUE ERR_BYTES ... </k>
+      requires SELECTOR ==Int selector ( "assertEq(string,string,string)" )
+        orBool SELECTOR ==Int selector ( "assertEq(bytes,bytes,string)" )
     [preserves-definedness]
 
     rule [cheatcode.call.assertNotEq]:
@@ -246,7 +275,10 @@ Function selectors
     rule selector ( "assertEq(bytes32[],bytes32[],string)" ) => 3762196855
     rule selector ( "assertEq(address[],address[])"        ) => 946383924
     rule selector ( "assertEq(address[],address[],string)" ) => 1049719749
-
+    rule selector ( "assertEq(string,string)"              ) => 4079016291
+    rule selector ( "assertEq(string,string,string)"       ) => 922113752
+    rule selector ( "assertEq(bytes,bytes)"                ) => 2539800113
+    rule selector ( "assertEq(bytes,bytes,string)"         ) => 3796888832
 
     rule selector ( "assertTrue(bool)"                    ) => 211801473
     rule selector ( "assertTrue(bool,string)"             ) => 2739854339
