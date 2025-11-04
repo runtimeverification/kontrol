@@ -47,16 +47,6 @@ This assumption reflects that hypothesis in the context of formal verification, 
     rule [keccak-inj-ml]: { keccak(A) #Equals keccak(B) } => { true #Equals A ==K B } [simplification]
 ```
 
-6. `keccak` of a symbolic parameter does not equal a concrete value. This lemma is based on our experience in Foundry-supported testing and is specific to how `keccak` functions are used in practical symbolic execution. The underlying hypothesis that justifies it is that the storage slots of a given mapping are presumed to be disjoint from slots of other mappings and also the non-mapping slots of a contract.
-
-```k
-    rule [keccak-eq-conc-false]: keccak(_A)  ==Int _B => false [symbolic(_A), concrete(_B), simplification(30), comm]
-    rule [keccak-neq-conc-true]: keccak(_A) =/=Int _B => true  [symbolic(_A), concrete(_B), simplification(30), comm]
-
-    rule [keccak-eq-conc-false-ml-lr]: { keccak(A) #Equals B } => { true #Equals keccak(A) ==Int B } [symbolic(A), concrete(B), simplification]
-    rule [keccak-eq-conc-false-ml-rl]: { B #Equals keccak(A) } => { true #Equals keccak(A) ==Int B } [symbolic(A), concrete(B), simplification]
-```
-
 ```k
 endmodule
 ```
