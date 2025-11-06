@@ -36,7 +36,7 @@ let
 
   # create overlay
   lockFileOverlay = workspace.mkPyprojectOverlay {
-    # prefer "wheel" over "sdist" due to maintance overhead
+    # prefer "wheel" over "sdist" due to maintenance overhead
     # there is no bundled set of overlays for "sdist" in uv2nix, in contrast to poetry2nix
     sourcePreference = "wheel";
   };
