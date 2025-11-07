@@ -52,7 +52,7 @@ contract EnvOrTest is Test {
         uint256[] memory defaultValue = new uint256[](2);
         defaultValue[0] = 1;
         defaultValue[1] = 2;
-        uint256[] memory value = vm.envOr("ANY", defaultValue);
+        uint256[] memory value = vm.envOr("ANY", ",", defaultValue);
         assertEq(defaultValue.length, value.length);
         for (uint256 i = 0; i < defaultValue.length; i++) {
             assertEq(defaultValue[i], value[i]);
@@ -63,7 +63,7 @@ contract EnvOrTest is Test {
         string[] memory defaultValue = new string[](2);
         defaultValue[0] = "one";
         defaultValue[1] = "two";
-        string[] memory value = vm.envOr("ANY", defaultValue);
+        string[] memory value = vm.envOr("ANY", ",", defaultValue);
         assertEq(defaultValue.length, value.length);
         for (uint256 i = 0; i < defaultValue.length; i++) {
             assertEq(defaultValue[i], value[i]);
