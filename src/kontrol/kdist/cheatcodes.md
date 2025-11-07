@@ -1928,10 +1928,152 @@ If the flag is false, it skips comparison, assuming success; otherwise, it compa
 Selectors
 ---------
 
+Selectors for **implemented** cheat code functions.
+
 ```k
-    rule ( selector ( SIGNATURE ) ) => #asWord( #parseByteStack(substrString(Keccak256(String2Bytes(SIGNATURE)), 0, 8)))
+    rule ( selector ( "assume(bool)" )                             => 1281615202 )
+    rule ( selector ( "deal(address,uint256)" )                    => 3364511341 )
+    rule ( selector ( "etch(address,bytes)" )                      => 3033974658 )
+    rule ( selector ( "warp(uint256)" )                            => 3856056066 )
+    rule ( selector ( "roll(uint256)" )                            => 528174896  )
+    rule ( selector ( "fee(uint256)" )                             => 968063664  )
+    rule ( selector ( "chainId(uint256)" )                         => 1078582738 )
+    rule ( selector ( "coinbase(address)" )                        => 4282924116 )
+    rule ( selector ( "label(address,string)" )                    => 3327641368 )
+    rule ( selector ( "getNonce(address)" )                        => 755185067  )
+    rule ( selector ( "addr(uint256)" )                            => 4288775753 )
+    rule ( selector ( "load(address,bytes32)" )                    => 1719639408 )
+    rule ( selector ( "store(address,bytes32,bytes32)" )           => 1892290747 )
+    rule ( selector ( "setNonce(address,uint64)" )                 => 4175530839 )
+    rule ( selector ( "expectRevert()" )                           => 4102309908 )
+    rule ( selector ( "expectRevert(bytes4)" )                     => 3273568480 )
+    rule ( selector ( "expectRevert(bytes)" )                      => 4069379763 )
+    rule ( selector ( "startPrank(address)" )                      => 105151830  )
+    rule ( selector ( "startPrank(address,address)" )              => 1169514616 )
+    rule ( selector ( "stopPrank()" )                              => 2428830011 )
+    rule ( selector ( "expectStaticCall(address,bytes)" )          => 2232945516 )
+    rule ( selector ( "expectDelegateCall(address,bytes)" )        => 1030406631 )
+    rule ( selector ( "expectRegularCall(address,uint256,bytes)" ) => 1973496647 )
+    rule ( selector ( "expectCreate(address,uint256,bytes)" )      => 658968394  )
+    rule ( selector ( "expectCreate2(address,uint256,bytes)" )     => 3854582462 )
+    rule ( selector ( "expectEmit()" )                             => 1141821709 )
+    rule ( selector ( "expectEmit(address)" )                      => 2260296205 )
+    rule ( selector ( "expectEmit(bool,bool,bool,bool)" )          => 1226622914 )
+    rule ( selector ( "expectEmit(bool,bool,bool,bool,address)" )  => 2176505587 )
+    rule ( selector ( "sign(uint256,bytes32)" )                    => 3812747940 )
+    rule ( selector ( "symbolicStorage(address)" )                 => 769677742  )
+    rule ( selector ( "symbolicStorage(address,string)" )          => 745143816  )
+    rule ( selector ( "setArbitraryStorage(address)" )             => 3781367863 )
+    rule ( selector ( "freshUInt(uint8)" )                         => 625253732  )
+    rule ( selector ( "freshUInt(uint8,string)" )                  => 1530912521 )
+    rule ( selector ( "randomUint(uint256)" )                      => 3481396892 )
+    rule ( selector ( "randomUint()" )                             => 621954864  )
+    rule ( selector ( "randomUint(uint256,uint256)" )              => 3592095003 )
+    rule ( selector ( "freshBool()" )                              => 2935720297 )
+    rule ( selector ( "freshBool(string)" )                        => 525694724  )
+    rule ( selector ( "randomBool()" )                             => 3451987645 )
+    rule ( selector ( "freshBytes(uint256)" )                      => 1389402351 )
+    rule ( selector ( "freshBytes(uint256,string)" )               => 390682600  )
+    rule ( selector ( "randomBytes(uint256)" )                     => 1818047145 )
+    rule ( selector ( "randomBytes4()" )                           => 2608649593 )
+    rule ( selector ( "randomBytes8()" )                           => 77050021   )
+    rule ( selector ( "freshAddress()" )                           => 2363359817 )
+    rule ( selector ( "freshAddress(string)" )                     => 1202084987 )
+    rule ( selector ( "randomAddress()" )                          => 3586058741 )
+    rule ( selector ( "prank(address)" )                           => 3395723175 )
+    rule ( selector ( "prank(address,address)" )                   => 1206193358 )
+    rule ( selector ( "allowCallsToAddress(address)" )             => 1850795572 )
+    rule ( selector ( "allowCalls(address,bytes)" )                => 1808051021 )
+    rule ( selector ( "allowChangesToStorage(address,uint256)" )   => 4207417100 )
+    rule ( selector ( "infiniteGas()" )                            => 3986649939 )
+    rule ( selector ( "setGas(uint256)" )                          => 3713137314 )
+    rule ( selector ( "mockCall(address,bytes,bytes)" )            => 3110212580 )
+    rule ( selector ( "mockFunction(address,address,bytes)" )      => 2918731041 )
+    rule ( selector ( "copyStorage(address,address)" )             => 540912653  )
+    rule ( selector ( "forgetBranch(uint256,uint8,uint256)" )      => 1720990067 )
+    rule ( selector ( "toString(address)" )                        => 1456103998 )
+    rule ( selector ( "toString(bytes)" )                          => 1907020045 )
+    rule ( selector ( "toString(bytes32)" )                        => 2971277800 )
+    rule ( selector ( "toString(bool)" )                           => 1910302682 )
+    rule ( selector ( "toString(uint256)" )                        => 1761649582 )
+    rule ( selector ( "toString(int256)" )                         => 2736964622 )
+    rule ( selector ( "envOr(string,address)" )                    => 1444930880 )
+    rule ( selector ( "envOr(string,bool)" )                       => 1199043535 )
+    rule ( selector ( "envOr(string,bytes)" )                      => 3018094341 )
+    rule ( selector ( "envOr(string,bytes32)" )                    => 3030931602 )
+    rule ( selector ( "envOr(string,int256)" )                     => 3150672190 )
+    rule ( selector ( "envOr(string,string)" )                     => 3510989676 )
+    rule ( selector ( "envOr(string,string,address[])" )           => 3343818219 )
+    rule ( selector ( "envOr(string,string,bool[])" )              => 3951421499 )
+    rule ( selector ( "envOr(string,string,bytes32[])" )           => 578941799 )
+    rule ( selector ( "envOr(string,string,bytes[])" )             => 1690058340 )
+    rule ( selector ( "envOr(string,string,int256[])" )            => 1191237451 )
+    rule ( selector ( "envOr(string,string,string[])" )            => 2240943804 )
+    rule ( selector ( "envOr(string,string,uint256[])" )           => 1949402408 )
+    rule ( selector ( "envOr(string,uint256)" )                    => 1586967695 )
 ```
 
+Selectors for **unimplemented** cheat code functions.
+
+```k
+    rule selector ( "expectRegularCall(address,bytes)" )        => 3178868520
+    rule selector ( "expectNoCall()" )                          => 3861374088
+    rule selector ( "ffi(string[])" )                           => 2299921511
+    rule selector ( "setEnv(string,string)" )                   => 1029252078
+    rule selector ( "envBool(string)" )                         => 2127686781
+    rule selector ( "envUint(string)" )                         => 3247934751
+    rule selector ( "envInt(string)" )                          => 2301234273
+    rule selector ( "envAddress(string)" )                      => 890066623
+    rule selector ( "envBytes32(string)" )                      => 2543095874
+    rule selector ( "envString(string)" )                       => 4168600345
+    rule selector ( "envBytes(string)" )                        => 1299951366
+    rule selector ( "envBool(string,string)" )                  => 2863521455
+    rule selector ( "envUint(string,string)" )                  => 4091461785
+    rule selector ( "envInt(string,string)" )                   => 1108873552
+    rule selector ( "envAddress(string,string)" )               => 2905717242
+    rule selector ( "envBytes32(string,string)" )               => 1525821889
+    rule selector ( "envString(string,string)" )                => 347089865
+    rule selector ( "envBytes(string,string)" )                 => 3720504603
+    rule selector ( "record()" )                                => 644673801
+    rule selector ( "accesses(address)" )                       => 1706857601
+    rule selector ( "mockCall(address,uint256,bytes,bytes)" )   => 2168494993
+    rule selector ( "clearMockedCalls()" )                      => 1071599125
+    rule selector ( "expectCall(address,bytes)" )               => 3177903156
+    rule selector ( "expectCall(address,uint256,bytes)" )       => 4077681571
+    rule selector ( "getCode(string)" )                         => 2367473957
+    rule selector ( "broadcast()" )                             => 2949218368
+    rule selector ( "broadcast(address)" )                      => 3868601563
+    rule selector ( "startBroadcast()" )                        => 2142579071
+    rule selector ( "startBroadcast(address)" )                 => 2146183821
+    rule selector ( "stopBroadcast()" )                         => 1995103542
+    rule selector ( "readFile(string)" )                        => 1626979089
+    rule selector ( "readLine(string)" )                        => 1895126824
+    rule selector ( "writeFile(string,string)" )                => 2306738839
+    rule selector ( "writeLine(string,string)" )                => 1637714303
+    rule selector ( "closeFile(string)" )                       => 1220748319
+    rule selector ( "removeFile(string)" )                      => 4054835277
+    rule selector ( "recordLogs()" )                            => 1101999954
+    rule selector ( "getRecordedLogs()" )                       => 420828068
+    rule selector ( "snapshot()" )                              => 2534502746
+    rule selector ( "revertTo(uint256)" )                       => 1155002532
+    rule selector ( "createFork(string,uint256)" )              => 1805892139
+    rule selector ( "createFork(string)" )                      => 834286744
+    rule selector ( "createSelectFork(string,uint256)" )        => 1911440973
+    rule selector ( "createSelectFork(string)" )                => 2556952628
+    rule selector ( "selectFork(uint256)" )                     => 2663344167
+    rule selector ( "activeFork()" )                            => 789593890
+    rule selector ( "rollFork(uint256)" )                       => 3652973473
+    rule selector ( "rollFork(uint256,uint256)" )               => 3612115876
+    rule selector ( "rpcUrl(string)" )                          => 2539285737
+    rule selector ( "rpcUrls()" )                               => 2824504344
+    rule selector ( "deriveKey(string,uint32)" )                => 1646872971
+```
+
+Selector for Solidity built-in Error
+
+```k
+    rule ( selector ( "Error(string)" ) => 147028384 )
+```
 ```k
 endmodule
 ```
