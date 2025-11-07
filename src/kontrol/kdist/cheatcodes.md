@@ -714,7 +714,7 @@ returns the default value.
           </output>
       requires SELECTOR in (
          SetItem( selector ( "envOr(string,string,string[])" ) )
-         SetItem( selector ( "envOr(stirng,string,bytes[])" ) )
+         SetItem( selector ( "envOr(string,string,bytes[])" ) )
       )
       [preserves-definedness]
 ```
