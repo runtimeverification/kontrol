@@ -642,6 +642,83 @@ function toString(int256) external returns (string memory);
       [preserves-definedness]
 ```
 
+### `envOr(...)` cheatcodes
+
+The `envOr` cheatcodes in Foundry are used to read environment variables with a fallback.
+In Kontrol, `envOr` is currently only implemented for concrete execution, and we always
+returns the default value.
+
+```k
+    rule [envOr-word]:
+          <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
+          <output> _ => #range(ARGS, 32, 32) </output>
+      requires SELECTOR in (
+         SetItem( selector ( "envOr(string,bool)" ) )
+         SetItem( selector ( "envOr(string,uint256)" ) )
+         SetItem( selector ( "envOr(string,int256)" ) )
+         SetItem( selector ( "envOr(string,address)" ) )
+         SetItem( selector ( "envOr(string,bytes32)" ) )
+      )
+      [preserves-definedness]
+
+    rule [envOr-string]:
+          <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
+          <output> _ => 
+            #let DATA_OFFSET = #asWord(#range(ARGS, 32, 32)) +Int 32 #in
+            #let DATA_SIZE   = #asWord(#range(ARGS, DATA_OFFSET, 32)) #in
+            #let DATA        = #range(ARGS, DATA_OFFSET +Int 32, DATA_SIZE) #in
+            #enc(#tuple(#string(DATA)))
+          </output>
+      requires SELECTOR ==Int selector( "envOr(string,string)" )
+      [preserves-definedness]
+
+    rule [envOr-bytes]:
+          <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
+          <output> _ => 
+            #let DATA_OFFSET = #asWord(#range(ARGS, 32, 32)) #in
+            #let DATA_SIZE   = #asWord(#range(ARGS, DATA_OFFSET, 32)) #in
+            #let DATA        = #range(ARGS, DATA_OFFSET +Int 32, DATA_SIZE) #in
+            #enc(#tuple(#bytes(DATA)))
+          </output>
+      requires SELECTOR ==Int selector( "envOr(string,bytes)" )
+      [preserves-definedness]
+
+    rule [envOr-word-array]:
+          <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
+          <output> _ => 
+            #let DATA_OFFSET = #asWord(#range(ARGS, 64, 32)) #in
+            #let DATA_SIZE   = #range(ARGS, DATA_OFFSET, 32) #in
+            #let DATA        = #range(ARGS, DATA_OFFSET +Int 32, #asWord(DATA_SIZE) *Int 32) #in
+            #let HEAD        = Int2Bytes(32, 32, BE) #in
+            #let BODY        = DATA_SIZE +Bytes DATA #in
+            HEAD +Bytes BODY
+          </output>
+      requires SELECTOR in (
+         SetItem( selector ( "envOr(string,string,bool[])" ) )
+         SetItem( selector ( "envOr(string,string,uint256[])" ) )
+         SetItem( selector ( "envOr(string,string,int256[])" ) )
+         SetItem( selector ( "envOr(string,string,address[])" ) )
+         SetItem( selector ( "envOr(string,string,bytes32[])" ) )
+      )
+      [preserves-definedness]
+
+    rule [envOr-dynamic-array]:
+          <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
+          <output> _ => 
+            #let DATA_OFFSET = #asWord(#range(ARGS, 64, 32)) #in
+            #let DATA_SIZE   = #range(ARGS, DATA_OFFSET, 32) #in
+            #let DATA        = #range(ARGS, DATA_OFFSET +Int 32, #asWord(DATA_SIZE) *Int 32) #in
+            #let HEAD        = Int2Bytes(32, 32, BE) #in
+            #let BODY        = DATA_SIZE +Bytes DATA #in 
+            HEAD +Bytes BODY
+          </output>
+      requires SELECTOR in (
+         SetItem( selector ( "envOr(string,string,string[])" ) )
+         SetItem( selector ( "envOr(string,string,bytes[])" ) )
+      )
+      [preserves-definedness]
+```
+
 Expecting the next call to revert
 ---------------------------------
 
@@ -1920,6 +1997,20 @@ Selectors for **implemented** cheat code functions.
     rule ( selector ( "toString(bool)" )                           => 1910302682 )
     rule ( selector ( "toString(uint256)" )                        => 1761649582 )
     rule ( selector ( "toString(int256)" )                         => 2736964622 )
+    rule ( selector ( "envOr(string,address)" )                    => 1444930880 )
+    rule ( selector ( "envOr(string,bool)" )                       => 1199043535 )
+    rule ( selector ( "envOr(string,bytes)" )                      => 3018094341 )
+    rule ( selector ( "envOr(string,bytes32)" )                    => 3030931602 )
+    rule ( selector ( "envOr(string,int256)" )                     => 3150672190 )
+    rule ( selector ( "envOr(string,string)" )                     => 3510989676 )
+    rule ( selector ( "envOr(string,string,address[])" )           => 3343818219 )
+    rule ( selector ( "envOr(string,string,bool[])" )              => 3951421499 )
+    rule ( selector ( "envOr(string,string,bytes32[])" )           => 578941799  )
+    rule ( selector ( "envOr(string,string,bytes[])" )             => 1690058340 )
+    rule ( selector ( "envOr(string,string,int256[])" )            => 1191237451 )
+    rule ( selector ( "envOr(string,string,string[])" )            => 2240943804 )
+    rule ( selector ( "envOr(string,string,uint256[])" )           => 1949402408 )
+    rule ( selector ( "envOr(string,uint256)" )                    => 1586967695 )
 ```
 
 Selectors for **unimplemented** cheat code functions.
