@@ -664,7 +664,7 @@ returns the default value.
     rule [envOr-string]:
           <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
           <output> _ => 
-            #let DATA_OFFSET = #asWord(#range(ARGS, 32, 32)) #in
+            #let DATA_OFFSET = #asWord(#range(ARGS, 32, 32)) +Int 32 #in
             #let DATA_SIZE   = #asWord(#range(ARGS, DATA_OFFSET, 32)) #in
             #let DATA        = #range(ARGS, DATA_OFFSET +Int 32, DATA_SIZE) #in
             #enc(#tuple(#string(DATA)))
