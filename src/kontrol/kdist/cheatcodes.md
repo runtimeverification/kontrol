@@ -695,10 +695,10 @@ returns the default value.
           </output>
       requires SELECTOR in (
          SetItem( selector ( "envOr(string,string,bool[])" ) )
-         SetItem( selector ( "envOr(string,string,uint256)" ) )
-         SetItem( selector ( "envOr(string,string,int256)" ) )
-         SetItem( selector ( "envOr(string,string,address)" ) )
-         SetItem( selector ( "envOr(string,string,bytes32)" ) )
+         SetItem( selector ( "envOr(string,string,uint256[])" ) )
+         SetItem( selector ( "envOr(string,string,int256[])" ) )
+         SetItem( selector ( "envOr(string,string,address[])" ) )
+         SetItem( selector ( "envOr(string,string,bytes32[])" ) )
       )
       [preserves-definedness]
 
@@ -2005,7 +2005,7 @@ Selectors for **implemented** cheat code functions.
     rule ( selector ( "envOr(string,string)" )                     => 3510989676 )
     rule ( selector ( "envOr(string,string,address[])" )           => 3343818219 )
     rule ( selector ( "envOr(string,string,bool[])" )              => 3951421499 )
-    rule ( selector ( "envOr(string,string,bytes32[])" )           => 578941799 )
+    rule ( selector ( "envOr(string,string,bytes32[])" )           => 578941799  )
     rule ( selector ( "envOr(string,string,bytes[])" )             => 1690058340 )
     rule ( selector ( "envOr(string,string,int256[])" )            => 1191237451 )
     rule ( selector ( "envOr(string,string,string[])" )            => 2240943804 )
