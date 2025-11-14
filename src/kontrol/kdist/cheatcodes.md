@@ -1318,7 +1318,9 @@ To actually execute the arbitrary shell command, use the `--ffi` flag.
 
 Utils
 -----
- - Defining a new production `#shell`
+ - Defining a new production `#shell`.
+If the `--ffi` option is used, the custom_step logic defined for ffi will overwrite the `#shell` rule with the actual output.
+If the `--ffi` option is not used, a new symbolic value will be considered as the output of the ffi command.
 
 ```{.k .symbolic}
     syntax KItem ::= #shell ( Bytes ) [symbol(ffi_shell)]

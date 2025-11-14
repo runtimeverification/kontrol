@@ -315,6 +315,20 @@ class KontrolSemantics(KEVMSemantics):
         return Step(CTerm(new_cterm.config, cterm.constraints), 1, (), ['console.log'], cut=True)
 
     def _exec_ffi_custom_step(self, subst: Subst, cterm: CTerm, _c: CTermSymbolic) -> KCFGExtendResult | None:
+        """Execute vm.ffi() cheatcode by running external commands and encoding their output as ABI bytes.
+
+        This function decodes the command from the ABI-encoded string array, executes it as a subprocess, and processes
+        the stdout. If stdout is valid hex (with or without '0x' prefix), it decodes the hex to bytes; otherwise it
+        treats stdout as raw bytes. The result is ABI-encoded as dynamic bytes type and placed in the OUTPUT_CELL.
+        If the command fails (non-zero exit code), the execution halts with EVMC_REVERT status.
+
+        :param subst: Substitution containing the values obtained by matching the `self._ffi_pattern`.
+        :param cterm: Current configuration term representing the EVM state.
+        :param _c: Symbolic configuration term (unused).
+        :return: None if FFI is disabled. Otherwise, Step with OUTPUT_CELL set to ABI-encoded result and updated K_CELL
+                continuation, tagged with 'kontrol.ffi.success'. On command failure, returns Step with EVMC_REVERT
+                status tagged with 'kontrol.ffi.failure'.
+        """
         if not self.allow_ffi_calls:
             _LOGGER.warning(
                 'ffi calls disabled, vm.ffi() will return a fresh symbolic value. To overwrite this, use --ffi.'
