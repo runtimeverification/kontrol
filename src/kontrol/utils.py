@@ -4,12 +4,10 @@ import ast
 import json
 import logging
 import re
-import uuid
 from pathlib import Path
 from typing import TYPE_CHECKING
 
 import pyk
-import requests
 from eth_abi import decode
 from pyk.kbuild.utils import KVersion, k_version
 
@@ -29,35 +27,6 @@ console = Console()
 
 _LOG_FORMAT: Final = '%(levelname)s %(asctime)s %(name)s - %(message)s'
 _LOGGER: Final = logging.getLogger(__name__)
-
-
-def _get_user_id() -> str:
-    """Get or create persistent anonymous user ID"""
-    config_dir = Path.home() / '.kprofile'
-    config_dir.mkdir(exist_ok=True)
-    user_id_file = config_dir / 'user_id'
-
-    if user_id_file.exists():
-        return user_id_file.read_text().strip()
-
-    user_id = str(uuid.uuid4())
-    user_id_file.write_text(user_id)
-    return user_id
-
-
-def _track_event(event: str, properties: dict | None = None) -> None:
-    """Send telemetry event to proxy server"""
-    if os.getenv('K_TELEMETRY') == '0':
-        return
-
-    try:
-        requests.post(
-            'http://localhost:5000/track',  # TODO: replace with the telemetry proxy server ip
-            json={'user_id': _get_user_id(), 'event': event, 'properties': properties or {}},
-            timeout=2,
-        )
-    except Exception:
-        pass  # Fail silently
 
 
 def ensure_name_is_unique(name: str, cterm: CTerm) -> str:

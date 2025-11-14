@@ -36,11 +36,11 @@ from .state_record import (
     read_recorded_state_dump,
     recorded_state_to_account_cells,
 )
+from .telemetry import _track_event
 from .utils import (
     _LOG_FORMAT,
     _rv_blue,
     _rv_yellow,
-    _track_event,
     check_k_version,
     config_file_path,
     console,
