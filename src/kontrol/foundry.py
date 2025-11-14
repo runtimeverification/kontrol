@@ -16,6 +16,7 @@ from subprocess import CalledProcessError
 from typing import TYPE_CHECKING
 
 import tomlkit
+from eth_abi import decode, encode
 from kevm_pyk.kevm import KEVM, CustomStep, KEVMSemantics
 from kevm_pyk.utils import legacy_explore, print_model
 from pyk.cterm import CTerm
@@ -38,7 +39,7 @@ from pyk.kcfg.kcfg import Step
 from pyk.kdist import kdist
 from pyk.proof.proof import Proof
 from pyk.proof.reachability import APRFailureInfo, APRProof
-from pyk.utils import ensure_dir_path, hash_str, run_process_2, single, unique
+from pyk.utils import ensure_dir_path, hash_str, run_process, run_process_2, single, unique
 
 from . import VERSION
 from .solc_to_k import Contract, _contract_name_from_bytecode
@@ -87,8 +88,15 @@ _LOGGER: Final = logging.getLogger(__name__)
 
 class KontrolSemantics(KEVMSemantics):
 
-    def __init__(self, auto_abstract_gas: bool = False, allow_symbolic_program: bool = False) -> None:
+    allow_ffi_calls: bool
+
+    def __init__(
+        self, auto_abstract_gas: bool = False, allow_symbolic_program: bool = False, allow_ffi_calls: bool = False
+    ) -> None:
+        self.allow_ffi_calls = allow_ffi_calls
+
         custom_steps = (
+            CustomStep(self._ffi_pattern, self._exec_ffi_custom_step),
             CustomStep(self._rename_pattern, self._exec_rename_custom_step),
             CustomStep(self._forget_branch_pattern, self._exec_forget_custom_step),
             CustomStep(self._console_log_pattern, self._exec_console_log_custom_step),
@@ -111,6 +119,7 @@ class KontrolSemantics(KEVMSemantics):
     ) -> list[str]:
         return [
             'FOUNDRY-CHEAT-CODES.rename',
+            'FOUNDRY-CHEAT-CODES.cheatcode.call.ffi',
             'FOUNDRY-ACCOUNTS.forget',
         ] + KEVMSemantics.cut_point_rules(
             break_on_jumpi,
@@ -144,6 +153,10 @@ class KontrolSemantics(KEVMSemantics):
         return KSequence(
             [KApply('console_log', [KVariable('###SELECTOR'), KVariable('###DATA')]), KVariable('###CONTINUATION')]
         )
+
+    @property
+    def _ffi_pattern(self) -> KSequence:
+        return KSequence([KApply('ffi_shell', KVariable('###CMD')), KVariable('###CONTINUATION')])
 
     def _exec_rename_custom_step(self, subst: Subst, cterm: CTerm, _c: CTermSymbolic) -> KCFGExtendResult | None:
         # Extract the target var and new name from the substitution
@@ -300,6 +313,62 @@ class KontrolSemantics(KEVMSemantics):
         # Update the K_CELL with the continuation
         new_cterm = CTerm.from_kast(set_cell(cterm.kast, 'K_CELL', KSequence(subst['###CONTINUATION'])))
         return Step(CTerm(new_cterm.config, cterm.constraints), 1, (), ['console.log'], cut=True)
+
+    def _exec_ffi_custom_step(self, subst: Subst, cterm: CTerm, _c: CTermSymbolic) -> KCFGExtendResult | None:
+        if not self.allow_ffi_calls:
+            _LOGGER.warning(
+                'ffi calls disabled, vm.ffi() will return a fresh symbolic value. To overwrite this, use --ffi.'
+            )
+            return None
+
+        cmd = subst['###CMD']
+        assert type(cmd) is KToken
+
+        # Decode ABI string[]
+        data = ast.literal_eval(cmd.token)
+        cmd_decoded = decode(['string[]'], data)[0]
+
+        # Execute command
+        process_result = run_process(
+            cmd_decoded,
+            check=False,  # Don't raise on non-zero exit
+            pipe_stdout=True,
+            pipe_stderr=True,
+            cwd=Path.cwd(),
+            logger=_LOGGER,
+        )
+
+        # If the process failed, halt the execution and change the status code to EVMC_REVERT
+        if process_result.returncode != 0:
+            _LOGGER.info(f'ffi command failed: {cmd_decoded}')
+            new_cterm = CTerm.from_kast(
+                set_cell(
+                    cterm.kast,
+                    'K_CELL',
+                    KSequence([KApply('end', KApply('EVMC_REVERT')), subst['###CONTINUATION']]),
+                )
+            )
+            return Step(CTerm(new_cterm.config, cterm.constraints), 1, (), ['kontrol.ffi.failure'], cut=True)
+
+        # Parse stdout
+        stdout = process_result.stdout.decode().strip()
+
+        try:
+            # Try decode as hex (with or without 0x prefix)
+            hex_str = stdout[2:] if stdout.startswith('0x') else stdout
+            raw_bytes = bytes.fromhex(hex_str)
+        except ValueError:
+            # Not hex, treat as raw bytes
+            raw_bytes = stdout.encode()
+
+        # ABI-encode as bytes (dynamic type)
+        encoded_output = encode(['bytes'], [raw_bytes])
+
+        # Update cells
+        new_cterm = CTerm.from_kast(set_cell(cterm.kast, 'OUTPUT_CELL', bytesToken(encoded_output)))
+        new_cterm = CTerm.from_kast(set_cell(new_cterm.kast, 'K_CELL', KSequence(subst['###CONTINUATION'])))
+
+        return Step(CTerm(new_cterm.config, cterm.constraints), 1, (), ['kontrol.ffi.success'], cut=True)
 
 
 class FoundryKEVM(KEVM):

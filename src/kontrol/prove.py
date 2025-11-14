@@ -378,7 +378,9 @@ def _run_cfg_group(
                 )
                 return KCFGExplore(
                     cterm_symbolic,
-                    kcfg_semantics=KontrolSemantics(auto_abstract_gas=options.auto_abstract_gas),
+                    kcfg_semantics=KontrolSemantics(
+                        auto_abstract_gas=options.auto_abstract_gas, allow_ffi_calls=options.ffi
+                    ),
                     id=test.id,
                 )
 
