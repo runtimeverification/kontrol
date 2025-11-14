@@ -365,7 +365,7 @@ class KontrolSemantics(KEVMSemantics):
             return Step(CTerm(new_cterm.config, cterm.constraints), 1, (), ['kontrol.ffi.failure'], cut=True)
 
         # Parse stdout
-        stdout = process_result.stdout.decode().strip()
+        stdout = process_result.stdout.strip()
 
         try:
             # Try decode as hex (with or without 0x prefix)
