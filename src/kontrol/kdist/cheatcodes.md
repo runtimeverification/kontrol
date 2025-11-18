@@ -1326,7 +1326,7 @@ If the `--ffi` option is not used, a new symbolic value will be considered as th
     syntax KItem ::= #shell ( Bytes ) [symbol(ffi_shell)]
  // -----------------------------------------------------
     rule <k> #shell(_ARGS) => .K ... </k>
-         <output> _ => ?FFI_OUTPUT </output>
+         <output> _ => ?_FFI_OUTPUT </output>
 ```
 
  - Defining a new production `#rename` for all the types for which we generate symbolic values.
