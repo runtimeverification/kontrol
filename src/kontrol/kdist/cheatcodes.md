@@ -651,17 +651,6 @@ function expectRevert(bytes4 msg) external;
 function expectRevert(bytes calldata msg) external;
 ```
 
-All cheat code calls which take place while `expectRevert` is active are ignored.
-
-```k
-    rule [cheatcode.call.ignoreCalls]:
-         <k> #cheatcode_call _ _ => .K ... </k>
-         <expectedRevert>
-           <isRevertExpected> true </isRevertExpected>
-           ...
-         </expectedRevert>
-      [priority(35)]
-```
 
 We use the `#next[OP]` to identify OpCodes that can revert and insert a `#checkRevert` production used to examine the end of each call/create in KEVM.
 The check will be inserted only if the current depth is the same as the depth at which the `expectRevert` cheat code was used.
@@ -671,23 +660,25 @@ WThe `#checkRevert` will be used to compare the status code of the execution and
     rule [foundry.set.expectrevert.1]:
          <k> #next [ _OP:CallOp ] ~> (.K => #checkRevert ~> #updateRevertOutput RETSTART RETWIDTH) ~> #execute ... </k>
          <callDepth> CD </callDepth>
-         <wordStack> _ : _ : _ : _ : _ : RETSTART : RETWIDTH : _WS </wordStack>
+         <wordStack> _ : ACCTTO : _ : _ : _ : RETSTART : RETWIDTH : _WS </wordStack>
          <expectedRevert>
            <isRevertExpected> true </isRevertExpected>
            <expectedDepth> CD </expectedDepth>
            ...
          </expectedRevert>
+      requires notBool ACCTTO ==Int #address(FoundryCheat)
       [priority(32)]
 
     rule [foundry.set.expectrevert.2]:
          <k> #next [ _OP:CallSixOp ] ~> (.K => #checkRevert ~> #updateRevertOutput RETSTART RETWIDTH) ~> #execute ... </k>
          <callDepth> CD </callDepth>
-         <wordStack> _ : _ : _ : _ : RETSTART : RETWIDTH : _WS </wordStack>
+         <wordStack> _ : ACCTTO : _ : _ : RETSTART : RETWIDTH : _WS </wordStack>
          <expectedRevert>
            <isRevertExpected> true </isRevertExpected>
            <expectedDepth> CD </expectedDepth>
            ...
          </expectedRevert>
+      requires notBool ACCTTO ==Int #address(FoundryCheat)
       [priority(32)]
 
     rule [foundry.set.expectrevert.3]:
