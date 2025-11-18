@@ -244,6 +244,31 @@ def test_constructor_with_symbolic_args(
     assert_or_update_show_output(show_res, TEST_DATA_DIR / f'show/{test_id}.expected', update=update_expected_output)
 
 
+def test_foundry_ffi(
+    foundry: Foundry, bug_report: BugReport | None, server: KoreServer, force_sequential: bool
+) -> None:
+    test_id = 'FfiTest.testffi()'
+
+    if bug_report is not None:
+        server._populate_bug_report(bug_report)
+
+    prove_res = foundry_prove(
+        foundry=foundry,
+        options=ProveOptions(
+            {
+                'tests': [(test_id, None)],
+                'bug_report': bug_report,
+                'ffi': True,
+                'port': server.port,
+                'force_sequential': force_sequential,
+            }
+        ),
+    )
+
+    # Then
+    assert_pass(test_id, single(prove_res))
+
+
 all_bmc_tests: Final = tuple((TEST_DATA_DIR / 'foundry-bmc-all').read_text().splitlines())
 skipped_bmc_tests: Final = set((TEST_DATA_DIR / 'foundry-bmc-skip').read_text().splitlines())
 

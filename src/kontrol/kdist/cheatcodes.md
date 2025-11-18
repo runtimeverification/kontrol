@@ -1299,8 +1299,35 @@ Abstraction functions
 
 ```
 
+Foreign function calls
+----------------------
+
+#### `ffi` - allows you to execute an arbitrary shell command and capture the output.
+In the context of symbolic execution, ffi will return a new symbolic variable.
+To actually execute the arbitrary shell command, use the `--ffi` flag.
+
+```
+    function ffi(string[] calldata commandInput) external returns (bytes memory result);
+```
+
+```{.k .symbolic}
+    rule [cheatcode.call.ffi]:
+         <k> #cheatcode_call SELECTOR ARGS => #shell(ARGS) ... </k>
+      requires SELECTOR ==Int selector ( "ffi(string[])" )
+```
+
 Utils
 -----
+ - Defining a new production `#shell`.
+If the `--ffi` option is used, the custom_step logic defined for ffi will overwrite the `#shell` rule with the actual output.
+If the `--ffi` option is not used, a new symbolic value will be considered as the output of the ffi command.
+
+```{.k .symbolic}
+    syntax KItem ::= #shell ( Bytes ) [symbol(ffi_shell)]
+ // -----------------------------------------------------
+    rule <k> #shell(_ARGS) => .K ... </k>
+         <output> _ => ?_FFI_OUTPUT </output>
+```
 
  - Defining a new production `#rename` for all the types for which we generate symbolic values.
 We don't care about the values because they will be processed in the `custom_step` function in Python.
@@ -1920,6 +1947,7 @@ Selectors for **implemented** cheat code functions.
     rule ( selector ( "toString(bool)" )                           => 1910302682 )
     rule ( selector ( "toString(uint256)" )                        => 1761649582 )
     rule ( selector ( "toString(int256)" )                         => 2736964622 )
+    rule ( selector ( "ffi(string[])" )                            => 2299921511 )
 ```
 
 Selectors for **unimplemented** cheat code functions.
@@ -1927,7 +1955,6 @@ Selectors for **unimplemented** cheat code functions.
 ```k
     rule selector ( "expectRegularCall(address,bytes)" )        => 3178868520
     rule selector ( "expectNoCall()" )                          => 3861374088
-    rule selector ( "ffi(string[])" )                           => 2299921511
     rule selector ( "setEnv(string,string)" )                   => 1029252078
     rule selector ( "envBool(string)" )                         => 2127686781
     rule selector ( "envUint(string)" )                         => 3247934751

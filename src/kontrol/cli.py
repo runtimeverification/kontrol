@@ -555,6 +555,14 @@ def _create_argument_parser() -> ArgumentParser:
         help='Generate a Solidity test contract with concrete counterexample values when proofs fail.',
     )
 
+    prove_args.add_argument(
+        '--ffi',
+        dest='ffi',
+        default=None,
+        action='store_true',
+        help='Enable the FFI cheatcode.',
+    )
+
     show_args = command_parser.add_parser(
         'show',
         help='Print the CFG for a given proof.',
