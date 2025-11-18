@@ -165,4 +165,14 @@ contract ExpectRevertTest is Test {
         assertEq(fst, 0);
         assertEq(snd, 0);
     }
+
+    function test_expectRevert_withCheatcode() public {
+        Reverter reverter = new Reverter();
+
+        vm.expectRevert();
+        address nonExistent = vm.addr(1);
+        reverter.revertWithoutReason();
+
+        assertEq(nonExistent, 0x7E5F4552091A69125d5DfCb7b8C2659029395Bdf);
+    }
 }
