@@ -320,14 +320,13 @@ class KontrolSemantics(KEVMSemantics):
         This function decodes the command from the ABI-encoded string array, executes it as a subprocess, and processes
         the stdout. If stdout is valid hex (with or without '0x' prefix), it decodes the hex to bytes; otherwise it
         treats stdout as raw bytes. The result is ABI-encoded as dynamic bytes type and placed in the OUTPUT_CELL.
-        If the command fails (non-zero exit code), the execution halts with EVMC_REVERT status.
+        If the command fails (non-zero exit code), a RuntimeError is raised.
 
         :param subst: Substitution containing the values obtained by matching the `self._ffi_pattern`.
         :param cterm: Current configuration term representing the EVM state.
         :param _c: Symbolic configuration term (unused).
         :return: None if FFI is disabled. Otherwise, Step with OUTPUT_CELL set to ABI-encoded result and updated K_CELL
-                continuation, tagged with 'kontrol.ffi.success'. On command failure, returns Step with EVMC_REVERT
-                status tagged with 'kontrol.ffi.failure'.
+                continuation, tagged with 'kontrol.ffi.success'.
         """
         if not self.allow_ffi_calls:
             _LOGGER.warning(
@@ -345,24 +344,12 @@ class KontrolSemantics(KEVMSemantics):
         # Execute command
         process_result = run_process(
             cmd_decoded,
-            check=False,  # Don't raise on non-zero exit
+            check=True,  # Raise on non-zero exit
             pipe_stdout=True,
             pipe_stderr=True,
             cwd=Path.cwd(),
             logger=_LOGGER,
         )
-
-        # If the process failed, halt the execution and change the status code to EVMC_REVERT
-        if process_result.returncode != 0:
-            _LOGGER.info(f'ffi command failed: {cmd_decoded}')
-            new_cterm = CTerm.from_kast(
-                set_cell(
-                    cterm.kast,
-                    'K_CELL',
-                    KSequence([KApply('end', KApply('EVMC_REVERT')), subst['###CONTINUATION']]),
-                )
-            )
-            return Step(CTerm(new_cterm.config, cterm.constraints), 1, (), ['kontrol.ffi.failure'], cut=True)
 
         # Parse stdout
         stdout = process_result.stdout.strip()
