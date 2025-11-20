@@ -431,6 +431,19 @@ contract UnitTest is Test {
         assertEq(val1, val2, err);
     }
 
+    function test_checkInitialBalance(uint256 _amount) public view {
+        uint256 balance = address(this).balance;
+        console.log('Test contract balance:', balance);
+        console.log('Symbolic value', _amount);
+
+        assertEq(balance, 79228162514264337593543950335); // 2^128
+    }
+
+    function test_counterexample(uint256 value, address addr, bool flag) public pure {
+        // This test will fail, triggering counterexample generation
+        assert(value != 10);
+    }
+
     /****************************
     * Internal helper functions *
     *****************************/
@@ -441,5 +454,16 @@ contract UnitTest is Test {
 
     function min(uint256 a, uint256 b) internal pure returns (uint256) {
         return a > b ? b : a;
+    }
+
+
+    function test_counterexample_ce0() public pure {
+        // Counterexample values from failed proof:
+        uint256 value = 10;
+        address addr = address(0);
+        bool flag = false;
+
+        // This test will fail, triggering counterexample generation
+        assert(value != 10);
     }
 }

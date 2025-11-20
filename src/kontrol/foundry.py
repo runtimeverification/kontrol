@@ -42,11 +42,14 @@ from pyk.utils import ensure_dir_path, hash_str, run_process_2, single, unique
 
 from . import VERSION
 from .solc_to_k import Contract, _contract_name_from_bytecode
+from .storage_generation import generate_setup_contract
 from .utils import (
     _read_digest_file,
+    decode_log_message,
     empty_lemmas_file_contents,
     ensure_name_is_unique,
     kontrol_file_contents,
+    kontrol_test_file_contents,
     kontrol_toml_file_contents,
     kontrol_up_to_date,
     write_to_file,
@@ -72,6 +75,7 @@ if TYPE_CHECKING:
         RefuteNodeOptions,
         RemoveNodeOptions,
         SectionEdgeOptions,
+        SetupStorageOptions,
         SimplifyNodeOptions,
         SplitNodeOptions,
         StepNodeOptions,
@@ -87,6 +91,7 @@ class KontrolSemantics(KEVMSemantics):
         custom_steps = (
             CustomStep(self._rename_pattern, self._exec_rename_custom_step),
             CustomStep(self._forget_branch_pattern, self._exec_forget_custom_step),
+            CustomStep(self._console_log_pattern, self._exec_console_log_custom_step),
         )
 
         super().__init__(
@@ -104,7 +109,10 @@ class KontrolSemantics(KEVMSemantics):
         break_on_basic_blocks: bool,
         break_on_load_program: bool,
     ) -> list[str]:
-        return ['FOUNDRY-CHEAT-CODES.rename', 'FOUNDRY-ACCOUNTS.forget'] + KEVMSemantics.cut_point_rules(
+        return [
+            'FOUNDRY-CHEAT-CODES.rename',
+            'FOUNDRY-ACCOUNTS.forget',
+        ] + KEVMSemantics.cut_point_rules(
             break_on_jumpi,
             break_on_jump,
             break_on_calls,
@@ -129,6 +137,12 @@ class KontrolSemantics(KEVMSemantics):
                 KApply('cheatcode_forget', [KVariable('###TERM1'), KVariable('###OPERATOR'), KVariable('###TERM2')]),
                 KVariable('###CONTINUATION'),
             ]
+        )
+
+    @property
+    def _console_log_pattern(self) -> KSequence:
+        return KSequence(
+            [KApply('console_log', [KVariable('###SELECTOR'), KVariable('###DATA')]), KVariable('###CONTINUATION')]
         )
 
     def _exec_rename_custom_step(self, subst: Subst, cterm: CTerm, _c: CTermSymbolic) -> KCFGExtendResult | None:
@@ -265,6 +279,27 @@ class KontrolSemantics(KEVMSemantics):
         # Update the K_CELL with the continuation
         new_cterm = CTerm.from_kast(set_cell(cterm.kast, 'K_CELL', KSequence(subst['###CONTINUATION'])))
         return Step(CTerm(new_cterm.config, new_constraints), 1, (), ['cheatcode_forget'], cut=True)
+
+    def _exec_console_log_custom_step(self, subst: Subst, cterm: CTerm, _c: CTermSymbolic) -> KCFGExtendResult | None:
+        selector_token = subst['###SELECTOR']
+        data = subst['###DATA']
+        assert type(selector_token) is KToken
+
+        try:
+            if type(data) is KToken:
+                selector = int(selector_token.token)
+                output = decode_log_message(data.token, selector)
+                if output is not None:
+                    print(f'    {output}')
+            else:
+                kevm = KEVM(kdist.get('kontrol.base'))
+                print(f'    {kevm.pretty_print(data)}')
+        except Exception as e:
+            _LOGGER.warning(f'Console log decode error: {e}')
+
+        # Update the K_CELL with the continuation
+        new_cterm = CTerm.from_kast(set_cell(cterm.kast, 'K_CELL', KSequence(subst['###CONTINUATION'])))
+        return Step(CTerm(new_cterm.config, cterm.constraints), 1, (), ['console.log'], cut=True)
 
 
 class FoundryKEVM(KEVM):
@@ -703,28 +738,8 @@ class Foundry:
         )
 
     @staticmethod
-    def help_info(proof_id: str, hevm: bool) -> list[str]:
+    def help_info() -> list[str]:
         res_lines: list[str] = []
-        if hevm:
-            _, test = proof_id.split('.')
-            if not any(test.startswith(prefix) for prefix in ['testFail', 'checkFail', 'proveFail']):
-                res_lines.append('')
-                res_lines.append('See `hevm_success` predicate for more information:')
-                res_lines.append(
-                    'https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/hevm.md#hevm-success-predicate'
-                )
-            else:
-                res_lines.append('')
-                res_lines.append('See `hevm_fail` predicate for more information:')
-                res_lines.append(
-                    'https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/hevm.md#hevm-fail-predicate'
-                )
-        else:
-            res_lines.append('')
-            res_lines.append('See `foundry_success` predicate for more information:')
-            res_lines.append(
-                'https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/foundry.md#foundry-success-predicate'
-            )
         res_lines.append('')
         res_lines.append('Access documentation for Kontrol at https://docs.runtimeverification.com/kontrol')
         return res_lines
@@ -1010,7 +1025,7 @@ def foundry_to_xml(foundry: Foundry, proofs: list[APRProof], report_name: str) -
 def foundry_minimize_proof(foundry: Foundry, options: MinimizeProofOptions) -> None:
     test_id = foundry.get_test_id(options.test, options.version)
     apr_proof = foundry.get_apr_proof(test_id)
-    apr_proof.minimize_kcfg(merge=options.merge)
+    apr_proof.minimize_kcfg(heuristics=KontrolSemantics(), merge=options.merge)
     apr_proof.write_proof_data()
 
 
@@ -1273,12 +1288,13 @@ def foundry_get_model(
     return '\n'.join(res_lines)
 
 
-def init_project(project_root: Path, *, skip_forge: bool) -> None:
+def init_project(project_root: Path, *, skip_forge: bool, skip_kontrol_test: bool = False) -> None:
     """
     Wrapper around `forge init` that creates new Foundry projects compatible with Kontrol.
 
     :param skip_forge: Skip the `forge init` process, if there already exists a Foundry project.
     :param project_root: Name of the new project that is created.
+    :param skip_kontrol_test: Skip generating KontrolTest.sol file.
     """
 
     if not skip_forge:
@@ -1288,10 +1304,94 @@ def init_project(project_root: Path, *, skip_forge: bool) -> None:
     write_to_file(root / 'lemmas.k', empty_lemmas_file_contents())
     write_to_file(root / 'KONTROL.md', kontrol_file_contents())
     write_to_file(root / 'kontrol.toml', kontrol_toml_file_contents())
-    run_process_2(
-        ['forge', 'install', '--no-git', 'runtimeverification/kontrol-cheatcodes'],
-        logger=_LOGGER,
-        cwd=root,
+
+    if not skip_kontrol_test:
+        kontrol_test_dir = ensure_dir_path(root / 'test' / 'kontrol')
+        write_to_file(kontrol_test_dir / 'KontrolTest.sol', kontrol_test_file_contents())
+
+    try:
+        run_process_2(
+            ['forge', 'install', '--no-git', 'runtimeverification/kontrol-cheatcodes'],
+            logger=_LOGGER,
+            cwd=root,
+        )
+    except CalledProcessError as e:
+        # If `kontrol-cheatcodes` is already installed, continue
+        if 'already exists' in e.stderr.lower():
+            _LOGGER.info('kontrol-cheatcodes already installed, skipping installation')
+        else:
+            raise
+
+
+def foundry_storage_generation(foundry: Foundry, options: SetupStorageOptions) -> None:
+    """Generate storage constants for given contracts."""
+    from .storage_generation import (
+        generate_storage_constants,
+        get_storage_layout_from_foundry,
+    )
+
+    _LOGGER.info(f'Starting storage generation for contracts: {", ".join(options.contract_names)}')
+
+    # Run kontrol init with skip_forge=True to ensure KontrolTest.sol is available (unless skipped)
+    if not options.skip_kontrol_init:
+        _LOGGER.info('Running kontrol init with skip_forge=True to ensure KontrolTest.sol is available')
+        init_project(project_root=foundry._root, skip_forge=True)
+
+    # Build the project first to ensure storage layout is available
+    _LOGGER.info('Building Foundry project to ensure storage layout is available')
+    foundry.build(metadata=True)
+
+    # Process each contract
+    generated_files = []
+    for contract_name in options.contract_names:
+        _LOGGER.info(f'Processing contract: {contract_name}')
+
+        # Get storage layout from Foundry object
+        contract_name, storage, types = get_storage_layout_from_foundry(foundry, contract_name)
+
+        # Generate storage constants
+        storage_constants = generate_storage_constants(contract_name, options.solidity_version, storage, types)
+
+        # Determine output file path
+        if options.output_file:
+            # If output_file is specified, use it as a directory and append contract name
+            output_dir = Path(options.output_file)
+            output_path = output_dir / f'{contract_name}StorageConstants.sol'
+        else:
+            output_path = foundry._root / 'test' / 'kontrol' / 'storage' / f'{contract_name}StorageConstants.sol'
+
+        # Ensure output directory exists
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+
+        # Write storage constants file
+        with open(output_path, 'w') as f:
+            f.write(storage_constants)
+
+        generated_files.append(output_path)
+        _LOGGER.info(f'Generated storage constants file: {output_path}')
+
+        # Generate setup contract if requested
+        if options.generate_setup_contracts:
+            setup_contract = generate_setup_contract(contract_name, options.solidity_version, storage, types)
+
+            # Determine setup contract output path
+            if options.output_file:
+                setup_output_path = output_dir / f'{contract_name}StorageSetup.sol'
+            else:
+                setup_output_path = foundry._root / 'test' / 'kontrol' / 'setup' / f'{contract_name}StorageSetup.sol'
+
+            # Ensure setup directory exists
+            setup_output_path.parent.mkdir(parents=True, exist_ok=True)
+
+            # Write setup contract file
+            with open(setup_output_path, 'w') as f:
+                f.write(setup_contract)
+
+            generated_files.append(setup_output_path)
+            _LOGGER.info(f'Generated setup contract file: {setup_output_path}')
+
+    _LOGGER.info(
+        f'Storage generation completed successfully! Generated {len(generated_files)} files: {[str(f) for f in generated_files]}'
     )
 
 

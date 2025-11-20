@@ -133,7 +133,7 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
                  </touchedAccounts>
                  <callState>
                    <id>
-                     728815563385977040452943777879061427756277306518
+                     #address ( FoundryTest )
                    </id>
                    <caller>
                      137122462167341575662000267002353578582749290296
@@ -145,7 +145,7 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
                      0
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( 228 : ( selector ( "forgetBranch(uint256,uint8,uint256)" ) : ( 645326474426547203313410069153905908525362434349 : ( 0 : ( KV0_x:Int : ( 319 : ( 1344496088 : .WordStack ) ) ) ) ) ) ) )
+                     ( .WordStack => ( 228 : ( selector ( "forgetBranch(uint256,uint8,uint256)" ) : ( #address ( FoundryCheat ) : ( 0 : ( KV0_x:Int : ( 319 : ( 1344496088 : .WordStack ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00f\x949s" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x05\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xc8" )
@@ -162,6 +162,9 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
                    <callDepth>
                      0
                    </callDepth>
+                   <codeAddr>
+                     #address ( FoundryTest )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -172,7 +175,7 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
                      0
                    </refund>
                    <accessedAccounts>
-                     ( .Set => SetItem ( 645326474426547203313410069153905908525362434349 ) )
+                     ( .Set => SetItem ( #address ( FoundryCheat ) ) )
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
@@ -203,7 +206,7 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
                  <accounts>
                    ( <account>
                      <acctID>
-                       645326474426547203313410069153905908525362434349
+                       #address ( FoundryCheat )
                      </acctID>
                      <balance>
                        0
@@ -224,10 +227,10 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
                    </account>
                    <account>
                      <acctID>
-                       728815563385977040452943777879061427756277306518
+                       #address ( FoundryTest )
                      </acctID>
                      <balance>
-                       0
+                       maxUInt96
                      </balance>
                      <storage>
                        .Map
@@ -304,26 +307,6 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
                .MockFunctionCellMap
              </mockFunctions>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int KV0_x:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -369,7 +352,7 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
                  </touchedAccounts>
                  <callState>
                    <id>
-                     728815563385977040452943777879061427756277306518
+                     #address ( FoundryTest )
                    </id>
                    <caller>
                      137122462167341575662000267002353578582749290296
@@ -381,7 +364,7 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
                      0
                    </callValue>
                    <wordStack>
-                     ( 228 : ( selector ( "forgetBranch(uint256,uint8,uint256)" ) : ( 645326474426547203313410069153905908525362434349 : ( 0 : ( KV0_x:Int : ( 319 : ( 1344496088 : .WordStack ) ) ) ) ) ) )
+                     ( 228 : ( selector ( "forgetBranch(uint256,uint8,uint256)" ) : ( #address ( FoundryCheat ) : ( 0 : ( KV0_x:Int : ( 319 : ( 1344496088 : .WordStack ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00f\x949s" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x05\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xc8"
@@ -398,6 +381,9 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
                    <callDepth>
                      0
                    </callDepth>
+                   <codeAddr>
+                     #address ( FoundryTest )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -408,7 +394,7 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
                      0
                    </refund>
                    <accessedAccounts>
-                     SetItem ( 645326474426547203313410069153905908525362434349 )
+                     SetItem ( #address ( FoundryCheat ) )
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
@@ -439,7 +425,7 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
                  <accounts>
                    ( <account>
                      <acctID>
-                       645326474426547203313410069153905908525362434349
+                       #address ( FoundryCheat )
                      </acctID>
                      <balance>
                        0
@@ -460,10 +446,10 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
                    </account>
                    <account>
                      <acctID>
-                       728815563385977040452943777879061427756277306518
+                       #address ( FoundryTest )
                      </acctID>
                      <balance>
-                       0
+                       maxUInt96
                      </balance>
                      <storage>
                        .Map
@@ -540,26 +526,6 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
                .MockFunctionCellMap
              </mockFunctions>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int KV0_x:Int
        andBool ( 200 <Int KV0_x:Int
@@ -605,7 +571,7 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
                  </touchedAccounts>
                  <callState>
                    <id>
-                     728815563385977040452943777879061427756277306518
+                     #address ( FoundryTest )
                    </id>
                    <caller>
                      137122462167341575662000267002353578582749290296
@@ -617,7 +583,7 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
                      0
                    </callValue>
                    <wordStack>
-                     ( ( 228 => 0 ) : ( ( selector ( "forgetBranch(uint256,uint8,uint256)" ) => KV0_x:Int ) : ( ( 645326474426547203313410069153905908525362434349 => 319 ) : ( ( 0 => 1344496088 ) : ( ( KV0_x:Int : ( 319 : ( 1344496088 : .WordStack ) ) ) => .WordStack ) ) ) ) )
+                     ( ( 228 => 0 ) : ( ( selector ( "forgetBranch(uint256,uint8,uint256)" ) => KV0_x:Int ) : ( ( #address ( FoundryCheat ) => 319 ) : ( ( 0 => 1344496088 ) : ( ( KV0_x:Int : ( 319 : ( 1344496088 : .WordStack ) ) ) => .WordStack ) ) ) ) )
                    </wordStack>
                    <localMem>
                      b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00f\x949s" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x05\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xc8"
@@ -634,6 +600,9 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
                    <callDepth>
                      0
                    </callDepth>
+                   <codeAddr>
+                     #address ( FoundryTest )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -644,7 +613,7 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
                      0
                    </refund>
                    <accessedAccounts>
-                     SetItem ( 645326474426547203313410069153905908525362434349 )
+                     SetItem ( #address ( FoundryCheat ) )
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
@@ -675,7 +644,7 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
                  <accounts>
                    ( <account>
                      <acctID>
-                       645326474426547203313410069153905908525362434349
+                       #address ( FoundryCheat )
                      </acctID>
                      <balance>
                        0
@@ -696,10 +665,10 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
                    </account>
                    <account>
                      <acctID>
-                       728815563385977040452943777879061427756277306518
+                       #address ( FoundryTest )
                      </acctID>
                      <balance>
-                       0
+                       maxUInt96
                      </balance>
                      <storage>
                        .Map
@@ -776,26 +745,6 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
                .MockFunctionCellMap
              </mockFunctions>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int KV0_x:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -842,7 +791,7 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
                  </touchedAccounts>
                  <callState>
                    <id>
-                     728815563385977040452943777879061427756277306518
+                     #address ( FoundryTest )
                    </id>
                    <caller>
                      137122462167341575662000267002353578582749290296
@@ -871,6 +820,9 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
                    <callDepth>
                      0
                    </callDepth>
+                   <codeAddr>
+                     #address ( FoundryTest )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -881,7 +833,7 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
                      0
                    </refund>
                    <accessedAccounts>
-                     SetItem ( 645326474426547203313410069153905908525362434349 )
+                     SetItem ( #address ( FoundryCheat ) )
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
@@ -912,7 +864,7 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
                  <accounts>
                    ( <account>
                      <acctID>
-                       645326474426547203313410069153905908525362434349
+                       #address ( FoundryCheat )
                      </acctID>
                      <balance>
                        0
@@ -933,10 +885,10 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
                    </account>
                    <account>
                      <acctID>
-                       728815563385977040452943777879061427756277306518
+                       #address ( FoundryTest )
                      </acctID>
                      <balance>
-                       0
+                       maxUInt96
                      </balance>
                      <storage>
                        .Map
@@ -1013,26 +965,6 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
                .MockFunctionCellMap
              </mockFunctions>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int KV0_x:Int
        andBool ( KV0_x:Int <=Int 200
@@ -1080,7 +1012,7 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
                  </touchedAccounts>
                  <callState>
                    <id>
-                     728815563385977040452943777879061427756277306518
+                     #address ( FoundryTest )
                    </id>
                    <caller>
                      137122462167341575662000267002353578582749290296
@@ -1109,6 +1041,9 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
                    <callDepth>
                      0
                    </callDepth>
+                   <codeAddr>
+                     #address ( FoundryTest )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -1119,7 +1054,7 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
                      0
                    </refund>
                    <accessedAccounts>
-                     SetItem ( 645326474426547203313410069153905908525362434349 )
+                     SetItem ( #address ( FoundryCheat ) )
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
@@ -1150,7 +1085,7 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
                  <accounts>
                    ( <account>
                      <acctID>
-                       645326474426547203313410069153905908525362434349
+                       #address ( FoundryCheat )
                      </acctID>
                      <balance>
                        0
@@ -1171,10 +1106,10 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
                    </account>
                    <account>
                      <acctID>
-                       728815563385977040452943777879061427756277306518
+                       #address ( FoundryTest )
                      </acctID>
                      <balance>
-                       0
+                       maxUInt96
                      </balance>
                      <storage>
                        .Map
@@ -1251,26 +1186,6 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
                .MockFunctionCellMap
              </mockFunctions>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int KV0_x:Int
        andBool ( 200 <Int KV0_x:Int
@@ -1286,8 +1201,5 @@ endmodule
 0 Failure nodes. (0 pending and 0 failing)
 
 Join the Runtime Verification Discord server (https://discord.com/invite/CurfmXNtbN) or Telegram group (https://t.me/rv_kontrol) for support.
-
-See `foundry_success` predicate for more information:
-https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/foundry.md#foundry-success-predicate
 
 Access documentation for Kontrol at https://docs.runtimeverification.com/kontrol

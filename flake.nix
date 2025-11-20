@@ -2,11 +2,14 @@
   description = "Kontrol";
 
   inputs = {
-    kevm.url = "github:runtimeverification/evm-semantics/v1.0.839";
-    nixpkgs.follows = "kevm/nixpkgs";
+    rv-nix-tools.url = "github:runtimeverification/rv-nix-tools/854d4f05ea78547d46e807b414faad64cea10ae4";
+    nixpkgs.follows = "rv-nix-tools/nixpkgs";
+
+    kevm.url = "github:runtimeverification/evm-semantics/v1.0.877";
+    kevm.inputs.nixpkgs.follows = "nixpkgs";
+
     k-framework.follows = "kevm/k-framework";
     flake-utils.follows = "kevm/flake-utils";
-    rv-utils.follows = "kevm/rv-utils";
     foundry = {
       url =
         "github:shazow/foundry.nix?rev=221d7506a99f285ec6aee26245c55bbef8a407f1"; # Use the same version as CI
@@ -18,17 +21,17 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
     };
-    uv2nix = {
-      url = "github:pyproject-nix/uv2nix/680e2f8e637bc79b84268949d2f2b2f5e5f1d81c"; #
-      # stale nixpkgs is missing the alias `lib.match` -> `builtins.match`
-      # therefore point uv2nix to a patched nixpkgs, which introduces this alias
-      # this is a temporary solution until nixpkgs us up-to-date again
-      inputs.nixpkgs.url = "github:runtimeverification/nixpkgs/libmatch";
-      # inputs.nixpkgs.follows = "nixpkgs";
-      # uv2nix already makes their input flakes follow their nixpkgs
-    };
+    uv2nix.url = "github:pyproject-nix/uv2nix/c8cf711802cb00b2e05d5c54d3486fce7bfc8f7c";
+    # uv2nix requires a newer version of nixpkgs
+    # therefore, we pin uv2nix specifically to a newer version of nixpkgs
+    # until we replaced our stale version of nixpkgs with an upstream one as well
+    # but also uv2nix requires us to call it with `callPackage`, so we add stuff
+    # from the newer nixpkgs to our stale nixpkgs via an overlay
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    uv2nix.inputs.nixpkgs.follows = "nixpkgs-unstable";
+    # uv2nix.inputs.nixpkgs.follows = "nixpkgs";
+    pyproject-build-systems.url = "github:pyproject-nix/build-system-pkgs/dbfc0483b5952c6b86e36f8b3afeb9dde30ea4b5";
     pyproject-build-systems = {
-      url = "github:pyproject-nix/build-system-pkgs/7dba6dbc73120e15b558754c26024f6c93015dd7";
       inputs.nixpkgs.follows = "uv2nix/nixpkgs";
       inputs.uv2nix.follows = "uv2nix";
       inputs.pyproject-nix.follows = "uv2nix/pyproject-nix";
@@ -41,17 +44,25 @@
       nixpkgs,
       flake-utils,
       kevm,
-      rv-utils,
+      rv-nix-tools,
       foundry,
       solc,
       pyproject-nix,
       pyproject-build-systems,
       uv2nix,
+      nixpkgs-unstable,
       ... }:
   let
     pythonVer = "310";
   in flake-utils.lib.eachDefaultSystem (system:
     let
+      pkgs-unstable = import nixpkgs-unstable {
+        inherit system;
+      };
+      # for uv2nix, remove this once we updated to a newer version of nixpkgs
+      staleNixpkgsOverlay = final: prev: {
+        inherit (pkgs-unstable) replaceVars;
+      };
       # due to the nixpkgs that we use in this flake being outdated, uv is also heavily outdated
       # we can just use the binary release of uv provided by uv2nix
       uvOverlay = final: prev: {
@@ -59,8 +70,15 @@
       };
       kontrolOverlay = final: prev:
       let
+        kontrol-pyk-pyproject = final.callPackage ./nix/kontrol-pyk-pyproject {
+          inherit uv2nix;
+        };
         kontrol-pyk = final.callPackage ./nix/kontrol-pyk {
-          inherit pyproject-nix pyproject-build-systems uv2nix;
+          inherit pyproject-nix pyproject-build-systems kontrol-pyk-pyproject;
+          pyproject-overlays = [
+            (k-framework.overlays.pyk-pyproject system)
+            (kevm.overlays.pyk-pyproject system)
+          ];
           python = final."python${pythonVer}";
         };
         kontrol = final.callPackage ./nix/kontrol {
@@ -68,7 +86,7 @@
           rev = self.rev or null;
         };
       in {
-        inherit kontrol;
+        inherit kontrol kontrol-pyk-pyproject;
       };
       solcMkDefaultOverlay = final: prev: {
         solcMkDefault = solc.mkDefault;
@@ -76,6 +94,7 @@
       pkgs = import nixpkgs {
         inherit system;
         overlays = [
+          staleNixpkgsOverlay
           (final: prev: { llvm-backend-release = false; })
           k-framework.overlay
           foundry.overlay
@@ -118,7 +137,7 @@
     in {
       devShells.default =
       let
-        kevmShell = kevm.devShell.${system};
+        kevmShell = kevm.devShells.${system}.default;
       in pkgs.mkShell {
         buildInputs = (kevmShell.buildInputs or [ ]) ++ [
           pkgs.foundry-bin
@@ -136,12 +155,19 @@
         '';
       };
       packages = rec {
-        kontrol = pkgs.kontrol;
+        inherit (pkgs) kontrol uv kontrol-pyk kontrol-pyk-pyproject;
         default = kontrol;
       };
     }) // {
-      overlays.default = final: prev: {
-        inherit (self.packages.${final.system}) kontrol;
+      overlays = {
+        default = final: prev: {
+          inherit (self.packages.${final.system}) kontrol;
+        };
+        # this pyproject-nix overlay allows for overriding the python packages that are otherwise locked in `uv.lock`
+        # by using this overlay in dependant nix flakes, you ensure that nix overrides also override the python package     
+        pyk-pyproject = system: final: prev: {
+          inherit (self.packages.${system}.kontrol-pyk-pyproject.lockFileOverlay final prev) kontrol-pyk;
+        };
       };
     };
 }

@@ -24,6 +24,7 @@ from .options import (
     RefuteNodeOptions,
     RemoveNodeOptions,
     SectionEdgeOptions,
+    SetupStorageOptions,
     ShowOptions,
     SimplifyNodeOptions,
     SplitNodeOptions,
@@ -65,6 +66,7 @@ def generate_options(args: dict[str, Any]) -> LoggingOptions:
         'minimize-proof': MinimizeProofOptions(args),
         'clean': CleanOptions(args),
         'init': InitOptions(args),
+        'setup-storage': SetupStorageOptions(args),
     }
     try:
         return options[command]
@@ -94,6 +96,7 @@ def get_option_string_destination(command: str, option_string: str) -> str:
         'minimize-proof': MinimizeProofOptions.from_option_string(),
         'clean': CleanOptions.from_option_string(),
         'init': InitOptions.from_option_string(),
+        'setup-storage': SetupStorageOptions.from_option_string(),
     }
     option_string_destinations = options[command]
     return option_string_destinations.get(option_string, option_string.replace('-', '_'))
@@ -121,6 +124,7 @@ def get_argument_type_setter(command: str, option_string: str) -> Callable[[str]
         'minimize-proof': MinimizeProofOptions.get_argument_type(),
         'clean': CleanOptions.get_argument_type(),
         'init': InitOptions.get_argument_type(),
+        'setup-storage': SetupStorageOptions.get_argument_type(),
     }
     option_types = options[command]
     return option_types.get(option_string, (lambda x: x))
@@ -503,34 +507,6 @@ def _create_argument_parser() -> ArgumentParser:
         '--minimize-proofs', dest='minimize_proofs', default=None, action='store_true', help='Minimize obtained KCFGs'
     )
     prove_args.add_argument(
-        '--evm-tracing',
-        dest='active_tracing',
-        default=None,
-        action='store_true',
-        help='Trace opcode execution and store it in the configuration',
-    )
-    prove_args.add_argument(
-        '--no-trace-storage',
-        dest='trace_storage',
-        default=None,
-        action='store_false',
-        help='If tracing is active, avoid storing storage information.',
-    )
-    prove_args.add_argument(
-        '--no-trace-wordstack',
-        dest='trace_wordstack',
-        default=None,
-        action='store_false',
-        help='If tracing is active, avoid storing wordstack information.',
-    )
-    prove_args.add_argument(
-        '--no-trace-memory',
-        dest='trace_memory',
-        default=None,
-        action='store_false',
-        help='If tracing is active, avoid storing memory information.',
-    )
-    prove_args.add_argument(
         '--remove-old-proofs',
         dest='remove_old_proofs',
         default=None,
@@ -570,6 +546,13 @@ def _create_argument_parser() -> ArgumentParser:
         default=None,
         action='store_true',
         help="Make the caller ('msg.sender' and 'tx.origin') symbolic.",
+    )
+    prove_args.add_argument(
+        '--generate-counterexample',
+        dest='generate_counterexample',
+        default=None,
+        action='store_true',
+        help='Generate a Solidity test contract with concrete counterexample values when proofs fail.',
     )
 
     show_args = command_parser.add_parser(
@@ -870,6 +853,53 @@ def _create_argument_parser() -> ArgumentParser:
         default=None,
         action='store_true',
         help='Skip Forge initialisation and add only the files required for Kontrol (for already existing Forge projects).',
+    )
+    init.add_argument(
+        '--skip-kontrol-test',
+        dest='skip_kontrol_test',
+        action='store_true',
+        help='Skip generating KontrolTest.sol file.',
+    )
+
+    setup_storage = command_parser.add_parser(
+        'setup-storage',
+        help='Generate symbolic structured storage constants',
+        parents=[
+            kontrol_cli_args.logging_args,
+            kontrol_cli_args.foundry_args,
+            config_args.config_args,
+        ],
+    )
+    setup_storage.add_argument(
+        'contract_names',
+        nargs='+',
+        type=str,
+        help='Name(s) of the contract(s) to generate storage constants for',
+    )
+    setup_storage.add_argument(
+        '--solidity-version',
+        dest='solidity_version',
+        type=str,
+        default='0.8.26',
+        help='Solidity version to use in generated contracts (default: 0.8.26)',
+    )
+    setup_storage.add_argument(
+        '--output-file',
+        dest='output_file',
+        type=str,
+        help='Output file path for generated storage constants (default: auto-generated)',
+    )
+    setup_storage.add_argument(
+        '--skip-kontrol-init',
+        dest='skip_kontrol_init',
+        action='store_true',
+        help='Skip running kontrol init (default: false)',
+    )
+    setup_storage.add_argument(
+        '--generate-setup-contracts',
+        dest='generate_setup_contracts',
+        action='store_true',
+        help='Generate setup contracts for symbolic storage initialization (default: false)',
     )
 
     return parser

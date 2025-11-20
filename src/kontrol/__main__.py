@@ -7,7 +7,6 @@ from typing import TYPE_CHECKING
 
 from pyk.cli.pyk import parse_toml_args
 from pyk.cterm.symbolic import CTermSMTError
-from pyk.proof.reachability import APRFailureInfo, APRProof
 
 from . import VERSION
 from .cli import _create_argument_parser, generate_options, get_argument_type_setter, get_option_string_destination
@@ -25,18 +24,27 @@ from .foundry import (
     foundry_simplify_node,
     foundry_split_node,
     foundry_step_node,
+    foundry_storage_generation,
     foundry_unrefute_node,
     init_project,
 )
 from .kompile import foundry_kompile
-from .prove import foundry_prove
+from .prove import _interpret_proof_failure, foundry_prove
 from .state_record import (
     foundry_state_load,
     read_recorded_state_diff,
     read_recorded_state_dump,
     recorded_state_to_account_cells,
 )
-from .utils import _LOG_FORMAT, _rv_blue, _rv_yellow, check_k_version, config_file_path, console, loglevel
+from .utils import (
+    _LOG_FORMAT,
+    _rv_blue,
+    _rv_yellow,
+    check_k_version,
+    config_file_path,
+    console,
+    loglevel,
+)
 
 if TYPE_CHECKING:
     from pathlib import Path
@@ -57,6 +65,7 @@ if TYPE_CHECKING:
         RefuteNodeOptions,
         RemoveNodeOptions,
         SectionEdgeOptions,
+        SetupStorageOptions,
         ShowOptions,
         SimplifyNodeOptions,
         SplitNodeOptions,
@@ -181,12 +190,11 @@ def exec_prove(options: ProveOptions) -> None:
         proving_message = f'[{_rv_blue()}]:person_running: [bold]Running [{_rv_yellow()}]Kontrol[/{_rv_yellow()}] proofs[/bold] :person_running:[/{_rv_blue()}]'
     else:
         proving_message = f'[{_rv_blue()}]:person_running: [bold]Running [{_rv_yellow()}]Kontrol[/{_rv_yellow()}] proofs[/bold] :person_running: \n Add `--verbose` to `kontrol prove` for more details![/{_rv_blue()}]'
+    foundry = _load_foundry(options.foundry_root, options.bug_report, add_enum_constraints=options.enum_constraints)
     try:
         console.print(proving_message)
         results = foundry_prove(
-            foundry=_load_foundry(
-                options.foundry_root, options.bug_report, add_enum_constraints=options.enum_constraints
-            ),
+            foundry=foundry,
             options=options,
             init_accounts=init_accounts,
         )
@@ -214,13 +222,8 @@ def exec_prove(options: ProveOptions) -> None:
             console.print(
                 f':hourglass_not_done: [bold blue]Time: {proof.formatted_exec_time()}[/bold blue] :hourglass_not_done:'
             )
-            failure_log = None
-            if isinstance(proof, APRProof) and isinstance(proof.failure_info, APRFailureInfo):
-                failure_log = proof.failure_info
-            if options.failure_info and failure_log is not None:
-                log = failure_log.print() + Foundry.help_info(proof.id, options.hevm)
-                for line in log:
-                    print(line)
+            contract, _ = foundry.get_contract_and_method(proof.id.split(':')[0])
+            _interpret_proof_failure(proof, options.failure_info, contract.error_selectors)
             refuted_nodes = list(proof.node_refutations.keys())
             if len(refuted_nodes) > 0:
                 print(f'The proof cannot be completed while there are refuted nodes: {refuted_nodes}.')
@@ -342,7 +345,14 @@ def exec_clean(options: CleanOptions) -> None:
 
 
 def exec_init(options: InitOptions) -> None:
-    init_project(project_root=options.project_root, skip_forge=options.skip_forge)
+    init_project(
+        project_root=options.project_root, skip_forge=options.skip_forge, skip_kontrol_test=options.skip_kontrol_test
+    )
+
+
+def exec_setup_storage(options: SetupStorageOptions) -> None:
+    foundry = _load_foundry(options.foundry_root, add_enum_constraints=options.enum_constraints)
+    foundry_storage_generation(foundry=foundry, options=options)
 
 
 if __name__ == '__main__':

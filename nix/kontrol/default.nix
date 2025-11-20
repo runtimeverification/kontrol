@@ -31,7 +31,9 @@
   rev ? null
 } @ args:
 let
-  kontrol-pyk-solc = kontrol-pyk.override { inherit solc_version; };
+  kontrol-pyk-solc = kontrol-pyk.override ( oldArgs: {
+    kontrol-pyk-pyproject = oldArgs.kontrol-pyk-pyproject.override { inherit solc_version; };
+  });
   nixLibs = "-I${openssl.dev}/include -L${openssl.out}/lib -I${secp256k1}/include -L${secp256k1}/lib";
 in
 stdenv.mkDerivation {
@@ -55,7 +57,7 @@ stdenv.mkDerivation {
   ];
   nativeBuildInputs = [ makeWrapper ];
 
-  src = ../../.;
+  src = callPackage ../kontrol-source { };
 
   dontUseCmakeConfigure = true;
 
@@ -86,8 +88,14 @@ stdenv.mkDerivation {
 
   passthru = if solc_version == null then {
     # list all supported solc versions here
-    solc_0_8_13 = callPackage ./default.nix (args // { solc_version = solc_0_8_13; });
-    solc_0_8_15 = callPackage ./default.nix (args // { solc_version = solc_0_8_15; });
-    solc_0_8_22 = callPackage ./default.nix (args // { solc_version = solc_0_8_22; });
+    solc_0_8_13 = callPackage ./default.nix (args // {
+      solc_version = solc_0_8_13;
+    });
+    solc_0_8_15 = callPackage ./default.nix (args // {
+      solc_version = solc_0_8_15;
+    });
+    solc_0_8_22 = callPackage ./default.nix (args // {
+      solc_version = solc_0_8_22;
+    });
   } else { };
 }

@@ -546,6 +546,9 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
                    <static>
                      false
                    </static>
+                   <codeAddr>
+                     C_TGOVERNANCE_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -656,26 +659,6 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
@@ -698,17 +681,17 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
        andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_TOKEN_NONCE:Int
        andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
        andBool ( C_TGOVERNANCE_NONCE:Int <Int maxUInt64
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( C_TGOVERNANCE_ESCROW_NONCE:Int <Int maxUInt64
-       andBool ( C_TGOVERNANCE_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_TGOVERNANCE_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ( notBool 0 in_keys ( C_TGOVERNANCE_STORAGE:Map ) )
        andBool ( C_TGOVERNANCE_ESCROW_TOKEN_NONCE:Int <Int maxUInt64
-       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ( notBool 0 in_keys ( C_TGOVERNANCE_ESCROW_STORAGE:Map ) )
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( C_TGOVERNANCE_ID:Int <Int pow160
        andBool ( C_TGOVERNANCE_ESCROW_ID:Int <Int pow160
        andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int <Int pow160
@@ -724,11 +707,21 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
        andBool ( ( notBool <acctID>
           C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_TOKEN_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_TGOVERNANCE_ID:Int <=Int 0
+          orBool ( 10 <Int C_TGOVERNANCE_ID:Int
+                 ))
+       andBool ( ( C_TGOVERNANCE_ESCROW_ID:Int <=Int 0
+          orBool ( 10 <Int C_TGOVERNANCE_ESCROW_ID:Int
+                 ))
+       andBool ( ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int <=Int 0
+          orBool ( 10 <Int C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
+                 ))
                ))))))))))))))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-1-TO-3)]
     
@@ -785,6 +778,9 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_TGOVERNANCE_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -916,26 +912,6 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( ACTIVE_CELL:Bool
        andBool ( _ISREVERTEXPECTED_CELL:Bool
@@ -973,13 +949,13 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
        andBool ( C_TGOVERNANCE_ESCROW_TOKEN_BAL:Int <Int pow256
        andBool ( ( notBool 0 in_keys ( C_TGOVERNANCE_ESCROW_STORAGE:Map ) )
        andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( C_TGOVERNANCE_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( C_TGOVERNANCE_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( 1 ==Int lengthBytes ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_AFTER:Bytes )
        andBool ( 11 ==Int lengthBytes ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_BEFORE:Bytes )
-       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ( notBool <acctID>
           C_TGOVERNANCE_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
@@ -989,11 +965,21 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
        andBool ( ( notBool <acctID>
           C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_TOKEN_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_TGOVERNANCE_ID:Int <=Int 0
+          orBool ( 10 <Int C_TGOVERNANCE_ID:Int
+                 ))
+       andBool ( ( C_TGOVERNANCE_ESCROW_ID:Int <=Int 0
+          orBool ( 10 <Int C_TGOVERNANCE_ESCROW_ID:Int
+                 ))
+       andBool ( ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int <=Int 0
+          orBool ( 10 <Int C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
+                 ))
                )))))))))))))))))))))))))))))))))))))))))))))))))))
        ensures NEWCALLER_CELL:Account ~> .K =/=K C_TGOVERNANCE_ID:Int ~> .K
       [priority(20), label(BASIC-BLOCK-7-TO-13)]
@@ -1052,6 +1038,9 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
                    <callDepth>
                      DEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_TGOVERNANCE_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -1189,26 +1178,6 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _ACTIVE_CELL:Bool
        andBool ( _CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int
@@ -1246,13 +1215,13 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
        andBool ( C_TGOVERNANCE_ESCROW_TOKEN_BAL:Int <Int pow256
        andBool ( ( notBool 0 in_keys ( C_TGOVERNANCE_ESCROW_STORAGE:Map ) )
        andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( C_TGOVERNANCE_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( C_TGOVERNANCE_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( 1 ==Int lengthBytes ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_AFTER:Bytes )
        andBool ( 11 ==Int lengthBytes ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_BEFORE:Bytes )
-       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ( notBool <acctID>
           C_TGOVERNANCE_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
@@ -1262,12 +1231,22 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
        andBool ( ( notBool <acctID>
           C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_TGOVERNANCE_ID:Int <=Int 0
+          orBool ( 10 <Int C_TGOVERNANCE_ID:Int
+                 ))
+       andBool ( ( C_TGOVERNANCE_ESCROW_ID:Int <=Int 0
+          orBool ( 10 <Int C_TGOVERNANCE_ESCROW_ID:Int
+                 ))
+       andBool ( ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int <=Int 0
+          orBool ( 10 <Int C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
+                 ))
        andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
-       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_TOKEN_ID:Int <= 10 ) )
                ))))))))))))))))))))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-9-TO-16)]
     
@@ -1325,6 +1304,9 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
                    <callDepth>
                      DEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_TGOVERNANCE_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -1462,26 +1444,6 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _ACTIVE_CELL:Bool
        andBool ( _CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int
@@ -1519,13 +1481,13 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
        andBool ( C_TGOVERNANCE_ESCROW_TOKEN_BAL:Int <Int pow256
        andBool ( ( notBool 0 in_keys ( C_TGOVERNANCE_ESCROW_STORAGE:Map ) )
        andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( C_TGOVERNANCE_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( C_TGOVERNANCE_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( 1 ==Int lengthBytes ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_AFTER:Bytes )
        andBool ( 11 ==Int lengthBytes ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_BEFORE:Bytes )
-       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ( notBool <acctID>
           C_TGOVERNANCE_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
@@ -1535,12 +1497,22 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
        andBool ( ( notBool <acctID>
           C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_TGOVERNANCE_ID:Int <=Int 0
+          orBool ( 10 <Int C_TGOVERNANCE_ID:Int
+                 ))
+       andBool ( ( C_TGOVERNANCE_ESCROW_ID:Int <=Int 0
+          orBool ( 10 <Int C_TGOVERNANCE_ESCROW_ID:Int
+                 ))
+       andBool ( ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int <=Int 0
+          orBool ( 10 <Int C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
+                 ))
        andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
-       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_TOKEN_ID:Int <= 10 ) )
                ))))))))))))))))))))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-10-TO-17)]
     
@@ -1597,6 +1569,9 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_TGOVERNANCE_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -1728,26 +1703,6 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( ACTIVE_CELL:Bool
        andBool ( _ISREVERTEXPECTED_CELL:Bool
@@ -1785,13 +1740,13 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
        andBool ( C_TGOVERNANCE_ESCROW_TOKEN_BAL:Int <Int pow256
        andBool ( ( notBool 0 in_keys ( C_TGOVERNANCE_ESCROW_STORAGE:Map ) )
        andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( C_TGOVERNANCE_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( C_TGOVERNANCE_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( 1 ==Int lengthBytes ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_AFTER:Bytes )
        andBool ( 11 ==Int lengthBytes ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_BEFORE:Bytes )
-       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ( notBool <acctID>
           C_TGOVERNANCE_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
@@ -1801,11 +1756,21 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
        andBool ( ( notBool <acctID>
           C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_TOKEN_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_TGOVERNANCE_ID:Int <=Int 0
+          orBool ( 10 <Int C_TGOVERNANCE_ID:Int
+                 ))
+       andBool ( ( C_TGOVERNANCE_ESCROW_ID:Int <=Int 0
+          orBool ( 10 <Int C_TGOVERNANCE_ESCROW_ID:Int
+                 ))
+       andBool ( ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int <=Int 0
+          orBool ( 10 <Int C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
+                 ))
                )))))))))))))))))))))))))))))))))))))))))))))))))))
        ensures NEWCALLER_CELL:Account ~> .K =/=K C_TGOVERNANCE_ID:Int ~> .K
       [priority(20), label(BASIC-BLOCK-14-TO-25)]
@@ -1864,6 +1829,9 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
                    <callDepth>
                      DEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_TGOVERNANCE_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -2001,26 +1969,6 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _ACTIVE_CELL:Bool
        andBool ( _CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int
@@ -2059,13 +2007,13 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
        andBool ( C_TGOVERNANCE_ESCROW_TOKEN_BAL:Int <Int pow256
        andBool ( ( notBool 0 in_keys ( C_TGOVERNANCE_ESCROW_STORAGE:Map ) )
        andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( C_TGOVERNANCE_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( C_TGOVERNANCE_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( 1 ==Int lengthBytes ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_AFTER:Bytes )
        andBool ( 11 ==Int lengthBytes ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_BEFORE:Bytes )
-       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ( notBool <acctID>
           C_TGOVERNANCE_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
@@ -2075,12 +2023,22 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
        andBool ( ( notBool <acctID>
           C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_TGOVERNANCE_ID:Int <=Int 0
+          orBool ( 10 <Int C_TGOVERNANCE_ID:Int
+                 ))
+       andBool ( ( C_TGOVERNANCE_ESCROW_ID:Int <=Int 0
+          orBool ( 10 <Int C_TGOVERNANCE_ESCROW_ID:Int
+                 ))
+       andBool ( ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int <=Int 0
+          orBool ( 10 <Int C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
+                 ))
        andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
-       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_TOKEN_ID:Int <= 10 ) )
                )))))))))))))))))))))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-18-TO-38)]
     
@@ -2140,6 +2098,9 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_TGOVERNANCE_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -2277,26 +2238,6 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _ACTIVE_CELL:Bool
        andBool ( _NEWCALLER_CELL:Account ==K NCL:Int
@@ -2336,13 +2277,13 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
        andBool ( C_TGOVERNANCE_ESCROW_TOKEN_BAL:Int <Int pow256
        andBool ( ( notBool 0 in_keys ( C_TGOVERNANCE_ESCROW_STORAGE:Map ) )
        andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( C_TGOVERNANCE_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( C_TGOVERNANCE_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( 1 ==Int lengthBytes ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_AFTER:Bytes )
        andBool ( 11 ==Int lengthBytes ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_BEFORE:Bytes )
-       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ( notBool <acctID>
           C_TGOVERNANCE_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
@@ -2352,11 +2293,21 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
        andBool ( ( notBool <acctID>
           C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_TOKEN_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_TGOVERNANCE_ID:Int <=Int 0
+          orBool ( 10 <Int C_TGOVERNANCE_ID:Int
+                 ))
+       andBool ( ( C_TGOVERNANCE_ESCROW_ID:Int <=Int 0
+          orBool ( 10 <Int C_TGOVERNANCE_ESCROW_ID:Int
+                 ))
+       andBool ( ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int <=Int 0
+          orBool ( 10 <Int C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
+                 ))
                )))))))))))))))))))))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-22-TO-43)]
     
@@ -2416,6 +2367,9 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_TGOVERNANCE_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -2553,26 +2507,6 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _ACTIVE_CELL:Bool
        andBool ( _NEWCALLER_CELL:Account ==K NCL:Int
@@ -2612,13 +2546,13 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
        andBool ( C_TGOVERNANCE_ESCROW_TOKEN_BAL:Int <Int pow256
        andBool ( ( notBool 0 in_keys ( C_TGOVERNANCE_ESCROW_STORAGE:Map ) )
        andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( C_TGOVERNANCE_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( C_TGOVERNANCE_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( 1 ==Int lengthBytes ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_AFTER:Bytes )
        andBool ( 11 ==Int lengthBytes ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_BEFORE:Bytes )
-       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ( notBool <acctID>
           C_TGOVERNANCE_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
@@ -2628,11 +2562,21 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
        andBool ( ( notBool <acctID>
           C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_TOKEN_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_TGOVERNANCE_ID:Int <=Int 0
+          orBool ( 10 <Int C_TGOVERNANCE_ID:Int
+                 ))
+       andBool ( ( C_TGOVERNANCE_ESCROW_ID:Int <=Int 0
+          orBool ( 10 <Int C_TGOVERNANCE_ESCROW_ID:Int
+                 ))
+       andBool ( ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int <=Int 0
+          orBool ( 10 <Int C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
+                 ))
                )))))))))))))))))))))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-23-TO-44)]
     
@@ -2689,6 +2633,9 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_TGOVERNANCE_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -2820,26 +2767,6 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( ACTIVE_CELL:Bool
        andBool ( _ISREVERTEXPECTED_CELL:Bool
@@ -2877,13 +2804,13 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
        andBool ( C_TGOVERNANCE_ESCROW_TOKEN_BAL:Int <Int pow256
        andBool ( ( notBool 0 in_keys ( C_TGOVERNANCE_ESCROW_STORAGE:Map ) )
        andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( C_TGOVERNANCE_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( C_TGOVERNANCE_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( 1 ==Int lengthBytes ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_AFTER:Bytes )
        andBool ( 11 ==Int lengthBytes ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_BEFORE:Bytes )
-       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ( notBool <acctID>
           C_TGOVERNANCE_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
@@ -2893,11 +2820,21 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
        andBool ( ( notBool <acctID>
           C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_TOKEN_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_TGOVERNANCE_ID:Int <=Int 0
+          orBool ( 10 <Int C_TGOVERNANCE_ID:Int
+                 ))
+       andBool ( ( C_TGOVERNANCE_ESCROW_ID:Int <=Int 0
+          orBool ( 10 <Int C_TGOVERNANCE_ESCROW_ID:Int
+                 ))
+       andBool ( ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int <=Int 0
+          orBool ( 10 <Int C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
+                 ))
                )))))))))))))))))))))))))))))))))))))))))))))))))))
        ensures NEWCALLER_CELL:Account ~> .K =/=K C_TGOVERNANCE_ID:Int ~> .K
       [priority(20), label(BASIC-BLOCK-26-TO-50)]
@@ -2959,6 +2896,9 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
                      <callDepth>
                        CALLDEPTH_CELL:Int
                      </callDepth>
+                     <codeAddr>
+                       C_TGOVERNANCE_ID:Int
+                     </codeAddr>
                      ...
                    </callState> ) CALLSTACK_CELL:List )
                  </callStack>
@@ -3085,6 +3025,9 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
                    <callDepth>
                      ( CALLDEPTH_CELL:Int => ( CALLDEPTH_CELL:Int +Int 1 ) )
                    </callDepth>
+                   <codeAddr>
+                     ( C_TGOVERNANCE_ID:Int => C_TGOVERNANCE_ESCROW_ID:Int )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -3251,26 +3194,6 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
@@ -3304,13 +3227,13 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
        andBool ( C_TGOVERNANCE_ESCROW_TOKEN_BAL:Int <Int pow256
        andBool ( ( notBool 0 in_keys ( C_TGOVERNANCE_ESCROW_STORAGE:Map ) )
        andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( C_TGOVERNANCE_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( C_TGOVERNANCE_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( 1 ==Int lengthBytes ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_AFTER:Bytes )
        andBool ( 11 ==Int lengthBytes ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_BEFORE:Bytes )
-       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ( notBool <acctID>
           C_TGOVERNANCE_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
@@ -3320,11 +3243,21 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
        andBool ( ( notBool <acctID>
           C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_TOKEN_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_TGOVERNANCE_ID:Int <=Int 0
+          orBool ( 10 <Int C_TGOVERNANCE_ID:Int
+                 ))
+       andBool ( ( C_TGOVERNANCE_ESCROW_ID:Int <=Int 0
+          orBool ( 10 <Int C_TGOVERNANCE_ESCROW_ID:Int
+                 ))
+       andBool ( ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int <=Int 0
+          orBool ( 10 <Int C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
+                 ))
        andBool ( ( notBool ( CALLDEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
        andBool ( ( notBool ( ACTIVE_CELL:Bool andBool ( CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int andBool NEWCALLER_CELL:Account =/=K C_TGOVERNANCE_ID:Int ) ) )
                )))))))))))))))))))))))))))))))))))))))))))))))))
@@ -3387,6 +3320,9 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
                    <callDepth>
                      CALLDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_TGOVERNANCE_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -3521,26 +3457,6 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
@@ -3574,13 +3490,13 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
        andBool ( C_TGOVERNANCE_ESCROW_TOKEN_BAL:Int <Int pow256
        andBool ( ( notBool 0 in_keys ( C_TGOVERNANCE_ESCROW_STORAGE:Map ) )
        andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( C_TGOVERNANCE_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( C_TGOVERNANCE_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( 1 ==Int lengthBytes ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_AFTER:Bytes )
        andBool ( 11 ==Int lengthBytes ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_BEFORE:Bytes )
-       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ( notBool <acctID>
           C_TGOVERNANCE_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
@@ -3590,11 +3506,21 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
        andBool ( ( notBool <acctID>
           C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_TOKEN_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_TGOVERNANCE_ID:Int <=Int 0
+          orBool ( 10 <Int C_TGOVERNANCE_ID:Int
+                 ))
+       andBool ( ( C_TGOVERNANCE_ESCROW_ID:Int <=Int 0
+          orBool ( 10 <Int C_TGOVERNANCE_ESCROW_ID:Int
+                 ))
+       andBool ( ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int <=Int 0
+          orBool ( 10 <Int C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
+                 ))
        andBool ( ( notBool ( CALLDEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
        andBool ( ( notBool ( ACTIVE_CELL:Bool andBool ( CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int andBool NEWCALLER_CELL:Account =/=K C_TGOVERNANCE_ID:Int ) ) )
                )))))))))))))))))))))))))))))))))))))))))))))))))

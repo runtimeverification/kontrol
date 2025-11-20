@@ -18,9 +18,9 @@ contract ToStringTest is Test {
     }
 
     function testBytes32ToString() public {
-        bytes32 bts = 0x00;
+        bytes32 bts = 0x0000000000000000000000000000000000000000000000001234567890abcdef;
         string memory btsStr = vm.toString(bts);
-        assertEq("0x0000000000000000000000000000000000000000000000000000000000000000", btsStr);
+        assertEq("0x0000000000000000000000000000000000000000000000001234567890abcdef", btsStr);
     }
 
     function testBoolToString() public {

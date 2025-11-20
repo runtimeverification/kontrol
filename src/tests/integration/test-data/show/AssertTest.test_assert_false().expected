@@ -87,14 +87,14 @@ Node 10:
             .List
           </callStack>
           <interimStates>
-            ...
+            .List
           </interimStates>
           <touchedAccounts>
             .Set
           </touchedAccounts>
           <callState>
             <id>
-              728815563385977040452943777879061427756277306518
+              #address ( FoundryTest )
             </id>
             <caller>
               137122462167341575662000267002353578582749290296
@@ -123,6 +123,9 @@ Node 10:
             <callDepth>
               0
             </callDepth>
+            <codeAddr>
+              #address ( FoundryTest )
+            </codeAddr>
             ...
           </callState>
           <substate>
@@ -164,7 +167,7 @@ Node 10:
           <accounts>
             ( <account>
               <acctID>
-                645326474426547203313410069153905908525362434349
+                #address ( FoundryCheat )
               </acctID>
               <balance>
                 0
@@ -185,10 +188,10 @@ Node 10:
             </account>
             <account>
               <acctID>
-                728815563385977040452943777879061427756277306518
+                #address ( FoundryTest )
               </acctID>
               <balance>
-                0
+                maxUInt96
               </balance>
               <storage>
                 .Map
@@ -265,26 +268,6 @@ Node 10:
         .MockFunctionCellMap
       </mockFunctions>
     </cheatcodes>
-    <KEVMTracing>
-      <activeTracing>
-        false
-      </activeTracing>
-      <traceStorage>
-        false
-      </traceStorage>
-      <traceWordStack>
-        false
-      </traceWordStack>
-      <traceMemory>
-        false
-      </traceMemory>
-      <recordedTrace>
-        false
-      </recordedTrace>
-      <traceData>
-        .List
-      </traceData>
-    </KEVMTracing>
   </foundry>
   ...
 </generatedTop>
@@ -332,7 +315,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-FALSE():0
                  </touchedAccounts>
                  <callState>
                    <id>
-                     728815563385977040452943777879061427756277306518
+                     #address ( FoundryTest )
                    </id>
                    <caller>
                      137122462167341575662000267002353578582749290296
@@ -361,6 +344,9 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-FALSE():0
                    <callDepth>
                      0
                    </callDepth>
+                   <codeAddr>
+                     #address ( FoundryTest )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -402,7 +388,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-FALSE():0
                  <accounts>
                    ( <account>
                      <acctID>
-                       645326474426547203313410069153905908525362434349
+                       #address ( FoundryCheat )
                      </acctID>
                      <balance>
                        0
@@ -423,10 +409,10 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-FALSE():0
                    </account>
                    <account>
                      <acctID>
-                       728815563385977040452943777879061427756277306518
+                       #address ( FoundryTest )
                      </acctID>
                      <balance>
-                       0
+                       maxUInt96
                      </balance>
                      <storage>
                        .Map
@@ -503,26 +489,6 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-FALSE():0
                .MockFunctionCellMap
              </mockFunctions>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
@@ -565,7 +531,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-FALSE():0
                  </touchedAccounts>
                  <callState>
                    <id>
-                     728815563385977040452943777879061427756277306518
+                     #address ( FoundryTest )
                    </id>
                    <caller>
                      137122462167341575662000267002353578582749290296
@@ -594,6 +560,9 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-FALSE():0
                    <callDepth>
                      0
                    </callDepth>
+                   <codeAddr>
+                     #address ( FoundryTest )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -635,7 +604,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-FALSE():0
                  <accounts>
                    ( <account>
                      <acctID>
-                       645326474426547203313410069153905908525362434349
+                       #address ( FoundryCheat )
                      </acctID>
                      <balance>
                        0
@@ -656,10 +625,10 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-FALSE():0
                    </account>
                    <account>
                      <acctID>
-                       728815563385977040452943777879061427756277306518
+                       #address ( FoundryTest )
                      </acctID>
                      <balance>
-                       0
+                       maxUInt96
                      </balance>
                      <storage>
                        .Map
@@ -736,26 +705,6 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-FALSE():0
                .MockFunctionCellMap
              </mockFunctions>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
@@ -797,7 +746,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-FALSE():0
                  </touchedAccounts>
                  <callState>
                    <id>
-                     728815563385977040452943777879061427756277306518
+                     #address ( FoundryTest )
                    </id>
                    <caller>
                      137122462167341575662000267002353578582749290296
@@ -826,6 +775,9 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-FALSE():0
                    <callDepth>
                      0
                    </callDepth>
+                   <codeAddr>
+                     #address ( FoundryTest )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -867,7 +819,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-FALSE():0
                  <accounts>
                    ( <account>
                      <acctID>
-                       645326474426547203313410069153905908525362434349
+                       #address ( FoundryCheat )
                      </acctID>
                      <balance>
                        0
@@ -888,10 +840,10 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-FALSE():0
                    </account>
                    <account>
                      <acctID>
-                       728815563385977040452943777879061427756277306518
+                       #address ( FoundryTest )
                      </acctID>
                      <balance>
-                       0
+                       maxUInt96
                      </balance>
                      <storage>
                        .Map
@@ -968,26 +920,6 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-FALSE():0
                .MockFunctionCellMap
              </mockFunctions>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
@@ -1032,7 +964,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-FALSE():0
                  </touchedAccounts>
                  <callState>
                    <id>
-                     728815563385977040452943777879061427756277306518
+                     #address ( FoundryTest )
                    </id>
                    <caller>
                      137122462167341575662000267002353578582749290296
@@ -1061,6 +993,9 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-FALSE():0
                    <callDepth>
                      0
                    </callDepth>
+                   <codeAddr>
+                     #address ( FoundryTest )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -1102,7 +1037,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-FALSE():0
                  <accounts>
                    ( <account>
                      <acctID>
-                       645326474426547203313410069153905908525362434349
+                       #address ( FoundryCheat )
                      </acctID>
                      <balance>
                        0
@@ -1123,10 +1058,10 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-FALSE():0
                    </account>
                    <account>
                      <acctID>
-                       728815563385977040452943777879061427756277306518
+                       #address ( FoundryTest )
                      </acctID>
                      <balance>
-                       0
+                       maxUInt96
                      </balance>
                      <storage>
                        .Map
@@ -1203,26 +1138,6 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-FALSE():0
                .MockFunctionCellMap
              </mockFunctions>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
@@ -1267,7 +1182,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-FALSE():0
                  </touchedAccounts>
                  <callState>
                    <id>
-                     728815563385977040452943777879061427756277306518
+                     #address ( FoundryTest )
                    </id>
                    <caller>
                      137122462167341575662000267002353578582749290296
@@ -1296,6 +1211,9 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-FALSE():0
                    <callDepth>
                      0
                    </callDepth>
+                   <codeAddr>
+                     #address ( FoundryTest )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -1337,7 +1255,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-FALSE():0
                  <accounts>
                    ( <account>
                      <acctID>
-                       645326474426547203313410069153905908525362434349
+                       #address ( FoundryCheat )
                      </acctID>
                      <balance>
                        0
@@ -1358,10 +1276,10 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-FALSE():0
                    </account>
                    <account>
                      <acctID>
-                       728815563385977040452943777879061427756277306518
+                       #address ( FoundryTest )
                      </acctID>
                      <balance>
-                       0
+                       maxUInt96
                      </balance>
                      <storage>
                        .Map
@@ -1438,26 +1356,6 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-FALSE():0
                .MockFunctionCellMap
              </mockFunctions>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
@@ -1486,8 +1384,5 @@ Failing nodes:
     TIMESTAMP_CELL = 1073741825
 
 Join the Runtime Verification Discord server (https://discord.com/invite/CurfmXNtbN) or Telegram group (https://t.me/rv_kontrol) for support.
-
-See `foundry_success` predicate for more information:
-https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/foundry.md#foundry-success-predicate
 
 Access documentation for Kontrol at https://docs.runtimeverification.com/kontrol

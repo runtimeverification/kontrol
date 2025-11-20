@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - '_update-deps/runtimeverification/evm-semantics'
+      - '_update-deps/runtimeverification/rv-nix-tools'
+      - '_update-deps-cron/uv2nix'
+      - '_update-deps-cron/pyproject-build-systems'
   workflow_dispatch:
 # Stop in progress workflows on the same branch and same workflow to use latest committed code
 concurrency:
@@ -25,10 +28,32 @@ jobs:
         run: |
           git config user.name devops
           git config user.email devops@runtimeverification.com
-      - name: 'Install uv'
-        uses: astral-sh/setup-uv@v5
+      - name: 'Install Nix'
+        uses: cachix/install-nix-action@v31.2.0
         with:
-          version: 0.7.2
+          install_url: https://releases.nixos.org/nix/nix-2.31.0/install
+          extra_nix_config: |
+            substituters = http://cache.nixos.org https://cache.iog.io
+            trusted-public-keys = cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= 
+            access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
+      - uses: cachix/cachix-action@v16
+        with:
+          name: k-framework
+          authToken: ${{ secrets.CACHIX_PUBLIC_TOKEN }}
+      # note: we install the same version of `uv` as used by `uv2nix` in order to match the nix derivation
+      - name: 'Update uv release tag'
+        id: uv_release
+        run: |
+          UV2NIX_VERSION=$(cat deps/uv2nix)
+          UV_VERSION=$(curl -s https://raw.githubusercontent.com/pyproject-nix/uv2nix/$(cat deps/uv2nix)/pkgs/uv-bin/srcs.json | jq -r .version)
+          [[ "$UV_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]
+          echo $UV_VERSION > deps/uv_release
+          git add deps/uv_release && git commit -m "Sync uv version: uv ${UV_VERSION}" || true
+          echo uv_version=$UV_VERSION >> "${GITHUB_OUTPUT}"
+      - name: 'Install uv'
+        uses: astral-sh/setup-uv@v6
+        with:
+          version: ${{ steps.uv_release.outputs.uv_version }}
       - name: 'Update kevm-pyk release tag'
         run: |
           KEVM_VERSION="$(cat deps/kevm_release)"
@@ -40,20 +65,16 @@ jobs:
           K_VERSION=$(uv run python3 -c 'import pyk; print(pyk.__version__)')
           echo ${K_VERSION} > deps/k_release
           git add deps/k_release && git commit -m "deps/k_release: sync release file version ${K_VERSION}" || true
-      - name: 'Install Nix/Cachix'
-        uses: cachix/install-nix-action@v31.2.0
-        with:
-          install_url: https://releases.nixos.org/nix/nix-2.24.12/install
-          extra_nix_config: |
-            access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
-      - uses: cachix/cachix-action@v16
-        with:
-          name: k-framework
-          authToken: ${{ secrets.CACHIX_PUBLIC_TOKEN }}
       - name: 'Update Nix flake inputs'
         run: |
           KEVM_VERSION=$(cat deps/kevm_release)
+          UV2NIX_VERSION=$(cat deps/uv2nix)
+          PYPROJECT_BUILD_SYSTEMS_VERSION=$(cat deps/pyproject-build-systems)
+          RV_NIX_TOOLS_VERSION=$(cat deps/rv-nix-tools)
           sed -i 's!    kevm.url = "github:runtimeverification/evm-semantics/[v0-9\.]*"!    kevm.url = "github:runtimeverification/evm-semantics/v'"${KEVM_VERSION}"'"!' flake.nix
+          sed -i 's!    uv2nix.url = "github:pyproject-nix/uv2nix/[a-z0-9\.]*"!    uv2nix.url = "github:pyproject-nix/uv2nix/'"${UV2NIX_VERSION}"'"!' flake.nix
+          sed -i 's!    pyproject-build-systems.url = "github:pyproject-nix/build-system-pkgs/[a-z0-9\.]*"!    pyproject-build-systems.url = "github:pyproject-nix/build-system-pkgs/'"${PYPROJECT_BUILD_SYSTEMS_VERSION}"'"!' flake.nix
+          sed -i 's!    rv-nix-tools.url = "github:runtimeverification/rv-nix-tools/[a-z0-9\.]*"!    rv-nix-tools.url = "github:runtimeverification/rv-nix-tools/'"${RV_NIX_TOOLS_VERSION}"'"!' flake.nix
           nix flake update
           git add flake.nix flake.lock && git commit -m 'flake.{nix,lock}: update Nix derivations' || true
       - name: 'Push updates'

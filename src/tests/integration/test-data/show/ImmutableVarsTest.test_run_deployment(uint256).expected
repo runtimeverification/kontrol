@@ -252,6 +252,9 @@ Node 26:
             <callDepth>
               0
             </callDepth>
+            <codeAddr>
+              #address ( FoundryTest )
+            </codeAddr>
             ...
           </callState>
           <substate>
@@ -394,26 +397,6 @@ Node 26:
         .MockCallCellMap
       </mockCalls>
     </cheatcodes>
-    <KEVMTracing>
-      <activeTracing>
-        false
-      </activeTracing>
-      <traceStorage>
-        false
-      </traceStorage>
-      <traceWordStack>
-        false
-      </traceWordStack>
-      <traceMemory>
-        false
-      </traceMemory>
-      <recordedTrace>
-        false
-      </recordedTrace>
-      <traceData>
-        .List
-      </traceData>
-    </KEVMTracing>
   </foundry>
   ...
 </generatedTop>
@@ -496,6 +479,9 @@ module SUMMARY-TEST%IMMUTABLEVARSTEST.TEST-RUN-DEPLOYMENT(UINT256):0
                      <callDepth>
                        0
                      </callDepth>
+                     <codeAddr>
+                       #address ( FoundryTest )
+                     </codeAddr>
                      ...
                    </callState> ) )
                  </callStack>
@@ -589,6 +575,9 @@ module SUMMARY-TEST%IMMUTABLEVARSTEST.TEST-RUN-DEPLOYMENT(UINT256):0
                    <callDepth>
                      ( 0 => 1 )
                    </callDepth>
+                   <codeAddr>
+                     ( 728815563385977040452943777879061427756277306518 => 491460923342184218035706888008750043977755113263 )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -750,26 +739,6 @@ module SUMMARY-TEST%IMMUTABLEVARSTEST.TEST-RUN-DEPLOYMENT(UINT256):0
                .MockCallCellMap
              </mockCalls>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
@@ -846,6 +815,9 @@ module SUMMARY-TEST%IMMUTABLEVARSTEST.TEST-RUN-DEPLOYMENT(UINT256):0
                      <callDepth>
                        0
                      </callDepth>
+                     <codeAddr>
+                       #address ( FoundryTest )
+                     </codeAddr>
                      ...
                    </callState> )
                  </callStack>
@@ -939,6 +911,9 @@ module SUMMARY-TEST%IMMUTABLEVARSTEST.TEST-RUN-DEPLOYMENT(UINT256):0
                    <callDepth>
                      1
                    </callDepth>
+                   <codeAddr>
+                     491460923342184218035706888008750043977755113263
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -1083,26 +1058,6 @@ module SUMMARY-TEST%IMMUTABLEVARSTEST.TEST-RUN-DEPLOYMENT(UINT256):0
                .MockCallCellMap
              </mockCalls>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
@@ -1179,6 +1134,9 @@ module SUMMARY-TEST%IMMUTABLEVARSTEST.TEST-RUN-DEPLOYMENT(UINT256):0
                      <callDepth>
                        0
                      </callDepth>
+                     <codeAddr>
+                       #address ( FoundryTest )
+                     </codeAddr>
                      ...
                    </callState> )
                  </callStack>
@@ -1272,6 +1230,9 @@ module SUMMARY-TEST%IMMUTABLEVARSTEST.TEST-RUN-DEPLOYMENT(UINT256):0
                    <callDepth>
                      1
                    </callDepth>
+                   <codeAddr>
+                     491460923342184218035706888008750043977755113263
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -1416,26 +1377,6 @@ module SUMMARY-TEST%IMMUTABLEVARSTEST.TEST-RUN-DEPLOYMENT(UINT256):0
                .MockCallCellMap
              </mockCalls>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
@@ -1515,6 +1456,9 @@ module SUMMARY-TEST%IMMUTABLEVARSTEST.TEST-RUN-DEPLOYMENT(UINT256):0
                      <callDepth>
                        0
                      </callDepth>
+                     <codeAddr>
+                       #address ( FoundryTest )
+                     </codeAddr>
                      ...
                    </callState> )
                  </callStack>
@@ -1608,6 +1552,9 @@ module SUMMARY-TEST%IMMUTABLEVARSTEST.TEST-RUN-DEPLOYMENT(UINT256):0
                    <callDepth>
                      1
                    </callDepth>
+                   <codeAddr>
+                     491460923342184218035706888008750043977755113263
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -1752,26 +1699,6 @@ module SUMMARY-TEST%IMMUTABLEVARSTEST.TEST-RUN-DEPLOYMENT(UINT256):0
                .MockCallCellMap
              </mockCalls>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
@@ -1851,6 +1778,9 @@ module SUMMARY-TEST%IMMUTABLEVARSTEST.TEST-RUN-DEPLOYMENT(UINT256):0
                      <callDepth>
                        0
                      </callDepth>
+                     <codeAddr>
+                       #address ( FoundryTest )
+                     </codeAddr>
                      ...
                    </callState> )
                  </callStack>
@@ -1944,6 +1874,9 @@ module SUMMARY-TEST%IMMUTABLEVARSTEST.TEST-RUN-DEPLOYMENT(UINT256):0
                    <callDepth>
                      1
                    </callDepth>
+                   <codeAddr>
+                     491460923342184218035706888008750043977755113263
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -2088,26 +2021,6 @@ module SUMMARY-TEST%IMMUTABLEVARSTEST.TEST-RUN-DEPLOYMENT(UINT256):0
                .MockCallCellMap
              </mockCalls>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
@@ -2186,6 +2099,9 @@ module SUMMARY-TEST%IMMUTABLEVARSTEST.TEST-RUN-DEPLOYMENT(UINT256):0
                      <callDepth>
                        0
                      </callDepth>
+                     <codeAddr>
+                       #address ( FoundryTest )
+                     </codeAddr>
                      ...
                    </callState> ) => .List )
                  </callStack>
@@ -2279,6 +2195,9 @@ module SUMMARY-TEST%IMMUTABLEVARSTEST.TEST-RUN-DEPLOYMENT(UINT256):0
                    <callDepth>
                      ( 1 => 0 )
                    </callDepth>
+                   <codeAddr>
+                     ( 491460923342184218035706888008750043977755113263 => 728815563385977040452943777879061427756277306518 )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -2423,26 +2342,6 @@ module SUMMARY-TEST%IMMUTABLEVARSTEST.TEST-RUN-DEPLOYMENT(UINT256):0
                .MockCallCellMap
              </mockCalls>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
@@ -2530,6 +2429,9 @@ module SUMMARY-TEST%IMMUTABLEVARSTEST.TEST-RUN-DEPLOYMENT(UINT256):0
                    <callDepth>
                      0
                    </callDepth>
+                   <codeAddr>
+                     #address ( FoundryTest )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -2672,26 +2574,6 @@ module SUMMARY-TEST%IMMUTABLEVARSTEST.TEST-RUN-DEPLOYMENT(UINT256):0
                .MockCallCellMap
              </mockCalls>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
@@ -2774,6 +2656,9 @@ module SUMMARY-TEST%IMMUTABLEVARSTEST.TEST-RUN-DEPLOYMENT(UINT256):0
                      <callDepth>
                        0
                      </callDepth>
+                     <codeAddr>
+                       #address ( FoundryTest )
+                     </codeAddr>
                      ...
                    </callState> ) )
                  </callStack>
@@ -2885,6 +2770,9 @@ module SUMMARY-TEST%IMMUTABLEVARSTEST.TEST-RUN-DEPLOYMENT(UINT256):0
                    <callDepth>
                      ( 0 => 1 )
                    </callDepth>
+                   <codeAddr>
+                     ( 728815563385977040452943777879061427756277306518 => 491460923342184218035706888008750043977755113263 )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -3029,26 +2917,6 @@ module SUMMARY-TEST%IMMUTABLEVARSTEST.TEST-RUN-DEPLOYMENT(UINT256):0
                .MockCallCellMap
              </mockCalls>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
@@ -3129,6 +2997,9 @@ module SUMMARY-TEST%IMMUTABLEVARSTEST.TEST-RUN-DEPLOYMENT(UINT256):0
                      <callDepth>
                        0
                      </callDepth>
+                     <codeAddr>
+                       #address ( FoundryTest )
+                     </codeAddr>
                      ...
                    </callState> )
                  </callStack>
@@ -3240,6 +3111,9 @@ module SUMMARY-TEST%IMMUTABLEVARSTEST.TEST-RUN-DEPLOYMENT(UINT256):0
                    <callDepth>
                      1
                    </callDepth>
+                   <codeAddr>
+                     491460923342184218035706888008750043977755113263
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -3384,26 +3258,6 @@ module SUMMARY-TEST%IMMUTABLEVARSTEST.TEST-RUN-DEPLOYMENT(UINT256):0
                .MockCallCellMap
              </mockCalls>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
@@ -3483,6 +3337,9 @@ module SUMMARY-TEST%IMMUTABLEVARSTEST.TEST-RUN-DEPLOYMENT(UINT256):0
                      <callDepth>
                        0
                      </callDepth>
+                     <codeAddr>
+                       #address ( FoundryTest )
+                     </codeAddr>
                      ...
                    </callState> )
                  </callStack>
@@ -3594,6 +3451,9 @@ module SUMMARY-TEST%IMMUTABLEVARSTEST.TEST-RUN-DEPLOYMENT(UINT256):0
                    <callDepth>
                      1
                    </callDepth>
+                   <codeAddr>
+                     491460923342184218035706888008750043977755113263
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -3738,26 +3598,6 @@ module SUMMARY-TEST%IMMUTABLEVARSTEST.TEST-RUN-DEPLOYMENT(UINT256):0
                .MockCallCellMap
              </mockCalls>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
@@ -3836,6 +3676,9 @@ module SUMMARY-TEST%IMMUTABLEVARSTEST.TEST-RUN-DEPLOYMENT(UINT256):0
                      <callDepth>
                        0
                      </callDepth>
+                     <codeAddr>
+                       #address ( FoundryTest )
+                     </codeAddr>
                      ...
                    </callState> )
                  </callStack>
@@ -3947,6 +3790,9 @@ module SUMMARY-TEST%IMMUTABLEVARSTEST.TEST-RUN-DEPLOYMENT(UINT256):0
                    <callDepth>
                      1
                    </callDepth>
+                   <codeAddr>
+                     491460923342184218035706888008750043977755113263
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -4091,26 +3937,6 @@ module SUMMARY-TEST%IMMUTABLEVARSTEST.TEST-RUN-DEPLOYMENT(UINT256):0
                .MockCallCellMap
              </mockCalls>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
@@ -4190,6 +4016,9 @@ module SUMMARY-TEST%IMMUTABLEVARSTEST.TEST-RUN-DEPLOYMENT(UINT256):0
                      <callDepth>
                        0
                      </callDepth>
+                     <codeAddr>
+                       #address ( FoundryTest )
+                     </codeAddr>
                      ...
                    </callState> )
                  </callStack>
@@ -4301,6 +4130,9 @@ module SUMMARY-TEST%IMMUTABLEVARSTEST.TEST-RUN-DEPLOYMENT(UINT256):0
                    <callDepth>
                      1
                    </callDepth>
+                   <codeAddr>
+                     491460923342184218035706888008750043977755113263
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -4445,26 +4277,6 @@ module SUMMARY-TEST%IMMUTABLEVARSTEST.TEST-RUN-DEPLOYMENT(UINT256):0
                .MockCallCellMap
              </mockCalls>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
@@ -4544,6 +4356,9 @@ module SUMMARY-TEST%IMMUTABLEVARSTEST.TEST-RUN-DEPLOYMENT(UINT256):0
                      <callDepth>
                        0
                      </callDepth>
+                     <codeAddr>
+                       #address ( FoundryTest )
+                     </codeAddr>
                      ...
                    </callState> )
                  </callStack>
@@ -4655,6 +4470,9 @@ module SUMMARY-TEST%IMMUTABLEVARSTEST.TEST-RUN-DEPLOYMENT(UINT256):0
                    <callDepth>
                      1
                    </callDepth>
+                   <codeAddr>
+                     491460923342184218035706888008750043977755113263
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -4799,26 +4617,6 @@ module SUMMARY-TEST%IMMUTABLEVARSTEST.TEST-RUN-DEPLOYMENT(UINT256):0
                .MockCallCellMap
              </mockCalls>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
@@ -4898,6 +4696,9 @@ module SUMMARY-TEST%IMMUTABLEVARSTEST.TEST-RUN-DEPLOYMENT(UINT256):0
                      <callDepth>
                        0
                      </callDepth>
+                     <codeAddr>
+                       #address ( FoundryTest )
+                     </codeAddr>
                      ...
                    </callState> )
                  </callStack>
@@ -5009,6 +4810,9 @@ module SUMMARY-TEST%IMMUTABLEVARSTEST.TEST-RUN-DEPLOYMENT(UINT256):0
                    <callDepth>
                      1
                    </callDepth>
+                   <codeAddr>
+                     491460923342184218035706888008750043977755113263
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -5153,26 +4957,6 @@ module SUMMARY-TEST%IMMUTABLEVARSTEST.TEST-RUN-DEPLOYMENT(UINT256):0
                .MockCallCellMap
              </mockCalls>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
@@ -5255,6 +5039,9 @@ module SUMMARY-TEST%IMMUTABLEVARSTEST.TEST-RUN-DEPLOYMENT(UINT256):0
                      <callDepth>
                        0
                      </callDepth>
+                     <codeAddr>
+                       #address ( FoundryTest )
+                     </codeAddr>
                      ...
                    </callState> )
                  </callStack>
@@ -5366,6 +5153,9 @@ module SUMMARY-TEST%IMMUTABLEVARSTEST.TEST-RUN-DEPLOYMENT(UINT256):0
                    <callDepth>
                      1
                    </callDepth>
+                   <codeAddr>
+                     491460923342184218035706888008750043977755113263
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -5510,26 +5300,6 @@ module SUMMARY-TEST%IMMUTABLEVARSTEST.TEST-RUN-DEPLOYMENT(UINT256):0
                .MockCallCellMap
              </mockCalls>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
@@ -5612,6 +5382,9 @@ module SUMMARY-TEST%IMMUTABLEVARSTEST.TEST-RUN-DEPLOYMENT(UINT256):0
                      <callDepth>
                        0
                      </callDepth>
+                     <codeAddr>
+                       #address ( FoundryTest )
+                     </codeAddr>
                      ...
                    </callState> ) => .List )
                  </callStack>
@@ -5723,6 +5496,9 @@ module SUMMARY-TEST%IMMUTABLEVARSTEST.TEST-RUN-DEPLOYMENT(UINT256):0
                    <callDepth>
                      ( 1 => 0 )
                    </callDepth>
+                   <codeAddr>
+                     ( 491460923342184218035706888008750043977755113263 => 728815563385977040452943777879061427756277306518 )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -5867,26 +5643,6 @@ module SUMMARY-TEST%IMMUTABLEVARSTEST.TEST-RUN-DEPLOYMENT(UINT256):0
                .MockCallCellMap
              </mockCalls>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
@@ -5972,6 +5728,9 @@ module SUMMARY-TEST%IMMUTABLEVARSTEST.TEST-RUN-DEPLOYMENT(UINT256):0
                    <callDepth>
                      0
                    </callDepth>
+                   <codeAddr>
+                     #address ( FoundryTest )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -6114,26 +5873,6 @@ module SUMMARY-TEST%IMMUTABLEVARSTEST.TEST-RUN-DEPLOYMENT(UINT256):0
                .MockCallCellMap
              </mockCalls>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( VV0_x_114b9705:Int ==Int 85
        andBool ( 0 <=Int CALLER_ID:Int
@@ -6220,6 +5959,9 @@ module SUMMARY-TEST%IMMUTABLEVARSTEST.TEST-RUN-DEPLOYMENT(UINT256):0
                    <callDepth>
                      0
                    </callDepth>
+                   <codeAddr>
+                     #address ( FoundryTest )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -6362,26 +6104,6 @@ module SUMMARY-TEST%IMMUTABLEVARSTEST.TEST-RUN-DEPLOYMENT(UINT256):0
                .MockCallCellMap
              </mockCalls>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( 85 =/=Int VV0_x_114b9705:Int
        andBool ( 0 <=Int CALLER_ID:Int
@@ -6468,6 +6190,9 @@ module SUMMARY-TEST%IMMUTABLEVARSTEST.TEST-RUN-DEPLOYMENT(UINT256):0
                    <callDepth>
                      0
                    </callDepth>
+                   <codeAddr>
+                     #address ( FoundryTest )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -6610,26 +6335,6 @@ module SUMMARY-TEST%IMMUTABLEVARSTEST.TEST-RUN-DEPLOYMENT(UINT256):0
                .MockCallCellMap
              </mockCalls>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _VV0_x_114b9705 ==Int 85
        andBool ( 0 <=Int CALLER_ID:Int
@@ -6713,6 +6418,9 @@ module SUMMARY-TEST%IMMUTABLEVARSTEST.TEST-RUN-DEPLOYMENT(UINT256):0
                    <callDepth>
                      0
                    </callDepth>
+                   <codeAddr>
+                     #address ( FoundryTest )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -6855,26 +6563,6 @@ module SUMMARY-TEST%IMMUTABLEVARSTEST.TEST-RUN-DEPLOYMENT(UINT256):0
                .MockCallCellMap
              </mockCalls>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
@@ -6960,6 +6648,9 @@ module SUMMARY-TEST%IMMUTABLEVARSTEST.TEST-RUN-DEPLOYMENT(UINT256):0
                    <callDepth>
                      0
                    </callDepth>
+                   <codeAddr>
+                     #address ( FoundryTest )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -7102,26 +6793,6 @@ module SUMMARY-TEST%IMMUTABLEVARSTEST.TEST-RUN-DEPLOYMENT(UINT256):0
                .MockCallCellMap
              </mockCalls>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _VV0_x_114b9705 ==Int 85
        andBool ( 0 <=Int CALLER_ID:Int
@@ -7205,6 +6876,9 @@ module SUMMARY-TEST%IMMUTABLEVARSTEST.TEST-RUN-DEPLOYMENT(UINT256):0
                    <callDepth>
                      0
                    </callDepth>
+                   <codeAddr>
+                     #address ( FoundryTest )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -7347,26 +7021,6 @@ module SUMMARY-TEST%IMMUTABLEVARSTEST.TEST-RUN-DEPLOYMENT(UINT256):0
                .MockCallCellMap
              </mockCalls>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int

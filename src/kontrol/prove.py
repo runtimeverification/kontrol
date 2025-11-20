@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import logging
+import sys
 import time
 from abc import abstractmethod
 from collections import Counter
@@ -19,12 +20,13 @@ from pyk.kast.manip import flatten_label, free_vars, set_cell
 from pyk.kast.prelude.bytes import bytesToken
 from pyk.kast.prelude.collections import list_empty, map_empty, map_item, set_empty
 from pyk.kast.prelude.k import GENERATED_TOP_CELL
-from pyk.kast.prelude.kbool import FALSE, TRUE, boolToken, notBool
+from pyk.kast.prelude.kbool import FALSE, boolToken, notBool
 from pyk.kast.prelude.kint import eqInt, intToken, leInt, ltInt
 from pyk.kast.prelude.ml import mlEqualsFalse, mlEqualsTrue
 from pyk.kast.prelude.utils import token
 from pyk.kcfg import KCFG, KCFGExplore
 from pyk.kcfg.minimize import KCFGMinimizer
+from pyk.kdist import kdist
 from pyk.kore.rpc import KoreClient, kore_server
 from pyk.proof import ProofStatus
 from pyk.proof.proof import Proof
@@ -32,10 +34,12 @@ from pyk.proof.reachability import APRFailureInfo, APRProof
 from pyk.utils import hash_str, run_process_2, unique
 from rich.progress import Progress, SpinnerColumn, TaskID, TextColumn, TimeElapsedColumn
 
+from .counterexample_generation import generate_counterexample_test
 from .foundry import Foundry, KontrolSemantics, foundry_to_xml
-from .options import ConfigType, TraceOptions
-from .solc_to_k import Contract
-from .utils import console, parse_test_version_tuple
+from .natspec import apply_natspec_preconditions
+from .options import ConfigType
+from .solc_to_k import Contract, decode_kinner_output
+from .utils import console, parse_test_version_tuple, replace_k_words
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -154,8 +158,11 @@ def foundry_prove(options: ProveOptions, foundry: Foundry, init_accounts: Iterab
         failed = [proof for proof in constructor_results if not proof.passed]
         failed_contract_names = [proof.id.split('.')[0] for proof in failed]
         if failed:
-            raise ValueError(
-                f"Running initialization code failed for {len(failed)} contracts: {', '.join(failed_contract_names)}"
+            for proof in failed:
+                contract, _ = foundry.get_contract_and_method(proof.id.split(':')[0])
+                _interpret_proof_failure(proof, options.failure_info, contract.error_selectors)
+            sys.exit(
+                f'Running initialization code failed for {len(failed)} contracts: {", ".join(failed_contract_names)}'
             )
 
     if options.verbose:
@@ -168,7 +175,10 @@ def foundry_prove(options: ProveOptions, foundry: Foundry, init_accounts: Iterab
     failed = [proof for proof in setup_results if not proof.passed]
     failed_contract_names = [proof.id.split('.')[0] for proof in failed]
     if failed:
-        raise ValueError(f"Running setUp method failed for {len(failed)} contracts: {', '.join(failed_contract_names)}")
+        for proof in failed:
+            contract, _ = foundry.get_contract_and_method(proof.id.split(':')[0])
+            _interpret_proof_failure(proof, options.failure_info, contract.error_selectors)
+        sys.exit(f"Running setUp method failed for {len(failed)} contracts: {', '.join(failed_contract_names)}")
 
     if options.verbose:
         _LOGGER.info(f'Running test functions in parallel: {test_names}')
@@ -404,14 +414,6 @@ def _run_cfg_group(
                     ),
                     stack_checks=options.stack_checks,
                     symbolic_caller=options.symbolic_caller,
-                    trace_options=TraceOptions(
-                        {
-                            'active_tracing': options.active_tracing,
-                            'trace_memory': options.trace_memory,
-                            'trace_storage': options.trace_storage,
-                            'trace_wordstack': options.trace_wordstack,
-                        }
-                    ),
                 )
             cut_point_rules = KontrolSemantics.cut_point_rules(
                 options.break_on_jumpi,
@@ -541,9 +543,74 @@ def _run_cfg_group(
             if isinstance(failure_info, Exception):
                 proof.error_info = failure_info
             elif isinstance(failure_info, APRFailureInfo):
-                proof.failure_info = failure_info
+                proof.failure_info = KontrolAPRFailureInfo(failure_info)
+
+        # Generate counterexample tests for failed proofs if requested
+        if options.generate_counterexample:
+            for proof in proofs:
+                if (
+                    proof.failure_info
+                    and hasattr(proof.failure_info, 'failing_nodes')
+                    and proof.failure_info.failing_nodes
+                ):
+                    try:
+                        _LOGGER.info(f'Attempting to generate counterexample for proof: {proof.id}')
+                        counterexample_path = generate_counterexample_test(proof, foundry)
+                        if counterexample_path:
+                            console.print(
+                                f':test_tube: [bold yellow]Generated counterexample test: {counterexample_path}[/bold yellow] :test_tube:'
+                            )
+                        else:
+                            _LOGGER.warning(f'Counterexample generation returned None for proof: {proof.id}')
+                    except Exception as e:
+                        _LOGGER.warning(f'Failed to generate counterexample test: {e}')
 
         return proofs
+
+
+class KontrolAPRFailureInfo(APRFailureInfo):
+    def __init__(self, original: APRFailureInfo):
+        self.__dict__.update(original.__dict__)
+
+    def print_with_additional_info(self, status_codes: list[str], outputs: list[str]) -> list[str]:
+        res_lines: list[str] = []
+
+        num_pending = len(self.pending_nodes)
+        num_failing = len(self.failing_nodes)
+        res_lines.append(
+            f'{num_pending + num_failing} Failure nodes. ({num_pending} pending and {num_failing} failing)'
+        )
+
+        if num_pending > 0:
+            res_lines.append('')
+            res_lines.append(f'Pending nodes: {sorted(self.pending_nodes)}')
+
+        if num_failing > 0:
+            res_lines.append('')
+            res_lines.append('Failing nodes:')
+            for idx, node_id in enumerate(self.failing_nodes):
+                path_condition = self.path_conditions[node_id]
+                res_lines.append('')
+                res_lines.append(f'  Node id: {str(node_id)}')
+                res_lines.append('  Status Code:')
+                res_lines.append(f'    {status_codes[idx]}')
+                res_lines.append('  Output:')
+                res_lines.append(f'    {outputs[idx]}')
+                res_lines.append('  Path condition:')
+                res_lines += [f'    {path_condition}']
+
+                if node_id in self.models:
+                    res_lines.append('  Model:')
+                    for var, term in self.models[node_id]:
+                        res_lines.append(f'    {var} = {term}')
+                else:
+                    res_lines.append('  Failed to generate a model.')
+
+            res_lines.append('')
+            res_lines.append('Join the Runtime Verification communities for support:')
+            res_lines.append('    telegram: https://t.me/rv_kontrol')
+            res_lines.append('    discord:  https://discord.gg/CurfmXNtbN')
+        return res_lines
 
 
 def method_to_apr_proof(
@@ -560,7 +627,6 @@ def method_to_apr_proof(
     summary_ids: Iterable[str] = (),
     active_simbolik: bool = False,
     hevm: bool = False,
-    trace_options: TraceOptions | None = None,
 ) -> APRProof:
     setup_proof = None
     setup_proof_is_constructor = False
@@ -586,7 +652,6 @@ def method_to_apr_proof(
         init_accounts=init_accounts,
         active_simbolik=active_simbolik,
         hevm=hevm,
-        trace_options=trace_options,
         config_type=config_type,
     )
 
@@ -634,7 +699,6 @@ def _method_to_initialized_cfg(
     init_accounts: Iterable[KInner] = (),
     active_simbolik: bool = False,
     hevm: bool = False,
-    trace_options: TraceOptions | None = None,
 ) -> tuple[KCFG, int, int, Iterable[int]]:
     _LOGGER.info(f'Initializing KCFG for test: {test.id}')
 
@@ -653,7 +717,6 @@ def _method_to_initialized_cfg(
         symbolic_caller=symbolic_caller,
         init_accounts=init_accounts,
         hevm=hevm,
-        trace_options=trace_options,
     )
 
     for node_id in new_node_ids:
@@ -688,7 +751,6 @@ def _method_to_cfg(
     symbolic_caller: bool,
     init_accounts: Iterable[KInner] = (),
     hevm: bool = False,
-    trace_options: TraceOptions | None = None,
 ) -> tuple[KCFG, list[int], int, int, Iterable[int]]:
     calldata = None
     callvalue = None
@@ -723,7 +785,6 @@ def _method_to_cfg(
         calldata=calldata,
         callvalue=callvalue,
         active_simbolik=active_simbolik,
-        trace_options=trace_options,
         config_type=config_type,
         additional_accounts=external_libs,
         stack_checks=stack_checks,
@@ -773,6 +834,7 @@ def _method_to_cfg(
 
         for final_node in final_states:
             new_init_cterm = _update_cterm_from_node(init_cterm, final_node, config_type, keep_vars)
+            new_init_cterm = apply_natspec_preconditions(new_init_cterm, method, contract, foundry)
             new_node = cfg.create_node(new_init_cterm)
             if graft_setup_proof:
                 cfg.create_edge(final_node.id, new_node.id, depth=1)
@@ -782,6 +844,7 @@ def _method_to_cfg(
                 )
             new_node_ids.append(new_node.id)
     else:
+        init_cterm = apply_natspec_preconditions(init_cterm, method, contract, foundry)
         cfg = KCFG()
         init_node = cfg.create_node(init_cterm)
         new_node_ids = [init_node.id]
@@ -903,15 +966,12 @@ def _init_cterm(
     callvalue: KInner | None = None,
     preconditions: Iterable[KInner] | None = None,
     init_accounts: Iterable[KInner] = (),
-    trace_options: TraceOptions | None = None,
 ) -> CTerm:
     schedule = KApply(evm_chain_options.schedule + '_EVM')
     contract_name = contract_name.upper()
 
-    if not trace_options:
-        trace_options = TraceOptions({})
-
     jumpdests = bytesToken(_process_jumpdests(bytecode=program))
+    id_cell = KVariable(Foundry.symbolic_contract_id(contract_name), sort=KSort('Int'))
     init_subst = {
         'MODE_CELL': KApply(evm_chain_options.mode),
         'USEGAS_CELL': boolToken(evm_chain_options.usegas),
@@ -921,7 +981,8 @@ def _init_cterm(
         'STATUSCODE_CELL': KVariable('STATUSCODE'),
         'PROGRAM_CELL': bytesToken(program),
         'JUMPDESTS_CELL': jumpdests,
-        'ID_CELL': KVariable(Foundry.symbolic_contract_id(contract_name), sort=KSort('Int')),
+        'ID_CELL': id_cell,
+        'CODEADDR_CELL': id_cell,
         'ORIGIN_CELL': KVariable('ORIGIN_ID', sort=KSort('Int')),
         'CALLER_CELL': KVariable('CALLER_ID', sort=KSort('Int')),
         'LOCALMEM_CELL': bytesToken(b''),
@@ -942,12 +1003,6 @@ def _init_cterm(
         'ALLOWEDCALLSLIST_CELL': list_empty(),
         'MOCKCALLS_CELL': KApply('.MockCallCellMap'),
         'MOCKFUNCTIONS_CELL': KApply('.MockFunctionCellMap'),
-        'ACTIVETRACING_CELL': TRUE if trace_options.active_tracing else FALSE,
-        'TRACESTORAGE_CELL': TRUE if trace_options.trace_storage else FALSE,
-        'TRACEWORDSTACK_CELL': TRUE if trace_options.trace_wordstack else FALSE,
-        'TRACEMEMORY_CELL': TRUE if trace_options.trace_memory else FALSE,
-        'RECORDEDTRACE_CELL': FALSE,
-        'TRACEDATA_CELL': KApply('.List'),
     }
 
     storage_constraints: list[KApply] = []
@@ -963,6 +1018,7 @@ def _init_cterm(
             'CALLSTACK_CELL': list_empty(),
             'CALLDEPTH_CELL': intToken(0),
             'ID_CELL': Foundry.address_TEST_CONTRACT(),
+            'CODEADDR_CELL': Foundry.address_TEST_CONTRACT(),
             'ORIGIN_CELL': origin_id,
             'CALLER_CELL': caller_id,
             'LOG_CELL': list_empty(),
@@ -1067,7 +1123,7 @@ def _init_cterm(
 def _create_initial_account_list(program: KInner) -> list[KInner]:
     _contract = KEVM.account_cell(
         Foundry.address_TEST_CONTRACT(),
-        intToken(0),
+        intToken(79228162514264337593543950335),
         program,
         map_empty(),
         map_empty(),
@@ -1344,6 +1400,7 @@ def _final_term(
         account_list.append(KVariable('ACCOUNTS_FINAL'))
         final_subst_test = {
             'ID_CELL': Foundry.address_TEST_CONTRACT(),
+            'CODEADDR_CELL': Foundry.address_TEST_CONTRACT(),
             'ACCOUNTS_CELL': KEVM.accounts(account_list),
         }
         final_subst.update(final_subst_test)
@@ -1431,3 +1488,25 @@ def _process_external_library_references(contract: Contract, foundry_contracts: 
                 setattr(contract, bytecode_field, updated_bytecode)
 
     return external_libs
+
+
+def _interpret_proof_failure(
+    proof: APRProof, failure_info: bool, contract_error_selectors: dict[bytes, tuple[str, list[str]]]
+) -> None:
+    failure_log = None
+    if isinstance(proof, APRProof) and isinstance(proof.failure_info, KontrolAPRFailureInfo):
+        failure_log = proof.failure_info
+    if failure_info and failure_log is not None:
+        status_codes: list[str] = []
+        output_values: list[str] = []
+        kevm = KEVM(kdist.get('kontrol.base'))
+        for node_id in failure_log.failing_nodes:
+            node = proof.kcfg.get_node(node_id)
+            assert node is not None
+            output_cell = node.cterm.cell('OUTPUT_CELL')
+            output_pretty = kevm.pretty_print(output_cell)
+            status_codes.append(kevm.pretty_print(node.cterm.cell('STATUSCODE_CELL')))
+            output_values.append(decode_kinner_output(output_cell, output_pretty, contract_error_selectors))
+        log = failure_log.print_with_additional_info(status_codes, output_values) + Foundry.help_info()
+        for line in log:
+            print(replace_k_words(line))

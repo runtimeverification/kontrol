@@ -128,6 +128,9 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
                    <callGas>
                      0
                    </callGas>
+                   <codeAddr>
+                     C_CALLABLESTORAGECONTRACT_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -210,26 +213,6 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ==Int 0
        andBool ( 0 <=Int CALLER_ID:Int
@@ -242,23 +225,29 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
        andBool ( 0 <=Int C_CALLABLESTORAGECONTRACT_ID:Int
        andBool ( 0 <=Int C_CALLABLESTORAGECONTRACT_BAL:Int
        andBool ( 0 <=Int C_CALLABLESTORAGECONTRACT_NONCE:Int
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( 0 <=Int C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int
        andBool ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int <Int 32
        andBool ( C_CALLABLESTORAGECONTRACT_NONCE:Int <Int maxUInt64
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( C_CALLABLESTORAGECONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_CALLABLESTORAGECONTRACT_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ( notBool 1 in_keys ( C_CALLABLESTORAGECONTRACT_STORAGE:Map ) )
        andBool ( C_CALLABLESTORAGECONTRACT_ID:Int <Int pow160
        andBool ( C_CALLABLESTORAGECONTRACT_BAL:Int <Int pow256
        andBool ( ( notBool <acctID>
           C_CALLABLESTORAGECONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_CALLABLESTORAGECONTRACT_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_CALLABLESTORAGECONTRACT_ID:Int <=Int 0
+          orBool ( 10 <Int C_CALLABLESTORAGECONTRACT_ID:Int
+                 ))
                ))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-8-TO-6)]
     
@@ -310,6 +299,9 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
                    <callGas>
                      0
                    </callGas>
+                   <codeAddr>
+                     C_CALLABLESTORAGECONTRACT_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -392,26 +384,6 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
@@ -424,23 +396,29 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
        andBool ( 0 <=Int C_CALLABLESTORAGECONTRACT_ID:Int
        andBool ( 0 <=Int C_CALLABLESTORAGECONTRACT_BAL:Int
        andBool ( 0 <=Int C_CALLABLESTORAGECONTRACT_NONCE:Int
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( 0 <=Int C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int
        andBool ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int <Int 32
        andBool ( C_CALLABLESTORAGECONTRACT_NONCE:Int <Int maxUInt64
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( C_CALLABLESTORAGECONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_CALLABLESTORAGECONTRACT_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ( notBool 1 in_keys ( C_CALLABLESTORAGECONTRACT_STORAGE:Map ) )
        andBool ( C_CALLABLESTORAGECONTRACT_ID:Int <Int pow160
        andBool ( C_CALLABLESTORAGECONTRACT_BAL:Int <Int pow256
        andBool ( ( notBool <acctID>
           C_CALLABLESTORAGECONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_CALLABLESTORAGECONTRACT_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_CALLABLESTORAGECONTRACT_ID:Int <=Int 0
+          orBool ( 10 <Int C_CALLABLESTORAGECONTRACT_ID:Int
+                 ))
                ))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-9-TO-7)]
 

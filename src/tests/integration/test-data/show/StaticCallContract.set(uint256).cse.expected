@@ -84,6 +84,9 @@ module SUMMARY-TEST%STATICCALLCONTRACT.SET(UINT256):0
                    <static>
                      false
                    </static>
+                   <codeAddr>
+                     C_STATICCALLCONTRACT_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -165,26 +168,6 @@ module SUMMARY-TEST%STATICCALLCONTRACT.SET(UINT256):0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int KV0_y:Int
        andBool ( 0 <=Int CALLER_ID:Int
@@ -196,10 +179,10 @@ module SUMMARY-TEST%STATICCALLCONTRACT.SET(UINT256):0
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( 0 <=Int C_STATICCALLCONTRACT_BAL:Int
        andBool ( 0 <=Int C_STATICCALLCONTRACT_NONCE:Int
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( C_STATICCALLCONTRACT_NONCE:Int <Int maxUInt64
-       andBool ( C_STATICCALLCONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_STATICCALLCONTRACT_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( C_STATICCALLCONTRACT_ID:Int <Int pow160
@@ -208,9 +191,15 @@ module SUMMARY-TEST%STATICCALLCONTRACT.SET(UINT256):0
        andBool ( ( notBool <acctID>
           C_STATICCALLCONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_STATICCALLCONTRACT_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_STATICCALLCONTRACT_ID:Int <=Int 0
+          orBool ( 10 <Int C_STATICCALLCONTRACT_ID:Int
+                 ))
                )))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-1-TO-3)]
 
