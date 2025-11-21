@@ -20,7 +20,7 @@
 ┣━━┓
 ┃  │
 ┃  ├─ 4 (split)
-┃  │   k: #next [ STATICCALL ] ~> #checkRevert ~> #updateRevertOutput 128 32 ~> #execute ~ ...
+┃  │   k: #next [ STATICCALL ] ~> #checkRevert ~> #updateRevertOutput 32 196 ~> #execute ~ ...
 ┃  │   pc: 279
 ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  │   statusCode: STATUSCODE:StatusCode
@@ -35,7 +35,7 @@
 ┃  ┃  ┃     ( notBool NEWCALLER_CELL:Account ==K C_ARITHMETICCONTRACT_ID:Int )
 ┃  ┃  │
 ┃  ┃  ├─ 7
-┃  ┃  │   k: #next [ STATICCALL ] ~> #checkRevert ~> #updateRevertOutput 128 32 ~> #execute ~ ...
+┃  ┃  │   k: #next [ STATICCALL ] ~> #checkRevert ~> #updateRevertOutput 32 196 ~> #execute ~ ...
 ┃  ┃  │   pc: 279
 ┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -55,7 +55,7 @@
 ┃  ┃  ┣━━┓
 ┃  ┃  ┃  │
 ┃  ┃  ┃  ├─ 22 (split)
-┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 196  ...
 ┃  ┃  ┃  │   pc: 279
 ┃  ┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -71,7 +71,7 @@
 </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
 ┃  ┃  ┃  ┃  │
 ┃  ┃  ┃  ┃  ├─ 134
-┃  ┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 196  ...
 ┃  ┃  ┃  ┃  │   pc: 279
 ┃  ┃  ┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -95,7 +95,7 @@
 </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
 ┃  ┃  ┃  ┃  │
 ┃  ┃  ┃  ┃  ├─ 154
-┃  ┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 196  ...
 ┃  ┃  ┃  ┃  │   pc: 279
 ┃  ┃  ┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -115,7 +115,7 @@
 ┃  ┃  ┃     ┃ constraint: true
 ┃  ┃  ┃     │
 ┃  ┃  ┃     ├─ 155
-┃  ┃  ┃     │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃  ┃     │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 196  ...
 ┃  ┃  ┃     │   pc: 279
 ┃  ┃  ┃     │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  ┃     │   statusCode: STATUSCODE:StatusCode
@@ -134,7 +134,7 @@
 ┃  ┃  ┣━━┓
 ┃  ┃  ┃  │
 ┃  ┃  ┃  ├─ 23 (split)
-┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 196  ...
 ┃  ┃  ┃  │   pc: 279
 ┃  ┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -150,7 +150,7 @@
 </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
 ┃  ┃  ┃  ┃  │
 ┃  ┃  ┃  ┃  ├─ 136
-┃  ┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 196  ...
 ┃  ┃  ┃  ┃  │   pc: 279
 ┃  ┃  ┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -174,7 +174,7 @@
 </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
 ┃  ┃  ┃  ┃  │
 ┃  ┃  ┃  ┃  ├─ 156
-┃  ┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 196  ...
 ┃  ┃  ┃  ┃  │   pc: 279
 ┃  ┃  ┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -194,7 +194,7 @@
 ┃  ┃  ┃     ┃ constraint: true
 ┃  ┃  ┃     │
 ┃  ┃  ┃     ├─ 157
-┃  ┃  ┃     │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃  ┃     │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 196  ...
 ┃  ┃  ┃     │   pc: 279
 ┃  ┃  ┃     │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  ┃     │   statusCode: STATUSCODE:StatusCode
@@ -224,7 +224,7 @@
 ┃  ┃     ┣━━┓
 ┃  ┃     ┃  │
 ┃  ┃     ┃  ├─ 39 (split)
-┃  ┃     ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃     ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 196  ...
 ┃  ┃     ┃  │   pc: 279
 ┃  ┃     ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃     ┃  │   statusCode: STATUSCODE:StatusCode
@@ -240,7 +240,7 @@
 </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
 ┃  ┃     ┃  ┃  │
 ┃  ┃     ┃  ┃  ├─ 142
-┃  ┃     ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃     ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 196  ...
 ┃  ┃     ┃  ┃  │   pc: 279
 ┃  ┃     ┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃     ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -260,7 +260,7 @@
 ┃  ┃     ┃     ┃ constraint: true
 ┃  ┃     ┃     │
 ┃  ┃     ┃     ├─ 143
-┃  ┃     ┃     │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃     ┃     │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 196  ...
 ┃  ┃     ┃     │   pc: 279
 ┃  ┃     ┃     │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃     ┃     │   statusCode: STATUSCODE:StatusCode
@@ -290,7 +290,7 @@
 ┃  ┃        ┣━━┓
 ┃  ┃        ┃  │
 ┃  ┃        ┃  ├─ 66
-┃  ┃        ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃        ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 196  ...
 ┃  ┃        ┃  │   pc: 279
 ┃  ┃        ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃        ┃  │   statusCode: STATUSCODE:StatusCode
@@ -320,7 +320,7 @@
 ┃  ┃           ┣━━┓
 ┃  ┃           ┃  │
 ┃  ┃           ┃  └─ 107 (leaf, pending)
-┃  ┃           ┃      k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃           ┃      k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 196  ...
 ┃  ┃           ┃      pc: 279
 ┃  ┃           ┃      callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃           ┃      statusCode: STATUSCODE:StatusCode
@@ -344,7 +344,7 @@
 ┃  ┃  ┃     ( notBool NEWCALLER_CELL:Account ==K C_ARITHMETICCONTRACT_ID:Int )
 ┃  ┃  │
 ┃  ┃  ├─ 14
-┃  ┃  │   k: #next [ STATICCALL ] ~> #checkRevert ~> #updateRevertOutput 128 32 ~> #execute ~ ...
+┃  ┃  │   k: #next [ STATICCALL ] ~> #checkRevert ~> #updateRevertOutput 32 196 ~> #execute ~ ...
 ┃  ┃  │   pc: 279
 ┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -364,7 +364,7 @@
 ┃  ┃  ┣━━┓
 ┃  ┃  ┃  │
 ┃  ┃  ┃  ├─ 41 (split)
-┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 196  ...
 ┃  ┃  ┃  │   pc: 279
 ┃  ┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -380,7 +380,7 @@
 </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
 ┃  ┃  ┃  ┃  │
 ┃  ┃  ┃  ┃  ├─ 144
-┃  ┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 196  ...
 ┃  ┃  ┃  ┃  │   pc: 279
 ┃  ┃  ┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -400,7 +400,7 @@
 ┃  ┃  ┃     ┃ constraint: true
 ┃  ┃  ┃     │
 ┃  ┃  ┃     ├─ 145
-┃  ┃  ┃     │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃  ┃     │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 196  ...
 ┃  ┃  ┃     │   pc: 279
 ┃  ┃  ┃     │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  ┃     │   statusCode: STATUSCODE:StatusCode
@@ -419,7 +419,7 @@
 ┃  ┃  ┣━━┓
 ┃  ┃  ┃  │
 ┃  ┃  ┃  ├─ 42 (split)
-┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 196  ...
 ┃  ┃  ┃  │   pc: 279
 ┃  ┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -435,7 +435,7 @@
 </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
 ┃  ┃  ┃  ┃  │
 ┃  ┃  ┃  ┃  ├─ 146
-┃  ┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 196  ...
 ┃  ┃  ┃  ┃  │   pc: 279
 ┃  ┃  ┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -455,7 +455,7 @@
 ┃  ┃  ┃     ┃ constraint: true
 ┃  ┃  ┃     │
 ┃  ┃  ┃     ├─ 147
-┃  ┃  ┃     │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃  ┃     │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 196  ...
 ┃  ┃  ┃     │   pc: 279
 ┃  ┃  ┃     │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  ┃     │   statusCode: STATUSCODE:StatusCode
@@ -485,7 +485,7 @@
 ┃  ┃     ┣━━┓
 ┃  ┃     ┃  │
 ┃  ┃     ┃  ├─ 70
-┃  ┃     ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃     ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 196  ...
 ┃  ┃     ┃  │   pc: 279
 ┃  ┃     ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃     ┃  │   statusCode: STATUSCODE:StatusCode
@@ -515,7 +515,7 @@
 ┃  ┃        ┣━━┓
 ┃  ┃        ┃  │
 ┃  ┃        ┃  └─ 114 (leaf, pending)
-┃  ┃        ┃      k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃        ┃      k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 196  ...
 ┃  ┃        ┃      pc: 279
 ┃  ┃        ┃      callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃        ┃      statusCode: STATUSCODE:StatusCode
@@ -539,7 +539,7 @@
 ┃  ┃  ┃     ( notBool NEWCALLER_CELL:Account ==K C_ARITHMETICCONTRACT_ID:Int )
 ┃  ┃  │
 ┃  ┃  ├─ 26
-┃  ┃  │   k: #next [ STATICCALL ] ~> #checkRevert ~> #updateRevertOutput 128 32 ~> #execute ~ ...
+┃  ┃  │   k: #next [ STATICCALL ] ~> #checkRevert ~> #updateRevertOutput 32 196 ~> #execute ~ ...
 ┃  ┃  │   pc: 279
 ┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -559,7 +559,7 @@
 ┃  ┃  ┣━━┓
 ┃  ┃  ┃  │
 ┃  ┃  ┃  ├─ 72
-┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 196  ...
 ┃  ┃  ┃  │   pc: 279
 ┃  ┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -578,7 +578,7 @@
 ┃  ┃  ┣━━┓
 ┃  ┃  ┃  │
 ┃  ┃  ┃  ├─ 73
-┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 196  ...
 ┃  ┃  ┃  │   pc: 279
 ┃  ┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -608,7 +608,7 @@
 ┃  ┃     ┣━━┓
 ┃  ┃     ┃  │
 ┃  ┃     ┃  └─ 118 (leaf, pending)
-┃  ┃     ┃      k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃     ┃      k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 196  ...
 ┃  ┃     ┃      pc: 279
 ┃  ┃     ┃      callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃     ┃      statusCode: STATUSCODE:StatusCode
@@ -632,7 +632,7 @@
 ┃  ┃  ┃     ( notBool NEWCALLER_CELL:Account ==K C_ARITHMETICCONTRACT_ID:Int )
 ┃  ┃  │
 ┃  ┃  ├─ 45
-┃  ┃  │   k: #next [ STATICCALL ] ~> #checkRevert ~> #updateRevertOutput 128 32 ~> #execute ~ ...
+┃  ┃  │   k: #next [ STATICCALL ] ~> #checkRevert ~> #updateRevertOutput 32 196 ~> #execute ~ ...
 ┃  ┃  │   pc: 279
 ┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -652,7 +652,7 @@
 ┃  ┃  ┣━━┓
 ┃  ┃  ┃  │
 ┃  ┃  ┃  └─ 120 (leaf, pending)
-┃  ┃  ┃      k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃  ┃      k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 196  ...
 ┃  ┃  ┃      pc: 279
 ┃  ┃  ┃      callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
@@ -662,7 +662,7 @@
 ┃  ┃  ┣━━┓
 ┃  ┃  ┃  │
 ┃  ┃  ┃  └─ 121 (leaf, pending)
-┃  ┃  ┃      k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃  ┃      k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 196  ...
 ┃  ┃  ┃      pc: 279
 ┃  ┃  ┃      callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
@@ -686,7 +686,7 @@
 ┃  ┃  ┃     ( notBool NEWCALLER_CELL:Account ==K C_ARITHMETICCONTRACT_ID:Int )
 ┃  ┃  │
 ┃  ┃  ├─ 76
-┃  ┃  │   k: #next [ STATICCALL ] ~> #checkRevert ~> #updateRevertOutput 128 32 ~> #execute ~ ...
+┃  ┃  │   k: #next [ STATICCALL ] ~> #checkRevert ~> #updateRevertOutput 32 196 ~> #execute ~ ...
 ┃  ┃  │   pc: 279
 ┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -709,7 +709,7 @@
 ┃  ┃  ┃     ( notBool NEWCALLER_CELL:Account ==K C_ARITHMETICCONTRACT_ID:Int )
 ┃  ┃  │
 ┃  ┃  └─ 124 (leaf, pending)
-┃  ┃      k: #next [ STATICCALL ] ~> #checkRevert ~> #updateRevertOutput 128 32 ~> #execute ~ ...
+┃  ┃      k: #next [ STATICCALL ] ~> #checkRevert ~> #updateRevertOutput 32 196 ~> #execute ~ ...
 ┃  ┃      pc: 279
 ┃  ┃      callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃      statusCode: STATUSCODE:StatusCode
@@ -720,7 +720,7 @@
 ┃     ┃ constraint: true
 ┃     │
 ┃     └─ 125 (leaf, pending)
-┃         k: #next [ STATICCALL ] ~> #checkRevert ~> #updateRevertOutput 128 32 ~> #execute ~ ...
+┃         k: #next [ STATICCALL ] ~> #checkRevert ~> #updateRevertOutput 32 196 ~> #execute ~ ...
 ┃         pc: 279
 ┃         callDepth: EXPECTEDDEPTH_CELL:Int
 ┃         statusCode: STATUSCODE:StatusCode
@@ -1660,7 +1660,7 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
                ~> #next [ STATICCALL ]
                ~> #endPrank )
                ~> #checkRevert
-               ~> #updateRevertOutput 128 32
+               ~> #updateRevertOutput 32 196
                ~> #execute
                ~> _CONTINUATION:K
              </k>
@@ -1857,7 +1857,7 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
                ~> #next [ STATICCALL ]
                ~> #endPrank )
                ~> #checkRevert
-               ~> #updateRevertOutput 128 32
+               ~> #updateRevertOutput 32 196
                ~> #execute
                ~> _CONTINUATION:K
              </k>
@@ -2054,7 +2054,7 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
                ~> #next [ STATICCALL ]
                ~> #endPrank )
                ~> #checkRevert
-               ~> #updateRevertOutput 128 32
+               ~> #updateRevertOutput 32 196
                ~> #execute
                ~> _CONTINUATION:K
              </k>
@@ -2251,7 +2251,7 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
                ~> #next [ STATICCALL ]
                ~> #endPrank )
                ~> #checkRevert
-               ~> #updateRevertOutput 128 32
+               ~> #updateRevertOutput 32 196
                ~> #execute
                ~> _CONTINUATION:K
              </k>
@@ -2649,7 +2649,7 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
                ~> #pc [ STATICCALL ] )
                ~> #endPrank
                ~> #checkRevert
-               ~> #updateRevertOutput 128 32
+               ~> #updateRevertOutput 32 196
                ~> #execute
                ~> _CONTINUATION:K
              </k>
@@ -2852,7 +2852,7 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
                ~> #pc [ STATICCALL ] )
                ~> #endPrank
                ~> #checkRevert
-               ~> #updateRevertOutput 128 32
+               ~> #updateRevertOutput 32 196
                ~> #execute
                ~> _CONTINUATION:K
              </k>
@@ -3054,7 +3054,7 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
                ~> #pc [ STATICCALL ] )
                ~> #endPrank
                ~> #checkRevert
-               ~> #updateRevertOutput 128 32
+               ~> #updateRevertOutput 32 196
                ~> #execute
                ~> _CONTINUATION:K
              </k>
@@ -3255,7 +3255,7 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
                ~> #pc [ STATICCALL ] )
                ~> #endPrank
                ~> #checkRevert
-               ~> #updateRevertOutput 128 32
+               ~> #updateRevertOutput 32 196
                ~> #execute
                ~> _CONTINUATION:K
              </k>
@@ -3456,7 +3456,7 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
                ~> #next [ STATICCALL ]
                ~> #endPrank )
                ~> #checkRevert
-               ~> #updateRevertOutput 128 32
+               ~> #updateRevertOutput 32 196
                ~> #execute
                ~> _CONTINUATION:K
              </k>
@@ -4445,7 +4445,7 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
                ~> #pc [ STATICCALL ] )
                ~> #endPrank
                ~> #checkRevert
-               ~> #updateRevertOutput 128 32
+               ~> #updateRevertOutput 32 196
                ~> #execute
                ~> _CONTINUATION:K
              </k>
@@ -4651,7 +4651,7 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
                ~> #pc [ STATICCALL ] )
                ~> #endPrank
                ~> #checkRevert
-               ~> #updateRevertOutput 128 32
+               ~> #updateRevertOutput 32 196
                ~> #execute
                ~> _CONTINUATION:K
              </k>
@@ -4853,7 +4853,7 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
                ~> #pc [ STATICCALL ] )
                ~> #endPrank
                ~> #checkRevert
-               ~> #updateRevertOutput 128 32
+               ~> #updateRevertOutput 32 196
                ~> #execute
                ~> _CONTINUATION:K
              </k>
@@ -5058,7 +5058,7 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
                ~> #pc [ STATICCALL ] )
                ~> #endPrank
                ~> #checkRevert
-               ~> #updateRevertOutput 128 32
+               ~> #updateRevertOutput 32 196
                ~> #execute
                ~> _CONTINUATION:K
              </k>
@@ -5259,7 +5259,7 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
                ~> #pc [ STATICCALL ] )
                ~> #endPrank
                ~> #checkRevert
-               ~> #updateRevertOutput 128 32
+               ~> #updateRevertOutput 32 196
                ~> #execute
                ~> _CONTINUATION:K
              </k>
@@ -5464,7 +5464,7 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
                ~> #pc [ STATICCALL ] )
                ~> #endPrank
                ~> #checkRevert
-               ~> #updateRevertOutput 128 32
+               ~> #updateRevertOutput 32 196
                ~> #execute
                ~> _CONTINUATION:K
              </k>
@@ -6067,7 +6067,7 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
                ~> #pc [ STATICCALL ] )
                ~> #endPrank
                ~> #checkRevert
-               ~> #updateRevertOutput 128 32
+               ~> #updateRevertOutput 32 196
                ~> #execute
                ~> _CONTINUATION:K
              </k>
@@ -6272,7 +6272,7 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
                ~> #pc [ STATICCALL ] )
                ~> #endPrank
                ~> #checkRevert
-               ~> #updateRevertOutput 128 32
+               ~> #updateRevertOutput 32 196
                ~> #execute
                ~> _CONTINUATION:K
              </k>
@@ -6473,7 +6473,7 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
                ~> #pc [ STATICCALL ] )
                ~> #endPrank
                ~> #checkRevert
-               ~> #updateRevertOutput 128 32
+               ~> #updateRevertOutput 32 196
                ~> #execute
                ~> _CONTINUATION:K
              </k>
@@ -6678,7 +6678,7 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
                ~> #pc [ STATICCALL ] )
                ~> #endPrank
                ~> #checkRevert
-               ~> #updateRevertOutput 128 32
+               ~> #updateRevertOutput 32 196
                ~> #execute
                ~> _CONTINUATION:K
              </k>
@@ -9235,7 +9235,7 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
                ~> #pc [ STATICCALL ] )
                ~> #endPrank
                ~> #checkRevert
-               ~> #updateRevertOutput 128 32
+               ~> #updateRevertOutput 32 196
                ~> #execute
                ~> _CONTINUATION:K
              </k>
@@ -9445,7 +9445,7 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
                ~> #pc [ STATICCALL ] )
                ~> #endPrank
                ~> #checkRevert
-               ~> #updateRevertOutput 128 32
+               ~> #updateRevertOutput 32 196
                ~> #execute
                ~> _CONTINUATION:K
              </k>
