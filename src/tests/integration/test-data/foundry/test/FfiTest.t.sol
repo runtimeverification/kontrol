@@ -4,12 +4,12 @@ pragma solidity =0.8.13;
 import "forge-std/Test.sol";
 
 contract FfiTest is Test {
-    
-    function setUp() public{
-        string memory key = "FOO";
-        string memory val = "0x0000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000000a72756e74696d6556617200000000000000000000000000000000000000000000";
-        vm.setEnv(key, val);
-    }
+    // TODO: uncomment after vm.setEnv is supported
+    // function setUp() public{
+    //     string memory key = "FOO";
+    //     string memory val = "0x0000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000000a72756e74696d6556617200000000000000000000000000000000000000000000";
+    //     vm.setEnv(key, val);
+    // }
 
     function testffi() public {
         string[] memory inputs = new string[](3);
