@@ -330,7 +330,8 @@ class KontrolSemantics(KEVMSemantics):
         """
         if not self.allow_ffi_calls:
             _LOGGER.warning(
-                'ffi calls disabled, vm.ffi() will return a fresh symbolic value. To overwrite this, use --ffi.'
+                'ffi calls disabled, vm.ffi() will return a fresh symbolic value. '
+                'To enable, set FOUNDRY_FFI=true, DAPP_FFI=true, or add "ffi = true" to foundry.toml.'
             )
             return None
 
@@ -507,6 +508,14 @@ class Foundry:
             return self._root / build_info_path
         else:
             return self.out / 'build-info'
+
+    @property
+    def ffi(self) -> bool:
+        if os.getenv('FOUNDRY_FFI', '').lower() in ('true', '1'):
+            return True
+        if os.getenv('DAPP_FFI', '').lower() in ('true', '1'):
+            return True
+        return self.profile.get('ffi', False)
 
     @cached_property
     def kevm(self) -> KEVM:

@@ -343,7 +343,6 @@ class ProveOptions(
     extra_module: str | None
     symbolic_caller: bool
     generate_counterexample: bool
-    ffi: bool
 
     def __init__(self, args: dict[str, Any]) -> None:
         super().__init__(args)
@@ -377,7 +376,6 @@ class ProveOptions(
             'extra_module': None,
             'symbolic_caller': False,
             'generate_counterexample': False,
-            'ffi': False,
         }
 
     @staticmethod
