@@ -1323,15 +1323,10 @@ def foundry_get_model(
     test_id = foundry.get_test_id(options.test, options.version)
     proof = foundry.get_apr_proof(test_id)
 
+    nodes: Iterable[NodeIdLike] = options.nodes
     if not options.nodes:
         _LOGGER.warning('Node ID is not provided. Displaying models of failing and pending nodes:')
-        failing = pending = True
-
-    nodes: Iterable[NodeIdLike] = options.nodes
-    if pending:
-        nodes = list(nodes) + [node.id for node in proof.pending]
-    if failing:
-        nodes = list(nodes) + [node.id for node in proof.failing]
+        nodes = [node.id for node in proof.pending] + [node.id for node in proof.failing]
     nodes = unique(nodes)
 
     res_lines = []
