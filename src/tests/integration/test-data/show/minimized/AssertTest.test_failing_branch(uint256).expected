@@ -4,7 +4,6 @@
 │   pc: 0
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
-│   src: test/nested/SimpleNested.t.sol:7:11
 │   method: test%AssertTest.setUp()
 │
 │  (543 steps)
@@ -13,7 +12,6 @@
 │   pc: 1116
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
-│   src: lib/forge-std/src/StdInvariant.sol:74:74
 │   method: test%AssertTest.test_failing_branch(uint256)
 ┃
 ┃ (branch)
@@ -26,7 +24,6 @@
 ┃  │   pc: 1116
 ┃  │   callDepth: 0
 ┃  │   statusCode: STATUSCODE:StatusCode
-┃  │   src: lib/forge-std/src/StdInvariant.sol:74:74
 ┃  │   method: test%AssertTest.test_failing_branch(uint256)
 ┃  │
 ┃  │  (42 steps)
@@ -35,7 +32,6 @@
 ┃  │   pc: 328
 ┃  │   callDepth: 0
 ┃  │   statusCode: EVMC_SUCCESS
-┃  │   src: lib/kontrol-cheatcodes/src/KontrolCheats.sol:8:8
 ┃  │   method: test%AssertTest.test_failing_branch(uint256)
 ┃  │
 ┃  ┊  constraint: true
@@ -55,7 +51,6 @@
    │   pc: 1116
    │   callDepth: 0
    │   statusCode: STATUSCODE:StatusCode
-   │   src: lib/forge-std/src/StdInvariant.sol:74:74
    │   method: test%AssertTest.test_failing_branch(uint256)
    │
    │  (66 steps)
@@ -292,7 +287,7 @@ Node 16:
 
 
 
-module SUMMARY-TEST%ASSERTTEST.TEST-FAILING-BRANCH(UINT256):0
+module SUMMARY-TEST%ASSERTTEST.TEST-FAILING-BRANCH(UINT256):1
     
     
     rule [BASIC-BLOCK-1-TO-8]: <foundry>
