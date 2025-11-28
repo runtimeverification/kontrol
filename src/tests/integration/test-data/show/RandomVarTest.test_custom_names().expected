@@ -253,6 +253,9 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -366,11 +369,13 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
              </mockFunctions>
            </cheatcodes>
          </foundry>
-      requires ( pow24 <Int NUMBER_CELL:Int
+      requires ( 0 <=Int MIXHASH_CELL:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-               ))))
+       andBool ( MIXHASH_CELL:Int <Int pow256
+               ))))))
        ensures ( ??WORD:Int <Int 2
        andBool ( 0 <=Int ??WORD:Int
                ))
@@ -472,6 +477,9 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -587,11 +595,13 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
          </foundry>
       requires ( ?WORD:Int <Int 2
        andBool ( 0 <=Int ?WORD:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-               ))))))
+       andBool ( MIXHASH_CELL:Int <Int pow256
+               ))))))))
        ensures ( ?BOOLEAN:Int <Int 2
        andBool ( 0 <=Int ?BOOLEAN:Int
                ))
@@ -693,6 +703,9 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -808,11 +821,13 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
          </foundry>
       requires ( BOOLEAN:Int <Int 2
        andBool ( 0 <=Int BOOLEAN:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-               ))))))
+       andBool ( MIXHASH_CELL:Int <Int pow256
+               ))))))))
        ensures ( ??WORD:Int <Int 2
        andBool ( 0 <=Int ??WORD:Int
                ))
@@ -914,6 +929,9 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -1031,11 +1049,13 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
        andBool ( 0 <=Int ?WORD:Int
        andBool ( BOOLEAN:Int <Int 2
        andBool ( 0 <=Int BOOLEAN:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-               ))))))))
+       andBool ( MIXHASH_CELL:Int <Int pow256
+               ))))))))))
        ensures ( ?BOOLEAN_0:Int <Int 2
        andBool ( 0 <=Int ?BOOLEAN_0:Int
                ))
@@ -1136,6 +1156,9 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -1253,11 +1276,13 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
        andBool ( 0 <=Int BOOLEAN:Int
        andBool ( BOOLEAN_0:Int <Int 2
        andBool ( 0 <=Int BOOLEAN_0:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-               ))))))))
+       andBool ( MIXHASH_CELL:Int <Int pow256
+               ))))))))))
        ensures ( BOOLEAN:Int ==Int 1
        andBool ( BOOLEAN_0:Int ==Int 0
                ))
@@ -1359,6 +1384,9 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -1474,11 +1502,13 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
          </foundry>
       requires ( _BOOLEAN:Int ==Int 1
        andBool ( _BOOLEAN_0:Int ==Int 0
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-               ))))))
+       andBool ( MIXHASH_CELL:Int <Int pow256
+               ))))))))
        ensures ( 0 <=Int ??WORD:Int
        andBool ( ??WORD:Int <Int pow256
                ))
@@ -1580,6 +1610,9 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -1696,12 +1729,14 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
       requires ( _BOOLEAN:Int ==Int 1
        andBool ( _BOOLEAN_0:Int ==Int 0
        andBool ( 0 <=Int ?WORD:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( ?WORD:Int <Int pow256
-               ))))))))
+       andBool ( MIXHASH_CELL:Int <Int pow256
+               ))))))))))
        ensures ( 0 <=Int ?NEW_SLOT:Int
        andBool ( ?NEW_SLOT:Int <Int pow256
                ))
@@ -1803,6 +1838,9 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -1919,12 +1957,14 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
       requires ( _BOOLEAN:Int ==Int 1
        andBool ( _BOOLEAN_0:Int ==Int 0
        andBool ( 0 <=Int NEW_SLOT:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( NEW_SLOT:Int <Int pow256
-               ))))))))
+       andBool ( MIXHASH_CELL:Int <Int pow256
+               ))))))))))
        ensures ( 0 <=Int ??WORD:Int
        andBool ( ??WORD:Int <Int pow160
        andBool ( ??WORD:Int =/=Int #address ( FoundryCheat )
@@ -2028,6 +2068,9 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -2145,15 +2188,17 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
        andBool ( _BOOLEAN_0:Int ==Int 0
        andBool ( 0 <=Int ?WORD:Int
        andBool ( 0 <=Int NEW_SLOT:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( ?WORD:Int <Int pow160
        andBool ( NEW_SLOT:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( ?WORD:Int =/=Int #address ( FoundryCheat )
        andBool ( ?WORD:Int =/=Int #address ( FoundryTest )
-               ))))))))))))
+               ))))))))))))))
        ensures ( 0 <=Int ?NEW_ACCOUNT:Int
        andBool ( ?NEW_ACCOUNT:Int <Int pow160
        andBool ( ?NEW_ACCOUNT:Int =/=Int #address ( FoundryCheat )
@@ -2258,6 +2303,9 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -2416,15 +2464,17 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
        andBool ( _BOOLEAN_0:Int ==Int 0
        andBool ( 0 <=Int NEW_SLOT:Int
        andBool ( 0 <=Int NEW_ACCOUNT:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( NEW_ACCOUNT:Int <Int pow160
        andBool ( NEW_SLOT:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( NEW_ACCOUNT:Int =/=Int #address ( FoundryCheat )
        andBool ( NEW_ACCOUNT:Int =/=Int #address ( FoundryTest )
-               ))))))))))))
+               ))))))))))))))
       [priority(20), label(BASIC-BLOCK-11-TO-12)]
     
     rule [BASIC-BLOCK-12-TO-13]: <foundry>
@@ -2523,6 +2573,9 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -2661,15 +2714,17 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
        andBool ( _BOOLEAN_0:Int ==Int 0
        andBool ( 0 <=Int NEW_SLOT:Int
        andBool ( 0 <=Int NEW_ACCOUNT:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( NEW_ACCOUNT:Int <Int pow160
        andBool ( NEW_SLOT:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( NEW_ACCOUNT:Int =/=Int #address ( FoundryCheat )
        andBool ( NEW_ACCOUNT:Int =/=Int #address ( FoundryTest )
-               ))))))))))))
+               ))))))))))))))
       [priority(20), label(BASIC-BLOCK-12-TO-13)]
     
     rule [BASIC-BLOCK-13-TO-14]: <foundry>
@@ -2769,6 +2824,9 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -2907,15 +2965,17 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
        andBool ( _BOOLEAN_0:Int ==Int 0
        andBool ( 0 <=Int NEW_SLOT:Int
        andBool ( 0 <=Int NEW_ACCOUNT:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( NEW_ACCOUNT:Int <Int pow160
        andBool ( NEW_SLOT:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( NEW_ACCOUNT:Int =/=Int #address ( FoundryCheat )
        andBool ( NEW_ACCOUNT:Int =/=Int #address ( FoundryTest )
-               ))))))))))))
+               ))))))))))))))
        ensures 32 ==Int lengthBytes ( ??BYTES:Bytes )
       [priority(20), label(BASIC-BLOCK-13-TO-14)]
     
@@ -3015,6 +3075,9 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -3153,16 +3216,18 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
        andBool ( _BOOLEAN_0:Int ==Int 0
        andBool ( 0 <=Int NEW_SLOT:Int
        andBool ( 0 <=Int NEW_ACCOUNT:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( NEW_ACCOUNT:Int <Int pow160
        andBool ( NEW_SLOT:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( 32 ==Int lengthBytes ( ?BYTES:Bytes )
        andBool ( NEW_ACCOUNT:Int =/=Int #address ( FoundryCheat )
        andBool ( NEW_ACCOUNT:Int =/=Int #address ( FoundryTest )
-               )))))))))))))
+               )))))))))))))))
        ensures 32 ==Int lengthBytes ( ?NEW_BYTES:Bytes )
       [priority(20), label(BASIC-BLOCK-14-TO-15)]
     
@@ -3262,6 +3327,9 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -3400,16 +3468,18 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
        andBool ( _BOOLEAN_0:Int ==Int 0
        andBool ( 0 <=Int NEW_SLOT:Int
        andBool ( 0 <=Int NEW_ACCOUNT:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( NEW_ACCOUNT:Int <Int pow160
        andBool ( NEW_SLOT:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( 32 ==Int lengthBytes ( NEW_BYTES:Bytes )
        andBool ( NEW_ACCOUNT:Int =/=Int #address ( FoundryCheat )
        andBool ( NEW_ACCOUNT:Int =/=Int #address ( FoundryTest )
-               )))))))))))))
+               )))))))))))))))
       [priority(20), label(BASIC-BLOCK-15-TO-16)]
     
     rule [BASIC-BLOCK-16-TO-17]: <foundry>
@@ -3510,6 +3580,9 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -3648,16 +3721,18 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
        andBool ( _BOOLEAN_0:Int ==Int 0
        andBool ( 0 <=Int NEW_SLOT:Int
        andBool ( 0 <=Int NEW_ACCOUNT:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( NEW_ACCOUNT:Int <Int pow160
        andBool ( NEW_SLOT:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( 32 ==Int lengthBytes ( NEW_BYTES:Bytes )
        andBool ( NEW_ACCOUNT:Int =/=Int #address ( FoundryCheat )
        andBool ( NEW_ACCOUNT:Int =/=Int #address ( FoundryTest )
-               )))))))))))))
+               )))))))))))))))
       [priority(20), label(BASIC-BLOCK-16-TO-17)]
 
 endmodule
