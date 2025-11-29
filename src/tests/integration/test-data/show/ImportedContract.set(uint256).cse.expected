@@ -150,6 +150,9 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.SET(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -217,6 +220,7 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.SET(UINT256):0
       requires ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 0 <=Int C_IMPORTEDCONTRACT_ID:Int
@@ -232,6 +236,7 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.SET(UINT256):0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( C_IMPORTEDCONTRACT_ID:Int <Int pow160
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IMPORTEDCONTRACT_BAL:Int <Int pow256
        andBool ( ( notBool <acctID>
           C_IMPORTEDCONTRACT_ID:Int
@@ -246,7 +251,7 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.SET(UINT256):0
        andBool ( ( C_IMPORTEDCONTRACT_ID:Int <=Int 0
           orBool ( 10 <Int C_IMPORTEDCONTRACT_ID:Int
                  ))
-               ))))))))))))))))))))))))
+               ))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-8-TO-6)]
     
     rule [BASIC-BLOCK-9-TO-7]: <foundry>
@@ -321,6 +326,9 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.SET(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -388,6 +396,7 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.SET(UINT256):0
       requires ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 0 <=Int C_IMPORTEDCONTRACT_ID:Int
@@ -403,6 +412,7 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.SET(UINT256):0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( C_IMPORTEDCONTRACT_ID:Int <Int pow160
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IMPORTEDCONTRACT_BAL:Int <Int pow256
        andBool ( ( notBool <acctID>
           C_IMPORTEDCONTRACT_ID:Int
@@ -417,7 +427,7 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.SET(UINT256):0
        andBool ( ( C_IMPORTEDCONTRACT_ID:Int <=Int 0
           orBool ( 10 <Int C_IMPORTEDCONTRACT_ID:Int
                  ))
-               ))))))))))))))))))))))))
+               ))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-9-TO-7)]
 
 endmodule

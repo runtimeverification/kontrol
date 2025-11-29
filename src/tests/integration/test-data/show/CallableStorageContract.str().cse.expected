@@ -149,6 +149,9 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -217,6 +220,7 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
       requires ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ==Int 0
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
@@ -235,6 +239,7 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
        andBool ( C_CALLABLESTORAGECONTRACT_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ( notBool 1 in_keys ( C_CALLABLESTORAGECONTRACT_STORAGE:Map ) )
        andBool ( C_CALLABLESTORAGECONTRACT_ID:Int <Int pow160
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_CALLABLESTORAGECONTRACT_BAL:Int <Int pow256
        andBool ( ( notBool <acctID>
           C_CALLABLESTORAGECONTRACT_ID:Int
@@ -248,7 +253,7 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
        andBool ( ( C_CALLABLESTORAGECONTRACT_ID:Int <=Int 0
           orBool ( 10 <Int C_CALLABLESTORAGECONTRACT_ID:Int
                  ))
-               ))))))))))))))))))))))))))
+               ))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-8-TO-6)]
     
     rule [BASIC-BLOCK-9-TO-7]: <foundry>
@@ -320,6 +325,9 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -387,6 +395,7 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int =/=Int 0
@@ -406,6 +415,7 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
        andBool ( C_CALLABLESTORAGECONTRACT_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ( notBool 1 in_keys ( C_CALLABLESTORAGECONTRACT_STORAGE:Map ) )
        andBool ( C_CALLABLESTORAGECONTRACT_ID:Int <Int pow160
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_CALLABLESTORAGECONTRACT_BAL:Int <Int pow256
        andBool ( ( notBool <acctID>
           C_CALLABLESTORAGECONTRACT_ID:Int
@@ -419,7 +429,7 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
        andBool ( ( C_CALLABLESTORAGECONTRACT_ID:Int <=Int 0
           orBool ( 10 <Int C_CALLABLESTORAGECONTRACT_ID:Int
                  ))
-               ))))))))))))))))))))))))))
+               ))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-9-TO-7)]
 
 endmodule

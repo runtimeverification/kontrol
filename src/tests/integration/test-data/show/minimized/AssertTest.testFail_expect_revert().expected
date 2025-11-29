@@ -123,6 +123,9 @@ Node 20:
             <timestamp>
               TIMESTAMP_CELL:Int
             </timestamp>
+            <mixHash>
+              MIXHASH_CELL:Int
+            </mixHash>
             ...
           </block>
           ...
@@ -243,10 +246,12 @@ Node 20:
   </foundry>
   ...
 </generatedTop>
+#And ( { true #Equals 0 <=Int MIXHASH_CELL:Int }
 #And ( { true #Equals pow24 <Int NUMBER_CELL:Int }
 #And ( { true #Equals NUMBER_CELL:Int <Int pow32 }
 #And ( { true #Equals 1073741824 <Int TIMESTAMP_CELL:Int }
-#And { true #Equals TIMESTAMP_CELL:Int <Int 34359738368 } ) ) ) )
+#And ( { true #Equals TIMESTAMP_CELL:Int <Int 34359738368 }
+#And { true #Equals MIXHASH_CELL:Int <Int pow256 } ) ) ) ) ) )
 
 
 
@@ -349,6 +354,9 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -467,11 +475,13 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
              </mockFunctions>
            </cheatcodes>
          </foundry>
-      requires ( pow24 <Int NUMBER_CELL:Int
+      requires ( 0 <=Int MIXHASH_CELL:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-               ))))
+       andBool ( MIXHASH_CELL:Int <Int pow256
+               ))))))
       [priority(20), label(BASIC-BLOCK-1-TO-20)]
 
 endmodule
@@ -483,13 +493,16 @@ Failing nodes:
   Failure reason:
     Matching failed.
     The remaining implication is:
-    { true #Equals pow24 <Int NUMBER_CELL:Int }
+    { true #Equals 0 <=Int MIXHASH_CELL:Int }
+    #And { true #Equals pow24 <Int NUMBER_CELL:Int }
     #And { true #Equals NUMBER_CELL:Int <Int pow32 }
     #And { true #Equals 1073741824 <Int TIMESTAMP_CELL:Int }
-    #And { true #Equals TIMESTAMP_CELL:Int <Int 34359738368 } #Implies { false #Equals foundry_success ( ... statusCode: EVMC_SUCCESS , failed: #lookup ( .Map , 46308022326495007027972728677917914892729792999299745830475596687180801507328 ) , revertExpected: false , opcodeExpected: false , recordEventExpected: false , eventExpected: false ) }
+    #And { true #Equals TIMESTAMP_CELL:Int <Int 34359738368 }
+    #And { true #Equals MIXHASH_CELL:Int <Int pow256 } #Implies { false #Equals foundry_success ( ... statusCode: EVMC_SUCCESS , failed: #lookup ( .Map , 46308022326495007027972728677917914892729792999299745830475596687180801507328 ) , revertExpected: false , opcodeExpected: false , recordEventExpected: false , eventExpected: false ) }
   Path condition:
     #Top
   Model:
+    MIXHASH_CELL = 0
     NUMBER_CELL = 16777217
     TIMESTAMP_CELL = 1073741825
 

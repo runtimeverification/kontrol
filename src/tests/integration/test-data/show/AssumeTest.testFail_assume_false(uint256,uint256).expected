@@ -157,6 +157,9 @@ Node 7:
             <timestamp>
               TIMESTAMP_CELL:Int
             </timestamp>
+            <mixHash>
+              MIXHASH_CELL:Int
+            </mixHash>
             ...
           </block>
           ...
@@ -274,11 +277,13 @@ Node 7:
 </generatedTop>
 #And ( { KV0_a:Int #Equals KV1_b:Int }
 #And ( { true #Equals 0 <=Int KV1_b:Int }
+#And ( { true #Equals 0 <=Int MIXHASH_CELL:Int }
 #And ( { true #Equals pow24 <Int NUMBER_CELL:Int }
 #And ( { true #Equals NUMBER_CELL:Int <Int pow32 }
 #And ( { true #Equals 1073741824 <Int TIMESTAMP_CELL:Int }
 #And ( { true #Equals TIMESTAMP_CELL:Int <Int 34359738368 }
-#And { true #Equals KV1_b:Int <Int pow256 } ) ) ) ) ) ) )
+#And ( { true #Equals KV1_b:Int <Int pow256 }
+#And { true #Equals MIXHASH_CELL:Int <Int pow256 } ) ) ) ) ) ) ) ) )
 
 
 
@@ -380,6 +385,9 @@ module SUMMARY-TEST%ASSUMETEST.TESTFAIL-ASSUME-FALSE(UINT256,UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -495,13 +503,15 @@ module SUMMARY-TEST%ASSUMETEST.TESTFAIL-ASSUME-FALSE(UINT256,UINT256):0
          </foundry>
       requires ( 0 <=Int KV0_a:Int
        andBool ( 0 <=Int KV1_b:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( KV0_a:Int <Int pow256
        andBool ( KV1_b:Int <Int pow256
-               ))))))))
+       andBool ( MIXHASH_CELL:Int <Int pow256
+               ))))))))))
       [priority(20), label(BASIC-BLOCK-1-TO-3)]
     
     rule [BASIC-BLOCK-3-TO-4]: <foundry>
@@ -602,6 +612,9 @@ module SUMMARY-TEST%ASSUMETEST.TESTFAIL-ASSUME-FALSE(UINT256,UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -717,13 +730,15 @@ module SUMMARY-TEST%ASSUMETEST.TESTFAIL-ASSUME-FALSE(UINT256,UINT256):0
          </foundry>
       requires ( 0 <=Int KV0_a:Int
        andBool ( 0 <=Int KV1_b:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( KV0_a:Int <Int pow256
        andBool ( KV1_b:Int <Int pow256
-               ))))))))
+       andBool ( MIXHASH_CELL:Int <Int pow256
+               ))))))))))
       [priority(20), label(BASIC-BLOCK-3-TO-4)]
     
     rule [BASIC-BLOCK-4-TO-5]: <foundry>
@@ -825,6 +840,9 @@ module SUMMARY-TEST%ASSUMETEST.TESTFAIL-ASSUME-FALSE(UINT256,UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -940,13 +958,15 @@ module SUMMARY-TEST%ASSUMETEST.TESTFAIL-ASSUME-FALSE(UINT256,UINT256):0
          </foundry>
       requires ( 0 <=Int KV0_a:Int
        andBool ( 0 <=Int KV1_b:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( KV0_a:Int <Int pow256
        andBool ( KV1_b:Int <Int pow256
-               ))))))))
+       andBool ( MIXHASH_CELL:Int <Int pow256
+               ))))))))))
        ensures KV0_a:Int ==Int KV1_b:Int
       [priority(20), label(BASIC-BLOCK-4-TO-5)]
     
@@ -1048,6 +1068,9 @@ module SUMMARY-TEST%ASSUMETEST.TESTFAIL-ASSUME-FALSE(UINT256,UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -1163,12 +1186,14 @@ module SUMMARY-TEST%ASSUMETEST.TESTFAIL-ASSUME-FALSE(UINT256,UINT256):0
          </foundry>
       requires ( _KV0_a:Int ==Int KV1_b:Int
        andBool ( 0 <=Int KV1_b:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( KV1_b:Int <Int pow256
-               )))))))
+       andBool ( MIXHASH_CELL:Int <Int pow256
+               )))))))))
       [priority(20), label(BASIC-BLOCK-5-TO-6)]
     
     rule [BASIC-BLOCK-6-TO-7]: <foundry>
@@ -1269,6 +1294,9 @@ module SUMMARY-TEST%ASSUMETEST.TESTFAIL-ASSUME-FALSE(UINT256,UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -1384,12 +1412,14 @@ module SUMMARY-TEST%ASSUMETEST.TESTFAIL-ASSUME-FALSE(UINT256,UINT256):0
          </foundry>
       requires ( _KV0_a:Int ==Int KV1_b:Int
        andBool ( 0 <=Int KV1_b:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( KV1_b:Int <Int pow256
-               )))))))
+       andBool ( MIXHASH_CELL:Int <Int pow256
+               )))))))))
       [priority(20), label(BASIC-BLOCK-6-TO-7)]
 
 endmodule
@@ -1403,16 +1433,19 @@ Failing nodes:
     The remaining implication is:
     { KV0_a:Int #Equals KV1_b:Int }
     #And { true #Equals 0 <=Int KV1_b:Int }
+    #And { true #Equals 0 <=Int MIXHASH_CELL:Int }
     #And { true #Equals pow24 <Int NUMBER_CELL:Int }
     #And { true #Equals NUMBER_CELL:Int <Int pow32 }
     #And { true #Equals 1073741824 <Int TIMESTAMP_CELL:Int }
     #And { true #Equals TIMESTAMP_CELL:Int <Int 34359738368 }
-    #And { true #Equals KV1_b:Int <Int pow256 } #Implies { false #Equals foundry_success ( ... statusCode: EVMC_SUCCESS , failed: #lookup ( .Map , 46308022326495007027972728677917914892729792999299745830475596687180801507328 ) , revertExpected: false , opcodeExpected: false , recordEventExpected: false , eventExpected: false ) }
+    #And { true #Equals KV1_b:Int <Int pow256 }
+    #And { true #Equals MIXHASH_CELL:Int <Int pow256 } #Implies { false #Equals foundry_success ( ... statusCode: EVMC_SUCCESS , failed: #lookup ( .Map , 46308022326495007027972728677917914892729792999299745830475596687180801507328 ) , revertExpected: false , opcodeExpected: false , recordEventExpected: false , eventExpected: false ) }
   Path condition:
     #Top
   Model:
     KV0_a = 0
     KV1_b = 0
+    MIXHASH_CELL = 0
     NUMBER_CELL = 16777217
     TIMESTAMP_CELL = 1073741825
 
