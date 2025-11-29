@@ -306,6 +306,7 @@ def replace_k_words(text: str) -> str:
         '#Equals': '==',
         'NUMBER_CELL': 'block.number',
         'TIMESTAMP_CELL': 'block.timestamp',
+        'MIXHASH_CELL': 'block.prevrandao',
         ':Int': '',
         ':Bytes': '',
     }
