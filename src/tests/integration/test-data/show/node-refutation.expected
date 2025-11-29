@@ -193,6 +193,9 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE-BRANCH(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -306,11 +309,13 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE-BRANCH(UINT256):0
              </mockFunctions>
            </cheatcodes>
          </foundry>
-      requires ( pow24 <Int NUMBER_CELL:Int
+      requires ( 0 <=Int MIXHASH_CELL:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-               ))))
+       andBool ( MIXHASH_CELL:Int <Int pow256
+               ))))))
       [priority(20), label(BASIC-BLOCK-1-TO-5)]
     
     rule [BASIC-BLOCK-5-TO-6]: <foundry>
@@ -409,6 +414,9 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE-BRANCH(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -522,11 +530,13 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE-BRANCH(UINT256):0
              </mockFunctions>
            </cheatcodes>
          </foundry>
-      requires ( pow24 <Int NUMBER_CELL:Int
+      requires ( 0 <=Int MIXHASH_CELL:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-               ))))
+       andBool ( MIXHASH_CELL:Int <Int pow256
+               ))))))
        ensures ( 0 <=Int ?KV0_x:Int
        andBool ( ?KV0_x:Int <Int pow256
                ))
@@ -627,6 +637,9 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE-BRANCH(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -741,12 +754,14 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE-BRANCH(UINT256):0
            </cheatcodes>
          </foundry>
       requires ( 0 <=Int KV0_x:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( KV0_x:Int <Int pow256
-               ))))))
+       andBool ( MIXHASH_CELL:Int <Int pow256
+               ))))))))
       [priority(20), label(BASIC-BLOCK-6-TO-8)]
     
     rule [BASIC-BLOCK-10-TO-17]: <foundry>
@@ -845,6 +860,9 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE-BRANCH(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -960,12 +978,14 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE-BRANCH(UINT256):0
          </foundry>
       requires ( KV0_x:Int <Int 3
        andBool ( 0 <=Int KV0_x:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( KV0_x:Int <Int pow256
-               )))))))
+       andBool ( MIXHASH_CELL:Int <Int pow256
+               )))))))))
       [priority(20), label(BASIC-BLOCK-10-TO-17)]
     
     rule [BASIC-BLOCK-17-TO-18]: <foundry>
@@ -1066,6 +1086,9 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE-BRANCH(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -1181,12 +1204,14 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE-BRANCH(UINT256):0
          </foundry>
       requires ( KV0_x:Int <Int 3
        andBool ( 0 <=Int KV0_x:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( KV0_x:Int <Int pow256
-               )))))))
+       andBool ( MIXHASH_CELL:Int <Int pow256
+               )))))))))
       [priority(20), label(BASIC-BLOCK-17-TO-18)]
     
     rule [BASIC-BLOCK-18-TO-19]: <foundry>
@@ -1287,6 +1312,9 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE-BRANCH(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -1402,12 +1430,14 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE-BRANCH(UINT256):0
          </foundry>
       requires ( KV0_x:Int <Int 3
        andBool ( 0 <=Int KV0_x:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( KV0_x:Int <Int pow256
-               )))))))
+       andBool ( MIXHASH_CELL:Int <Int pow256
+               )))))))))
       [priority(20), label(BASIC-BLOCK-18-TO-19)]
 
 endmodule

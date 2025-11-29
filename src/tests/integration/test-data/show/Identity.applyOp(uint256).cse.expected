@@ -1363,6 +1363,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -1427,6 +1430,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
       requires ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -1442,6 +1446,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( C_IDENTITY_ID:Int <Int pow160
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
@@ -1455,7 +1460,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( C_IDENTITY_ID:Int <=Int 0
           orBool ( 10 <Int C_IDENTITY_ID:Int
                  ))
-               )))))))))))))))))))))))
+               )))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-1-TO-3)]
     
     rule [BASIC-BLOCK-6-TO-12]: <foundry>
@@ -1527,6 +1532,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -1612,6 +1620,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
       requires ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -1624,6 +1633,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( C_IDENTITY_ID:Int <Int pow160
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -1642,7 +1652,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                  ))
        andBool ( ( notBool ( CALLDEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
        andBool ( ( notBool ( ACTIVE_CELL:Bool andBool ( CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int andBool NEWCALLER_CELL:Account =/=K C_IDENTITY_ID:Int ) ) )
-               )))))))))))))))))))))))))
+               )))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-6-TO-12)]
     
     rule [BASIC-BLOCK-7-TO-13]: <foundry>
@@ -1716,6 +1726,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -1805,6 +1818,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -1818,6 +1832,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( C_IDENTITY_ID:Int <Int pow160
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -1834,7 +1849,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( C_IDENTITY_ID:Int <=Int 0
           orBool ( 10 <Int C_IDENTITY_ID:Int
                  ))
-               ))))))))))))))))))))))))))))
+               ))))))))))))))))))))))))))))))
        ensures NEWCALLER_CELL:Account ~> .K =/=K C_IDENTITY_ID:Int ~> .K
       [priority(20), label(BASIC-BLOCK-7-TO-13)]
     
@@ -1909,6 +1924,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -1998,6 +2016,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -2011,6 +2030,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( C_IDENTITY_ID:Int <Int pow160
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -2027,7 +2047,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( C_IDENTITY_ID:Int <=Int 0
           orBool ( 10 <Int C_IDENTITY_ID:Int
                  ))
-               ))))))))))))))))))))))))))))
+               ))))))))))))))))))))))))))))))
        ensures NEWCALLER_CELL:Account ~> .K =/=K C_IDENTITY_ID:Int ~> .K
       [priority(20), label(BASIC-BLOCK-14-TO-25)]
     
@@ -2102,6 +2122,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -2191,6 +2214,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -2204,6 +2228,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( C_IDENTITY_ID:Int <Int pow160
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -2220,7 +2245,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( C_IDENTITY_ID:Int <=Int 0
           orBool ( 10 <Int C_IDENTITY_ID:Int
                  ))
-               ))))))))))))))))))))))))))))
+               ))))))))))))))))))))))))))))))
        ensures NEWCALLER_CELL:Account ~> .K =/=K C_IDENTITY_ID:Int ~> .K
       [priority(20), label(BASIC-BLOCK-26-TO-44)]
     
@@ -2295,6 +2320,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -2384,6 +2412,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -2397,6 +2426,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( C_IDENTITY_ID:Int <Int pow160
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -2413,7 +2443,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( C_IDENTITY_ID:Int <=Int 0
           orBool ( 10 <Int C_IDENTITY_ID:Int
                  ))
-               ))))))))))))))))))))))))))))
+               ))))))))))))))))))))))))))))))
        ensures NEWCALLER_CELL:Account ~> .K =/=K C_IDENTITY_ID:Int ~> .K
       [priority(20), label(BASIC-BLOCK-45-TO-75)]
     
@@ -2486,6 +2516,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -2578,6 +2611,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -2594,6 +2628,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( _NOG1:Int =/=Int NOG2:Int
        andBool ( C_IDENTITY_ID:Int =/=Int NCL:Int
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -2611,7 +2646,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
           orBool ( 10 <Int C_IDENTITY_ID:Int
                  ))
        andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
-               ))))))))))))))))))))))))))))))))
+               ))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-56-TO-91)]
     
     rule [BASIC-BLOCK-66-TO-106]: <foundry>
@@ -2685,6 +2720,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -2779,6 +2817,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -2794,6 +2833,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( _NOG0:Int =/=Int NOG1:Int
        andBool ( C_IDENTITY_ID:Int =/=Int NCL:Int
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -2810,7 +2850,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( C_IDENTITY_ID:Int <=Int 0
           orBool ( 10 <Int C_IDENTITY_ID:Int
                  ))
-               ))))))))))))))))))))))))))))))))
+               ))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-66-TO-106)]
     
     rule [BASIC-BLOCK-70-TO-113]: <foundry>
@@ -2884,6 +2924,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -2978,6 +3021,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -2992,6 +3036,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( _NOG:Int =/=Int NOG0:Int
        andBool ( C_IDENTITY_ID:Int =/=Int NCL:Int
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -3008,7 +3053,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( C_IDENTITY_ID:Int <=Int 0
           orBool ( 10 <Int C_IDENTITY_ID:Int
                  ))
-               )))))))))))))))))))))))))))))))
+               )))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-70-TO-113)]
     
     rule [BASIC-BLOCK-72-TO-116]: <foundry>
@@ -3082,6 +3127,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -3176,6 +3224,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -3189,6 +3238,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( C_IDENTITY_ID:Int <Int pow160
        andBool ( C_IDENTITY_ID:Int =/=Int NCL:Int
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -3205,7 +3255,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( C_IDENTITY_ID:Int <=Int 0
           orBool ( 10 <Int C_IDENTITY_ID:Int
                  ))
-               ))))))))))))))))))))))))))))))
+               ))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-72-TO-116)]
     
     rule [BASIC-BLOCK-73-TO-117]: <foundry>
@@ -3279,6 +3329,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -3373,6 +3426,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -3386,6 +3440,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( C_IDENTITY_ID:Int <Int pow160
        andBool ( C_IDENTITY_ID:Int =/=Int NCL:Int
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -3402,7 +3457,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( C_IDENTITY_ID:Int <=Int 0
           orBool ( 10 <Int C_IDENTITY_ID:Int
                  ))
-               ))))))))))))))))))))))))))))))
+               ))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-73-TO-117)]
     
     rule [BASIC-BLOCK-76-TO-123]: <foundry>
@@ -3476,6 +3531,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -3565,6 +3623,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -3578,6 +3637,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( C_IDENTITY_ID:Int <Int pow160
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -3594,7 +3654,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( C_IDENTITY_ID:Int <=Int 0
           orBool ( 10 <Int C_IDENTITY_ID:Int
                  ))
-               ))))))))))))))))))))))))))))
+               ))))))))))))))))))))))))))))))
        ensures NEWCALLER_CELL:Account ~> .K =/=K C_IDENTITY_ID:Int ~> .K
       [priority(20), label(BASIC-BLOCK-76-TO-123)]
     
@@ -3667,6 +3727,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -3760,6 +3823,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -3775,6 +3839,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( _NOG0:Int =/=Int NOG1:Int
        andBool ( C_IDENTITY_ID:Int =/=Int NCL:Int
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -3795,7 +3860,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
           orBool ( 10 <Int C_IDENTITY_ID:Int
                  ))
        andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
-               )))))))))))))))))))))))))))))))))
+               )))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-138-TO-89)]
     
     rule [BASIC-BLOCK-139-TO-90]: <foundry>
@@ -3867,6 +3932,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -3959,6 +4027,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -3974,6 +4043,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( _NOG0:Int =/=Int NOG1:Int
        andBool ( C_IDENTITY_ID:Int =/=Int NCL:Int
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -3991,7 +4061,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
           orBool ( 10 <Int C_IDENTITY_ID:Int
                  ))
        andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
-               )))))))))))))))))))))))))))))))
+               )))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-139-TO-90)]
     
     rule [BASIC-BLOCK-140-TO-94]: <foundry>
@@ -4070,6 +4140,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -4156,6 +4229,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -4166,6 +4240,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -4181,7 +4256,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                  ))
        andBool ( ( notBool ( CALLDEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
        andBool ( ( notBool ( ACTIVE_CELL:Bool andBool ( CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int andBool NEWCALLER_CELL:Account =/=K #address ( FoundryConsole ) ) ) )
-               )))))))))))))))))))))))
+               )))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-140-TO-94)]
     
     rule [BASIC-BLOCK-141-TO-95]: <foundry>
@@ -4260,6 +4335,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -4346,6 +4424,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -4356,6 +4435,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -4371,7 +4451,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( (chop ( lengthBytes ( OUTPUT_CELL:Bytes ) )) s<Word (32) ) =/=Int 0
        andBool ( ( notBool ( CALLDEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
        andBool ( ( notBool ( ACTIVE_CELL:Bool andBool ( CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int andBool NEWCALLER_CELL:Account =/=K #address ( FoundryConsole ) ) ) )
-               )))))))))))))))))))))))
+               )))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-141-TO-95)]
     
     rule [BASIC-BLOCK-142-TO-104]: <foundry>
@@ -4445,6 +4525,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -4540,6 +4623,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -4554,6 +4638,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( _NOG:Int =/=Int NOG0:Int
        andBool ( C_IDENTITY_ID:Int =/=Int NCL:Int
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -4573,7 +4658,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( C_IDENTITY_ID:Int <=Int 0
           orBool ( 10 <Int C_IDENTITY_ID:Int
                  ))
-               )))))))))))))))))))))))))))))))))
+               )))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-142-TO-104)]
     
     rule [BASIC-BLOCK-143-TO-105]: <foundry>
@@ -4647,6 +4732,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -4741,6 +4829,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -4755,6 +4844,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( _NOG:Int =/=Int NOG0:Int
        andBool ( C_IDENTITY_ID:Int =/=Int NCL:Int
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -4771,7 +4861,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( C_IDENTITY_ID:Int <=Int 0
           orBool ( 10 <Int C_IDENTITY_ID:Int
                  ))
-               )))))))))))))))))))))))))))))))
+               )))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-143-TO-105)]
     
     rule [BASIC-BLOCK-144-TO-109]: <foundry>
@@ -4845,6 +4935,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -4940,6 +5033,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -4953,6 +5047,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( C_IDENTITY_ID:Int <Int pow160
        andBool ( C_IDENTITY_ID:Int =/=Int NCL:Int
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -4972,7 +5067,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( C_IDENTITY_ID:Int <=Int 0
           orBool ( 10 <Int C_IDENTITY_ID:Int
                  ))
-               ))))))))))))))))))))))))))))))))
+               ))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-144-TO-109)]
     
     rule [BASIC-BLOCK-145-TO-110]: <foundry>
@@ -5046,6 +5141,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -5140,6 +5238,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -5153,6 +5252,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( C_IDENTITY_ID:Int <Int pow160
        andBool ( C_IDENTITY_ID:Int =/=Int NCL:Int
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -5169,7 +5269,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( C_IDENTITY_ID:Int <=Int 0
           orBool ( 10 <Int C_IDENTITY_ID:Int
                  ))
-               ))))))))))))))))))))))))))))))
+               ))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-145-TO-110)]
     
     rule [BASIC-BLOCK-146-TO-111]: <foundry>
@@ -5243,6 +5343,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -5338,6 +5441,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -5351,6 +5455,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( C_IDENTITY_ID:Int <Int pow160
        andBool ( C_IDENTITY_ID:Int =/=Int NCL:Int
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -5370,7 +5475,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( C_IDENTITY_ID:Int <=Int 0
           orBool ( 10 <Int C_IDENTITY_ID:Int
                  ))
-               ))))))))))))))))))))))))))))))))
+               ))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-146-TO-111)]
     
     rule [BASIC-BLOCK-147-TO-112]: <foundry>
@@ -5444,6 +5549,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -5538,6 +5646,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -5551,6 +5660,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( C_IDENTITY_ID:Int <Int pow160
        andBool ( C_IDENTITY_ID:Int =/=Int NCL:Int
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -5567,7 +5677,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( C_IDENTITY_ID:Int <=Int 0
           orBool ( 10 <Int C_IDENTITY_ID:Int
                  ))
-               ))))))))))))))))))))))))))))))
+               ))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-147-TO-112)]
     
     rule [BASIC-BLOCK-152-TO-87]: <foundry>
@@ -5639,6 +5749,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -5732,6 +5845,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -5746,6 +5860,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( _NOG:Int =/=Int NOG0:Int
        andBool ( C_IDENTITY_ID:Int =/=Int NCL:Int
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -5766,7 +5881,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
           orBool ( 10 <Int C_IDENTITY_ID:Int
                  ))
        andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
-               ))))))))))))))))))))))))))))))))
+               ))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-152-TO-87)]
     
     rule [BASIC-BLOCK-153-TO-88]: <foundry>
@@ -5838,6 +5953,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -5930,6 +6048,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -5944,6 +6063,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( _NOG:Int =/=Int NOG0:Int
        andBool ( C_IDENTITY_ID:Int =/=Int NCL:Int
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -5961,7 +6081,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
           orBool ( 10 <Int C_IDENTITY_ID:Int
                  ))
        andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
-               ))))))))))))))))))))))))))))))
+               ))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-153-TO-88)]
     
     rule [BASIC-BLOCK-154-TO-99]: <foundry>
@@ -6035,6 +6155,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -6130,6 +6253,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -6143,6 +6267,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( C_IDENTITY_ID:Int <Int pow160
        andBool ( C_IDENTITY_ID:Int =/=Int NCL:Int
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -6162,7 +6287,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( C_IDENTITY_ID:Int <=Int 0
           orBool ( 10 <Int C_IDENTITY_ID:Int
                  ))
-               ))))))))))))))))))))))))))))))))
+               ))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-154-TO-99)]
     
     rule [BASIC-BLOCK-155-TO-100]: <foundry>
@@ -6236,6 +6361,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -6330,6 +6458,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -6343,6 +6472,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( C_IDENTITY_ID:Int <Int pow160
        andBool ( C_IDENTITY_ID:Int =/=Int NCL:Int
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -6359,7 +6489,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( C_IDENTITY_ID:Int <=Int 0
           orBool ( 10 <Int C_IDENTITY_ID:Int
                  ))
-               ))))))))))))))))))))))))))))))
+               ))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-155-TO-100)]
     
     rule [BASIC-BLOCK-156-TO-102]: <foundry>
@@ -6433,6 +6563,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -6528,6 +6661,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -6541,6 +6675,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( C_IDENTITY_ID:Int <Int pow160
        andBool ( C_IDENTITY_ID:Int =/=Int NCL:Int
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -6560,7 +6695,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( C_IDENTITY_ID:Int <=Int 0
           orBool ( 10 <Int C_IDENTITY_ID:Int
                  ))
-               ))))))))))))))))))))))))))))))))
+               ))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-156-TO-102)]
     
     rule [BASIC-BLOCK-157-TO-103]: <foundry>
@@ -6634,6 +6769,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -6728,6 +6866,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -6741,6 +6880,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( C_IDENTITY_ID:Int <Int pow160
        andBool ( C_IDENTITY_ID:Int =/=Int NCL:Int
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -6757,7 +6897,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( C_IDENTITY_ID:Int <=Int 0
           orBool ( 10 <Int C_IDENTITY_ID:Int
                  ))
-               ))))))))))))))))))))))))))))))
+               ))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-157-TO-103)]
     
     rule [BASIC-BLOCK-158-TO-80]: <foundry>
@@ -6829,6 +6969,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -6922,6 +7065,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -6935,6 +7079,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( C_IDENTITY_ID:Int <Int pow160
        andBool ( C_IDENTITY_ID:Int =/=Int NCL:Int
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -6955,7 +7100,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
           orBool ( 10 <Int C_IDENTITY_ID:Int
                  ))
        andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
-               )))))))))))))))))))))))))))))))
+               )))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-158-TO-80)]
     
     rule [BASIC-BLOCK-159-TO-81]: <foundry>
@@ -7027,6 +7172,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -7119,6 +7267,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -7132,6 +7281,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( C_IDENTITY_ID:Int <Int pow160
        andBool ( C_IDENTITY_ID:Int =/=Int NCL:Int
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -7149,7 +7299,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
           orBool ( 10 <Int C_IDENTITY_ID:Int
                  ))
        andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
-               )))))))))))))))))))))))))))))
+               )))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-159-TO-81)]
     
     rule [BASIC-BLOCK-160-TO-84]: <foundry>
@@ -7221,6 +7371,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -7314,6 +7467,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -7327,6 +7481,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( C_IDENTITY_ID:Int <Int pow160
        andBool ( C_IDENTITY_ID:Int =/=Int NCL:Int
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -7347,7 +7502,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
           orBool ( 10 <Int C_IDENTITY_ID:Int
                  ))
        andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
-               )))))))))))))))))))))))))))))))
+               )))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-160-TO-84)]
     
     rule [BASIC-BLOCK-161-TO-85]: <foundry>
@@ -7419,6 +7574,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -7511,6 +7669,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -7524,6 +7683,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( C_IDENTITY_ID:Int <Int pow160
        andBool ( C_IDENTITY_ID:Int =/=Int NCL:Int
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -7541,7 +7701,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
           orBool ( 10 <Int C_IDENTITY_ID:Int
                  ))
        andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
-               )))))))))))))))))))))))))))))
+               )))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-161-TO-85)]
     
     rule [BASIC-BLOCK-126-TO-78]: <foundry>
@@ -7616,6 +7776,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -7709,6 +7872,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -7722,6 +7886,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( C_IDENTITY_ID:Int <Int pow160
        andBool ( C_IDENTITY_ID:Int =/=Int NCL:Int
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -7742,7 +7907,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
           orBool ( 10 <Int C_IDENTITY_ID:Int
                  ))
        andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
-               )))))))))))))))))))))))))))))))
+               )))))))))))))))))))))))))))))))))
        ensures NCL:Int =/=Int #address ( FoundryConsole )
       [priority(20), label(BASIC-BLOCK-126-TO-78)]
     
@@ -7818,6 +7983,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -7911,6 +8079,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -7924,6 +8093,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( C_IDENTITY_ID:Int <Int pow160
        andBool ( C_IDENTITY_ID:Int =/=Int NCL:Int
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -7944,7 +8114,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
           orBool ( 10 <Int C_IDENTITY_ID:Int
                  ))
        andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
-               )))))))))))))))))))))))))))))))
+               )))))))))))))))))))))))))))))))))
        ensures NCL:Int =/=Int #address ( FoundryConsole )
       [priority(20), label(BASIC-BLOCK-128-TO-82)]
     
@@ -8021,6 +8191,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -8114,6 +8287,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -8127,6 +8301,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( C_IDENTITY_ID:Int <Int pow160
        andBool ( C_IDENTITY_ID:Int =/=Int NCL:Int
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -8147,7 +8322,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
           orBool ( 10 <Int C_IDENTITY_ID:Int
                  ))
        andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
-               )))))))))))))))))))))))))))))))
+               )))))))))))))))))))))))))))))))))
        ensures NCL:Int =/=Int #address ( FoundryConsole )
       [priority(20), label(BASIC-BLOCK-148-TO-79)]
     
@@ -8224,6 +8399,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -8317,6 +8495,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -8330,6 +8509,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( C_IDENTITY_ID:Int <Int pow160
        andBool ( C_IDENTITY_ID:Int =/=Int NCL:Int
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -8350,7 +8530,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
           orBool ( 10 <Int C_IDENTITY_ID:Int
                  ))
        andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
-               )))))))))))))))))))))))))))))))
+               )))))))))))))))))))))))))))))))))
        ensures NCL:Int =/=Int #address ( FoundryConsole )
       [priority(20), label(BASIC-BLOCK-150-TO-83)]
     
@@ -8427,6 +8607,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -8520,6 +8703,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -8534,6 +8718,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( _NOG:Int =/=Int NOG0:Int
        andBool ( C_IDENTITY_ID:Int =/=Int NCL:Int
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -8554,7 +8739,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
           orBool ( 10 <Int C_IDENTITY_ID:Int
                  ))
        andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
-               ))))))))))))))))))))))))))))))))
+               ))))))))))))))))))))))))))))))))))
        ensures NCL:Int =/=Int #address ( FoundryConsole )
       [priority(20), label(BASIC-BLOCK-130-TO-86)]
     
@@ -8641,6 +8826,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -8726,6 +8914,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
       requires ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -8739,6 +8928,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( C_IDENTITY_ID:Int <Int pow160
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -8760,7 +8950,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
           #address ( FoundryConsole )
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) ) andBool C_IDENTITY_ID:Int ==Int #address ( FoundryConsole ) ) )
        andBool ( ( notBool ( ACTIVE_CELL:Bool andBool ( CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int andBool NEWCALLER_CELL:Account =/=K C_IDENTITY_ID:Int ) ) )
-               )))))))))))))))))))))))))))
+               )))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-132-TO-96)]
     
     rule [BASIC-BLOCK-133-TO-97]: <foundry>
@@ -8843,6 +9033,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -8928,6 +9121,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
       requires ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -8941,6 +9135,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( C_IDENTITY_ID:Int <Int pow160
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -8962,7 +9157,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
           #address ( FoundryConsole )
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) ) andBool C_IDENTITY_ID:Int ==Int #address ( FoundryConsole ) ) )
        andBool ( ( notBool ( ACTIVE_CELL:Bool andBool ( CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int andBool NEWCALLER_CELL:Account =/=K C_IDENTITY_ID:Int ) ) )
-               )))))))))))))))))))))))))))
+               )))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-133-TO-97)]
     
     rule [BASIC-BLOCK-134-TO-98]: <foundry>
@@ -9040,6 +9235,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -9135,6 +9333,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -9148,6 +9347,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( C_IDENTITY_ID:Int <Int pow160
        andBool ( C_IDENTITY_ID:Int =/=Int NCL:Int
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -9167,7 +9367,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( C_IDENTITY_ID:Int <=Int 0
           orBool ( 10 <Int C_IDENTITY_ID:Int
                  ))
-               ))))))))))))))))))))))))))))))))
+               ))))))))))))))))))))))))))))))))))
        ensures NCL:Int =/=Int #address ( FoundryConsole )
       [priority(20), label(BASIC-BLOCK-134-TO-98)]
     
@@ -9246,6 +9446,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -9341,6 +9544,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -9354,6 +9558,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( C_IDENTITY_ID:Int <Int pow160
        andBool ( C_IDENTITY_ID:Int =/=Int NCL:Int
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -9373,7 +9578,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( C_IDENTITY_ID:Int <=Int 0
           orBool ( 10 <Int C_IDENTITY_ID:Int
                  ))
-               ))))))))))))))))))))))))))))))))
+               ))))))))))))))))))))))))))))))))))
        ensures NCL:Int =/=Int #address ( FoundryConsole )
       [priority(20), label(BASIC-BLOCK-136-TO-101)]
 

@@ -165,6 +165,9 @@ module SUMMARY-TEST%UNITTEST.TEST-CHECKINITIALBALANCE(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -279,12 +282,14 @@ module SUMMARY-TEST%UNITTEST.TEST-CHECKINITIALBALANCE(UINT256):0
            </cheatcodes>
          </foundry>
       requires ( 0 <=Int KV0_amount:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( KV0_amount:Int <Int pow256
-               ))))))
+       andBool ( MIXHASH_CELL:Int <Int pow256
+               ))))))))
       [priority(20), label(BASIC-BLOCK-1-TO-3)]
     
     rule [BASIC-BLOCK-3-TO-4]: <foundry>
@@ -386,6 +391,9 @@ module SUMMARY-TEST%UNITTEST.TEST-CHECKINITIALBALANCE(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -500,12 +508,14 @@ module SUMMARY-TEST%UNITTEST.TEST-CHECKINITIALBALANCE(UINT256):0
            </cheatcodes>
          </foundry>
       requires ( 0 <=Int KV0_amount:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( KV0_amount:Int <Int pow256
-               ))))))
+       andBool ( MIXHASH_CELL:Int <Int pow256
+               ))))))))
       [priority(20), label(BASIC-BLOCK-3-TO-4)]
     
     rule [BASIC-BLOCK-4-TO-5]: <foundry>
@@ -607,6 +617,9 @@ module SUMMARY-TEST%UNITTEST.TEST-CHECKINITIALBALANCE(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -721,12 +734,14 @@ module SUMMARY-TEST%UNITTEST.TEST-CHECKINITIALBALANCE(UINT256):0
            </cheatcodes>
          </foundry>
       requires ( 0 <=Int KV0_amount:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( KV0_amount:Int <Int pow256
-               ))))))
+       andBool ( MIXHASH_CELL:Int <Int pow256
+               ))))))))
       [priority(20), label(BASIC-BLOCK-4-TO-5)]
     
     rule [BASIC-BLOCK-5-TO-6]: <foundry>
@@ -828,6 +843,9 @@ module SUMMARY-TEST%UNITTEST.TEST-CHECKINITIALBALANCE(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -942,12 +960,14 @@ module SUMMARY-TEST%UNITTEST.TEST-CHECKINITIALBALANCE(UINT256):0
            </cheatcodes>
          </foundry>
       requires ( 0 <=Int KV0_amount:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( KV0_amount:Int <Int pow256
-               ))))))
+       andBool ( MIXHASH_CELL:Int <Int pow256
+               ))))))))
       [priority(20), label(BASIC-BLOCK-5-TO-6)]
     
     rule [BASIC-BLOCK-6-TO-7]: <foundry>
@@ -1051,6 +1071,9 @@ module SUMMARY-TEST%UNITTEST.TEST-CHECKINITIALBALANCE(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -1165,12 +1188,14 @@ module SUMMARY-TEST%UNITTEST.TEST-CHECKINITIALBALANCE(UINT256):0
            </cheatcodes>
          </foundry>
       requires ( 0 <=Int KV0_amount:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( KV0_amount:Int <Int pow256
-               ))))))
+       andBool ( MIXHASH_CELL:Int <Int pow256
+               ))))))))
       [priority(20), label(BASIC-BLOCK-6-TO-7)]
 
 endmodule
