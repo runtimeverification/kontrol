@@ -400,7 +400,7 @@ contract UnitTest is Test {
         val1[2] = 0; val2[2] = 0;
         string memory err = "throw test";
         string memory err_output = "throw test: [-1, 2, 0] != [1, -2, 0]";
-        vm.expectRevert(bytes(err_output));        
+        vm.expectRevert(bytes(err_output));
         assertEq(val1, val2, err);
     }
 
@@ -425,9 +425,9 @@ contract UnitTest is Test {
         val1[2] = 2; val2[2] = 12;
         val1[3] = 3; val2[3] = 13;
         val1[4] = 4; val2[4] = 14;
-        string memory err = "throw test";  
+        string memory err = "throw test";
         string memory err_output = "throw test: [0, 1, 2, 3, 4] != [10, 11, 12, 13, 14]";
-        vm.expectRevert(bytes(err_output));      
+        vm.expectRevert(bytes(err_output));
         assertEq(val1, val2, err);
     }
 
@@ -442,6 +442,10 @@ contract UnitTest is Test {
     function test_counterexample(uint256 value, address addr, bool flag) public pure {
         // This test will fail, triggering counterexample generation
         assert(value != 10);
+    }
+
+    function test_prevrandao_nonnegative() public view {
+       assert(block.prevrandao >= 0);
     }
 
     /****************************
