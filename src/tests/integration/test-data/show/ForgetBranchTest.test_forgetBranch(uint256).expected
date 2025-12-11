@@ -162,6 +162,9 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
                    <callDepth>
                      0
                    </callDepth>
+                   <codeAddr>
+                     #address ( FoundryTest )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -192,6 +195,9 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -304,34 +310,16 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
                .MockFunctionCellMap
              </mockFunctions>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int KV0_x:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( KV0_x:Int <Int pow256
-               ))))))
+       andBool ( MIXHASH_CELL:Int <Int pow256
+               ))))))))
        ensures 200 <Int KV0_x:Int
       [priority(20), label(BASIC-BLOCK-1-TO-3)]
     
@@ -398,6 +386,9 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
                    <callDepth>
                      0
                    </callDepth>
+                   <codeAddr>
+                     #address ( FoundryTest )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -428,6 +419,9 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -540,35 +534,17 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
                .MockFunctionCellMap
              </mockFunctions>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int KV0_x:Int
        andBool ( 200 <Int KV0_x:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( KV0_x:Int <Int pow256
-               )))))))
+       andBool ( MIXHASH_CELL:Int <Int pow256
+               )))))))))
       [priority(20), label(BASIC-BLOCK-3-TO-4)]
     
     rule [BASIC-BLOCK-4-TO-5]: <foundry>
@@ -634,6 +610,9 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
                    <callDepth>
                      0
                    </callDepth>
+                   <codeAddr>
+                     #address ( FoundryTest )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -664,6 +643,9 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -776,34 +758,16 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
                .MockFunctionCellMap
              </mockFunctions>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int KV0_x:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( KV0_x:Int <Int pow256
-               ))))))
+       andBool ( MIXHASH_CELL:Int <Int pow256
+               ))))))))
       [priority(20), label(BASIC-BLOCK-4-TO-5)]
     
     rule [BASIC-BLOCK-6-TO-8]: <foundry>
@@ -871,6 +835,9 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
                    <callDepth>
                      0
                    </callDepth>
+                   <codeAddr>
+                     #address ( FoundryTest )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -901,6 +868,9 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -1013,35 +983,17 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
                .MockFunctionCellMap
              </mockFunctions>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int KV0_x:Int
        andBool ( KV0_x:Int <=Int 200
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( KV0_x:Int <Int pow256
-               )))))))
+       andBool ( MIXHASH_CELL:Int <Int pow256
+               )))))))))
       [priority(20), label(BASIC-BLOCK-6-TO-8)]
     
     rule [BASIC-BLOCK-7-TO-9]: <foundry>
@@ -1109,6 +1061,9 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
                    <callDepth>
                      0
                    </callDepth>
+                   <codeAddr>
+                     #address ( FoundryTest )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -1139,6 +1094,9 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -1251,43 +1209,22 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
                .MockFunctionCellMap
              </mockFunctions>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int KV0_x:Int
        andBool ( 200 <Int KV0_x:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( KV0_x:Int <Int pow256
-               )))))))
+       andBool ( MIXHASH_CELL:Int <Int pow256
+               )))))))))
       [priority(20), label(BASIC-BLOCK-7-TO-9)]
 
 endmodule
 0 Failure nodes. (0 pending and 0 failing)
 
 Join the Runtime Verification Discord server (https://discord.com/invite/CurfmXNtbN) or Telegram group (https://t.me/rv_kontrol) for support.
-
-See `foundry_success` predicate for more information:
-https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/foundry.md#foundry-success-predicate
 
 Access documentation for Kontrol at https://docs.runtimeverification.com/kontrol

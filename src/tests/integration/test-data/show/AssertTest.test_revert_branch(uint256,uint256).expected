@@ -148,7 +148,7 @@ Node 16:
             .List
           </callStack>
           <interimStates>
-            ...
+            .List
           </interimStates>
           <touchedAccounts>
             .Set
@@ -184,6 +184,9 @@ Node 16:
             <callDepth>
               0
             </callDepth>
+            <codeAddr>
+              #address ( FoundryTest )
+            </codeAddr>
             ...
           </callState>
           <substate>
@@ -214,6 +217,9 @@ Node 16:
             <timestamp>
               TIMESTAMP_CELL:Int
             </timestamp>
+            <mixHash>
+              MIXHASH_CELL:Int
+            </mixHash>
             ...
           </block>
           ...
@@ -326,38 +332,20 @@ Node 16:
         .MockFunctionCellMap
       </mockFunctions>
     </cheatcodes>
-    <KEVMTracing>
-      <activeTracing>
-        false
-      </activeTracing>
-      <traceStorage>
-        false
-      </traceStorage>
-      <traceWordStack>
-        false
-      </traceWordStack>
-      <traceMemory>
-        false
-      </traceMemory>
-      <recordedTrace>
-        false
-      </recordedTrace>
-      <traceData>
-        .List
-      </traceData>
-    </KEVMTracing>
   </foundry>
   ...
 </generatedTop>
 #And ( { true #Equals 0 <=Int KV0_x:Int }
 #And ( { true #Equals 0 <=Int KV1_y:Int }
 #And ( { true #Equals KV0_x:Int <Int KV1_y:Int }
+#And ( { true #Equals 0 <=Int MIXHASH_CELL:Int }
 #And ( { true #Equals pow24 <Int NUMBER_CELL:Int }
 #And ( { true #Equals NUMBER_CELL:Int <Int pow32 }
 #And ( { true #Equals 1073741824 <Int TIMESTAMP_CELL:Int }
 #And ( { true #Equals TIMESTAMP_CELL:Int <Int 34359738368 }
 #And ( { true #Equals KV0_x:Int <Int pow256 }
-#And { true #Equals KV1_y:Int <Int pow256 } ) ) ) ) ) ) ) ) )
+#And ( { true #Equals KV1_y:Int <Int pow256 }
+#And { true #Equals MIXHASH_CELL:Int <Int pow256 } ) ) ) ) ) ) ) ) ) ) )
 
 
 
@@ -391,7 +379,7 @@ Node 15:
             .List
           </callStack>
           <interimStates>
-            ...
+            .List
           </interimStates>
           <touchedAccounts>
             .Set
@@ -427,6 +415,9 @@ Node 15:
             <callDepth>
               0
             </callDepth>
+            <codeAddr>
+              #address ( FoundryTest )
+            </codeAddr>
             ...
           </callState>
           <substate>
@@ -457,6 +448,9 @@ Node 15:
             <timestamp>
               TIMESTAMP_CELL:Int
             </timestamp>
+            <mixHash>
+              MIXHASH_CELL:Int
+            </mixHash>
             ...
           </block>
           ...
@@ -569,38 +563,20 @@ Node 15:
         .MockFunctionCellMap
       </mockFunctions>
     </cheatcodes>
-    <KEVMTracing>
-      <activeTracing>
-        false
-      </activeTracing>
-      <traceStorage>
-        false
-      </traceStorage>
-      <traceWordStack>
-        false
-      </traceWordStack>
-      <traceMemory>
-        false
-      </traceMemory>
-      <recordedTrace>
-        false
-      </recordedTrace>
-      <traceData>
-        .List
-      </traceData>
-    </KEVMTracing>
   </foundry>
   ...
 </generatedTop>
 #And ( { true #Equals 0 <=Int KV0_x:Int }
 #And ( { true #Equals 0 <=Int KV1_y:Int }
 #And ( { true #Equals KV1_y:Int <=Int KV0_x:Int }
+#And ( { true #Equals 0 <=Int MIXHASH_CELL:Int }
 #And ( { true #Equals pow24 <Int NUMBER_CELL:Int }
 #And ( { true #Equals NUMBER_CELL:Int <Int pow32 }
 #And ( { true #Equals 1073741824 <Int TIMESTAMP_CELL:Int }
 #And ( { true #Equals TIMESTAMP_CELL:Int <Int 34359738368 }
 #And ( { true #Equals KV0_x:Int <Int pow256 }
-#And { true #Equals KV1_y:Int <Int pow256 } ) ) ) ) ) ) ) ) )
+#And ( { true #Equals KV1_y:Int <Int pow256 }
+#And { true #Equals MIXHASH_CELL:Int <Int pow256 } ) ) ) ) ) ) ) ) ) ) )
 
 
 
@@ -670,6 +646,9 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
                    <callDepth>
                      0
                    </callDepth>
+                   <codeAddr>
+                     #address ( FoundryTest )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -700,6 +679,9 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -812,32 +794,14 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
                .MockFunctionCellMap
              </mockFunctions>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
-      requires ( pow24 <Int NUMBER_CELL:Int
+      requires ( 0 <=Int MIXHASH_CELL:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-               ))))
+       andBool ( MIXHASH_CELL:Int <Int pow256
+               ))))))
       [priority(20), label(BASIC-BLOCK-1-TO-5)]
     
     rule [BASIC-BLOCK-5-TO-6]: <foundry>
@@ -903,6 +867,9 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
                    <callDepth>
                      0
                    </callDepth>
+                   <codeAddr>
+                     #address ( FoundryTest )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -933,6 +900,9 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -1045,32 +1015,14 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
                .MockFunctionCellMap
              </mockFunctions>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
-      requires ( pow24 <Int NUMBER_CELL:Int
+      requires ( 0 <=Int MIXHASH_CELL:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-               ))))
+       andBool ( MIXHASH_CELL:Int <Int pow256
+               ))))))
        ensures ( 0 <=Int ?KV0_x:Int
        andBool ( 0 <=Int ?KV1_y:Int
        andBool ( ?KV0_x:Int <Int pow256
@@ -1140,6 +1092,9 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
                    <callDepth>
                      0
                    </callDepth>
+                   <codeAddr>
+                     #address ( FoundryTest )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -1170,6 +1125,9 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -1282,36 +1240,18 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
                .MockFunctionCellMap
              </mockFunctions>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int KV1_y:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( KV0_x:Int <Int pow256
        andBool ( KV1_y:Int <Int pow256
-               ))))))))
+       andBool ( MIXHASH_CELL:Int <Int pow256
+               ))))))))))
       [priority(20), label(BASIC-BLOCK-6-TO-8)]
     
     rule [BASIC-BLOCK-9-TO-11]: <foundry>
@@ -1377,6 +1317,9 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
                    <callDepth>
                      0
                    </callDepth>
+                   <codeAddr>
+                     #address ( FoundryTest )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -1407,6 +1350,9 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -1519,37 +1465,19 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
                .MockFunctionCellMap
              </mockFunctions>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int KV1_y:Int
        andBool ( KV1_y:Int <=Int KV0_x:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( KV0_x:Int <Int pow256
        andBool ( KV1_y:Int <Int pow256
-               )))))))))
+       andBool ( MIXHASH_CELL:Int <Int pow256
+               )))))))))))
       [priority(20), label(BASIC-BLOCK-9-TO-11)]
     
     rule [BASIC-BLOCK-10-TO-12]: <foundry>
@@ -1615,6 +1543,9 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
                    <callDepth>
                      0
                    </callDepth>
+                   <codeAddr>
+                     #address ( FoundryTest )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -1645,6 +1576,9 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -1757,37 +1691,19 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
                .MockFunctionCellMap
              </mockFunctions>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int KV1_y:Int
        andBool ( KV0_x:Int <Int KV1_y:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( KV0_x:Int <Int pow256
        andBool ( KV1_y:Int <Int pow256
-               )))))))))
+       andBool ( MIXHASH_CELL:Int <Int pow256
+               )))))))))))
       [priority(20), label(BASIC-BLOCK-10-TO-12)]
     
     rule [BASIC-BLOCK-11-TO-13]: <foundry>
@@ -1855,6 +1771,9 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
                    <callDepth>
                      0
                    </callDepth>
+                   <codeAddr>
+                     #address ( FoundryTest )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -1885,6 +1804,9 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -1997,37 +1919,19 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
                .MockFunctionCellMap
              </mockFunctions>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int KV1_y:Int
        andBool ( KV1_y:Int <=Int KV0_x:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( KV0_x:Int <Int pow256
        andBool ( KV1_y:Int <Int pow256
-               )))))))))
+       andBool ( MIXHASH_CELL:Int <Int pow256
+               )))))))))))
       [priority(20), label(BASIC-BLOCK-11-TO-13)]
     
     rule [BASIC-BLOCK-12-TO-14]: <foundry>
@@ -2095,6 +1999,9 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
                    <callDepth>
                      0
                    </callDepth>
+                   <codeAddr>
+                     #address ( FoundryTest )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -2125,6 +2032,9 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -2237,37 +2147,19 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
                .MockFunctionCellMap
              </mockFunctions>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int KV1_y:Int
        andBool ( KV0_x:Int <Int KV1_y:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( KV0_x:Int <Int pow256
        andBool ( KV1_y:Int <Int pow256
-               )))))))))
+       andBool ( MIXHASH_CELL:Int <Int pow256
+               )))))))))))
       [priority(20), label(BASIC-BLOCK-12-TO-14)]
     
     rule [BASIC-BLOCK-13-TO-15]: <foundry>
@@ -2335,6 +2227,9 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
                    <callDepth>
                      0
                    </callDepth>
+                   <codeAddr>
+                     #address ( FoundryTest )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -2365,6 +2260,9 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -2477,37 +2375,19 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
                .MockFunctionCellMap
              </mockFunctions>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int KV1_y:Int
        andBool ( KV1_y:Int <=Int KV0_x:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( KV0_x:Int <Int pow256
        andBool ( KV1_y:Int <Int pow256
-               )))))))))
+       andBool ( MIXHASH_CELL:Int <Int pow256
+               )))))))))))
       [priority(20), label(BASIC-BLOCK-13-TO-15)]
     
     rule [BASIC-BLOCK-14-TO-16]: <foundry>
@@ -2575,6 +2455,9 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
                    <callDepth>
                      0
                    </callDepth>
+                   <codeAddr>
+                     #address ( FoundryTest )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -2605,6 +2488,9 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -2717,37 +2603,19 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
                .MockFunctionCellMap
              </mockFunctions>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int KV1_y:Int
        andBool ( KV0_x:Int <Int KV1_y:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( KV0_x:Int <Int pow256
        andBool ( KV1_y:Int <Int pow256
-               )))))))))
+       andBool ( MIXHASH_CELL:Int <Int pow256
+               )))))))))))
       [priority(20), label(BASIC-BLOCK-14-TO-16)]
 
 endmodule
@@ -2766,23 +2634,23 @@ Failing nodes:
     { true #Equals 0 <=Int KV0_x:Int }
     #And { true #Equals 0 <=Int KV1_y:Int }
     #And { true #Equals KV1_y:Int <=Int KV0_x:Int }
+    #And { true #Equals 0 <=Int MIXHASH_CELL:Int }
     #And { true #Equals pow24 <Int NUMBER_CELL:Int }
     #And { true #Equals NUMBER_CELL:Int <Int pow32 }
     #And { true #Equals 1073741824 <Int TIMESTAMP_CELL:Int }
     #And { true #Equals TIMESTAMP_CELL:Int <Int 34359738368 }
     #And { true #Equals KV0_x:Int <Int pow256 }
-    #And { true #Equals KV1_y:Int <Int pow256 } #Implies { true #Equals foundry_success ( ... statusCode: EVMC_REVERT , failed: #lookup ( .Map , 46308022326495007027972728677917914892729792999299745830475596687180801507328 ) , revertExpected: false , opcodeExpected: false , recordEventExpected: false , eventExpected: false ) }
+    #And { true #Equals KV1_y:Int <Int pow256 }
+    #And { true #Equals MIXHASH_CELL:Int <Int pow256 } #Implies { true #Equals foundry_success ( ... statusCode: EVMC_REVERT , failed: #lookup ( .Map , 46308022326495007027972728677917914892729792999299745830475596687180801507328 ) , revertExpected: false , opcodeExpected: false , recordEventExpected: false , eventExpected: false ) }
   Path condition:
     { true #Equals KV1_y:Int <=Int KV0_x:Int }
   Model:
     KV0_x = 0
     KV1_y = 0
+    MIXHASH_CELL = 0
     NUMBER_CELL = 16777217
     TIMESTAMP_CELL = 1073741825
 
 Join the Runtime Verification Discord server (https://discord.com/invite/CurfmXNtbN) or Telegram group (https://t.me/rv_kontrol) for support.
-
-See `foundry_success` predicate for more information:
-https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/foundry.md#foundry-success-predicate
 
 Access documentation for Kontrol at https://docs.runtimeverification.com/kontrol

@@ -16,6 +16,7 @@ from subprocess import CalledProcessError
 from typing import TYPE_CHECKING
 
 import tomlkit
+from eth_abi import decode, encode
 from kevm_pyk.kevm import KEVM, CustomStep, KEVMSemantics
 from kevm_pyk.utils import legacy_explore, print_model
 from pyk.cterm import CTerm
@@ -38,16 +39,18 @@ from pyk.kcfg.kcfg import Step
 from pyk.kdist import kdist
 from pyk.proof.proof import Proof
 from pyk.proof.reachability import APRFailureInfo, APRProof
-from pyk.utils import ensure_dir_path, hash_str, run_process_2, single, unique
+from pyk.utils import ensure_dir_path, hash_str, run_process, run_process_2, single, unique
 
 from . import VERSION
 from .solc_to_k import Contract, _contract_name_from_bytecode
+from .storage_generation import generate_setup_contract
 from .utils import (
     _read_digest_file,
     decode_log_message,
     empty_lemmas_file_contents,
     ensure_name_is_unique,
     kontrol_file_contents,
+    kontrol_test_file_contents,
     kontrol_toml_file_contents,
     kontrol_up_to_date,
     write_to_file,
@@ -73,6 +76,7 @@ if TYPE_CHECKING:
         RefuteNodeOptions,
         RemoveNodeOptions,
         SectionEdgeOptions,
+        SetupStorageOptions,
         SimplifyNodeOptions,
         SplitNodeOptions,
         StepNodeOptions,
@@ -84,8 +88,15 @@ _LOGGER: Final = logging.getLogger(__name__)
 
 class KontrolSemantics(KEVMSemantics):
 
-    def __init__(self, auto_abstract_gas: bool = False, allow_symbolic_program: bool = False) -> None:
+    allow_ffi_calls: bool
+
+    def __init__(
+        self, auto_abstract_gas: bool = False, allow_symbolic_program: bool = False, allow_ffi_calls: bool = False
+    ) -> None:
+        self.allow_ffi_calls = allow_ffi_calls
+
         custom_steps = (
+            CustomStep(self._ffi_pattern, self._exec_ffi_custom_step),
             CustomStep(self._rename_pattern, self._exec_rename_custom_step),
             CustomStep(self._forget_branch_pattern, self._exec_forget_custom_step),
             CustomStep(self._console_log_pattern, self._exec_console_log_custom_step),
@@ -108,6 +119,7 @@ class KontrolSemantics(KEVMSemantics):
     ) -> list[str]:
         return [
             'FOUNDRY-CHEAT-CODES.rename',
+            'FOUNDRY-CHEAT-CODES.cheatcode.call.ffi',
             'FOUNDRY-ACCOUNTS.forget',
         ] + KEVMSemantics.cut_point_rules(
             break_on_jumpi,
@@ -141,6 +153,10 @@ class KontrolSemantics(KEVMSemantics):
         return KSequence(
             [KApply('console_log', [KVariable('###SELECTOR'), KVariable('###DATA')]), KVariable('###CONTINUATION')]
         )
+
+    @property
+    def _ffi_pattern(self) -> KSequence:
+        return KSequence([KApply('ffi_shell', KVariable('###CMD')), KVariable('###CONTINUATION')])
 
     def _exec_rename_custom_step(self, subst: Subst, cterm: CTerm, _c: CTermSymbolic) -> KCFGExtendResult | None:
         # Extract the target var and new name from the substitution
@@ -298,6 +314,64 @@ class KontrolSemantics(KEVMSemantics):
         new_cterm = CTerm.from_kast(set_cell(cterm.kast, 'K_CELL', KSequence(subst['###CONTINUATION'])))
         return Step(CTerm(new_cterm.config, cterm.constraints), 1, (), ['console.log'], cut=True)
 
+    def _exec_ffi_custom_step(self, subst: Subst, cterm: CTerm, _c: CTermSymbolic) -> KCFGExtendResult | None:
+        """Execute vm.ffi() cheatcode by running external commands and encoding their output as ABI bytes.
+
+        This function decodes the command from the ABI-encoded string array, executes it as a subprocess, and processes
+        the stdout. If stdout is valid hex (with or without '0x' prefix), it decodes the hex to bytes; otherwise it
+        treats stdout as raw bytes. The result is ABI-encoded as dynamic bytes type and placed in the OUTPUT_CELL.
+        If the command fails (non-zero exit code), a RuntimeError is raised.
+
+        :param subst: Substitution containing the values obtained by matching the `self._ffi_pattern`.
+        :param cterm: Current configuration term representing the EVM state.
+        :param _c: Symbolic configuration term (unused).
+        :return: None if FFI is disabled. Otherwise, Step with OUTPUT_CELL set to ABI-encoded result and updated K_CELL
+                continuation, tagged with 'kontrol.ffi.success'.
+        """
+        if not self.allow_ffi_calls:
+            _LOGGER.warning(
+                'ffi calls disabled, vm.ffi() will return a fresh symbolic value. '
+                'To enable, set FOUNDRY_FFI=true, DAPP_FFI=true, or add "ffi = true" to foundry.toml.'
+            )
+            return None
+
+        cmd = subst['###CMD']
+        assert type(cmd) is KToken
+
+        # Decode ABI string[]
+        data = ast.literal_eval(cmd.token)
+        cmd_decoded = decode(['string[]'], data)[0]
+
+        # Execute command
+        process_result = run_process(
+            cmd_decoded,
+            check=True,  # Raise on non-zero exit
+            pipe_stdout=True,
+            pipe_stderr=True,
+            cwd=Path.cwd(),
+            logger=_LOGGER,
+        )
+
+        # Parse stdout
+        stdout = process_result.stdout.strip()
+
+        try:
+            # Try decode as hex (with or without 0x prefix)
+            hex_str = stdout[2:] if stdout.startswith('0x') else stdout
+            raw_bytes = bytes.fromhex(hex_str)
+        except ValueError:
+            # Not hex, treat as raw bytes
+            raw_bytes = stdout.encode()
+
+        # ABI-encode as bytes (dynamic type)
+        encoded_output = encode(['bytes'], [raw_bytes])
+
+        # Update cells
+        new_cterm = CTerm.from_kast(set_cell(cterm.kast, 'OUTPUT_CELL', bytesToken(encoded_output)))
+        new_cterm = CTerm.from_kast(set_cell(new_cterm.kast, 'K_CELL', KSequence(subst['###CONTINUATION'])))
+
+        return Step(CTerm(new_cterm.config, cterm.constraints), 1, (), ['kontrol.ffi.success'], cut=True)
+
 
 class FoundryKEVM(KEVM):
     foundry: Foundry
@@ -434,6 +508,14 @@ class Foundry:
             return self._root / build_info_path
         else:
             return self.out / 'build-info'
+
+    @property
+    def ffi(self) -> bool:
+        if os.getenv('FOUNDRY_FFI', '').lower() in ('true', '1'):
+            return True
+        if os.getenv('DAPP_FFI', '').lower() in ('true', '1'):
+            return True
+        return self.profile.get('ffi', False)
 
     @cached_property
     def kevm(self) -> KEVM:
@@ -735,28 +817,8 @@ class Foundry:
         )
 
     @staticmethod
-    def help_info(proof_id: str, hevm: bool) -> list[str]:
+    def help_info() -> list[str]:
         res_lines: list[str] = []
-        if hevm:
-            _, test = proof_id.split('.')
-            if not any(test.startswith(prefix) for prefix in ['testFail', 'checkFail', 'proveFail']):
-                res_lines.append('')
-                res_lines.append('See `hevm_success` predicate for more information:')
-                res_lines.append(
-                    'https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/hevm.md#hevm-success-predicate'
-                )
-            else:
-                res_lines.append('')
-                res_lines.append('See `hevm_fail` predicate for more information:')
-                res_lines.append(
-                    'https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/hevm.md#hevm-fail-predicate'
-                )
-        else:
-            res_lines.append('')
-            res_lines.append('See `foundry_success` predicate for more information:')
-            res_lines.append(
-                'https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/foundry.md#foundry-success-predicate'
-            )
         res_lines.append('')
         res_lines.append('Access documentation for Kontrol at https://docs.runtimeverification.com/kontrol')
         return res_lines
@@ -1042,7 +1104,7 @@ def foundry_to_xml(foundry: Foundry, proofs: list[APRProof], report_name: str) -
 def foundry_minimize_proof(foundry: Foundry, options: MinimizeProofOptions) -> None:
     test_id = foundry.get_test_id(options.test, options.version)
     apr_proof = foundry.get_apr_proof(test_id)
-    apr_proof.minimize_kcfg(merge=options.merge)
+    apr_proof.minimize_kcfg(heuristics=KontrolSemantics(), merge=options.merge)
     apr_proof.write_proof_data()
 
 
@@ -1261,15 +1323,10 @@ def foundry_get_model(
     test_id = foundry.get_test_id(options.test, options.version)
     proof = foundry.get_apr_proof(test_id)
 
+    nodes: Iterable[NodeIdLike] = options.nodes
     if not options.nodes:
         _LOGGER.warning('Node ID is not provided. Displaying models of failing and pending nodes:')
-        failing = pending = True
-
-    nodes: Iterable[NodeIdLike] = options.nodes
-    if pending:
-        nodes = list(nodes) + [node.id for node in proof.pending]
-    if failing:
-        nodes = list(nodes) + [node.id for node in proof.failing]
+        nodes = [node.id for node in proof.pending] + [node.id for node in proof.failing]
     nodes = unique(nodes)
 
     res_lines = []
@@ -1305,12 +1362,13 @@ def foundry_get_model(
     return '\n'.join(res_lines)
 
 
-def init_project(project_root: Path, *, skip_forge: bool) -> None:
+def init_project(project_root: Path, *, skip_forge: bool, skip_kontrol_test: bool = False) -> None:
     """
     Wrapper around `forge init` that creates new Foundry projects compatible with Kontrol.
 
     :param skip_forge: Skip the `forge init` process, if there already exists a Foundry project.
     :param project_root: Name of the new project that is created.
+    :param skip_kontrol_test: Skip generating KontrolTest.sol file.
     """
 
     if not skip_forge:
@@ -1320,10 +1378,94 @@ def init_project(project_root: Path, *, skip_forge: bool) -> None:
     write_to_file(root / 'lemmas.k', empty_lemmas_file_contents())
     write_to_file(root / 'KONTROL.md', kontrol_file_contents())
     write_to_file(root / 'kontrol.toml', kontrol_toml_file_contents())
-    run_process_2(
-        ['forge', 'install', '--no-git', 'runtimeverification/kontrol-cheatcodes'],
-        logger=_LOGGER,
-        cwd=root,
+
+    if not skip_kontrol_test:
+        kontrol_test_dir = ensure_dir_path(root / 'test' / 'kontrol')
+        write_to_file(kontrol_test_dir / 'KontrolTest.sol', kontrol_test_file_contents())
+
+    try:
+        run_process_2(
+            ['forge', 'install', '--no-git', 'runtimeverification/kontrol-cheatcodes'],
+            logger=_LOGGER,
+            cwd=root,
+        )
+    except CalledProcessError as e:
+        # If `kontrol-cheatcodes` is already installed, continue
+        if 'already exists' in e.stderr.lower():
+            _LOGGER.info('kontrol-cheatcodes already installed, skipping installation')
+        else:
+            raise
+
+
+def foundry_storage_generation(foundry: Foundry, options: SetupStorageOptions) -> None:
+    """Generate storage constants for given contracts."""
+    from .storage_generation import (
+        generate_storage_constants,
+        get_storage_layout_from_foundry,
+    )
+
+    _LOGGER.info(f'Starting storage generation for contracts: {", ".join(options.contract_names)}')
+
+    # Run kontrol init with skip_forge=True to ensure KontrolTest.sol is available (unless skipped)
+    if not options.skip_kontrol_init:
+        _LOGGER.info('Running kontrol init with skip_forge=True to ensure KontrolTest.sol is available')
+        init_project(project_root=foundry._root, skip_forge=True)
+
+    # Build the project first to ensure storage layout is available
+    _LOGGER.info('Building Foundry project to ensure storage layout is available')
+    foundry.build(metadata=True)
+
+    # Process each contract
+    generated_files = []
+    for contract_name in options.contract_names:
+        _LOGGER.info(f'Processing contract: {contract_name}')
+
+        # Get storage layout from Foundry object
+        contract_name, storage, types = get_storage_layout_from_foundry(foundry, contract_name)
+
+        # Generate storage constants
+        storage_constants = generate_storage_constants(contract_name, options.solidity_version, storage, types)
+
+        # Determine output file path
+        if options.output_file:
+            # If output_file is specified, use it as a directory and append contract name
+            output_dir = Path(options.output_file)
+            output_path = output_dir / f'{contract_name}StorageConstants.sol'
+        else:
+            output_path = foundry._root / 'test' / 'kontrol' / 'storage' / f'{contract_name}StorageConstants.sol'
+
+        # Ensure output directory exists
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+
+        # Write storage constants file
+        with open(output_path, 'w') as f:
+            f.write(storage_constants)
+
+        generated_files.append(output_path)
+        _LOGGER.info(f'Generated storage constants file: {output_path}')
+
+        # Generate setup contract if requested
+        if options.generate_setup_contracts:
+            setup_contract = generate_setup_contract(contract_name, options.solidity_version, storage, types)
+
+            # Determine setup contract output path
+            if options.output_file:
+                setup_output_path = output_dir / f'{contract_name}StorageSetup.sol'
+            else:
+                setup_output_path = foundry._root / 'test' / 'kontrol' / 'setup' / f'{contract_name}StorageSetup.sol'
+
+            # Ensure setup directory exists
+            setup_output_path.parent.mkdir(parents=True, exist_ok=True)
+
+            # Write setup contract file
+            with open(setup_output_path, 'w') as f:
+                f.write(setup_contract)
+
+            generated_files.append(setup_output_path)
+            _LOGGER.info(f'Generated setup contract file: {setup_output_path}')
+
+    _LOGGER.info(
+        f'Storage generation completed successfully! Generated {len(generated_files)} files: {[str(f) for f in generated_files]}'
     )
 
 

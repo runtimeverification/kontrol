@@ -133,6 +133,9 @@ module SUMMARY-TEST%CSETEST.TEST-IDENTITY(UINT256,UINT256):0
                    <callDepth>
                      0
                    </callDepth>
+                   <codeAddr>
+                     #address ( FoundryTest )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -163,6 +166,9 @@ module SUMMARY-TEST%CSETEST.TEST-IDENTITY(UINT256,UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -342,29 +348,10 @@ module SUMMARY-TEST%CSETEST.TEST-IDENTITY(UINT256,UINT256):0
                .MockFunctionCellMap
              </mockFunctions>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int KV1_y:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
@@ -372,7 +359,8 @@ module SUMMARY-TEST%CSETEST.TEST-IDENTITY(UINT256,UINT256):0
        andBool ( pow64 <=Int KV0_x:Int
        andBool ( KV0_x:Int <Int pow256
        andBool ( KV1_y:Int <Int pow256
-               )))))))))
+       andBool ( MIXHASH_CELL:Int <Int pow256
+               )))))))))))
       [priority(20), label(BASIC-BLOCK-10-TO-12)]
     
     rule [BASIC-BLOCK-11-TO-13]: <foundry>
@@ -440,6 +428,9 @@ module SUMMARY-TEST%CSETEST.TEST-IDENTITY(UINT256,UINT256):0
                    <callDepth>
                      0
                    </callDepth>
+                   <codeAddr>
+                     #address ( FoundryTest )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -470,6 +461,9 @@ module SUMMARY-TEST%CSETEST.TEST-IDENTITY(UINT256,UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -649,29 +643,10 @@ module SUMMARY-TEST%CSETEST.TEST-IDENTITY(UINT256,UINT256):0
                .MockFunctionCellMap
              </mockFunctions>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int KV1_y:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
@@ -679,7 +654,8 @@ module SUMMARY-TEST%CSETEST.TEST-IDENTITY(UINT256,UINT256):0
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( KV0_x:Int <Int pow256
        andBool ( KV1_y:Int <Int pow256
-               )))))))))
+       andBool ( MIXHASH_CELL:Int <Int pow256
+               )))))))))))
        ensures KV1_y:Int <Int pow64
       [priority(20), label(BASIC-BLOCK-11-TO-13)]
     
@@ -745,6 +721,9 @@ module SUMMARY-TEST%CSETEST.TEST-IDENTITY(UINT256,UINT256):0
                    <callDepth>
                      0
                    </callDepth>
+                   <codeAddr>
+                     #address ( FoundryTest )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -775,6 +754,9 @@ module SUMMARY-TEST%CSETEST.TEST-IDENTITY(UINT256,UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -975,32 +957,14 @@ module SUMMARY-TEST%CSETEST.TEST-IDENTITY(UINT256,UINT256):0
                .MockFunctionCellMap
              </mockFunctions>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
-      requires ( pow24 <Int NUMBER_CELL:Int
+      requires ( 0 <=Int MIXHASH_CELL:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-               ))))
+       andBool ( MIXHASH_CELL:Int <Int pow256
+               ))))))
        ensures ( 0 <=Int ?KV0_x:Int
        andBool ( 0 <=Int ?KV1_y:Int
        andBool ( ?KV0_x:Int <Int pow256

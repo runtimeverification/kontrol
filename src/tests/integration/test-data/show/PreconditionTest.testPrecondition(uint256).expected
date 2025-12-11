@@ -1,0 +1,1654 @@
+
+┌─ 1 (root, init)
+│   k: #execute ~> CONTINUATION:K
+│   pc: 0
+│   callDepth: 0
+│   statusCode: STATUSCODE:StatusCode
+│   src: test/Precondition.t.sol:12:44
+│   method: test%PreconditionTest.setUp()
+│
+│  (536 steps)
+├─ 3 (terminal)
+│   k: #halt ~> CONTINUATION:K
+│   pc: 275
+│   callDepth: 0
+│   statusCode: EVMC_SUCCESS
+│   src: test/Precondition.t.sol:15:17
+│   method: test%PreconditionTest.setUp()
+│
+│  (1 step)
+├─ 4
+│   k: #execute ~> CONTINUATION:K
+│   pc: 0
+│   callDepth: 0
+│   statusCode: STATUSCODE:StatusCode
+│   src: test/Precondition.t.sol:12:44
+│   method: test%PreconditionTest.testPrecondition(uint256)
+│
+│  (502 steps)
+├─ 6
+│   k: #halt ~> #codeDeposit 491460923342184218035706888008750043977755113263 ~> #pc [  ...
+│   pc: 24
+│   callDepth: 1
+│   statusCode: EVMC_SUCCESS
+│   src: test/Precondition.t.sol:7:10
+│
+│  (482 steps)
+├─ 7
+│   k: #halt ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
+│   pc: 73
+│   callDepth: 1
+│   statusCode: EVMC_SUCCESS
+│   src: test/Precondition.t.sol:9:9
+│   method: test%Precondition.totalSupply(uint256)
+│
+│  (305 steps)
+├─ 8 (terminal)
+│   k: #halt ~> CONTINUATION:K
+│   pc: 275
+│   callDepth: 0
+│   statusCode: EVMC_SUCCESS
+│   src: test/Precondition.t.sol:15:17
+│   method: test%PreconditionTest.testPrecondition(uint256)
+│
+┊  constraint: true
+┊  subst: ...
+└─ 5 (leaf, target, terminal)
+    k: #halt ~> CONTINUATION:K
+    pc: PC_CELL_5d410f2a:Int
+    callDepth: CALLDEPTH_CELL_5d410f2a:Int
+    statusCode: STATUSCODE_FINAL:StatusCode
+
+
+
+
+module SUMMARY-TEST%PRECONDITIONTEST.TESTPRECONDITION(UINT256):0
+    
+    
+    rule [BASIC-BLOCK-1-TO-3]: <foundry>
+           <kevm>
+             <k>
+               ( #execute => #halt )
+               ~> _CONTINUATION:K
+             </k>
+             <mode>
+               NORMAL
+             </mode>
+             <schedule>
+               CANCUN
+             </schedule>
+             <useGas>
+               false
+             </useGas>
+             <ethereum>
+               <evm>
+                 <output>
+                   b""
+                 </output>
+                 <statusCode>
+                   ( _STATUSCODE:StatusCode => EVMC_SUCCESS )
+                 </statusCode>
+                 <callStack>
+                   .List
+                 </callStack>
+                 <interimStates>
+                   .List
+                 </interimStates>
+                 <touchedAccounts>
+                   .Set
+                 </touchedAccounts>
+                 <callState>
+                   <id>
+                     #address ( FoundryTest )
+                   </id>
+                   <caller>
+                     137122462167341575662000267002353578582749290296
+                   </caller>
+                   <callData>
+                     b"\n\x92T\xe4"
+                   </callData>
+                   <callValue>
+                     0
+                   </callValue>
+                   <wordStack>
+                     ( .WordStack => ( 177362148 : .WordStack ) )
+                   </wordStack>
+                   <localMem>
+                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ??WORD:Int ) )
+                   </localMem>
+                   <memoryUsed>
+                     0
+                   </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
+                   <static>
+                     false
+                   </static>
+                   <callDepth>
+                     0
+                   </callDepth>
+                   <codeAddr>
+                     #address ( FoundryTest )
+                   </codeAddr>
+                   ...
+                 </callState>
+                 <substate>
+                   <log>
+                     .List
+                   </log>
+                   <refund>
+                     0
+                   </refund>
+                   <accessedAccounts>
+                     ( .Set => SetItem ( #address ( FoundryCheat ) ) )
+                   </accessedAccounts>
+                   <accessedStorage>
+                     .Map
+                   </accessedStorage>
+                   <createdAccounts>
+                     .Set
+                   </createdAccounts>
+                   ...
+                 </substate>
+                 <origin>
+                   137122462167341575662000267002353578582749290296
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
+                   ...
+                 </block>
+                 ...
+               </evm>
+               <network>
+                 <chainID>
+                   1
+                 </chainID>
+                 <accounts>
+                   ( <account>
+                     <acctID>
+                       #address ( FoundryCheat )
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       0
+                     </nonce>
+                     ...
+                   </account>
+                   <account>
+                     <acctID>
+                       #address ( FoundryTest )
+                     </acctID>
+                     <balance>
+                       maxUInt96
+                     </balance>
+                     <storage>
+                       ( .Map => ( 32 |-> ??WORD:Int ) )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       1
+                     </nonce>
+                     ...
+                   </account> )
+                 </accounts>
+                 ...
+               </network>
+             </ethereum>
+             ...
+           </kevm>
+           <stackChecks>
+             false
+           </stackChecks>
+           <cheatcodes>
+             <prank>
+               <active>
+                 false
+               </active>
+               <singleCall>
+                 false
+               </singleCall>
+               ...
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 false
+               </isRevertExpected>
+               ...
+             </expectedRevert>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 false
+               </isOpcodeExpected>
+               ...
+             </expectedOpcode>
+             <expectEmit>
+               <recordEvent>
+                 false
+               </recordEvent>
+               <isEventExpected>
+                 false
+               </isEventExpected>
+               ...
+             </expectEmit>
+             <whitelist>
+               <isCallWhitelistActive>
+                 false
+               </isCallWhitelistActive>
+               <allowedCallsList>
+                 .List
+               </allowedCallsList>
+               <isStorageWhitelistActive>
+                 false
+               </isStorageWhitelistActive>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
+             </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
+           </cheatcodes>
+         </foundry>
+      requires ( 0 <=Int MIXHASH_CELL:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( MIXHASH_CELL:Int <Int pow256
+               ))))))
+       ensures ( 0 <=Int ??WORD:Int
+       andBool ( ??WORD:Int <Int pow256
+               ))
+      [priority(20), label(BASIC-BLOCK-1-TO-3)]
+    
+    rule [BASIC-BLOCK-3-TO-4]: <foundry>
+           <kevm>
+             <k>
+               ( #halt => #execute )
+               ~> _CONTINUATION:K
+             </k>
+             <mode>
+               NORMAL
+             </mode>
+             <schedule>
+               CANCUN
+             </schedule>
+             <useGas>
+               false
+             </useGas>
+             <ethereum>
+               <evm>
+                 <output>
+                   b""
+                 </output>
+                 <statusCode>
+                   ( EVMC_SUCCESS => ?_STATUSCODE:StatusCode )
+                 </statusCode>
+                 <callStack>
+                   .List
+                 </callStack>
+                 <interimStates>
+                   .List
+                 </interimStates>
+                 <touchedAccounts>
+                   .Set
+                 </touchedAccounts>
+                 <callState>
+                   <id>
+                     #address ( FoundryTest )
+                   </id>
+                   <caller>
+                     137122462167341575662000267002353578582749290296
+                   </caller>
+                   <callData>
+                     ( b"\n\x92T\xe4" => b"\xeb:\xc9H" +Bytes #buf ( 32 , ?KV0_x:Int ) )
+                   </callData>
+                   <callValue>
+                     0
+                   </callValue>
+                   <wordStack>
+                     ( ( 177362148 : .WordStack ) => .WordStack )
+                   </wordStack>
+                   <localMem>
+                     ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ?WORD:Int ) => b"" )
+                   </localMem>
+                   <memoryUsed>
+                     0
+                   </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
+                   <static>
+                     false
+                   </static>
+                   <callDepth>
+                     0
+                   </callDepth>
+                   <codeAddr>
+                     #address ( FoundryTest )
+                   </codeAddr>
+                   ...
+                 </callState>
+                 <substate>
+                   <log>
+                     .List
+                   </log>
+                   <refund>
+                     0
+                   </refund>
+                   <accessedAccounts>
+                     ( SetItem ( #address ( FoundryCheat ) ) => .Set )
+                   </accessedAccounts>
+                   <accessedStorage>
+                     .Map
+                   </accessedStorage>
+                   <createdAccounts>
+                     .Set
+                   </createdAccounts>
+                   ...
+                 </substate>
+                 <origin>
+                   137122462167341575662000267002353578582749290296
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
+                   ...
+                 </block>
+                 ...
+               </evm>
+               <network>
+                 <chainID>
+                   1
+                 </chainID>
+                 <accounts>
+                   ( <account>
+                     <acctID>
+                       #address ( FoundryCheat )
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       0
+                     </nonce>
+                     ...
+                   </account>
+                   <account>
+                     <acctID>
+                       #address ( FoundryTest )
+                     </acctID>
+                     <balance>
+                       maxUInt96
+                     </balance>
+                     <storage>
+                       ( 32 |-> ?WORD:Int )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       1
+                     </nonce>
+                     ...
+                   </account> )
+                 </accounts>
+                 ...
+               </network>
+             </ethereum>
+             ...
+           </kevm>
+           <stackChecks>
+             false
+           </stackChecks>
+           <cheatcodes>
+             <prank>
+               <active>
+                 false
+               </active>
+               <singleCall>
+                 false
+               </singleCall>
+               ...
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 false
+               </isRevertExpected>
+               ...
+             </expectedRevert>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 false
+               </isOpcodeExpected>
+               ...
+             </expectedOpcode>
+             <expectEmit>
+               <recordEvent>
+                 false
+               </recordEvent>
+               <isEventExpected>
+                 false
+               </isEventExpected>
+               ...
+             </expectEmit>
+             <whitelist>
+               <isCallWhitelistActive>
+                 false
+               </isCallWhitelistActive>
+               <allowedCallsList>
+                 .List
+               </allowedCallsList>
+               <isStorageWhitelistActive>
+                 false
+               </isStorageWhitelistActive>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
+             </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
+           </cheatcodes>
+         </foundry>
+      requires ( 0 <=Int ?WORD:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( ?WORD:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
+               ))))))))
+       ensures ( 0 <=Int ?KV0_x:Int
+       andBool ( ?KV0_x:Int <=Int 14
+       andBool ( ?KV0_x:Int <Int pow256
+               )))
+      [priority(20), label(BASIC-BLOCK-3-TO-4)]
+    
+    rule [BASIC-BLOCK-4-TO-6]: <foundry>
+           <kevm>
+             <k>
+               ( .K => #halt
+               ~> #codeDeposit 491460923342184218035706888008750043977755113263
+               ~> #pc [ CREATE ] )
+               ~> #execute
+               ~> _CONTINUATION:K
+             </k>
+             <mode>
+               NORMAL
+             </mode>
+             <schedule>
+               CANCUN
+             </schedule>
+             <useGas>
+               false
+             </useGas>
+             <ethereum>
+               <evm>
+                 <output>
+                   ( b"" => b"`\x80`@R4\x80\x15`\x0eW__\xfd[P`\x046\x10`&W_5`\xe0\x1c\x80c\xbd\x85\xb09\x14`*W[__\xfd[`8`56`\x04`JV[\x90V[`@Q\x90\x81R` \x01`@Q\x80\x91\x03\x90\xf3[_` \x82\x84\x03\x12\x15`YW__\xfd[P5\x91\x90PV" )
+                 </output>
+                 <statusCode>
+                   ( _STATUSCODE:StatusCode => EVMC_SUCCESS )
+                 </statusCode>
+                 <callStack>
+                   ( .List => ListItem ( <callState>
+                     <id>
+                       #address ( FoundryTest )
+                     </id>
+                     <caller>
+                       137122462167341575662000267002353578582749290296
+                     </caller>
+                     <callData>
+                       b"\xeb:\xc9H" +Bytes #buf ( 32 , KV0_x:Int )
+                     </callData>
+                     <callValue>
+                       0
+                     </callValue>
+                     <wordStack>
+                       ( 0 : ( KV0_x:Int : ( 274 : ( 3946498376 : .WordStack ) ) ) )
+                     </wordStack>
+                     <localMem>
+                       b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00`\x80`@R4\x80\x15`\x0eW__\xfd[P``\x80`\x1a_9_\xf3\xfe`\x80`@R4\x80\x15`\x0eW__\xfd[P`\x046\x10`&W_5`\xe0\x1c\x80c\xbd\x85\xb09\x14`*W[__\xfd[`8`56`\x04`JV[\x90V[`@Q\x90\x81R` \x01`@Q\x80\x91\x03\x90\xf3[_` \x82\x84\x03\x12\x15`YW__\xfd[P5\x91\x90PV"
+                     </localMem>
+                     <memoryUsed>
+                       0
+                     </memoryUsed>
+                     <callGas>
+                       0
+                     </callGas>
+                     <static>
+                       false
+                     </static>
+                     <callDepth>
+                       0
+                     </callDepth>
+                     <codeAddr>
+                       #address ( FoundryTest )
+                     </codeAddr>
+                     ...
+                   </callState> ) )
+                 </callStack>
+                 <interimStates>
+                   ( .List => ListItem ( { <accounts>
+                     ( <account>
+                       <acctID>
+                         #address ( FoundryCheat )
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       <storage>
+                         .Map
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         0
+                       </nonce>
+                       ...
+                     </account>
+                     <account>
+                       <acctID>
+                         #address ( FoundryTest )
+                       </acctID>
+                       <balance>
+                         maxUInt96
+                       </balance>
+                       <storage>
+                         ( 32 |-> ?WORD:Int )
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         2
+                       </nonce>
+                       ...
+                     </account> )
+                   </accounts> | <substate>
+                     <selfDestruct>
+                       SELFDESTRUCT_CELL:Set
+                     </selfDestruct>
+                     <log>
+                       .List
+                     </log>
+                     <refund>
+                       0
+                     </refund>
+                     <accessedAccounts>
+                       SetItem ( 491460923342184218035706888008750043977755113263 )
+                     </accessedAccounts>
+                     <accessedStorage>
+                       .Map
+                     </accessedStorage>
+                     <createdAccounts>
+                       .Set
+                     </createdAccounts>
+                   </substate> } ) )
+                 </interimStates>
+                 <touchedAccounts>
+                   ( .Set => ( SetItem ( #address ( FoundryTest ) ) SetItem ( 491460923342184218035706888008750043977755113263 ) ) )
+                 </touchedAccounts>
+                 <callState>
+                   <id>
+                     ( #address ( FoundryTest ) => 491460923342184218035706888008750043977755113263 )
+                   </id>
+                   <caller>
+                     ( 137122462167341575662000267002353578582749290296 => #address ( FoundryTest ) )
+                   </caller>
+                   <callData>
+                     ( b"\xeb:\xc9H" +Bytes #buf ( 32 , KV0_x:Int ) => b"" )
+                   </callData>
+                   <callValue>
+                     0
+                   </callValue>
+                   <wordStack>
+                     .WordStack
+                   </wordStack>
+                   <localMem>
+                     ( b"" => b"`\x80`@R4\x80\x15`\x0eW__\xfd[P`\x046\x10`&W_5`\xe0\x1c\x80c\xbd\x85\xb09\x14`*W[__\xfd[`8`56`\x04`JV[\x90V[`@Q\x90\x81R` \x01`@Q\x80\x91\x03\x90\xf3[_` \x82\x84\x03\x12\x15`YW__\xfd[P5\x91\x90PV" )
+                   </localMem>
+                   <memoryUsed>
+                     0
+                   </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
+                   <static>
+                     false
+                   </static>
+                   <callDepth>
+                     ( 0 => 1 )
+                   </callDepth>
+                   <codeAddr>
+                     ( #address ( FoundryTest ) => 491460923342184218035706888008750043977755113263 )
+                   </codeAddr>
+                   ...
+                 </callState>
+                 <substate>
+                   <selfDestruct>
+                     SELFDESTRUCT_CELL:Set
+                   </selfDestruct>
+                   <log>
+                     .List
+                   </log>
+                   <refund>
+                     0
+                   </refund>
+                   <accessedAccounts>
+                     ( .Set => ( SetItem ( #address ( FoundryTest ) ) SetItem ( 491460923342184218035706888008750043977755113263 ) ) )
+                   </accessedAccounts>
+                   <accessedStorage>
+                     .Map
+                   </accessedStorage>
+                   <createdAccounts>
+                     ( .Set => SetItem ( 491460923342184218035706888008750043977755113263 ) )
+                   </createdAccounts>
+                 </substate>
+                 <origin>
+                   137122462167341575662000267002353578582749290296
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
+                   ...
+                 </block>
+                 ...
+               </evm>
+               <network>
+                 <chainID>
+                   1
+                 </chainID>
+                 <accounts>
+                   ( <account>
+                     <acctID>
+                       ( #address ( FoundryCheat ) => 491460923342184218035706888008750043977755113263 )
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       ( 0 => 1 )
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
+                     <acctID>
+                       #address ( FoundryTest )
+                     </acctID>
+                     <balance>
+                       maxUInt96
+                     </balance>
+                     <storage>
+                       ( 32 |-> ?WORD:Int )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       1
+                     </nonce>
+                     ...
+                   </account> => ( <account>
+                     <acctID>
+                       #address ( FoundryCheat )
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       0
+                     </nonce>
+                     ...
+                   </account>
+                   <account>
+                     <acctID>
+                       #address ( FoundryTest )
+                     </acctID>
+                     <balance>
+                       maxUInt96
+                     </balance>
+                     <storage>
+                       ( 32 |-> ?WORD:Int )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       2
+                     </nonce>
+                     ...
+                   </account> ) ) )
+                 </accounts>
+                 ...
+               </network>
+             </ethereum>
+             ...
+           </kevm>
+           <stackChecks>
+             false
+           </stackChecks>
+           <cheatcodes>
+             <prank>
+               <active>
+                 false
+               </active>
+               <singleCall>
+                 false
+               </singleCall>
+               ...
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 false
+               </isRevertExpected>
+               ...
+             </expectedRevert>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 false
+               </isOpcodeExpected>
+               ...
+             </expectedOpcode>
+             <expectEmit>
+               <recordEvent>
+                 false
+               </recordEvent>
+               <isEventExpected>
+                 false
+               </isEventExpected>
+               ...
+             </expectEmit>
+             <whitelist>
+               <isCallWhitelistActive>
+                 false
+               </isCallWhitelistActive>
+               <allowedCallsList>
+                 .List
+               </allowedCallsList>
+               <isStorageWhitelistActive>
+                 false
+               </isStorageWhitelistActive>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
+             </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
+           </cheatcodes>
+         </foundry>
+      requires ( 0 <=Int ?WORD:Int
+       andBool ( 0 <=Int KV0_x:Int
+       andBool ( KV0_x:Int <=Int 14
+       andBool ( 0 <=Int MIXHASH_CELL:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( ?WORD:Int <Int pow256
+       andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
+               )))))))))))
+      [priority(20), label(BASIC-BLOCK-4-TO-6)]
+    
+    rule [BASIC-BLOCK-6-TO-7]: <foundry>
+           <kevm>
+             <k>
+               #halt
+               ~> ( #codeDeposit 491460923342184218035706888008750043977755113263
+               ~> #pc [ CREATE ] => #return 128 32
+               ~> #pc [ STATICCALL ] )
+               ~> #execute
+               ~> _CONTINUATION:K
+             </k>
+             <mode>
+               NORMAL
+             </mode>
+             <schedule>
+               CANCUN
+             </schedule>
+             <useGas>
+               false
+             </useGas>
+             <ethereum>
+               <evm>
+                 <output>
+                   ( b"`\x80`@R4\x80\x15`\x0eW__\xfd[P`\x046\x10`&W_5`\xe0\x1c\x80c\xbd\x85\xb09\x14`*W[__\xfd[`8`56`\x04`JV[\x90V[`@Q\x90\x81R` \x01`@Q\x80\x91\x03\x90\xf3[_` \x82\x84\x03\x12\x15`YW__\xfd[P5\x91\x90PV" => #buf ( 32 , KV0_x:Int ) )
+                 </output>
+                 <statusCode>
+                   EVMC_SUCCESS
+                 </statusCode>
+                 <callStack>
+                   ListItem ( <callState>
+                     <id>
+                       #address ( FoundryTest )
+                     </id>
+                     <caller>
+                       137122462167341575662000267002353578582749290296
+                     </caller>
+                     <callData>
+                       b"\xeb:\xc9H" +Bytes #buf ( 32 , KV0_x:Int )
+                     </callData>
+                     <callValue>
+                       0
+                     </callValue>
+                     <wordStack>
+                       ( ( 0 => 164 ) : ( ( KV0_x:Int => 3179655225 ) : ( ( 274 => 491460923342184218035706888008750043977755113263 ) : ( ( 3946498376 => 0 ) : ( .WordStack => ( 491460923342184218035706888008750043977755113263 : ( KV0_x:Int : ( 274 : ( 3946498376 : .WordStack ) ) ) ) ) ) ) ) )
+                     </wordStack>
+                     <localMem>
+                       ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00`\x80`@R4\x80\x15`\x0eW__\xfd[P``\x80`\x1a_9_\xf3\xfe`\x80`@R4\x80\x15`\x0eW__\xfd[P`\x046\x10`&W_5`\xe0\x1c\x80c\xbd\x85\xb09\x14`*W[__\xfd[`8`56`\x04`JV[\x90V[`@Q\x90\x81R` \x01`@Q\x80\x91\x03\x90\xf3[_` \x82\x84\x03\x12\x15`YW__\xfd[P5\x91\x90PV" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xbd\x85\xb09" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes b"W__\xfd[P`\x046\x10`&W_5`\xe0\x1c\x80c\xbd\x85\xb09\x14`*W[__\xfd[`8`56`\x04`JV[\x90V[`@Q\x90\x81R` \x01`@Q\x80\x91\x03\x90\xf3[_` \x82\x84\x03\x12\x15`YW__\xfd[P5\x91\x90PV" )
+                     </localMem>
+                     <memoryUsed>
+                       0
+                     </memoryUsed>
+                     <callGas>
+                       0
+                     </callGas>
+                     <static>
+                       false
+                     </static>
+                     <callDepth>
+                       0
+                     </callDepth>
+                     <codeAddr>
+                       #address ( FoundryTest )
+                     </codeAddr>
+                     ...
+                   </callState> )
+                 </callStack>
+                 <interimStates>
+                   ListItem ( { <accounts>
+                     ( <account>
+                       <acctID>
+                         ( #address ( FoundryCheat ) => 491460923342184218035706888008750043977755113263 )
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       <storage>
+                         .Map
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         ( 0 => 1 )
+                       </nonce>
+                       ...
+                     </account>
+                     ( <account>
+                       <acctID>
+                         #address ( FoundryTest )
+                       </acctID>
+                       <balance>
+                         maxUInt96
+                       </balance>
+                       <storage>
+                         ( 32 |-> ?WORD:Int )
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         2
+                       </nonce>
+                       ...
+                     </account> => ( <account>
+                       <acctID>
+                         #address ( FoundryCheat )
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       <storage>
+                         .Map
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         0
+                       </nonce>
+                       ...
+                     </account>
+                     <account>
+                       <acctID>
+                         #address ( FoundryTest )
+                       </acctID>
+                       <balance>
+                         maxUInt96
+                       </balance>
+                       <storage>
+                         ( 32 |-> ?WORD:Int )
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         2
+                       </nonce>
+                       ...
+                     </account> ) ) )
+                   </accounts> | <substate>
+                     <selfDestruct>
+                       SELFDESTRUCT_CELL:Set
+                     </selfDestruct>
+                     <log>
+                       .List
+                     </log>
+                     <refund>
+                       0
+                     </refund>
+                     <accessedAccounts>
+                       ( SetItem ( 491460923342184218035706888008750043977755113263 ) => ( SetItem ( #address ( FoundryTest ) ) SetItem ( 491460923342184218035706888008750043977755113263 ) ) )
+                     </accessedAccounts>
+                     <accessedStorage>
+                       .Map
+                     </accessedStorage>
+                     <createdAccounts>
+                       ( .Set => SetItem ( 491460923342184218035706888008750043977755113263 ) )
+                     </createdAccounts>
+                   </substate> } )
+                 </interimStates>
+                 <touchedAccounts>
+                   ( SetItem ( #address ( FoundryTest ) ) SetItem ( 491460923342184218035706888008750043977755113263 ) )
+                 </touchedAccounts>
+                 <callState>
+                   <id>
+                     491460923342184218035706888008750043977755113263
+                   </id>
+                   <caller>
+                     #address ( FoundryTest )
+                   </caller>
+                   <callData>
+                     ( b"" => b"\xbd\x85\xb09" +Bytes #buf ( 32 , KV0_x:Int ) )
+                   </callData>
+                   <callValue>
+                     0
+                   </callValue>
+                   <wordStack>
+                     ( .WordStack => ( 3179655225 : .WordStack ) )
+                   </wordStack>
+                   <localMem>
+                     ( b"`\x80`@R4\x80\x15`\x0eW__\xfd[P`\x046\x10`&W_5`\xe0\x1c\x80c\xbd\x85\xb09\x14`*W[__\xfd[`8`56`\x04`JV[\x90V[`@Q\x90\x81R` \x01`@Q\x80\x91\x03\x90\xf3[_` \x82\x84\x03\x12\x15`YW__\xfd[P5\x91\x90PV" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , KV0_x:Int ) )
+                   </localMem>
+                   <memoryUsed>
+                     0
+                   </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
+                   <static>
+                     ( false => true )
+                   </static>
+                   <callDepth>
+                     1
+                   </callDepth>
+                   <codeAddr>
+                     491460923342184218035706888008750043977755113263
+                   </codeAddr>
+                   ...
+                 </callState>
+                 <substate>
+                   <selfDestruct>
+                     SELFDESTRUCT_CELL:Set
+                   </selfDestruct>
+                   <log>
+                     .List
+                   </log>
+                   <refund>
+                     0
+                   </refund>
+                   <accessedAccounts>
+                     ( SetItem ( #address ( FoundryTest ) ) SetItem ( 491460923342184218035706888008750043977755113263 ) )
+                   </accessedAccounts>
+                   <accessedStorage>
+                     .Map
+                   </accessedStorage>
+                   <createdAccounts>
+                     SetItem ( 491460923342184218035706888008750043977755113263 )
+                   </createdAccounts>
+                 </substate>
+                 <origin>
+                   137122462167341575662000267002353578582749290296
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
+                   ...
+                 </block>
+                 ...
+               </evm>
+               <network>
+                 <chainID>
+                   1
+                 </chainID>
+                 <accounts>
+                   ( <account>
+                     <acctID>
+                       #address ( FoundryCheat )
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       0
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
+                     <acctID>
+                       #address ( FoundryTest )
+                     </acctID>
+                     <balance>
+                       maxUInt96
+                     </balance>
+                     <storage>
+                       ( 32 |-> ?WORD:Int )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       2
+                     </nonce>
+                     ...
+                   </account>
+                   <account>
+                     <acctID>
+                       491460923342184218035706888008750043977755113263
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       1
+                     </nonce>
+                     ...
+                   </account> ) )
+                 </accounts>
+                 ...
+               </network>
+             </ethereum>
+             ...
+           </kevm>
+           <stackChecks>
+             false
+           </stackChecks>
+           <cheatcodes>
+             <prank>
+               <active>
+                 false
+               </active>
+               <singleCall>
+                 false
+               </singleCall>
+               ...
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 false
+               </isRevertExpected>
+               ...
+             </expectedRevert>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 false
+               </isOpcodeExpected>
+               ...
+             </expectedOpcode>
+             <expectEmit>
+               <recordEvent>
+                 false
+               </recordEvent>
+               <isEventExpected>
+                 false
+               </isEventExpected>
+               ...
+             </expectEmit>
+             <whitelist>
+               <isCallWhitelistActive>
+                 false
+               </isCallWhitelistActive>
+               <allowedCallsList>
+                 .List
+               </allowedCallsList>
+               <isStorageWhitelistActive>
+                 false
+               </isStorageWhitelistActive>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
+             </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
+           </cheatcodes>
+         </foundry>
+      requires ( 0 <=Int ?WORD:Int
+       andBool ( 0 <=Int KV0_x:Int
+       andBool ( KV0_x:Int <=Int 14
+       andBool ( 0 <=Int MIXHASH_CELL:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( ?WORD:Int <Int pow256
+       andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
+               )))))))))))
+      [priority(20), label(BASIC-BLOCK-6-TO-7)]
+    
+    rule [BASIC-BLOCK-7-TO-8]: <foundry>
+           <kevm>
+             <k>
+               #halt
+               ~> ( #return 128 32
+               ~> #pc [ STATICCALL ]
+               ~> #execute => .K )
+               ~> _CONTINUATION:K
+             </k>
+             <mode>
+               NORMAL
+             </mode>
+             <schedule>
+               CANCUN
+             </schedule>
+             <useGas>
+               false
+             </useGas>
+             <ethereum>
+               <evm>
+                 <output>
+                   ( #buf ( 32 , KV0_x:Int ) => b"" )
+                 </output>
+                 <statusCode>
+                   EVMC_SUCCESS
+                 </statusCode>
+                 <callStack>
+                   ( ListItem ( <callState>
+                     <id>
+                       #address ( FoundryTest )
+                     </id>
+                     <caller>
+                       137122462167341575662000267002353578582749290296
+                     </caller>
+                     <callData>
+                       b"\xeb:\xc9H" +Bytes #buf ( 32 , KV0_x:Int )
+                     </callData>
+                     <callValue>
+                       0
+                     </callValue>
+                     <wordStack>
+                       ( 164 : ( 3179655225 : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( 491460923342184218035706888008750043977755113263 : ( KV0_x:Int : ( 274 : ( 3946498376 : .WordStack ) ) ) ) ) ) ) )
+                     </wordStack>
+                     <localMem>
+                       b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xbd\x85\xb09" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes b"W__\xfd[P`\x046\x10`&W_5`\xe0\x1c\x80c\xbd\x85\xb09\x14`*W[__\xfd[`8`56`\x04`JV[\x90V[`@Q\x90\x81R` \x01`@Q\x80\x91\x03\x90\xf3[_` \x82\x84\x03\x12\x15`YW__\xfd[P5\x91\x90PV"
+                     </localMem>
+                     <memoryUsed>
+                       0
+                     </memoryUsed>
+                     <callGas>
+                       0
+                     </callGas>
+                     <static>
+                       false
+                     </static>
+                     <callDepth>
+                       0
+                     </callDepth>
+                     <codeAddr>
+                       #address ( FoundryTest )
+                     </codeAddr>
+                     ...
+                   </callState> ) => .List )
+                 </callStack>
+                 <interimStates>
+                   ( ListItem ( { <accounts>
+                     ( <account>
+                       <acctID>
+                         #address ( FoundryCheat )
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       <storage>
+                         .Map
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         0
+                       </nonce>
+                       ...
+                     </account>
+                     ( <account>
+                       <acctID>
+                         #address ( FoundryTest )
+                       </acctID>
+                       <balance>
+                         maxUInt96
+                       </balance>
+                       <storage>
+                         ( 32 |-> ?WORD:Int )
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         2
+                       </nonce>
+                       ...
+                     </account>
+                     <account>
+                       <acctID>
+                         491460923342184218035706888008750043977755113263
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       <storage>
+                         .Map
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         1
+                       </nonce>
+                       ...
+                     </account> ) )
+                   </accounts> | <substate>
+                     <selfDestruct>
+                       SELFDESTRUCT_CELL:Set
+                     </selfDestruct>
+                     <log>
+                       .List
+                     </log>
+                     <refund>
+                       0
+                     </refund>
+                     <accessedAccounts>
+                       ( SetItem ( #address ( FoundryTest ) ) SetItem ( 491460923342184218035706888008750043977755113263 ) )
+                     </accessedAccounts>
+                     <accessedStorage>
+                       .Map
+                     </accessedStorage>
+                     <createdAccounts>
+                       SetItem ( 491460923342184218035706888008750043977755113263 )
+                     </createdAccounts>
+                   </substate> } ) => .List )
+                 </interimStates>
+                 <touchedAccounts>
+                   ( SetItem ( #address ( FoundryTest ) ) SetItem ( 491460923342184218035706888008750043977755113263 ) )
+                 </touchedAccounts>
+                 <callState>
+                   <id>
+                     ( 491460923342184218035706888008750043977755113263 => #address ( FoundryTest ) )
+                   </id>
+                   <caller>
+                     ( #address ( FoundryTest ) => 137122462167341575662000267002353578582749290296 )
+                   </caller>
+                   <callData>
+                     ( b"\xbd\x85\xb09" => b"\xeb:\xc9H" ) +Bytes #buf ( 32 , KV0_x:Int )
+                   </callData>
+                   <callValue>
+                     0
+                   </callValue>
+                   <wordStack>
+                     ( ( 3179655225 => 3946498376 ) : .WordStack )
+                   </wordStack>
+                   <localMem>
+                     ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" ) +Bytes ( #buf ( 32 , KV0_x:Int ) => #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 4 , KV0_x:Int ) +Bytes b"W__\xfd[P`\x046\x10`&W_5`\xe0\x1c\x80c\xbd\x85\xb09\x14`*W[__\xfd[`8`56`\x04`JV[\x90V[`@Q\x90\x81R` \x01`@Q\x80\x91\x03\x90\xf3[_` \x82\x84\x03\x12\x15`YW__\xfd[P5\x91\x90PV" )
+                   </localMem>
+                   <memoryUsed>
+                     0
+                   </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
+                   <static>
+                     ( true => false )
+                   </static>
+                   <callDepth>
+                     ( 1 => 0 )
+                   </callDepth>
+                   <codeAddr>
+                     ( 491460923342184218035706888008750043977755113263 => #address ( FoundryTest ) )
+                   </codeAddr>
+                   ...
+                 </callState>
+                 <substate>
+                   <selfDestruct>
+                     SELFDESTRUCT_CELL:Set
+                   </selfDestruct>
+                   <log>
+                     .List
+                   </log>
+                   <refund>
+                     0
+                   </refund>
+                   <accessedAccounts>
+                     ( SetItem ( #address ( FoundryTest ) ) SetItem ( 491460923342184218035706888008750043977755113263 ) )
+                   </accessedAccounts>
+                   <accessedStorage>
+                     .Map
+                   </accessedStorage>
+                   <createdAccounts>
+                     SetItem ( 491460923342184218035706888008750043977755113263 )
+                   </createdAccounts>
+                 </substate>
+                 <origin>
+                   137122462167341575662000267002353578582749290296
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
+                   ...
+                 </block>
+                 ...
+               </evm>
+               <network>
+                 <chainID>
+                   1
+                 </chainID>
+                 <accounts>
+                   ( <account>
+                     <acctID>
+                       #address ( FoundryCheat )
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       0
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
+                     <acctID>
+                       #address ( FoundryTest )
+                     </acctID>
+                     <balance>
+                       maxUInt96
+                     </balance>
+                     <storage>
+                       ( 32 |-> ?WORD:Int )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       2
+                     </nonce>
+                     ...
+                   </account>
+                   <account>
+                     <acctID>
+                       491460923342184218035706888008750043977755113263
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       1
+                     </nonce>
+                     ...
+                   </account> ) )
+                 </accounts>
+                 ...
+               </network>
+             </ethereum>
+             ...
+           </kevm>
+           <stackChecks>
+             false
+           </stackChecks>
+           <cheatcodes>
+             <prank>
+               <active>
+                 false
+               </active>
+               <singleCall>
+                 false
+               </singleCall>
+               ...
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 false
+               </isRevertExpected>
+               ...
+             </expectedRevert>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 false
+               </isOpcodeExpected>
+               ...
+             </expectedOpcode>
+             <expectEmit>
+               <recordEvent>
+                 false
+               </recordEvent>
+               <isEventExpected>
+                 false
+               </isEventExpected>
+               ...
+             </expectEmit>
+             <whitelist>
+               <isCallWhitelistActive>
+                 false
+               </isCallWhitelistActive>
+               <allowedCallsList>
+                 .List
+               </allowedCallsList>
+               <isStorageWhitelistActive>
+                 false
+               </isStorageWhitelistActive>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
+             </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
+           </cheatcodes>
+         </foundry>
+      requires ( 0 <=Int ?WORD:Int
+       andBool ( 0 <=Int KV0_x:Int
+       andBool ( KV0_x:Int <=Int 14
+       andBool ( 0 <=Int MIXHASH_CELL:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( ?WORD:Int <Int pow256
+       andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
+               )))))))))))
+      [priority(20), label(BASIC-BLOCK-7-TO-8)]
+
+endmodule
+0 Failure nodes. (0 pending and 0 failing)
+
+Join the Runtime Verification Discord server (https://discord.com/invite/CurfmXNtbN) or Telegram group (https://t.me/rv_kontrol) for support.
+
+Access documentation for Kontrol at https://docs.runtimeverification.com/kontrol

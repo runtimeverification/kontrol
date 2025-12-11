@@ -20,7 +20,7 @@
 ┣━━┓
 ┃  │
 ┃  ├─ 4 (split)
-┃  │   k: #next [ STATICCALL ] ~> #checkRevert ~> #updateRevertOutput 128 32 ~> #execute ~ ...
+┃  │   k: #next [ STATICCALL ] ~> #checkRevert ~> #updateRevertOutput 32 132 ~> #execute ~ ...
 ┃  │   pc: 145
 ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  │   statusCode: STATUSCODE:StatusCode
@@ -35,7 +35,7 @@
 ┃  ┃  ┃     ( notBool NEWCALLER_CELL:Account ==K C_ENUM_ID:Int )
 ┃  ┃  │
 ┃  ┃  ├─ 7
-┃  ┃  │   k: #next [ STATICCALL ] ~> #checkRevert ~> #updateRevertOutput 128 32 ~> #execute ~ ...
+┃  ┃  │   k: #next [ STATICCALL ] ~> #checkRevert ~> #updateRevertOutput 32 132 ~> #execute ~ ...
 ┃  ┃  │   pc: 145
 ┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -55,7 +55,7 @@
 ┃  ┃  ┣━━┓
 ┃  ┃  ┃  │
 ┃  ┃  ┃  ├─ 22 (split)
-┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 132  ...
 ┃  ┃  ┃  │   pc: 145
 ┃  ┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -72,7 +72,7 @@
 </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
 ┃  ┃  ┃  ┃  │
 ┃  ┃  ┃  ┃  ├─ 134
-┃  ┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 132  ...
 ┃  ┃  ┃  ┃  │   pc: 145
 ┃  ┃  ┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -81,7 +81,7 @@
 ┃  ┃  ┃  ┃  │
 ┃  ┃  ┃  ┃  │  (5 steps)
 ┃  ┃  ┃  ┃  └─ 98 (leaf, pending)
-┃  ┃  ┃  ┃      k: #consoleLog 1756313567 b"" ~> 1 ~> #push ~> #setLocalMem 128 32 b"" ~> #pc [ STA ...
+┃  ┃  ┃  ┃      k: #consoleLog 1756313567 b"" ~> #refund 0 ~> 1 ~> #push ~> #setLocalMem 128 32 b"" ...
 ┃  ┃  ┃  ┃      pc: 145
 ┃  ┃  ┃  ┃      callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
@@ -98,7 +98,7 @@
 </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
 ┃  ┃  ┃  ┃  │
 ┃  ┃  ┃  ┃  ├─ 154
-┃  ┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 132  ...
 ┃  ┃  ┃  ┃  │   pc: 145
 ┃  ┃  ┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -119,7 +119,7 @@
 ┃  ┃  ┃     ┃     ( notBool C_ENUM_ID:Int ==Int C_ENUM_MEMBER_CONTRACT_ID:Int )
 ┃  ┃  ┃     │
 ┃  ┃  ┃     ├─ 155
-┃  ┃  ┃     │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃  ┃     │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 132  ...
 ┃  ┃  ┃     │   pc: 145
 ┃  ┃  ┃     │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  ┃     │   statusCode: STATUSCODE:StatusCode
@@ -138,7 +138,7 @@
 ┃  ┃  ┣━━┓
 ┃  ┃  ┃  │
 ┃  ┃  ┃  ├─ 23 (split)
-┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 132  ...
 ┃  ┃  ┃  │   pc: 145
 ┃  ┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -155,7 +155,7 @@
 </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
 ┃  ┃  ┃  ┃  │
 ┃  ┃  ┃  ┃  ├─ 136
-┃  ┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 132  ...
 ┃  ┃  ┃  ┃  │   pc: 145
 ┃  ┃  ┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -164,7 +164,7 @@
 ┃  ┃  ┃  ┃  │
 ┃  ┃  ┃  ┃  │  (5 steps)
 ┃  ┃  ┃  ┃  └─ 101 (leaf, pending)
-┃  ┃  ┃  ┃      k: #consoleLog 1756313567 b"" ~> 1 ~> #push ~> #setLocalMem 128 32 b"" ~> #pc [ STA ...
+┃  ┃  ┃  ┃      k: #consoleLog 1756313567 b"" ~> #refund 0 ~> 1 ~> #push ~> #setLocalMem 128 32 b"" ...
 ┃  ┃  ┃  ┃      pc: 145
 ┃  ┃  ┃  ┃      callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
@@ -181,7 +181,7 @@
 </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
 ┃  ┃  ┃  ┃  │
 ┃  ┃  ┃  ┃  ├─ 156
-┃  ┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 132  ...
 ┃  ┃  ┃  ┃  │   pc: 145
 ┃  ┃  ┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -202,7 +202,7 @@
 ┃  ┃  ┃     ┃     ( notBool C_ENUM_ID:Int ==Int C_ENUM_MEMBER_CONTRACT_ID:Int )
 ┃  ┃  ┃     │
 ┃  ┃  ┃     ├─ 157
-┃  ┃  ┃     │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃  ┃     │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 132  ...
 ┃  ┃  ┃     │   pc: 145
 ┃  ┃  ┃     │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  ┃     │   statusCode: STATUSCODE:StatusCode
@@ -232,7 +232,7 @@
 ┃  ┃     ┣━━┓
 ┃  ┃     ┃  │
 ┃  ┃     ┃  ├─ 39 (split)
-┃  ┃     ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃     ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 132  ...
 ┃  ┃     ┃  │   pc: 145
 ┃  ┃     ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃     ┃  │   statusCode: STATUSCODE:StatusCode
@@ -249,7 +249,7 @@
 </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
 ┃  ┃     ┃  ┃  │
 ┃  ┃     ┃  ┃  ├─ 142
-┃  ┃     ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃     ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 132  ...
 ┃  ┃     ┃  ┃  │   pc: 145
 ┃  ┃     ┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃     ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -270,7 +270,7 @@
 ┃  ┃     ┃     ┃     ( notBool C_ENUM_ID:Int ==Int C_ENUM_MEMBER_CONTRACT_ID:Int )
 ┃  ┃     ┃     │
 ┃  ┃     ┃     ├─ 143
-┃  ┃     ┃     │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃     ┃     │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 132  ...
 ┃  ┃     ┃     │   pc: 145
 ┃  ┃     ┃     │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃     ┃     │   statusCode: STATUSCODE:StatusCode
@@ -300,7 +300,7 @@
 ┃  ┃        ┣━━┓
 ┃  ┃        ┃  │
 ┃  ┃        ┃  ├─ 66
-┃  ┃        ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃        ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 132  ...
 ┃  ┃        ┃  │   pc: 145
 ┃  ┃        ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃        ┃  │   statusCode: STATUSCODE:StatusCode
@@ -330,7 +330,7 @@
 ┃  ┃           ┣━━┓
 ┃  ┃           ┃  │
 ┃  ┃           ┃  └─ 107 (leaf, pending)
-┃  ┃           ┃      k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃           ┃      k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 132  ...
 ┃  ┃           ┃      pc: 145
 ┃  ┃           ┃      callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃           ┃      statusCode: STATUSCODE:StatusCode
@@ -355,7 +355,7 @@
 ┃  ┃  ┃     ( notBool C_ENUM_ID:Int ==Int C_ENUM_MEMBER_CONTRACT_ID:Int )
 ┃  ┃  │
 ┃  ┃  ├─ 14
-┃  ┃  │   k: #next [ STATICCALL ] ~> #checkRevert ~> #updateRevertOutput 128 32 ~> #execute ~ ...
+┃  ┃  │   k: #next [ STATICCALL ] ~> #checkRevert ~> #updateRevertOutput 32 132 ~> #execute ~ ...
 ┃  ┃  │   pc: 145
 ┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -375,7 +375,7 @@
 ┃  ┃  ┣━━┓
 ┃  ┃  ┃  │
 ┃  ┃  ┃  ├─ 41 (split)
-┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 132  ...
 ┃  ┃  ┃  │   pc: 145
 ┃  ┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -392,7 +392,7 @@
 </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
 ┃  ┃  ┃  ┃  │
 ┃  ┃  ┃  ┃  ├─ 144
-┃  ┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 132  ...
 ┃  ┃  ┃  ┃  │   pc: 145
 ┃  ┃  ┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -413,7 +413,7 @@
 ┃  ┃  ┃     ┃     ( notBool C_ENUM_ID:Int ==Int C_ENUM_MEMBER_CONTRACT_ID:Int )
 ┃  ┃  ┃     │
 ┃  ┃  ┃     ├─ 145
-┃  ┃  ┃     │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃  ┃     │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 132  ...
 ┃  ┃  ┃     │   pc: 145
 ┃  ┃  ┃     │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  ┃     │   statusCode: STATUSCODE:StatusCode
@@ -432,7 +432,7 @@
 ┃  ┃  ┣━━┓
 ┃  ┃  ┃  │
 ┃  ┃  ┃  ├─ 42 (split)
-┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 132  ...
 ┃  ┃  ┃  │   pc: 145
 ┃  ┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -449,7 +449,7 @@
 </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
 ┃  ┃  ┃  ┃  │
 ┃  ┃  ┃  ┃  ├─ 146
-┃  ┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 132  ...
 ┃  ┃  ┃  ┃  │   pc: 145
 ┃  ┃  ┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -470,7 +470,7 @@
 ┃  ┃  ┃     ┃     ( notBool C_ENUM_ID:Int ==Int C_ENUM_MEMBER_CONTRACT_ID:Int )
 ┃  ┃  ┃     │
 ┃  ┃  ┃     ├─ 147
-┃  ┃  ┃     │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃  ┃     │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 132  ...
 ┃  ┃  ┃     │   pc: 145
 ┃  ┃  ┃     │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  ┃     │   statusCode: STATUSCODE:StatusCode
@@ -500,7 +500,7 @@
 ┃  ┃     ┣━━┓
 ┃  ┃     ┃  │
 ┃  ┃     ┃  ├─ 70
-┃  ┃     ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃     ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 132  ...
 ┃  ┃     ┃  │   pc: 145
 ┃  ┃     ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃     ┃  │   statusCode: STATUSCODE:StatusCode
@@ -530,7 +530,7 @@
 ┃  ┃        ┣━━┓
 ┃  ┃        ┃  │
 ┃  ┃        ┃  └─ 114 (leaf, pending)
-┃  ┃        ┃      k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃        ┃      k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 132  ...
 ┃  ┃        ┃      pc: 145
 ┃  ┃        ┃      callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃        ┃      statusCode: STATUSCODE:StatusCode
@@ -555,7 +555,7 @@
 ┃  ┃  ┃     ( notBool C_ENUM_ID:Int ==Int C_ENUM_MEMBER_CONTRACT_ID:Int )
 ┃  ┃  │
 ┃  ┃  ├─ 26
-┃  ┃  │   k: #next [ STATICCALL ] ~> #checkRevert ~> #updateRevertOutput 128 32 ~> #execute ~ ...
+┃  ┃  │   k: #next [ STATICCALL ] ~> #checkRevert ~> #updateRevertOutput 32 132 ~> #execute ~ ...
 ┃  ┃  │   pc: 145
 ┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -575,7 +575,7 @@
 ┃  ┃  ┣━━┓
 ┃  ┃  ┃  │
 ┃  ┃  ┃  ├─ 72
-┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 132  ...
 ┃  ┃  ┃  │   pc: 145
 ┃  ┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -594,7 +594,7 @@
 ┃  ┃  ┣━━┓
 ┃  ┃  ┃  │
 ┃  ┃  ┃  ├─ 73
-┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 132  ...
 ┃  ┃  ┃  │   pc: 145
 ┃  ┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -624,7 +624,7 @@
 ┃  ┃     ┣━━┓
 ┃  ┃     ┃  │
 ┃  ┃     ┃  └─ 118 (leaf, pending)
-┃  ┃     ┃      k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃     ┃      k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 132  ...
 ┃  ┃     ┃      pc: 145
 ┃  ┃     ┃      callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃     ┃      statusCode: STATUSCODE:StatusCode
@@ -649,7 +649,7 @@
 ┃  ┃  ┃     ( notBool C_ENUM_ID:Int ==Int C_ENUM_MEMBER_CONTRACT_ID:Int )
 ┃  ┃  │
 ┃  ┃  ├─ 45
-┃  ┃  │   k: #next [ STATICCALL ] ~> #checkRevert ~> #updateRevertOutput 128 32 ~> #execute ~ ...
+┃  ┃  │   k: #next [ STATICCALL ] ~> #checkRevert ~> #updateRevertOutput 32 132 ~> #execute ~ ...
 ┃  ┃  │   pc: 145
 ┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -669,7 +669,7 @@
 ┃  ┃  ┣━━┓
 ┃  ┃  ┃  │
 ┃  ┃  ┃  └─ 120 (leaf, pending)
-┃  ┃  ┃      k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃  ┃      k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 132  ...
 ┃  ┃  ┃      pc: 145
 ┃  ┃  ┃      callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
@@ -679,7 +679,7 @@
 ┃  ┃  ┣━━┓
 ┃  ┃  ┃  │
 ┃  ┃  ┃  └─ 121 (leaf, pending)
-┃  ┃  ┃      k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃  ┃      k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 132  ...
 ┃  ┃  ┃      pc: 145
 ┃  ┃  ┃      callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
@@ -704,7 +704,7 @@
 ┃  ┃  ┃     ( notBool C_ENUM_ID:Int ==Int C_ENUM_MEMBER_CONTRACT_ID:Int )
 ┃  ┃  │
 ┃  ┃  ├─ 76
-┃  ┃  │   k: #next [ STATICCALL ] ~> #checkRevert ~> #updateRevertOutput 128 32 ~> #execute ~ ...
+┃  ┃  │   k: #next [ STATICCALL ] ~> #checkRevert ~> #updateRevertOutput 32 132 ~> #execute ~ ...
 ┃  ┃  │   pc: 145
 ┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -728,7 +728,7 @@
 ┃  ┃  ┃     ( notBool C_ENUM_ID:Int ==Int C_ENUM_MEMBER_CONTRACT_ID:Int )
 ┃  ┃  │
 ┃  ┃  └─ 124 (leaf, pending)
-┃  ┃      k: #next [ STATICCALL ] ~> #checkRevert ~> #updateRevertOutput 128 32 ~> #execute ~ ...
+┃  ┃      k: #next [ STATICCALL ] ~> #checkRevert ~> #updateRevertOutput 32 132 ~> #execute ~ ...
 ┃  ┃      pc: 145
 ┃  ┃      callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃      statusCode: STATUSCODE:StatusCode
@@ -740,7 +740,7 @@
 ┃     ┃     ( notBool C_ENUM_ID:Int ==Int C_ENUM_MEMBER_CONTRACT_ID:Int )
 ┃     │
 ┃     └─ 125 (leaf, pending)
-┃         k: #next [ STATICCALL ] ~> #checkRevert ~> #updateRevertOutput 128 32 ~> #execute ~ ...
+┃         k: #next [ STATICCALL ] ~> #checkRevert ~> #updateRevertOutput 32 132 ~> #execute ~ ...
 ┃         pc: 145
 ┃         callDepth: EXPECTEDDEPTH_CELL:Int
 ┃         statusCode: STATUSCODE:StatusCode
@@ -787,7 +787,7 @@
 ┃  ┃  ┃  │
 ┃  ┃  ┃  │  (6 steps)
 ┃  ┃  ┃  └─ 78 (leaf, pending)
-┃  ┃  ┃      k: 1 ~> #push ~> #setLocalMem 128 32 b"" ~> #pc [ STATICCALL ] ~> #endPrank ~> #exe ...
+┃  ┃  ┃      k: #refund 0 ~> 1 ~> #push ~> #setLocalMem 128 32 b"" ~> #pc [ STATICCALL ] ~> #end ...
 ┃  ┃  ┃      pc: 145
 ┃  ┃  ┃      callDepth: DEPTH_CELL:Int
 ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
@@ -813,7 +813,7 @@
 ┃  ┃  ┃  │
 ┃  ┃  ┃  │  (5 steps)
 ┃  ┃  ┃  └─ 79 (leaf, pending)
-┃  ┃  ┃      k: #consoleLog 1756313567 b"" ~> 1 ~> #push ~> #setLocalMem 128 32 b"" ~> #pc [ STA ...
+┃  ┃  ┃      k: #consoleLog 1756313567 b"" ~> #refund 0 ~> 1 ~> #push ~> #setLocalMem 128 32 b"" ...
 ┃  ┃  ┃      pc: 145
 ┃  ┃  ┃      callDepth: DEPTH_CELL:Int
 ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
@@ -896,7 +896,7 @@
 ┃  ┃  ┃  │
 ┃  ┃  ┃  │  (6 steps)
 ┃  ┃  ┃  └─ 82 (leaf, pending)
-┃  ┃  ┃      k: 1 ~> #push ~> #setLocalMem 128 32 b"" ~> #pc [ STATICCALL ] ~> #endPrank ~> #exe ...
+┃  ┃  ┃      k: #refund 0 ~> 1 ~> #push ~> #setLocalMem 128 32 b"" ~> #pc [ STATICCALL ] ~> #end ...
 ┃  ┃  ┃      pc: 145
 ┃  ┃  ┃      callDepth: DEPTH_CELL:Int
 ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
@@ -922,7 +922,7 @@
 ┃  ┃  ┃  │
 ┃  ┃  ┃  │  (5 steps)
 ┃  ┃  ┃  └─ 83 (leaf, pending)
-┃  ┃  ┃      k: #consoleLog 1756313567 b"" ~> 1 ~> #push ~> #setLocalMem 128 32 b"" ~> #pc [ STA ...
+┃  ┃  ┃      k: #consoleLog 1756313567 b"" ~> #refund 0 ~> 1 ~> #push ~> #setLocalMem 128 32 b"" ...
 ┃  ┃  ┃      pc: 145
 ┃  ┃  ┃      callDepth: DEPTH_CELL:Int
 ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
@@ -1016,7 +1016,7 @@
 ┃     ┃  ┃  │
 ┃     ┃  ┃  │  (5 steps)
 ┃     ┃  ┃  └─ 86 (leaf, pending)
-┃     ┃  ┃      k: #consoleLog 1756313567 b"" ~> 1 ~> #push ~> #setLocalMem 128 32 b"" ~> #pc [ STA ...
+┃     ┃  ┃      k: #consoleLog 1756313567 b"" ~> #refund 0 ~> 1 ~> #push ~> #setLocalMem 128 32 b"" ...
 ┃     ┃  ┃      pc: 145
 ┃     ┃  ┃      callDepth: DEPTH_CELL:Int
 ┃     ┃  ┃      statusCode: STATUSCODE:StatusCode
@@ -1222,7 +1222,7 @@
    ┣━━┓
    ┃  │
    ┃  ├─ 20 (split)
-   ┃  │   k: #consoleLog 1756313567 b"" ~> 1 ~> #push ~> #setLocalMem 128 32 b"" ~> #pc [ STA ...
+   ┃  │   k: #consoleLog 1756313567 b"" ~> #refund 0 ~> 1 ~> #push ~> #setLocalMem 128 32 b"" ...
    ┃  │   pc: 145
    ┃  │   callDepth: CALLDEPTH_CELL:Int
    ┃  │   statusCode: STATUSCODE:StatusCode
@@ -1235,14 +1235,14 @@
    ┃  ┃  ┃     0 ==Int ( (chop ( lengthBytes ( OUTPUT_CELL:Bytes ) )) s<Word (32) )
    ┃  ┃  │
    ┃  ┃  ├─ 140
-   ┃  ┃  │   k: #consoleLog 1756313567 b"" ~> 1 ~> #push ~> #setLocalMem 128 32 b"" ~> #pc [ STA ...
+   ┃  ┃  │   k: #consoleLog 1756313567 b"" ~> #refund 0 ~> 1 ~> #push ~> #setLocalMem 128 32 b"" ...
    ┃  ┃  │   pc: 145
    ┃  ┃  │   callDepth: CALLDEPTH_CELL:Int
    ┃  ┃  │   statusCode: STATUSCODE:StatusCode
    ┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
    ┃  ┃  │   method: test%Enum.enum_storage_range()
    ┃  ┃  │
-   ┃  ┃  │  (188 steps)
+   ┃  ┃  │  (189 steps)
    ┃  ┃  └─ 94 (leaf, pending)
    ┃  ┃      k: JUMPI 520 bool2Word ( ( (chop ( lengthBytes ( OUTPUT_CELL:Bytes ) )) s<Word (32) ...
    ┃  ┃      pc: 515
@@ -1256,14 +1256,14 @@
    ┃     ┃     ( notBool 0 ==Int ( (chop ( lengthBytes ( OUTPUT_CELL:Bytes ) )) s<Word (32) ) )
    ┃     │
    ┃     ├─ 141
-   ┃     │   k: #consoleLog 1756313567 b"" ~> 1 ~> #push ~> #setLocalMem 128 32 b"" ~> #pc [ STA ...
+   ┃     │   k: #consoleLog 1756313567 b"" ~> #refund 0 ~> 1 ~> #push ~> #setLocalMem 128 32 b"" ...
    ┃     │   pc: 145
    ┃     │   callDepth: CALLDEPTH_CELL:Int
    ┃     │   statusCode: STATUSCODE:StatusCode
    ┃     │   src: test/nested/SimpleNested.t.sol:7:11
    ┃     │   method: test%Enum.enum_storage_range()
    ┃     │
-   ┃     │  (188 steps)
+   ┃     │  (189 steps)
    ┃     └─ 95 (leaf, pending)
    ┃         k: JUMPI 520 bool2Word ( ( (chop ( lengthBytes ( OUTPUT_CELL:Bytes ) )) s<Word (32) ...
    ┃         pc: 515
@@ -1380,6 +1380,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <callGas>
                      0
                    </callGas>
+                   <codeAddr>
+                     C_ENUM_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -1398,6 +1401,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -1477,32 +1483,13 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int C_ENUM_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int C_ENUM_BAL:Int
        andBool ( 0 <=Int C_ENUM_NONCE:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( C_ENUM_ID:Int =/=Int C_ENUM_MEMBER_CONTRACT_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
@@ -1523,6 +1510,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int <Int pow160
        andBool ( C_ENUM_BAL:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_ENUM_MEMBER_CONTRACT_BAL:Int <Int pow256
        andBool ( ( notBool <acctID>
           C_ENUM_ID:Int
@@ -1531,11 +1519,19 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
           C_ENUM_MEMBER_CONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
        andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_MEMBER_CONTRACT_ID:Int <= 10 ) )
-               )))))))))))))))))))))))))))))))))
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( C_ENUM_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_ENUM_MEMBER_CONTRACT_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_MEMBER_CONTRACT_ID:Int
+                 ))
+               )))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-1-TO-3)]
     
     rule [BASIC-BLOCK-6-TO-12]: <foundry>
@@ -1586,6 +1582,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <callDepth>
                      CALLDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_ENUM_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -1604,6 +1603,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -1704,32 +1706,13 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int C_ENUM_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int C_ENUM_BAL:Int
        andBool ( 0 <=Int C_ENUM_NONCE:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
@@ -1744,6 +1727,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int <Int pow160
        andBool ( C_ENUM_BAL:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_ENUM_ID:Int =/=Int C_ENUM_MEMBER_CONTRACT_ID:Int
        andBool ( ( notBool 0 in_keys ( C_ENUM_STORAGE:Map ) )
        andBool ( C_ENUM_MEMBER_CONTRACT_BAL:Int <Int pow256
@@ -1758,13 +1742,21 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ( notBool <acctID>
           C_ENUM_MEMBER_CONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_MEMBER_CONTRACT_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( C_ENUM_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_ENUM_MEMBER_CONTRACT_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_MEMBER_CONTRACT_ID:Int
+                 ))
        andBool ( ( notBool ( CALLDEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
        andBool ( ( notBool ( ACTIVE_CELL:Bool andBool ( CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int andBool NEWCALLER_CELL:Account =/=K C_ENUM_ID:Int ) ) )
-               )))))))))))))))))))))))))))))))))))
+               )))))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-6-TO-12)]
     
     rule [BASIC-BLOCK-7-TO-13]: <foundry>
@@ -1774,7 +1766,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                ~> #next [ STATICCALL ]
                ~> #endPrank )
                ~> #checkRevert
-               ~> #updateRevertOutput 128 32
+               ~> #updateRevertOutput 32 132
                ~> #execute
                ~> _CONTINUATION:K
              </k>
@@ -1817,6 +1809,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_ENUM_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -1835,6 +1830,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -1935,26 +1933,6 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( ACTIVE_CELL:Bool
        andBool ( _ISREVERTEXPECTED_CELL:Bool
@@ -1965,6 +1943,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int C_ENUM_BAL:Int
        andBool ( 0 <=Int C_ENUM_NONCE:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( NEWCALLER_CELL:Account =/=K C_ENUM_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
@@ -1980,6 +1959,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int <Int pow160
        andBool ( C_ENUM_BAL:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_ENUM_ID:Int =/=Int C_ENUM_MEMBER_CONTRACT_ID:Int
        andBool ( ( notBool 0 in_keys ( C_ENUM_STORAGE:Map ) )
        andBool ( C_ENUM_MEMBER_CONTRACT_BAL:Int <Int pow256
@@ -1994,11 +1974,19 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ( notBool <acctID>
           C_ENUM_MEMBER_CONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_MEMBER_CONTRACT_ID:Int <= 10 ) )
-               ))))))))))))))))))))))))))))))))))))))
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( C_ENUM_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_ENUM_MEMBER_CONTRACT_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_MEMBER_CONTRACT_ID:Int
+                 ))
+               ))))))))))))))))))))))))))))))))))))))))
        ensures NEWCALLER_CELL:Account ~> .K =/=K C_ENUM_ID:Int ~> .K
       [priority(20), label(BASIC-BLOCK-7-TO-13)]
     
@@ -2009,7 +1997,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                ~> #next [ STATICCALL ]
                ~> #endPrank )
                ~> #checkRevert
-               ~> #updateRevertOutput 128 32
+               ~> #updateRevertOutput 32 132
                ~> #execute
                ~> _CONTINUATION:K
              </k>
@@ -2052,6 +2040,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_ENUM_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -2070,6 +2061,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -2170,26 +2164,6 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( ACTIVE_CELL:Bool
        andBool ( _ISREVERTEXPECTED_CELL:Bool
@@ -2200,6 +2174,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int C_ENUM_BAL:Int
        andBool ( 0 <=Int C_ENUM_NONCE:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( NEWCALLER_CELL:Account =/=K C_ENUM_ID:Int
        andBool ( C_ENUM_ID:Int =/=Int C_ENUM_MEMBER_CONTRACT_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -2216,6 +2191,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int <Int pow160
        andBool ( C_ENUM_BAL:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( ( notBool 0 in_keys ( C_ENUM_STORAGE:Map ) )
        andBool ( C_ENUM_MEMBER_CONTRACT_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
@@ -2229,11 +2205,19 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ( notBool <acctID>
           C_ENUM_MEMBER_CONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_MEMBER_CONTRACT_ID:Int <= 10 ) )
-               ))))))))))))))))))))))))))))))))))))))
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( C_ENUM_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_ENUM_MEMBER_CONTRACT_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_MEMBER_CONTRACT_ID:Int
+                 ))
+               ))))))))))))))))))))))))))))))))))))))))
        ensures NEWCALLER_CELL:Account ~> .K =/=K C_ENUM_ID:Int ~> .K
       [priority(20), label(BASIC-BLOCK-14-TO-25)]
     
@@ -2244,7 +2228,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                ~> #next [ STATICCALL ]
                ~> #endPrank )
                ~> #checkRevert
-               ~> #updateRevertOutput 128 32
+               ~> #updateRevertOutput 32 132
                ~> #execute
                ~> _CONTINUATION:K
              </k>
@@ -2287,6 +2271,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_ENUM_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -2305,6 +2292,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -2405,26 +2395,6 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( ACTIVE_CELL:Bool
        andBool ( _ISREVERTEXPECTED_CELL:Bool
@@ -2435,6 +2405,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int C_ENUM_BAL:Int
        andBool ( 0 <=Int C_ENUM_NONCE:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( NEWCALLER_CELL:Account =/=K C_ENUM_ID:Int
        andBool ( C_ENUM_ID:Int =/=Int C_ENUM_MEMBER_CONTRACT_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -2451,6 +2422,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int <Int pow160
        andBool ( C_ENUM_BAL:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( ( notBool 0 in_keys ( C_ENUM_STORAGE:Map ) )
        andBool ( C_ENUM_MEMBER_CONTRACT_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
@@ -2464,11 +2436,19 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ( notBool <acctID>
           C_ENUM_MEMBER_CONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_MEMBER_CONTRACT_ID:Int <= 10 ) )
-               ))))))))))))))))))))))))))))))))))))))
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( C_ENUM_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_ENUM_MEMBER_CONTRACT_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_MEMBER_CONTRACT_ID:Int
+                 ))
+               ))))))))))))))))))))))))))))))))))))))))
        ensures NEWCALLER_CELL:Account ~> .K =/=K C_ENUM_ID:Int ~> .K
       [priority(20), label(BASIC-BLOCK-26-TO-44)]
     
@@ -2479,7 +2459,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                ~> #next [ STATICCALL ]
                ~> #endPrank )
                ~> #checkRevert
-               ~> #updateRevertOutput 128 32
+               ~> #updateRevertOutput 32 132
                ~> #execute
                ~> _CONTINUATION:K
              </k>
@@ -2522,6 +2502,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_ENUM_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -2540,6 +2523,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -2640,26 +2626,6 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( ACTIVE_CELL:Bool
        andBool ( _ISREVERTEXPECTED_CELL:Bool
@@ -2670,6 +2636,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int C_ENUM_BAL:Int
        andBool ( 0 <=Int C_ENUM_NONCE:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( NEWCALLER_CELL:Account =/=K C_ENUM_ID:Int
        andBool ( C_ENUM_ID:Int =/=Int C_ENUM_MEMBER_CONTRACT_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -2686,6 +2653,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int <Int pow160
        andBool ( C_ENUM_BAL:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( ( notBool 0 in_keys ( C_ENUM_STORAGE:Map ) )
        andBool ( C_ENUM_MEMBER_CONTRACT_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
@@ -2699,11 +2667,19 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ( notBool <acctID>
           C_ENUM_MEMBER_CONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_MEMBER_CONTRACT_ID:Int <= 10 ) )
-               ))))))))))))))))))))))))))))))))))))))
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( C_ENUM_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_ENUM_MEMBER_CONTRACT_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_MEMBER_CONTRACT_ID:Int
+                 ))
+               ))))))))))))))))))))))))))))))))))))))))
        ensures NEWCALLER_CELL:Account ~> .K =/=K C_ENUM_ID:Int ~> .K
       [priority(20), label(BASIC-BLOCK-45-TO-75)]
     
@@ -2755,6 +2731,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <callDepth>
                      DEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_ENUM_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -2773,6 +2752,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -2876,26 +2858,6 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _ACTIVE_CELL:Bool
        andBool ( _CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int
@@ -2906,6 +2868,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int C_ENUM_BAL:Int
        andBool ( 0 <=Int C_ENUM_NONCE:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
@@ -2924,6 +2887,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( C_ENUM_ID:Int =/=Int NCL:Int
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int <Int pow160
        andBool ( C_ENUM_BAL:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_ENUM_ID:Int =/=Int C_ENUM_MEMBER_CONTRACT_ID:Int
        andBool ( ( notBool 0 in_keys ( C_ENUM_STORAGE:Map ) )
        andBool ( C_ENUM_MEMBER_CONTRACT_BAL:Int <Int pow256
@@ -2938,12 +2902,20 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ( notBool <acctID>
           C_ENUM_MEMBER_CONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_MEMBER_CONTRACT_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( C_ENUM_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_ENUM_MEMBER_CONTRACT_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_MEMBER_CONTRACT_ID:Int
+                 ))
        andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
-               ))))))))))))))))))))))))))))))))))))))))))
+               ))))))))))))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-56-TO-91)]
     
     rule [BASIC-BLOCK-66-TO-106]: <foundry>
@@ -2953,7 +2925,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                ~> #pc [ STATICCALL ] )
                ~> #endPrank
                ~> #checkRevert
-               ~> #updateRevertOutput 128 32
+               ~> #updateRevertOutput 32 132
                ~> #execute
                ~> _CONTINUATION:K
              </k>
@@ -2996,6 +2968,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_ENUM_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -3014,6 +2989,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -3117,26 +3095,6 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _ACTIVE_CELL:Bool
        andBool ( _NEWCALLER_CELL:Account ==K NCL:Int
@@ -3149,6 +3107,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int C_ENUM_BAL:Int
        andBool ( 0 <=Int C_ENUM_NONCE:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
@@ -3166,6 +3125,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( C_ENUM_ID:Int =/=Int NCL:Int
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int <Int pow160
        andBool ( C_ENUM_BAL:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_ENUM_ID:Int =/=Int C_ENUM_MEMBER_CONTRACT_ID:Int
        andBool ( ( notBool 0 in_keys ( C_ENUM_STORAGE:Map ) )
        andBool ( C_ENUM_MEMBER_CONTRACT_BAL:Int <Int pow256
@@ -3180,11 +3140,19 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ( notBool <acctID>
           C_ENUM_MEMBER_CONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_MEMBER_CONTRACT_ID:Int <= 10 ) )
-               ))))))))))))))))))))))))))))))))))))))))))
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( C_ENUM_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_ENUM_MEMBER_CONTRACT_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_MEMBER_CONTRACT_ID:Int
+                 ))
+               ))))))))))))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-66-TO-106)]
     
     rule [BASIC-BLOCK-70-TO-113]: <foundry>
@@ -3194,7 +3162,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                ~> #pc [ STATICCALL ] )
                ~> #endPrank
                ~> #checkRevert
-               ~> #updateRevertOutput 128 32
+               ~> #updateRevertOutput 32 132
                ~> #execute
                ~> _CONTINUATION:K
              </k>
@@ -3237,6 +3205,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_ENUM_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -3255,6 +3226,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -3358,26 +3332,6 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _ACTIVE_CELL:Bool
        andBool ( _NEWCALLER_CELL:Account ==K NCL:Int
@@ -3390,6 +3344,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int C_ENUM_BAL:Int
        andBool ( 0 <=Int C_ENUM_NONCE:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
@@ -3406,6 +3361,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( C_ENUM_ID:Int =/=Int NCL:Int
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int <Int pow160
        andBool ( C_ENUM_BAL:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_ENUM_ID:Int =/=Int C_ENUM_MEMBER_CONTRACT_ID:Int
        andBool ( ( notBool 0 in_keys ( C_ENUM_STORAGE:Map ) )
        andBool ( C_ENUM_MEMBER_CONTRACT_BAL:Int <Int pow256
@@ -3420,11 +3376,19 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ( notBool <acctID>
           C_ENUM_MEMBER_CONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_MEMBER_CONTRACT_ID:Int <= 10 ) )
-               )))))))))))))))))))))))))))))))))))))))))
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( C_ENUM_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_ENUM_MEMBER_CONTRACT_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_MEMBER_CONTRACT_ID:Int
+                 ))
+               )))))))))))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-70-TO-113)]
     
     rule [BASIC-BLOCK-72-TO-116]: <foundry>
@@ -3434,7 +3398,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                ~> #pc [ STATICCALL ] )
                ~> #endPrank
                ~> #checkRevert
-               ~> #updateRevertOutput 128 32
+               ~> #updateRevertOutput 32 132
                ~> #execute
                ~> _CONTINUATION:K
              </k>
@@ -3477,6 +3441,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_ENUM_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -3495,6 +3462,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -3598,26 +3568,6 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _ACTIVE_CELL:Bool
        andBool ( _NEWCALLER_CELL:Account ==K NCL:Int
@@ -3630,6 +3580,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int C_ENUM_BAL:Int
        andBool ( 0 <=Int C_ENUM_NONCE:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
@@ -3645,6 +3596,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( C_ENUM_ID:Int =/=Int NCL:Int
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int <Int pow160
        andBool ( C_ENUM_BAL:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_ENUM_ID:Int =/=Int C_ENUM_MEMBER_CONTRACT_ID:Int
        andBool ( ( notBool 0 in_keys ( C_ENUM_STORAGE:Map ) )
        andBool ( C_ENUM_MEMBER_CONTRACT_BAL:Int <Int pow256
@@ -3659,11 +3611,19 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ( notBool <acctID>
           C_ENUM_MEMBER_CONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_MEMBER_CONTRACT_ID:Int <= 10 ) )
-               ))))))))))))))))))))))))))))))))))))))))
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( C_ENUM_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_ENUM_MEMBER_CONTRACT_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_MEMBER_CONTRACT_ID:Int
+                 ))
+               ))))))))))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-72-TO-116)]
     
     rule [BASIC-BLOCK-73-TO-117]: <foundry>
@@ -3673,7 +3633,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                ~> #pc [ STATICCALL ] )
                ~> #endPrank
                ~> #checkRevert
-               ~> #updateRevertOutput 128 32
+               ~> #updateRevertOutput 32 132
                ~> #execute
                ~> _CONTINUATION:K
              </k>
@@ -3716,6 +3676,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_ENUM_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -3734,6 +3697,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -3837,26 +3803,6 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _ACTIVE_CELL:Bool
        andBool ( _NEWCALLER_CELL:Account ==K NCL:Int
@@ -3869,6 +3815,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int C_ENUM_BAL:Int
        andBool ( 0 <=Int C_ENUM_NONCE:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
@@ -3884,6 +3831,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( C_ENUM_ID:Int =/=Int NCL:Int
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int <Int pow160
        andBool ( C_ENUM_BAL:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_ENUM_ID:Int =/=Int C_ENUM_MEMBER_CONTRACT_ID:Int
        andBool ( ( notBool 0 in_keys ( C_ENUM_STORAGE:Map ) )
        andBool ( C_ENUM_MEMBER_CONTRACT_BAL:Int <Int pow256
@@ -3898,11 +3846,19 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ( notBool <acctID>
           C_ENUM_MEMBER_CONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_MEMBER_CONTRACT_ID:Int <= 10 ) )
-               ))))))))))))))))))))))))))))))))))))))))
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( C_ENUM_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_ENUM_MEMBER_CONTRACT_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_MEMBER_CONTRACT_ID:Int
+                 ))
+               ))))))))))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-73-TO-117)]
     
     rule [BASIC-BLOCK-76-TO-123]: <foundry>
@@ -3912,7 +3868,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                ~> #next [ STATICCALL ]
                ~> #endPrank )
                ~> #checkRevert
-               ~> #updateRevertOutput 128 32
+               ~> #updateRevertOutput 32 132
                ~> #execute
                ~> _CONTINUATION:K
              </k>
@@ -3955,6 +3911,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_ENUM_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -3973,6 +3932,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -4073,26 +4035,6 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( ACTIVE_CELL:Bool
        andBool ( _ISREVERTEXPECTED_CELL:Bool
@@ -4103,6 +4045,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int C_ENUM_BAL:Int
        andBool ( 0 <=Int C_ENUM_NONCE:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( NEWCALLER_CELL:Account =/=K C_ENUM_ID:Int
        andBool ( C_ENUM_ID:Int =/=Int C_ENUM_MEMBER_CONTRACT_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -4119,6 +4062,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int <Int pow160
        andBool ( C_ENUM_BAL:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( ( notBool 0 in_keys ( C_ENUM_STORAGE:Map ) )
        andBool ( C_ENUM_MEMBER_CONTRACT_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
@@ -4132,11 +4076,19 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ( notBool <acctID>
           C_ENUM_MEMBER_CONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_MEMBER_CONTRACT_ID:Int <= 10 ) )
-               ))))))))))))))))))))))))))))))))))))))
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( C_ENUM_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_ENUM_MEMBER_CONTRACT_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_MEMBER_CONTRACT_ID:Int
+                 ))
+               ))))))))))))))))))))))))))))))))))))))))
        ensures NEWCALLER_CELL:Account ~> .K =/=K C_ENUM_ID:Int ~> .K
       [priority(20), label(BASIC-BLOCK-76-TO-123)]
     
@@ -4188,6 +4140,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <callDepth>
                      DEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_ENUM_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -4206,6 +4161,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -4309,26 +4267,6 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _ACTIVE_CELL:Bool
        andBool ( _CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int
@@ -4340,6 +4278,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int C_ENUM_BAL:Int
        andBool ( 0 <=Int C_ENUM_NONCE:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( C_ENUM_ID:Int =/=Int #address ( FoundryConsole )
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
@@ -4358,6 +4297,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( C_ENUM_ID:Int =/=Int NCL:Int
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int <Int pow160
        andBool ( C_ENUM_BAL:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_ENUM_ID:Int =/=Int C_ENUM_MEMBER_CONTRACT_ID:Int
        andBool ( ( notBool 0 in_keys ( C_ENUM_STORAGE:Map ) )
        andBool ( C_ENUM_MEMBER_CONTRACT_BAL:Int <Int pow256
@@ -4375,12 +4315,20 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ( notBool <acctID>
           C_ENUM_MEMBER_CONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_MEMBER_CONTRACT_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( C_ENUM_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_ENUM_MEMBER_CONTRACT_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_MEMBER_CONTRACT_ID:Int
+                 ))
        andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
-               ))))))))))))))))))))))))))))))))))))))))))))
+               ))))))))))))))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-138-TO-89)]
     
     rule [BASIC-BLOCK-139-TO-90]: <foundry>
@@ -4431,6 +4379,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <callDepth>
                      DEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_ENUM_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -4449,6 +4400,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -4552,26 +4506,6 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _ACTIVE_CELL:Bool
        andBool ( _CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int
@@ -4582,6 +4516,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int C_ENUM_BAL:Int
        andBool ( 0 <=Int C_ENUM_NONCE:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( C_ENUM_ID:Int =/=Int C_ENUM_MEMBER_CONTRACT_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
@@ -4600,6 +4535,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( C_ENUM_ID:Int =/=Int NCL:Int
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int <Int pow160
        andBool ( C_ENUM_BAL:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( ( notBool 0 in_keys ( C_ENUM_STORAGE:Map ) )
        andBool ( C_ENUM_MEMBER_CONTRACT_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
@@ -4613,18 +4549,27 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ( notBool <acctID>
           C_ENUM_MEMBER_CONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_MEMBER_CONTRACT_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( C_ENUM_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_ENUM_MEMBER_CONTRACT_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_MEMBER_CONTRACT_ID:Int
+                 ))
        andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
-               )))))))))))))))))))))))))))))))))))))))))
+               )))))))))))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-139-TO-90)]
     
     rule [BASIC-BLOCK-140-TO-94]: <foundry>
            <kevm>
              <k>
                ( #consoleLog 1756313567 b""
+               ~> #refund 0
                ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
@@ -4675,6 +4620,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <callDepth>
                      CALLDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_ENUM_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -4693,6 +4641,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -4793,26 +4744,6 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _C_ENUM_MEMBER_CONTRACT_ID:Int ==Int #address ( FoundryConsole )
        andBool ( 0 <=Int CALLER_ID:Int
@@ -4820,6 +4751,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int C_ENUM_BAL:Int
        andBool ( 0 <=Int C_ENUM_NONCE:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
@@ -4832,6 +4764,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( C_ENUM_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( C_ENUM_BAL:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_ENUM_ID:Int =/=Int #address ( FoundryConsole )
        andBool ( ( notBool 0 in_keys ( C_ENUM_STORAGE:Map ) )
        andBool ( C_ENUM_MEMBER_CONTRACT_BAL:Int <Int pow256
@@ -4846,18 +4779,25 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ( notBool <acctID>
           #address ( FoundryConsole )
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( C_ENUM_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
        andBool ( ( notBool ( CALLDEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
        andBool ( ( notBool ( ACTIVE_CELL:Bool andBool ( CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int andBool NEWCALLER_CELL:Account =/=K C_ENUM_ID:Int ) ) )
-               )))))))))))))))))))))))))))))))))
+               )))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-140-TO-94)]
     
     rule [BASIC-BLOCK-141-TO-95]: <foundry>
            <kevm>
              <k>
                ( #consoleLog 1756313567 b""
+               ~> #refund 0
                ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
@@ -4908,6 +4848,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <callDepth>
                      CALLDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_ENUM_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -4926,6 +4869,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -5026,26 +4972,6 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _C_ENUM_MEMBER_CONTRACT_ID:Int ==Int #address ( FoundryConsole )
        andBool ( 0 <=Int CALLER_ID:Int
@@ -5053,6 +4979,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int C_ENUM_BAL:Int
        andBool ( 0 <=Int C_ENUM_NONCE:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
@@ -5065,6 +4992,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( C_ENUM_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( C_ENUM_BAL:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_ENUM_ID:Int =/=Int #address ( FoundryConsole )
        andBool ( ( notBool 0 in_keys ( C_ENUM_STORAGE:Map ) )
        andBool ( C_ENUM_MEMBER_CONTRACT_BAL:Int <Int pow256
@@ -5078,13 +5006,19 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ( notBool <acctID>
           #address ( FoundryConsole )
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( C_ENUM_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
        andBool ( 0 =/=Int ( (chop ( lengthBytes ( OUTPUT_CELL:Bytes ) )) s<Word (32) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
        andBool ( ( notBool ( CALLDEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
        andBool ( ( notBool ( ACTIVE_CELL:Bool andBool ( CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int andBool NEWCALLER_CELL:Account =/=K C_ENUM_ID:Int ) ) )
-               )))))))))))))))))))))))))))))))))
+               )))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-141-TO-95)]
     
     rule [BASIC-BLOCK-142-TO-104]: <foundry>
@@ -5094,7 +5028,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                ~> #pc [ STATICCALL ] )
                ~> #endPrank
                ~> #checkRevert
-               ~> #updateRevertOutput 128 32
+               ~> #updateRevertOutput 32 132
                ~> #execute
                ~> _CONTINUATION:K
              </k>
@@ -5137,6 +5071,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_ENUM_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -5155,6 +5092,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -5258,26 +5198,6 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _ACTIVE_CELL:Bool
        andBool ( _NEWCALLER_CELL:Account ==K NCL:Int
@@ -5291,6 +5211,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int C_ENUM_BAL:Int
        andBool ( 0 <=Int C_ENUM_NONCE:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( C_ENUM_ID:Int =/=Int #address ( FoundryConsole )
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
@@ -5308,6 +5229,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( C_ENUM_ID:Int =/=Int NCL:Int
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int <Int pow160
        andBool ( C_ENUM_BAL:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_ENUM_ID:Int =/=Int C_ENUM_MEMBER_CONTRACT_ID:Int
        andBool ( ( notBool 0 in_keys ( C_ENUM_STORAGE:Map ) )
        andBool ( C_ENUM_MEMBER_CONTRACT_BAL:Int <Int pow256
@@ -5325,11 +5247,19 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ( notBool <acctID>
           C_ENUM_MEMBER_CONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_MEMBER_CONTRACT_ID:Int <= 10 ) )
-               ))))))))))))))))))))))))))))))))))))))))))))
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( C_ENUM_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_ENUM_MEMBER_CONTRACT_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_MEMBER_CONTRACT_ID:Int
+                 ))
+               ))))))))))))))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-142-TO-104)]
     
     rule [BASIC-BLOCK-143-TO-105]: <foundry>
@@ -5339,7 +5269,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                ~> #pc [ STATICCALL ] )
                ~> #endPrank
                ~> #checkRevert
-               ~> #updateRevertOutput 128 32
+               ~> #updateRevertOutput 32 132
                ~> #execute
                ~> _CONTINUATION:K
              </k>
@@ -5382,6 +5312,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_ENUM_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -5400,6 +5333,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -5503,26 +5439,6 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _ACTIVE_CELL:Bool
        andBool ( _NEWCALLER_CELL:Account ==K NCL:Int
@@ -5535,6 +5451,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int C_ENUM_BAL:Int
        andBool ( 0 <=Int C_ENUM_NONCE:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( C_ENUM_ID:Int =/=Int C_ENUM_MEMBER_CONTRACT_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
@@ -5552,6 +5469,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( C_ENUM_ID:Int =/=Int NCL:Int
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int <Int pow160
        andBool ( C_ENUM_BAL:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( ( notBool 0 in_keys ( C_ENUM_STORAGE:Map ) )
        andBool ( C_ENUM_MEMBER_CONTRACT_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
@@ -5565,11 +5483,19 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ( notBool <acctID>
           C_ENUM_MEMBER_CONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_MEMBER_CONTRACT_ID:Int <= 10 ) )
-               )))))))))))))))))))))))))))))))))))))))))
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( C_ENUM_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_ENUM_MEMBER_CONTRACT_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_MEMBER_CONTRACT_ID:Int
+                 ))
+               )))))))))))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-143-TO-105)]
     
     rule [BASIC-BLOCK-144-TO-109]: <foundry>
@@ -5579,7 +5505,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                ~> #pc [ STATICCALL ] )
                ~> #endPrank
                ~> #checkRevert
-               ~> #updateRevertOutput 128 32
+               ~> #updateRevertOutput 32 132
                ~> #execute
                ~> _CONTINUATION:K
              </k>
@@ -5622,6 +5548,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_ENUM_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -5640,6 +5569,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -5743,26 +5675,6 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _ACTIVE_CELL:Bool
        andBool ( _NEWCALLER_CELL:Account ==K NCL:Int
@@ -5776,6 +5688,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int C_ENUM_BAL:Int
        andBool ( 0 <=Int C_ENUM_NONCE:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( C_ENUM_ID:Int =/=Int #address ( FoundryConsole )
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
@@ -5792,6 +5705,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( C_ENUM_ID:Int =/=Int NCL:Int
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int <Int pow160
        andBool ( C_ENUM_BAL:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_ENUM_ID:Int =/=Int C_ENUM_MEMBER_CONTRACT_ID:Int
        andBool ( ( notBool 0 in_keys ( C_ENUM_STORAGE:Map ) )
        andBool ( C_ENUM_MEMBER_CONTRACT_BAL:Int <Int pow256
@@ -5809,11 +5723,19 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ( notBool <acctID>
           C_ENUM_MEMBER_CONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_MEMBER_CONTRACT_ID:Int <= 10 ) )
-               )))))))))))))))))))))))))))))))))))))))))))
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( C_ENUM_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_ENUM_MEMBER_CONTRACT_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_MEMBER_CONTRACT_ID:Int
+                 ))
+               )))))))))))))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-144-TO-109)]
     
     rule [BASIC-BLOCK-145-TO-110]: <foundry>
@@ -5823,7 +5745,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                ~> #pc [ STATICCALL ] )
                ~> #endPrank
                ~> #checkRevert
-               ~> #updateRevertOutput 128 32
+               ~> #updateRevertOutput 32 132
                ~> #execute
                ~> _CONTINUATION:K
              </k>
@@ -5866,6 +5788,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_ENUM_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -5884,6 +5809,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -5987,26 +5915,6 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _ACTIVE_CELL:Bool
        andBool ( _NEWCALLER_CELL:Account ==K NCL:Int
@@ -6019,6 +5927,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int C_ENUM_BAL:Int
        andBool ( 0 <=Int C_ENUM_NONCE:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( C_ENUM_ID:Int =/=Int C_ENUM_MEMBER_CONTRACT_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
@@ -6035,6 +5944,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( C_ENUM_ID:Int =/=Int NCL:Int
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int <Int pow160
        andBool ( C_ENUM_BAL:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( ( notBool 0 in_keys ( C_ENUM_STORAGE:Map ) )
        andBool ( C_ENUM_MEMBER_CONTRACT_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
@@ -6048,11 +5958,19 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ( notBool <acctID>
           C_ENUM_MEMBER_CONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_MEMBER_CONTRACT_ID:Int <= 10 ) )
-               ))))))))))))))))))))))))))))))))))))))))
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( C_ENUM_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_ENUM_MEMBER_CONTRACT_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_MEMBER_CONTRACT_ID:Int
+                 ))
+               ))))))))))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-145-TO-110)]
     
     rule [BASIC-BLOCK-146-TO-111]: <foundry>
@@ -6062,7 +5980,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                ~> #pc [ STATICCALL ] )
                ~> #endPrank
                ~> #checkRevert
-               ~> #updateRevertOutput 128 32
+               ~> #updateRevertOutput 32 132
                ~> #execute
                ~> _CONTINUATION:K
              </k>
@@ -6105,6 +6023,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_ENUM_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -6123,6 +6044,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -6226,26 +6150,6 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _ACTIVE_CELL:Bool
        andBool ( _NEWCALLER_CELL:Account ==K NCL:Int
@@ -6259,6 +6163,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int C_ENUM_BAL:Int
        andBool ( 0 <=Int C_ENUM_NONCE:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( C_ENUM_ID:Int =/=Int #address ( FoundryConsole )
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
@@ -6275,6 +6180,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( C_ENUM_ID:Int =/=Int NCL:Int
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int <Int pow160
        andBool ( C_ENUM_BAL:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_ENUM_ID:Int =/=Int C_ENUM_MEMBER_CONTRACT_ID:Int
        andBool ( ( notBool 0 in_keys ( C_ENUM_STORAGE:Map ) )
        andBool ( C_ENUM_MEMBER_CONTRACT_BAL:Int <Int pow256
@@ -6292,11 +6198,19 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ( notBool <acctID>
           C_ENUM_MEMBER_CONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_MEMBER_CONTRACT_ID:Int <= 10 ) )
-               )))))))))))))))))))))))))))))))))))))))))))
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( C_ENUM_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_ENUM_MEMBER_CONTRACT_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_MEMBER_CONTRACT_ID:Int
+                 ))
+               )))))))))))))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-146-TO-111)]
     
     rule [BASIC-BLOCK-147-TO-112]: <foundry>
@@ -6306,7 +6220,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                ~> #pc [ STATICCALL ] )
                ~> #endPrank
                ~> #checkRevert
-               ~> #updateRevertOutput 128 32
+               ~> #updateRevertOutput 32 132
                ~> #execute
                ~> _CONTINUATION:K
              </k>
@@ -6349,6 +6263,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_ENUM_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -6367,6 +6284,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -6470,26 +6390,6 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _ACTIVE_CELL:Bool
        andBool ( _NEWCALLER_CELL:Account ==K NCL:Int
@@ -6502,6 +6402,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int C_ENUM_BAL:Int
        andBool ( 0 <=Int C_ENUM_NONCE:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( C_ENUM_ID:Int =/=Int C_ENUM_MEMBER_CONTRACT_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
@@ -6518,6 +6419,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( C_ENUM_ID:Int =/=Int NCL:Int
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int <Int pow160
        andBool ( C_ENUM_BAL:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( ( notBool 0 in_keys ( C_ENUM_STORAGE:Map ) )
        andBool ( C_ENUM_MEMBER_CONTRACT_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
@@ -6531,11 +6433,19 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ( notBool <acctID>
           C_ENUM_MEMBER_CONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_MEMBER_CONTRACT_ID:Int <= 10 ) )
-               ))))))))))))))))))))))))))))))))))))))))
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( C_ENUM_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_ENUM_MEMBER_CONTRACT_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_MEMBER_CONTRACT_ID:Int
+                 ))
+               ))))))))))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-147-TO-112)]
     
     rule [BASIC-BLOCK-152-TO-87]: <foundry>
@@ -6586,6 +6496,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <callDepth>
                      DEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_ENUM_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -6604,6 +6517,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -6707,26 +6623,6 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _ACTIVE_CELL:Bool
        andBool ( _CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int
@@ -6738,6 +6634,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int C_ENUM_BAL:Int
        andBool ( 0 <=Int C_ENUM_NONCE:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( C_ENUM_ID:Int =/=Int #address ( FoundryConsole )
        andBool ( C_ENUM_ID:Int =/=Int C_ENUM_MEMBER_CONTRACT_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -6756,6 +6653,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( C_ENUM_ID:Int =/=Int NCL:Int
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int <Int pow160
        andBool ( C_ENUM_BAL:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( ( notBool 0 in_keys ( C_ENUM_STORAGE:Map ) )
        andBool ( C_ENUM_MEMBER_CONTRACT_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
@@ -6772,12 +6670,20 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ( notBool <acctID>
           C_ENUM_MEMBER_CONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_MEMBER_CONTRACT_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( C_ENUM_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_ENUM_MEMBER_CONTRACT_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_MEMBER_CONTRACT_ID:Int
+                 ))
        andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
-               )))))))))))))))))))))))))))))))))))))))))))
+               )))))))))))))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-152-TO-87)]
     
     rule [BASIC-BLOCK-153-TO-88]: <foundry>
@@ -6828,6 +6734,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <callDepth>
                      DEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_ENUM_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -6846,6 +6755,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -6949,26 +6861,6 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _ACTIVE_CELL:Bool
        andBool ( _CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int
@@ -6979,6 +6871,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int C_ENUM_BAL:Int
        andBool ( 0 <=Int C_ENUM_NONCE:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( C_ENUM_ID:Int =/=Int C_ENUM_MEMBER_CONTRACT_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
@@ -6996,6 +6889,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( C_ENUM_ID:Int =/=Int NCL:Int
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int <Int pow160
        andBool ( C_ENUM_BAL:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( ( notBool 0 in_keys ( C_ENUM_STORAGE:Map ) )
        andBool ( C_ENUM_MEMBER_CONTRACT_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
@@ -7009,12 +6903,20 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ( notBool <acctID>
           C_ENUM_MEMBER_CONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_MEMBER_CONTRACT_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( C_ENUM_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_ENUM_MEMBER_CONTRACT_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_MEMBER_CONTRACT_ID:Int
+                 ))
        andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
-               ))))))))))))))))))))))))))))))))))))))))
+               ))))))))))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-153-TO-88)]
     
     rule [BASIC-BLOCK-154-TO-99]: <foundry>
@@ -7024,7 +6926,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                ~> #pc [ STATICCALL ] )
                ~> #endPrank
                ~> #checkRevert
-               ~> #updateRevertOutput 128 32
+               ~> #updateRevertOutput 32 132
                ~> #execute
                ~> _CONTINUATION:K
              </k>
@@ -7067,6 +6969,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_ENUM_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -7085,6 +6990,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -7188,26 +7096,6 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _ACTIVE_CELL:Bool
        andBool ( _NEWCALLER_CELL:Account ==K NCL:Int
@@ -7221,6 +7109,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int C_ENUM_BAL:Int
        andBool ( 0 <=Int C_ENUM_NONCE:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( C_ENUM_ID:Int =/=Int #address ( FoundryConsole )
        andBool ( C_ENUM_ID:Int =/=Int C_ENUM_MEMBER_CONTRACT_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -7238,6 +7127,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( C_ENUM_ID:Int =/=Int NCL:Int
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int <Int pow160
        andBool ( C_ENUM_BAL:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( ( notBool 0 in_keys ( C_ENUM_STORAGE:Map ) )
        andBool ( C_ENUM_MEMBER_CONTRACT_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
@@ -7254,11 +7144,19 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ( notBool <acctID>
           C_ENUM_MEMBER_CONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_MEMBER_CONTRACT_ID:Int <= 10 ) )
-               )))))))))))))))))))))))))))))))))))))))))))
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( C_ENUM_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_ENUM_MEMBER_CONTRACT_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_MEMBER_CONTRACT_ID:Int
+                 ))
+               )))))))))))))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-154-TO-99)]
     
     rule [BASIC-BLOCK-155-TO-100]: <foundry>
@@ -7268,7 +7166,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                ~> #pc [ STATICCALL ] )
                ~> #endPrank
                ~> #checkRevert
-               ~> #updateRevertOutput 128 32
+               ~> #updateRevertOutput 32 132
                ~> #execute
                ~> _CONTINUATION:K
              </k>
@@ -7311,6 +7209,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_ENUM_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -7329,6 +7230,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -7432,26 +7336,6 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _ACTIVE_CELL:Bool
        andBool ( _NEWCALLER_CELL:Account ==K NCL:Int
@@ -7464,6 +7348,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int C_ENUM_BAL:Int
        andBool ( 0 <=Int C_ENUM_NONCE:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( C_ENUM_ID:Int =/=Int C_ENUM_MEMBER_CONTRACT_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
@@ -7480,6 +7365,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( C_ENUM_ID:Int =/=Int NCL:Int
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int <Int pow160
        andBool ( C_ENUM_BAL:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( ( notBool 0 in_keys ( C_ENUM_STORAGE:Map ) )
        andBool ( C_ENUM_MEMBER_CONTRACT_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
@@ -7493,11 +7379,19 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ( notBool <acctID>
           C_ENUM_MEMBER_CONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_MEMBER_CONTRACT_ID:Int <= 10 ) )
-               ))))))))))))))))))))))))))))))))))))))))
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( C_ENUM_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_ENUM_MEMBER_CONTRACT_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_MEMBER_CONTRACT_ID:Int
+                 ))
+               ))))))))))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-155-TO-100)]
     
     rule [BASIC-BLOCK-156-TO-102]: <foundry>
@@ -7507,7 +7401,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                ~> #pc [ STATICCALL ] )
                ~> #endPrank
                ~> #checkRevert
-               ~> #updateRevertOutput 128 32
+               ~> #updateRevertOutput 32 132
                ~> #execute
                ~> _CONTINUATION:K
              </k>
@@ -7550,6 +7444,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_ENUM_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -7568,6 +7465,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -7671,26 +7571,6 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _ACTIVE_CELL:Bool
        andBool ( _NEWCALLER_CELL:Account ==K NCL:Int
@@ -7704,6 +7584,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int C_ENUM_BAL:Int
        andBool ( 0 <=Int C_ENUM_NONCE:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( C_ENUM_ID:Int =/=Int #address ( FoundryConsole )
        andBool ( C_ENUM_ID:Int =/=Int C_ENUM_MEMBER_CONTRACT_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -7721,6 +7602,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( C_ENUM_ID:Int =/=Int NCL:Int
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int <Int pow160
        andBool ( C_ENUM_BAL:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( ( notBool 0 in_keys ( C_ENUM_STORAGE:Map ) )
        andBool ( C_ENUM_MEMBER_CONTRACT_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
@@ -7737,11 +7619,19 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ( notBool <acctID>
           C_ENUM_MEMBER_CONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_MEMBER_CONTRACT_ID:Int <= 10 ) )
-               )))))))))))))))))))))))))))))))))))))))))))
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( C_ENUM_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_ENUM_MEMBER_CONTRACT_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_MEMBER_CONTRACT_ID:Int
+                 ))
+               )))))))))))))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-156-TO-102)]
     
     rule [BASIC-BLOCK-157-TO-103]: <foundry>
@@ -7751,7 +7641,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                ~> #pc [ STATICCALL ] )
                ~> #endPrank
                ~> #checkRevert
-               ~> #updateRevertOutput 128 32
+               ~> #updateRevertOutput 32 132
                ~> #execute
                ~> _CONTINUATION:K
              </k>
@@ -7794,6 +7684,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_ENUM_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -7812,6 +7705,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -7915,26 +7811,6 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _ACTIVE_CELL:Bool
        andBool ( _NEWCALLER_CELL:Account ==K NCL:Int
@@ -7947,6 +7823,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int C_ENUM_BAL:Int
        andBool ( 0 <=Int C_ENUM_NONCE:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( C_ENUM_ID:Int =/=Int C_ENUM_MEMBER_CONTRACT_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
@@ -7963,6 +7840,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( C_ENUM_ID:Int =/=Int NCL:Int
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int <Int pow160
        andBool ( C_ENUM_BAL:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( ( notBool 0 in_keys ( C_ENUM_STORAGE:Map ) )
        andBool ( C_ENUM_MEMBER_CONTRACT_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
@@ -7976,11 +7854,19 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ( notBool <acctID>
           C_ENUM_MEMBER_CONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_MEMBER_CONTRACT_ID:Int <= 10 ) )
-               ))))))))))))))))))))))))))))))))))))))))
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( C_ENUM_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_ENUM_MEMBER_CONTRACT_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_MEMBER_CONTRACT_ID:Int
+                 ))
+               ))))))))))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-157-TO-103)]
     
     rule [BASIC-BLOCK-158-TO-80]: <foundry>
@@ -8031,6 +7917,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <callDepth>
                      DEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_ENUM_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -8049,6 +7938,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -8152,26 +8044,6 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _ACTIVE_CELL:Bool
        andBool ( _CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int
@@ -8183,6 +8055,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int C_ENUM_BAL:Int
        andBool ( 0 <=Int C_ENUM_NONCE:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( C_ENUM_ID:Int =/=Int #address ( FoundryConsole )
        andBool ( C_ENUM_ID:Int =/=Int C_ENUM_MEMBER_CONTRACT_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -8200,6 +8073,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( C_ENUM_ID:Int =/=Int NCL:Int
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int <Int pow160
        andBool ( C_ENUM_BAL:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( ( notBool 0 in_keys ( C_ENUM_STORAGE:Map ) )
        andBool ( C_ENUM_MEMBER_CONTRACT_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
@@ -8216,12 +8090,20 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ( notBool <acctID>
           C_ENUM_MEMBER_CONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_MEMBER_CONTRACT_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( C_ENUM_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_ENUM_MEMBER_CONTRACT_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_MEMBER_CONTRACT_ID:Int
+                 ))
        andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
-               ))))))))))))))))))))))))))))))))))))))))))
+               ))))))))))))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-158-TO-80)]
     
     rule [BASIC-BLOCK-159-TO-81]: <foundry>
@@ -8272,6 +8154,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <callDepth>
                      DEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_ENUM_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -8290,6 +8175,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -8393,26 +8281,6 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _ACTIVE_CELL:Bool
        andBool ( _CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int
@@ -8423,6 +8291,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int C_ENUM_BAL:Int
        andBool ( 0 <=Int C_ENUM_NONCE:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( C_ENUM_ID:Int =/=Int C_ENUM_MEMBER_CONTRACT_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
@@ -8439,6 +8308,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( C_ENUM_ID:Int =/=Int NCL:Int
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int <Int pow160
        andBool ( C_ENUM_BAL:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( ( notBool 0 in_keys ( C_ENUM_STORAGE:Map ) )
        andBool ( C_ENUM_MEMBER_CONTRACT_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
@@ -8452,12 +8322,20 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ( notBool <acctID>
           C_ENUM_MEMBER_CONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_MEMBER_CONTRACT_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( C_ENUM_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_ENUM_MEMBER_CONTRACT_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_MEMBER_CONTRACT_ID:Int
+                 ))
        andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
-               )))))))))))))))))))))))))))))))))))))))
+               )))))))))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-159-TO-81)]
     
     rule [BASIC-BLOCK-160-TO-84]: <foundry>
@@ -8508,6 +8386,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <callDepth>
                      DEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_ENUM_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -8526,6 +8407,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -8629,26 +8513,6 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _ACTIVE_CELL:Bool
        andBool ( _CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int
@@ -8660,6 +8524,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int C_ENUM_BAL:Int
        andBool ( 0 <=Int C_ENUM_NONCE:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( C_ENUM_ID:Int =/=Int #address ( FoundryConsole )
        andBool ( C_ENUM_ID:Int =/=Int C_ENUM_MEMBER_CONTRACT_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -8677,6 +8542,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( C_ENUM_ID:Int =/=Int NCL:Int
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int <Int pow160
        andBool ( C_ENUM_BAL:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( ( notBool 0 in_keys ( C_ENUM_STORAGE:Map ) )
        andBool ( C_ENUM_MEMBER_CONTRACT_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
@@ -8693,12 +8559,20 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ( notBool <acctID>
           C_ENUM_MEMBER_CONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_MEMBER_CONTRACT_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( C_ENUM_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_ENUM_MEMBER_CONTRACT_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_MEMBER_CONTRACT_ID:Int
+                 ))
        andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
-               ))))))))))))))))))))))))))))))))))))))))))
+               ))))))))))))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-160-TO-84)]
     
     rule [BASIC-BLOCK-161-TO-85]: <foundry>
@@ -8749,6 +8623,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <callDepth>
                      DEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_ENUM_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -8767,6 +8644,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -8870,26 +8750,6 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _ACTIVE_CELL:Bool
        andBool ( _CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int
@@ -8900,6 +8760,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int C_ENUM_BAL:Int
        andBool ( 0 <=Int C_ENUM_NONCE:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( C_ENUM_ID:Int =/=Int C_ENUM_MEMBER_CONTRACT_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
@@ -8916,6 +8777,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( C_ENUM_ID:Int =/=Int NCL:Int
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int <Int pow160
        andBool ( C_ENUM_BAL:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( ( notBool 0 in_keys ( C_ENUM_STORAGE:Map ) )
        andBool ( C_ENUM_MEMBER_CONTRACT_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
@@ -8929,18 +8791,27 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ( notBool <acctID>
           C_ENUM_MEMBER_CONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_MEMBER_CONTRACT_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( C_ENUM_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_ENUM_MEMBER_CONTRACT_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_MEMBER_CONTRACT_ID:Int
+                 ))
        andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
-               )))))))))))))))))))))))))))))))))))))))
+               )))))))))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-161-TO-85)]
     
     rule [BASIC-BLOCK-126-TO-78]: <foundry>
            <kevm>
              <k>
-               ( #next [ STATICCALL ] ~> .K => 1
+               ( #next [ STATICCALL ] ~> .K => #refund 0
+               ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
                ~> #pc [ STATICCALL ] )
@@ -8987,6 +8858,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <callDepth>
                      DEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_ENUM_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -9005,6 +8879,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -9121,26 +8998,6 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _ACTIVE_CELL:Bool
        andBool ( _CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int
@@ -9152,6 +9009,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int C_ENUM_BAL:Int
        andBool ( 0 <=Int C_ENUM_NONCE:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( C_ENUM_ID:Int =/=Int #address ( FoundryConsole )
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
@@ -9168,6 +9026,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( C_ENUM_ID:Int =/=Int NCL:Int
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int <Int pow160
        andBool ( C_ENUM_BAL:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_ENUM_ID:Int =/=Int C_ENUM_MEMBER_CONTRACT_ID:Int
        andBool ( ( notBool 0 in_keys ( C_ENUM_STORAGE:Map ) )
        andBool ( C_ENUM_MEMBER_CONTRACT_BAL:Int <Int pow256
@@ -9185,18 +9044,27 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ( notBool <acctID>
           C_ENUM_MEMBER_CONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_MEMBER_CONTRACT_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( C_ENUM_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_ENUM_MEMBER_CONTRACT_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_MEMBER_CONTRACT_ID:Int
+                 ))
        andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
-               ))))))))))))))))))))))))))))))))))))))))))
+               ))))))))))))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-126-TO-78)]
     
     rule [BASIC-BLOCK-128-TO-82]: <foundry>
            <kevm>
              <k>
-               ( #next [ STATICCALL ] ~> .K => 1
+               ( #next [ STATICCALL ] ~> .K => #refund 0
+               ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
                ~> #pc [ STATICCALL ] )
@@ -9243,6 +9111,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <callDepth>
                      DEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_ENUM_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -9261,6 +9132,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -9377,26 +9251,6 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _ACTIVE_CELL:Bool
        andBool ( _CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int
@@ -9408,6 +9262,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int C_ENUM_BAL:Int
        andBool ( 0 <=Int C_ENUM_NONCE:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( C_ENUM_ID:Int =/=Int #address ( FoundryConsole )
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
@@ -9424,6 +9279,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( C_ENUM_ID:Int =/=Int NCL:Int
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int <Int pow160
        andBool ( C_ENUM_BAL:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_ENUM_ID:Int =/=Int C_ENUM_MEMBER_CONTRACT_ID:Int
        andBool ( ( notBool 0 in_keys ( C_ENUM_STORAGE:Map ) )
        andBool ( C_ENUM_MEMBER_CONTRACT_BAL:Int <Int pow256
@@ -9441,18 +9297,27 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ( notBool <acctID>
           C_ENUM_MEMBER_CONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_MEMBER_CONTRACT_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( C_ENUM_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_ENUM_MEMBER_CONTRACT_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_MEMBER_CONTRACT_ID:Int
+                 ))
        andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
-               ))))))))))))))))))))))))))))))))))))))))))
+               ))))))))))))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-128-TO-82)]
     
     rule [BASIC-BLOCK-148-TO-79]: <foundry>
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => #consoleLog 1756313567 b""
+               ~> #refund 0
                ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
@@ -9500,6 +9365,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <callDepth>
                      DEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_ENUM_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -9518,6 +9386,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -9634,26 +9505,6 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _ACTIVE_CELL:Bool
        andBool ( _CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int
@@ -9665,6 +9516,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int C_ENUM_BAL:Int
        andBool ( 0 <=Int C_ENUM_NONCE:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( C_ENUM_ID:Int =/=Int #address ( FoundryConsole )
        andBool ( C_ENUM_ID:Int =/=Int C_ENUM_MEMBER_CONTRACT_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -9682,6 +9534,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( C_ENUM_ID:Int =/=Int NCL:Int
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int <Int pow160
        andBool ( C_ENUM_BAL:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( ( notBool 0 in_keys ( C_ENUM_STORAGE:Map ) )
        andBool ( C_ENUM_MEMBER_CONTRACT_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
@@ -9698,18 +9551,27 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ( notBool <acctID>
           C_ENUM_MEMBER_CONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_MEMBER_CONTRACT_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( C_ENUM_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_ENUM_MEMBER_CONTRACT_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_MEMBER_CONTRACT_ID:Int
+                 ))
        andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
-               ))))))))))))))))))))))))))))))))))))))))))
+               ))))))))))))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-148-TO-79)]
     
     rule [BASIC-BLOCK-150-TO-83]: <foundry>
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => #consoleLog 1756313567 b""
+               ~> #refund 0
                ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
@@ -9757,6 +9619,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <callDepth>
                      DEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_ENUM_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -9775,6 +9640,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -9891,26 +9759,6 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _ACTIVE_CELL:Bool
        andBool ( _CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int
@@ -9922,6 +9770,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int C_ENUM_BAL:Int
        andBool ( 0 <=Int C_ENUM_NONCE:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( C_ENUM_ID:Int =/=Int #address ( FoundryConsole )
        andBool ( C_ENUM_ID:Int =/=Int C_ENUM_MEMBER_CONTRACT_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -9939,6 +9788,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( C_ENUM_ID:Int =/=Int NCL:Int
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int <Int pow160
        andBool ( C_ENUM_BAL:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( ( notBool 0 in_keys ( C_ENUM_STORAGE:Map ) )
        andBool ( C_ENUM_MEMBER_CONTRACT_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
@@ -9955,18 +9805,27 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ( notBool <acctID>
           C_ENUM_MEMBER_CONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_MEMBER_CONTRACT_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( C_ENUM_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_ENUM_MEMBER_CONTRACT_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_MEMBER_CONTRACT_ID:Int
+                 ))
        andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
-               ))))))))))))))))))))))))))))))))))))))))))
+               ))))))))))))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-150-TO-83)]
     
     rule [BASIC-BLOCK-130-TO-86]: <foundry>
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => #consoleLog 1756313567 b""
+               ~> #refund 0
                ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
@@ -10014,6 +9873,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <callDepth>
                      DEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_ENUM_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -10032,6 +9894,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -10148,26 +10013,6 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _ACTIVE_CELL:Bool
        andBool ( _CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int
@@ -10179,6 +10024,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int C_ENUM_BAL:Int
        andBool ( 0 <=Int C_ENUM_NONCE:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( C_ENUM_ID:Int =/=Int #address ( FoundryConsole )
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
@@ -10196,6 +10042,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( C_ENUM_ID:Int =/=Int NCL:Int
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int <Int pow160
        andBool ( C_ENUM_BAL:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_ENUM_ID:Int =/=Int C_ENUM_MEMBER_CONTRACT_ID:Int
        andBool ( ( notBool 0 in_keys ( C_ENUM_STORAGE:Map ) )
        andBool ( C_ENUM_MEMBER_CONTRACT_BAL:Int <Int pow256
@@ -10213,12 +10060,20 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ( notBool <acctID>
           C_ENUM_MEMBER_CONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_MEMBER_CONTRACT_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( C_ENUM_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_ENUM_MEMBER_CONTRACT_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_MEMBER_CONTRACT_ID:Int
+                 ))
        andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
-               )))))))))))))))))))))))))))))))))))))))))))
+               )))))))))))))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-130-TO-86)]
     
     rule [BASIC-BLOCK-132-TO-96]: <foundry>
@@ -10280,6 +10135,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <callDepth>
                      CALLDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_ENUM_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -10301,6 +10159,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -10401,32 +10262,13 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int C_ENUM_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int C_ENUM_BAL:Int
        andBool ( 0 <=Int C_ENUM_NONCE:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( CALLDEPTH_CELL:Int <Int 1024
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
@@ -10442,6 +10284,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int <Int pow160
        andBool ( C_ENUM_BAL:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_ENUM_ID:Int =/=Int C_ENUM_MEMBER_CONTRACT_ID:Int
        andBool ( ( notBool 0 in_keys ( C_ENUM_STORAGE:Map ) )
        andBool ( C_ENUM_MEMBER_CONTRACT_BAL:Int <Int pow256
@@ -10456,16 +10299,24 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ( notBool <acctID>
           C_ENUM_MEMBER_CONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_MEMBER_CONTRACT_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( C_ENUM_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_ENUM_MEMBER_CONTRACT_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_MEMBER_CONTRACT_ID:Int
+                 ))
        andBool ( ( notBool ( CALLDEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
        andBool ( ( notBool ( ACTIVE_CELL:Bool andBool ( CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int andBool NEWCALLER_CELL:Account =/=K C_ENUM_ID:Int ) ) )
        andBool ( ( notBool ( ( notBool <acctID>
           #address ( FoundryConsole )
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) ) andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int ==Int #address ( FoundryConsole ) andBool C_ENUM_ID:Int =/=Int #address ( FoundryConsole ) ) ) )
-               )))))))))))))))))))))))))))))))))))))
+               )))))))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-132-TO-96)]
     
     rule [BASIC-BLOCK-133-TO-97]: <foundry>
@@ -10524,6 +10375,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <callDepth>
                      CALLDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_ENUM_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -10545,6 +10399,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -10645,32 +10502,13 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int C_ENUM_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int C_ENUM_BAL:Int
        andBool ( 0 <=Int C_ENUM_NONCE:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 1024 <=Int CALLDEPTH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
@@ -10686,6 +10524,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int <Int pow160
        andBool ( C_ENUM_BAL:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_ENUM_ID:Int =/=Int C_ENUM_MEMBER_CONTRACT_ID:Int
        andBool ( ( notBool 0 in_keys ( C_ENUM_STORAGE:Map ) )
        andBool ( C_ENUM_MEMBER_CONTRACT_BAL:Int <Int pow256
@@ -10700,29 +10539,38 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ( notBool <acctID>
           C_ENUM_MEMBER_CONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_MEMBER_CONTRACT_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( C_ENUM_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_ENUM_MEMBER_CONTRACT_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_MEMBER_CONTRACT_ID:Int
+                 ))
        andBool ( ( notBool ( CALLDEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
        andBool ( ( notBool ( ACTIVE_CELL:Bool andBool ( CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int andBool NEWCALLER_CELL:Account =/=K C_ENUM_ID:Int ) ) )
        andBool ( ( notBool ( ( notBool <acctID>
           #address ( FoundryConsole )
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) ) andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int ==Int #address ( FoundryConsole ) andBool C_ENUM_ID:Int =/=Int #address ( FoundryConsole ) ) ) )
-               )))))))))))))))))))))))))))))))))))))
+               )))))))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-133-TO-97)]
     
     rule [BASIC-BLOCK-134-TO-98]: <foundry>
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => #consoleLog 1756313567 b""
+               ~> #refund 0
                ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
                ~> #pc [ STATICCALL ] )
                ~> #endPrank
                ~> #checkRevert
-               ~> #updateRevertOutput 128 32
+               ~> #updateRevertOutput 32 132
                ~> #execute
                ~> _CONTINUATION:K
              </k>
@@ -10765,6 +10613,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_ENUM_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -10783,6 +10634,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -10899,26 +10753,6 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _ACTIVE_CELL:Bool
        andBool ( _NEWCALLER_CELL:Account ==K NCL:Int
@@ -10932,6 +10766,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int C_ENUM_BAL:Int
        andBool ( 0 <=Int C_ENUM_NONCE:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( C_ENUM_ID:Int =/=Int #address ( FoundryConsole )
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
@@ -10948,6 +10783,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( C_ENUM_ID:Int =/=Int NCL:Int
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int <Int pow160
        andBool ( C_ENUM_BAL:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_ENUM_ID:Int =/=Int C_ENUM_MEMBER_CONTRACT_ID:Int
        andBool ( ( notBool 0 in_keys ( C_ENUM_STORAGE:Map ) )
        andBool ( C_ENUM_MEMBER_CONTRACT_BAL:Int <Int pow256
@@ -10965,24 +10801,33 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ( notBool <acctID>
           C_ENUM_MEMBER_CONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_MEMBER_CONTRACT_ID:Int <= 10 ) )
-               )))))))))))))))))))))))))))))))))))))))))))
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( C_ENUM_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_ENUM_MEMBER_CONTRACT_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_MEMBER_CONTRACT_ID:Int
+                 ))
+               )))))))))))))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-134-TO-98)]
     
     rule [BASIC-BLOCK-136-TO-101]: <foundry>
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => #consoleLog 1756313567 b""
+               ~> #refund 0
                ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
                ~> #pc [ STATICCALL ] )
                ~> #endPrank
                ~> #checkRevert
-               ~> #updateRevertOutput 128 32
+               ~> #updateRevertOutput 32 132
                ~> #execute
                ~> _CONTINUATION:K
              </k>
@@ -11025,6 +10870,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_ENUM_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -11043,6 +10891,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -11159,26 +11010,6 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _ACTIVE_CELL:Bool
        andBool ( _NEWCALLER_CELL:Account ==K NCL:Int
@@ -11192,6 +11023,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int C_ENUM_BAL:Int
        andBool ( 0 <=Int C_ENUM_NONCE:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( C_ENUM_ID:Int =/=Int #address ( FoundryConsole )
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
@@ -11208,6 +11040,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( C_ENUM_ID:Int =/=Int NCL:Int
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int <Int pow160
        andBool ( C_ENUM_BAL:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_ENUM_ID:Int =/=Int C_ENUM_MEMBER_CONTRACT_ID:Int
        andBool ( ( notBool 0 in_keys ( C_ENUM_STORAGE:Map ) )
        andBool ( C_ENUM_MEMBER_CONTRACT_BAL:Int <Int pow256
@@ -11225,11 +11058,19 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ( notBool <acctID>
           C_ENUM_MEMBER_CONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ENUM_MEMBER_CONTRACT_ID:Int <= 10 ) )
-               )))))))))))))))))))))))))))))))))))))))))))
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( C_ENUM_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_ENUM_MEMBER_CONTRACT_ID:Int <=Int 0
+          orBool ( 10 <Int C_ENUM_MEMBER_CONTRACT_ID:Int
+                 ))
+               )))))))))))))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-136-TO-101)]
 
 endmodule

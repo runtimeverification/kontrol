@@ -93,6 +93,9 @@ module SUMMARY-TEST%CONSTRUCTORTEST.TEST-CONTRACT-CALL():0
                    <callDepth>
                      0
                    </callDepth>
+                   <codeAddr>
+                     #address ( FoundryTest )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -123,6 +126,9 @@ module SUMMARY-TEST%CONSTRUCTORTEST.TEST-CONTRACT-CALL():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -301,32 +307,14 @@ module SUMMARY-TEST%CONSTRUCTORTEST.TEST-CONTRACT-CALL():0
                .MockFunctionCellMap
              </mockFunctions>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
-      requires ( pow24 <Int NUMBER_CELL:Int
+      requires ( 0 <=Int MIXHASH_CELL:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-               ))))
+       andBool ( MIXHASH_CELL:Int <Int pow256
+               ))))))
       [priority(20), label(BASIC-BLOCK-1-TO-4)]
 
 endmodule

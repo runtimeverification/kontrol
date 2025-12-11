@@ -20,7 +20,7 @@
 ┣━━┓
 ┃  │
 ┃  ├─ 4 (split)
-┃  │   k: #next [ STATICCALL ] ~> #checkRevert ~> #updateRevertOutput 128 32 ~> #execute ~ ...
+┃  │   k: #next [ STATICCALL ] ~> #checkRevert ~> #updateRevertOutput 32 164 ~> #execute ~ ...
 ┃  │   pc: 148
 ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  │   statusCode: STATUSCODE:StatusCode
@@ -35,7 +35,7 @@
 ┃  ┃  ┃     ( notBool NEWCALLER_CELL:Account ==K C_IDENTITY_ID:Int )
 ┃  ┃  │
 ┃  ┃  ├─ 7
-┃  ┃  │   k: #next [ STATICCALL ] ~> #checkRevert ~> #updateRevertOutput 128 32 ~> #execute ~ ...
+┃  ┃  │   k: #next [ STATICCALL ] ~> #checkRevert ~> #updateRevertOutput 32 164 ~> #execute ~ ...
 ┃  ┃  │   pc: 148
 ┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -55,7 +55,7 @@
 ┃  ┃  ┣━━┓
 ┃  ┃  ┃  │
 ┃  ┃  ┃  ├─ 22 (split)
-┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 164  ...
 ┃  ┃  ┃  │   pc: 148
 ┃  ┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -71,7 +71,7 @@
 </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
 ┃  ┃  ┃  ┃  │
 ┃  ┃  ┃  ┃  ├─ 134
-┃  ┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 164  ...
 ┃  ┃  ┃  ┃  │   pc: 148
 ┃  ┃  ┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -80,7 +80,7 @@
 ┃  ┃  ┃  ┃  │
 ┃  ┃  ┃  ┃  │  (5 steps)
 ┃  ┃  ┃  ┃  └─ 98 (leaf, pending)
-┃  ┃  ┃  ┃      k: #consoleLog 2889346747 #buf ( 32 , KV0_x:Int ) ~> 1 ~> #push ~> #setLocalMem 128 ...
+┃  ┃  ┃  ┃      k: #consoleLog 2889346747 #buf ( 32 , KV0_x:Int ) ~> #refund 0 ~> 1 ~> #push ~> #se ...
 ┃  ┃  ┃  ┃      pc: 148
 ┃  ┃  ┃  ┃      callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
@@ -95,7 +95,7 @@
 </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
 ┃  ┃  ┃  ┃  │
 ┃  ┃  ┃  ┃  ├─ 154
-┃  ┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 164  ...
 ┃  ┃  ┃  ┃  │   pc: 148
 ┃  ┃  ┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -115,7 +115,7 @@
 ┃  ┃  ┃     ┃ constraint: true
 ┃  ┃  ┃     │
 ┃  ┃  ┃     ├─ 155
-┃  ┃  ┃     │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃  ┃     │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 164  ...
 ┃  ┃  ┃     │   pc: 148
 ┃  ┃  ┃     │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  ┃     │   statusCode: STATUSCODE:StatusCode
@@ -134,7 +134,7 @@
 ┃  ┃  ┣━━┓
 ┃  ┃  ┃  │
 ┃  ┃  ┃  ├─ 23 (split)
-┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 164  ...
 ┃  ┃  ┃  │   pc: 148
 ┃  ┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -150,7 +150,7 @@
 </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
 ┃  ┃  ┃  ┃  │
 ┃  ┃  ┃  ┃  ├─ 136
-┃  ┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 164  ...
 ┃  ┃  ┃  ┃  │   pc: 148
 ┃  ┃  ┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -159,7 +159,7 @@
 ┃  ┃  ┃  ┃  │
 ┃  ┃  ┃  ┃  │  (5 steps)
 ┃  ┃  ┃  ┃  └─ 101 (leaf, pending)
-┃  ┃  ┃  ┃      k: #consoleLog 2889346747 #buf ( 32 , KV0_x:Int ) ~> 1 ~> #push ~> #setLocalMem 128 ...
+┃  ┃  ┃  ┃      k: #consoleLog 2889346747 #buf ( 32 , KV0_x:Int ) ~> #refund 0 ~> 1 ~> #push ~> #se ...
 ┃  ┃  ┃  ┃      pc: 148
 ┃  ┃  ┃  ┃      callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
@@ -174,7 +174,7 @@
 </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
 ┃  ┃  ┃  ┃  │
 ┃  ┃  ┃  ┃  ├─ 156
-┃  ┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 164  ...
 ┃  ┃  ┃  ┃  │   pc: 148
 ┃  ┃  ┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -194,7 +194,7 @@
 ┃  ┃  ┃     ┃ constraint: true
 ┃  ┃  ┃     │
 ┃  ┃  ┃     ├─ 157
-┃  ┃  ┃     │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃  ┃     │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 164  ...
 ┃  ┃  ┃     │   pc: 148
 ┃  ┃  ┃     │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  ┃     │   statusCode: STATUSCODE:StatusCode
@@ -224,7 +224,7 @@
 ┃  ┃     ┣━━┓
 ┃  ┃     ┃  │
 ┃  ┃     ┃  ├─ 39 (split)
-┃  ┃     ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃     ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 164  ...
 ┃  ┃     ┃  │   pc: 148
 ┃  ┃     ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃     ┃  │   statusCode: STATUSCODE:StatusCode
@@ -240,7 +240,7 @@
 </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
 ┃  ┃     ┃  ┃  │
 ┃  ┃     ┃  ┃  ├─ 142
-┃  ┃     ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃     ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 164  ...
 ┃  ┃     ┃  ┃  │   pc: 148
 ┃  ┃     ┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃     ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -260,7 +260,7 @@
 ┃  ┃     ┃     ┃ constraint: true
 ┃  ┃     ┃     │
 ┃  ┃     ┃     ├─ 143
-┃  ┃     ┃     │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃     ┃     │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 164  ...
 ┃  ┃     ┃     │   pc: 148
 ┃  ┃     ┃     │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃     ┃     │   statusCode: STATUSCODE:StatusCode
@@ -290,7 +290,7 @@
 ┃  ┃        ┣━━┓
 ┃  ┃        ┃  │
 ┃  ┃        ┃  ├─ 66
-┃  ┃        ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃        ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 164  ...
 ┃  ┃        ┃  │   pc: 148
 ┃  ┃        ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃        ┃  │   statusCode: STATUSCODE:StatusCode
@@ -320,7 +320,7 @@
 ┃  ┃           ┣━━┓
 ┃  ┃           ┃  │
 ┃  ┃           ┃  └─ 107 (leaf, pending)
-┃  ┃           ┃      k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃           ┃      k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 164  ...
 ┃  ┃           ┃      pc: 148
 ┃  ┃           ┃      callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃           ┃      statusCode: STATUSCODE:StatusCode
@@ -344,7 +344,7 @@
 ┃  ┃  ┃     ( notBool NEWCALLER_CELL:Account ==K C_IDENTITY_ID:Int )
 ┃  ┃  │
 ┃  ┃  ├─ 14
-┃  ┃  │   k: #next [ STATICCALL ] ~> #checkRevert ~> #updateRevertOutput 128 32 ~> #execute ~ ...
+┃  ┃  │   k: #next [ STATICCALL ] ~> #checkRevert ~> #updateRevertOutput 32 164 ~> #execute ~ ...
 ┃  ┃  │   pc: 148
 ┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -364,7 +364,7 @@
 ┃  ┃  ┣━━┓
 ┃  ┃  ┃  │
 ┃  ┃  ┃  ├─ 41 (split)
-┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 164  ...
 ┃  ┃  ┃  │   pc: 148
 ┃  ┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -380,7 +380,7 @@
 </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
 ┃  ┃  ┃  ┃  │
 ┃  ┃  ┃  ┃  ├─ 144
-┃  ┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 164  ...
 ┃  ┃  ┃  ┃  │   pc: 148
 ┃  ┃  ┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -400,7 +400,7 @@
 ┃  ┃  ┃     ┃ constraint: true
 ┃  ┃  ┃     │
 ┃  ┃  ┃     ├─ 145
-┃  ┃  ┃     │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃  ┃     │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 164  ...
 ┃  ┃  ┃     │   pc: 148
 ┃  ┃  ┃     │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  ┃     │   statusCode: STATUSCODE:StatusCode
@@ -419,7 +419,7 @@
 ┃  ┃  ┣━━┓
 ┃  ┃  ┃  │
 ┃  ┃  ┃  ├─ 42 (split)
-┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 164  ...
 ┃  ┃  ┃  │   pc: 148
 ┃  ┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -435,7 +435,7 @@
 </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
 ┃  ┃  ┃  ┃  │
 ┃  ┃  ┃  ┃  ├─ 146
-┃  ┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 164  ...
 ┃  ┃  ┃  ┃  │   pc: 148
 ┃  ┃  ┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -455,7 +455,7 @@
 ┃  ┃  ┃     ┃ constraint: true
 ┃  ┃  ┃     │
 ┃  ┃  ┃     ├─ 147
-┃  ┃  ┃     │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃  ┃     │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 164  ...
 ┃  ┃  ┃     │   pc: 148
 ┃  ┃  ┃     │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  ┃     │   statusCode: STATUSCODE:StatusCode
@@ -485,7 +485,7 @@
 ┃  ┃     ┣━━┓
 ┃  ┃     ┃  │
 ┃  ┃     ┃  ├─ 70
-┃  ┃     ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃     ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 164  ...
 ┃  ┃     ┃  │   pc: 148
 ┃  ┃     ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃     ┃  │   statusCode: STATUSCODE:StatusCode
@@ -515,7 +515,7 @@
 ┃  ┃        ┣━━┓
 ┃  ┃        ┃  │
 ┃  ┃        ┃  └─ 114 (leaf, pending)
-┃  ┃        ┃      k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃        ┃      k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 164  ...
 ┃  ┃        ┃      pc: 148
 ┃  ┃        ┃      callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃        ┃      statusCode: STATUSCODE:StatusCode
@@ -539,7 +539,7 @@
 ┃  ┃  ┃     ( notBool NEWCALLER_CELL:Account ==K C_IDENTITY_ID:Int )
 ┃  ┃  │
 ┃  ┃  ├─ 26
-┃  ┃  │   k: #next [ STATICCALL ] ~> #checkRevert ~> #updateRevertOutput 128 32 ~> #execute ~ ...
+┃  ┃  │   k: #next [ STATICCALL ] ~> #checkRevert ~> #updateRevertOutput 32 164 ~> #execute ~ ...
 ┃  ┃  │   pc: 148
 ┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -559,7 +559,7 @@
 ┃  ┃  ┣━━┓
 ┃  ┃  ┃  │
 ┃  ┃  ┃  ├─ 72
-┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 164  ...
 ┃  ┃  ┃  │   pc: 148
 ┃  ┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -578,7 +578,7 @@
 ┃  ┃  ┣━━┓
 ┃  ┃  ┃  │
 ┃  ┃  ┃  ├─ 73
-┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 164  ...
 ┃  ┃  ┃  │   pc: 148
 ┃  ┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -608,7 +608,7 @@
 ┃  ┃     ┣━━┓
 ┃  ┃     ┃  │
 ┃  ┃     ┃  └─ 118 (leaf, pending)
-┃  ┃     ┃      k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃     ┃      k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 164  ...
 ┃  ┃     ┃      pc: 148
 ┃  ┃     ┃      callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃     ┃      statusCode: STATUSCODE:StatusCode
@@ -632,7 +632,7 @@
 ┃  ┃  ┃     ( notBool NEWCALLER_CELL:Account ==K C_IDENTITY_ID:Int )
 ┃  ┃  │
 ┃  ┃  ├─ 45
-┃  ┃  │   k: #next [ STATICCALL ] ~> #checkRevert ~> #updateRevertOutput 128 32 ~> #execute ~ ...
+┃  ┃  │   k: #next [ STATICCALL ] ~> #checkRevert ~> #updateRevertOutput 32 164 ~> #execute ~ ...
 ┃  ┃  │   pc: 148
 ┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -652,7 +652,7 @@
 ┃  ┃  ┣━━┓
 ┃  ┃  ┃  │
 ┃  ┃  ┃  └─ 120 (leaf, pending)
-┃  ┃  ┃      k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃  ┃      k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 164  ...
 ┃  ┃  ┃      pc: 148
 ┃  ┃  ┃      callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
@@ -662,7 +662,7 @@
 ┃  ┃  ┣━━┓
 ┃  ┃  ┃  │
 ┃  ┃  ┃  └─ 121 (leaf, pending)
-┃  ┃  ┃      k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃  ┃      k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 32 164  ...
 ┃  ┃  ┃      pc: 148
 ┃  ┃  ┃      callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
@@ -686,7 +686,7 @@
 ┃  ┃  ┃     ( notBool NEWCALLER_CELL:Account ==K C_IDENTITY_ID:Int )
 ┃  ┃  │
 ┃  ┃  ├─ 76
-┃  ┃  │   k: #next [ STATICCALL ] ~> #checkRevert ~> #updateRevertOutput 128 32 ~> #execute ~ ...
+┃  ┃  │   k: #next [ STATICCALL ] ~> #checkRevert ~> #updateRevertOutput 32 164 ~> #execute ~ ...
 ┃  ┃  │   pc: 148
 ┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -709,7 +709,7 @@
 ┃  ┃  ┃     ( notBool NEWCALLER_CELL:Account ==K C_IDENTITY_ID:Int )
 ┃  ┃  │
 ┃  ┃  └─ 124 (leaf, pending)
-┃  ┃      k: #next [ STATICCALL ] ~> #checkRevert ~> #updateRevertOutput 128 32 ~> #execute ~ ...
+┃  ┃      k: #next [ STATICCALL ] ~> #checkRevert ~> #updateRevertOutput 32 164 ~> #execute ~ ...
 ┃  ┃      pc: 148
 ┃  ┃      callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  ┃      statusCode: STATUSCODE:StatusCode
@@ -720,7 +720,7 @@
 ┃     ┃ constraint: true
 ┃     │
 ┃     └─ 125 (leaf, pending)
-┃         k: #next [ STATICCALL ] ~> #checkRevert ~> #updateRevertOutput 128 32 ~> #execute ~ ...
+┃         k: #next [ STATICCALL ] ~> #checkRevert ~> #updateRevertOutput 32 164 ~> #execute ~ ...
 ┃         pc: 148
 ┃         callDepth: EXPECTEDDEPTH_CELL:Int
 ┃         statusCode: STATUSCODE:StatusCode
@@ -766,7 +766,7 @@
 ┃  ┃  ┃  │
 ┃  ┃  ┃  │  (6 steps)
 ┃  ┃  ┃  └─ 78 (leaf, pending)
-┃  ┃  ┃      k: 1 ~> #push ~> #setLocalMem 128 32 b"" ~> #pc [ STATICCALL ] ~> #endPrank ~> #exe ...
+┃  ┃  ┃      k: #refund 0 ~> 1 ~> #push ~> #setLocalMem 128 32 b"" ~> #pc [ STATICCALL ] ~> #end ...
 ┃  ┃  ┃      pc: 148
 ┃  ┃  ┃      callDepth: DEPTH_CELL:Int
 ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
@@ -790,7 +790,7 @@
 ┃  ┃  ┃  │
 ┃  ┃  ┃  │  (5 steps)
 ┃  ┃  ┃  └─ 79 (leaf, pending)
-┃  ┃  ┃      k: #consoleLog 2889346747 #buf ( 32 , KV0_x:Int ) ~> 1 ~> #push ~> #setLocalMem 128 ...
+┃  ┃  ┃      k: #consoleLog 2889346747 #buf ( 32 , KV0_x:Int ) ~> #refund 0 ~> 1 ~> #push ~> #se ...
 ┃  ┃  ┃      pc: 148
 ┃  ┃  ┃      callDepth: DEPTH_CELL:Int
 ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
@@ -869,7 +869,7 @@
 ┃  ┃  ┃  │
 ┃  ┃  ┃  │  (6 steps)
 ┃  ┃  ┃  └─ 82 (leaf, pending)
-┃  ┃  ┃      k: 1 ~> #push ~> #setLocalMem 128 32 b"" ~> #pc [ STATICCALL ] ~> #endPrank ~> #exe ...
+┃  ┃  ┃      k: #refund 0 ~> 1 ~> #push ~> #setLocalMem 128 32 b"" ~> #pc [ STATICCALL ] ~> #end ...
 ┃  ┃  ┃      pc: 148
 ┃  ┃  ┃      callDepth: DEPTH_CELL:Int
 ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
@@ -893,7 +893,7 @@
 ┃  ┃  ┃  │
 ┃  ┃  ┃  │  (5 steps)
 ┃  ┃  ┃  └─ 83 (leaf, pending)
-┃  ┃  ┃      k: #consoleLog 2889346747 #buf ( 32 , KV0_x:Int ) ~> 1 ~> #push ~> #setLocalMem 128 ...
+┃  ┃  ┃      k: #consoleLog 2889346747 #buf ( 32 , KV0_x:Int ) ~> #refund 0 ~> 1 ~> #push ~> #se ...
 ┃  ┃  ┃      pc: 148
 ┃  ┃  ┃      callDepth: DEPTH_CELL:Int
 ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
@@ -983,7 +983,7 @@
 ┃     ┃  ┃  │
 ┃     ┃  ┃  │  (5 steps)
 ┃     ┃  ┃  └─ 86 (leaf, pending)
-┃     ┃  ┃      k: #consoleLog 2889346747 #buf ( 32 , KV0_x:Int ) ~> 1 ~> #push ~> #setLocalMem 128 ...
+┃     ┃  ┃      k: #consoleLog 2889346747 #buf ( 32 , KV0_x:Int ) ~> #refund 0 ~> 1 ~> #push ~> #se ...
 ┃     ┃  ┃      pc: 148
 ┃     ┃  ┃      callDepth: DEPTH_CELL:Int
 ┃     ┃  ┃      statusCode: STATUSCODE:StatusCode
@@ -1184,7 +1184,7 @@
    ┣━━┓
    ┃  │
    ┃  ├─ 20 (split)
-   ┃  │   k: #consoleLog 2889346747 #buf ( 32 , KV0_x:Int ) ~> 1 ~> #push ~> #setLocalMem 128 ...
+   ┃  │   k: #consoleLog 2889346747 #buf ( 32 , KV0_x:Int ) ~> #refund 0 ~> 1 ~> #push ~> #se ...
    ┃  │   pc: 148
    ┃  │   callDepth: CALLDEPTH_CELL:Int
    ┃  │   statusCode: STATUSCODE:StatusCode
@@ -1197,14 +1197,14 @@
    ┃  ┃  ┃     0 ==Int ( (chop ( lengthBytes ( OUTPUT_CELL:Bytes ) )) s<Word (32) )
    ┃  ┃  │
    ┃  ┃  ├─ 140
-   ┃  ┃  │   k: #consoleLog 2889346747 #buf ( 32 , KV0_x:Int ) ~> 1 ~> #push ~> #setLocalMem 128 ...
+   ┃  ┃  │   k: #consoleLog 2889346747 #buf ( 32 , KV0_x:Int ) ~> #refund 0 ~> 1 ~> #push ~> #se ...
    ┃  ┃  │   pc: 148
    ┃  ┃  │   callDepth: CALLDEPTH_CELL:Int
    ┃  ┃  │   statusCode: STATUSCODE:StatusCode
    ┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
    ┃  ┃  │   method: src%cse%Identity.applyOp(uint256)
    ┃  ┃  │
-   ┃  ┃  │  (188 steps)
+   ┃  ┃  │  (189 steps)
    ┃  ┃  └─ 94 (leaf, pending)
    ┃  ┃      k: JUMPI 245 bool2Word ( ( (chop ( lengthBytes ( OUTPUT_CELL:Bytes ) )) s<Word (32) ...
    ┃  ┃      pc: 240
@@ -1218,14 +1218,14 @@
    ┃     ┃     ( notBool ( (chop ( lengthBytes ( OUTPUT_CELL:Bytes ) )) s<Word (32) ) ==Int 0 )
    ┃     │
    ┃     ├─ 141
-   ┃     │   k: #consoleLog 2889346747 #buf ( 32 , KV0_x:Int ) ~> 1 ~> #push ~> #setLocalMem 128 ...
+   ┃     │   k: #consoleLog 2889346747 #buf ( 32 , KV0_x:Int ) ~> #refund 0 ~> 1 ~> #push ~> #se ...
    ┃     │   pc: 148
    ┃     │   callDepth: CALLDEPTH_CELL:Int
    ┃     │   statusCode: STATUSCODE:StatusCode
    ┃     │   src: test/nested/SimpleNested.t.sol:7:11
    ┃     │   method: src%cse%Identity.applyOp(uint256)
    ┃     │
-   ┃     │  (188 steps)
+   ┃     │  (189 steps)
    ┃     └─ 95 (leaf, pending)
    ┃         k: JUMPI 245 bool2Word ( ( (chop ( lengthBytes ( OUTPUT_CELL:Bytes ) )) s<Word (32) ...
    ┃         pc: 240
@@ -1342,6 +1342,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callGas>
                      0
                    </callGas>
+                   <codeAddr>
+                     C_IDENTITY_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -1360,6 +1363,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -1420,30 +1426,11 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -1459,14 +1446,21 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( C_IDENTITY_ID:Int <Int pow160
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
-               )))))))))))))))))))))))
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
+               )))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-1-TO-3)]
     
     rule [BASIC-BLOCK-6-TO-12]: <foundry>
@@ -1517,6 +1511,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      CALLDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_IDENTITY_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -1535,6 +1532,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -1616,30 +1616,11 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -1652,6 +1633,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( C_IDENTITY_ID:Int <Int pow160
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -1659,12 +1641,18 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
        andBool ( ( notBool ( CALLDEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
        andBool ( ( notBool ( ACTIVE_CELL:Bool andBool ( CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int andBool NEWCALLER_CELL:Account =/=K C_IDENTITY_ID:Int ) ) )
-               )))))))))))))))))))))))))
+               )))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-6-TO-12)]
     
     rule [BASIC-BLOCK-7-TO-13]: <foundry>
@@ -1674,7 +1662,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                ~> #next [ STATICCALL ]
                ~> #endPrank )
                ~> #checkRevert
-               ~> #updateRevertOutput 128 32
+               ~> #updateRevertOutput 32 164
                ~> #execute
                ~> _CONTINUATION:K
              </k>
@@ -1717,6 +1705,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_IDENTITY_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -1735,6 +1726,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -1816,26 +1810,6 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( ACTIVE_CELL:Bool
        andBool ( _ISREVERTEXPECTED_CELL:Bool
@@ -1844,6 +1818,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -1857,6 +1832,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( C_IDENTITY_ID:Int <Int pow160
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -1864,10 +1840,16 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
-               ))))))))))))))))))))))))))))
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
+               ))))))))))))))))))))))))))))))
        ensures NEWCALLER_CELL:Account ~> .K =/=K C_IDENTITY_ID:Int ~> .K
       [priority(20), label(BASIC-BLOCK-7-TO-13)]
     
@@ -1878,7 +1860,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                ~> #next [ STATICCALL ]
                ~> #endPrank )
                ~> #checkRevert
-               ~> #updateRevertOutput 128 32
+               ~> #updateRevertOutput 32 164
                ~> #execute
                ~> _CONTINUATION:K
              </k>
@@ -1921,6 +1903,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_IDENTITY_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -1939,6 +1924,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -2020,26 +2008,6 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( ACTIVE_CELL:Bool
        andBool ( _ISREVERTEXPECTED_CELL:Bool
@@ -2048,6 +2016,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -2061,6 +2030,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( C_IDENTITY_ID:Int <Int pow160
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -2068,10 +2038,16 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
-               ))))))))))))))))))))))))))))
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
+               ))))))))))))))))))))))))))))))
        ensures NEWCALLER_CELL:Account ~> .K =/=K C_IDENTITY_ID:Int ~> .K
       [priority(20), label(BASIC-BLOCK-14-TO-25)]
     
@@ -2082,7 +2058,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                ~> #next [ STATICCALL ]
                ~> #endPrank )
                ~> #checkRevert
-               ~> #updateRevertOutput 128 32
+               ~> #updateRevertOutput 32 164
                ~> #execute
                ~> _CONTINUATION:K
              </k>
@@ -2125,6 +2101,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_IDENTITY_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -2143,6 +2122,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -2224,26 +2206,6 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( ACTIVE_CELL:Bool
        andBool ( _ISREVERTEXPECTED_CELL:Bool
@@ -2252,6 +2214,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -2265,6 +2228,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( C_IDENTITY_ID:Int <Int pow160
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -2272,10 +2236,16 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
-               ))))))))))))))))))))))))))))
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
+               ))))))))))))))))))))))))))))))
        ensures NEWCALLER_CELL:Account ~> .K =/=K C_IDENTITY_ID:Int ~> .K
       [priority(20), label(BASIC-BLOCK-26-TO-44)]
     
@@ -2286,7 +2256,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                ~> #next [ STATICCALL ]
                ~> #endPrank )
                ~> #checkRevert
-               ~> #updateRevertOutput 128 32
+               ~> #updateRevertOutput 32 164
                ~> #execute
                ~> _CONTINUATION:K
              </k>
@@ -2329,6 +2299,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_IDENTITY_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -2347,6 +2320,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -2428,26 +2404,6 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( ACTIVE_CELL:Bool
        andBool ( _ISREVERTEXPECTED_CELL:Bool
@@ -2456,6 +2412,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -2469,6 +2426,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( C_IDENTITY_ID:Int <Int pow160
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -2476,10 +2434,16 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
-               ))))))))))))))))))))))))))))
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
+               ))))))))))))))))))))))))))))))
        ensures NEWCALLER_CELL:Account ~> .K =/=K C_IDENTITY_ID:Int ~> .K
       [priority(20), label(BASIC-BLOCK-45-TO-75)]
     
@@ -2531,6 +2495,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      DEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_IDENTITY_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -2549,6 +2516,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -2633,26 +2603,6 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _ACTIVE_CELL:Bool
        andBool ( _CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int
@@ -2661,6 +2611,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -2677,6 +2628,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( _NOG1:Int =/=Int NOG2:Int
        andBool ( C_IDENTITY_ID:Int =/=Int NCL:Int
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -2684,11 +2636,17 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
        andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
-               ))))))))))))))))))))))))))))))))
+               ))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-56-TO-91)]
     
     rule [BASIC-BLOCK-66-TO-106]: <foundry>
@@ -2698,7 +2656,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                ~> #pc [ STATICCALL ] )
                ~> #endPrank
                ~> #checkRevert
-               ~> #updateRevertOutput 128 32
+               ~> #updateRevertOutput 32 164
                ~> #execute
                ~> _CONTINUATION:K
              </k>
@@ -2741,6 +2699,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_IDENTITY_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -2759,6 +2720,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -2843,26 +2807,6 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _ACTIVE_CELL:Bool
        andBool ( _NEWCALLER_CELL:Account ==K NCL:Int
@@ -2873,6 +2817,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -2888,6 +2833,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( _NOG0:Int =/=Int NOG1:Int
        andBool ( C_IDENTITY_ID:Int =/=Int NCL:Int
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -2895,10 +2841,16 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
-               ))))))))))))))))))))))))))))))))
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
+               ))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-66-TO-106)]
     
     rule [BASIC-BLOCK-70-TO-113]: <foundry>
@@ -2908,7 +2860,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                ~> #pc [ STATICCALL ] )
                ~> #endPrank
                ~> #checkRevert
-               ~> #updateRevertOutput 128 32
+               ~> #updateRevertOutput 32 164
                ~> #execute
                ~> _CONTINUATION:K
              </k>
@@ -2951,6 +2903,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_IDENTITY_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -2969,6 +2924,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -3053,26 +3011,6 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _ACTIVE_CELL:Bool
        andBool ( _NEWCALLER_CELL:Account ==K NCL:Int
@@ -3083,6 +3021,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -3097,6 +3036,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( _NOG:Int =/=Int NOG0:Int
        andBool ( C_IDENTITY_ID:Int =/=Int NCL:Int
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -3104,10 +3044,16 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
-               )))))))))))))))))))))))))))))))
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
+               )))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-70-TO-113)]
     
     rule [BASIC-BLOCK-72-TO-116]: <foundry>
@@ -3117,7 +3063,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                ~> #pc [ STATICCALL ] )
                ~> #endPrank
                ~> #checkRevert
-               ~> #updateRevertOutput 128 32
+               ~> #updateRevertOutput 32 164
                ~> #execute
                ~> _CONTINUATION:K
              </k>
@@ -3160,6 +3106,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_IDENTITY_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -3178,6 +3127,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -3262,26 +3214,6 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _ACTIVE_CELL:Bool
        andBool ( _NEWCALLER_CELL:Account ==K NCL:Int
@@ -3292,6 +3224,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -3305,6 +3238,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( C_IDENTITY_ID:Int <Int pow160
        andBool ( C_IDENTITY_ID:Int =/=Int NCL:Int
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -3312,10 +3246,16 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
-               ))))))))))))))))))))))))))))))
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
+               ))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-72-TO-116)]
     
     rule [BASIC-BLOCK-73-TO-117]: <foundry>
@@ -3325,7 +3265,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                ~> #pc [ STATICCALL ] )
                ~> #endPrank
                ~> #checkRevert
-               ~> #updateRevertOutput 128 32
+               ~> #updateRevertOutput 32 164
                ~> #execute
                ~> _CONTINUATION:K
              </k>
@@ -3368,6 +3308,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_IDENTITY_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -3386,6 +3329,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -3470,26 +3416,6 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _ACTIVE_CELL:Bool
        andBool ( _NEWCALLER_CELL:Account ==K NCL:Int
@@ -3500,6 +3426,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -3513,6 +3440,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( C_IDENTITY_ID:Int <Int pow160
        andBool ( C_IDENTITY_ID:Int =/=Int NCL:Int
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -3520,10 +3448,16 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
-               ))))))))))))))))))))))))))))))
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
+               ))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-73-TO-117)]
     
     rule [BASIC-BLOCK-76-TO-123]: <foundry>
@@ -3533,7 +3467,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                ~> #next [ STATICCALL ]
                ~> #endPrank )
                ~> #checkRevert
-               ~> #updateRevertOutput 128 32
+               ~> #updateRevertOutput 32 164
                ~> #execute
                ~> _CONTINUATION:K
              </k>
@@ -3576,6 +3510,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_IDENTITY_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -3594,6 +3531,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -3675,26 +3615,6 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( ACTIVE_CELL:Bool
        andBool ( _ISREVERTEXPECTED_CELL:Bool
@@ -3703,6 +3623,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -3716,6 +3637,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( C_IDENTITY_ID:Int <Int pow160
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -3723,10 +3645,16 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
-               ))))))))))))))))))))))))))))
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
+               ))))))))))))))))))))))))))))))
        ensures NEWCALLER_CELL:Account ~> .K =/=K C_IDENTITY_ID:Int ~> .K
       [priority(20), label(BASIC-BLOCK-76-TO-123)]
     
@@ -3778,6 +3706,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      DEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_IDENTITY_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -3796,6 +3727,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -3880,26 +3814,6 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _ACTIVE_CELL:Bool
        andBool ( _CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int
@@ -3909,6 +3823,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -3924,6 +3839,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( _NOG0:Int =/=Int NOG1:Int
        andBool ( C_IDENTITY_ID:Int =/=Int NCL:Int
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -3934,11 +3850,17 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
        andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
-               )))))))))))))))))))))))))))))))))
+               )))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-138-TO-89)]
     
     rule [BASIC-BLOCK-139-TO-90]: <foundry>
@@ -3989,6 +3911,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      DEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_IDENTITY_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -4007,6 +3932,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -4091,26 +4019,6 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _ACTIVE_CELL:Bool
        andBool ( _CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int
@@ -4119,6 +4027,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -4134,6 +4043,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( _NOG0:Int =/=Int NOG1:Int
        andBool ( C_IDENTITY_ID:Int =/=Int NCL:Int
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -4141,17 +4051,24 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
        andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
-               )))))))))))))))))))))))))))))))
+               )))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-139-TO-90)]
     
     rule [BASIC-BLOCK-140-TO-94]: <foundry>
            <kevm>
              <k>
                ( #consoleLog 2889346747 #buf ( 32 , KV0_x:Int )
+               ~> #refund 0
                ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
@@ -4202,6 +4119,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      CALLDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     #address ( FoundryConsole )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -4220,6 +4140,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -4301,31 +4224,12 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _C_IDENTITY_ID:Int ==Int #address ( FoundryConsole )
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -4336,6 +4240,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -4343,17 +4248,22 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           #address ( FoundryConsole )
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
        andBool ( ( notBool ( CALLDEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
        andBool ( ( notBool ( ACTIVE_CELL:Bool andBool ( CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int andBool NEWCALLER_CELL:Account =/=K #address ( FoundryConsole ) ) ) )
-               )))))))))))))))))))))))
+               )))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-140-TO-94)]
     
     rule [BASIC-BLOCK-141-TO-95]: <foundry>
            <kevm>
              <k>
                ( #consoleLog 2889346747 #buf ( 32 , KV0_x:Int )
+               ~> #refund 0
                ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
@@ -4404,6 +4314,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      CALLDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     #address ( FoundryConsole )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -4422,6 +4335,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -4503,31 +4419,12 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _C_IDENTITY_ID:Int ==Int #address ( FoundryConsole )
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -4538,18 +4435,23 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ( notBool <acctID>
           #address ( FoundryConsole )
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
        andBool ( ( (chop ( lengthBytes ( OUTPUT_CELL:Bytes ) )) s<Word (32) ) =/=Int 0
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
        andBool ( ( notBool ( CALLDEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
        andBool ( ( notBool ( ACTIVE_CELL:Bool andBool ( CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int andBool NEWCALLER_CELL:Account =/=K #address ( FoundryConsole ) ) ) )
-               )))))))))))))))))))))))
+               )))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-141-TO-95)]
     
     rule [BASIC-BLOCK-142-TO-104]: <foundry>
@@ -4559,7 +4461,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                ~> #pc [ STATICCALL ] )
                ~> #endPrank
                ~> #checkRevert
-               ~> #updateRevertOutput 128 32
+               ~> #updateRevertOutput 32 164
                ~> #execute
                ~> _CONTINUATION:K
              </k>
@@ -4602,6 +4504,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_IDENTITY_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -4620,6 +4525,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -4704,26 +4612,6 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _ACTIVE_CELL:Bool
        andBool ( _NEWCALLER_CELL:Account ==K NCL:Int
@@ -4735,6 +4623,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -4749,6 +4638,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( _NOG:Int =/=Int NOG0:Int
        andBool ( C_IDENTITY_ID:Int =/=Int NCL:Int
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -4759,10 +4649,16 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
-               )))))))))))))))))))))))))))))))))
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
+               )))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-142-TO-104)]
     
     rule [BASIC-BLOCK-143-TO-105]: <foundry>
@@ -4772,7 +4668,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                ~> #pc [ STATICCALL ] )
                ~> #endPrank
                ~> #checkRevert
-               ~> #updateRevertOutput 128 32
+               ~> #updateRevertOutput 32 164
                ~> #execute
                ~> _CONTINUATION:K
              </k>
@@ -4815,6 +4711,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_IDENTITY_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -4833,6 +4732,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -4917,26 +4819,6 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _ACTIVE_CELL:Bool
        andBool ( _NEWCALLER_CELL:Account ==K NCL:Int
@@ -4947,6 +4829,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -4961,6 +4844,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( _NOG:Int =/=Int NOG0:Int
        andBool ( C_IDENTITY_ID:Int =/=Int NCL:Int
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -4968,10 +4852,16 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
-               )))))))))))))))))))))))))))))))
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
+               )))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-143-TO-105)]
     
     rule [BASIC-BLOCK-144-TO-109]: <foundry>
@@ -4981,7 +4871,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                ~> #pc [ STATICCALL ] )
                ~> #endPrank
                ~> #checkRevert
-               ~> #updateRevertOutput 128 32
+               ~> #updateRevertOutput 32 164
                ~> #execute
                ~> _CONTINUATION:K
              </k>
@@ -5024,6 +4914,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_IDENTITY_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -5042,6 +4935,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -5126,26 +5022,6 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _ACTIVE_CELL:Bool
        andBool ( _NEWCALLER_CELL:Account ==K NCL:Int
@@ -5157,6 +5033,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -5170,6 +5047,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( C_IDENTITY_ID:Int <Int pow160
        andBool ( C_IDENTITY_ID:Int =/=Int NCL:Int
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -5180,10 +5058,16 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
-               ))))))))))))))))))))))))))))))))
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
+               ))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-144-TO-109)]
     
     rule [BASIC-BLOCK-145-TO-110]: <foundry>
@@ -5193,7 +5077,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                ~> #pc [ STATICCALL ] )
                ~> #endPrank
                ~> #checkRevert
-               ~> #updateRevertOutput 128 32
+               ~> #updateRevertOutput 32 164
                ~> #execute
                ~> _CONTINUATION:K
              </k>
@@ -5236,6 +5120,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_IDENTITY_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -5254,6 +5141,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -5338,26 +5228,6 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _ACTIVE_CELL:Bool
        andBool ( _NEWCALLER_CELL:Account ==K NCL:Int
@@ -5368,6 +5238,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -5381,6 +5252,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( C_IDENTITY_ID:Int <Int pow160
        andBool ( C_IDENTITY_ID:Int =/=Int NCL:Int
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -5388,10 +5260,16 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
-               ))))))))))))))))))))))))))))))
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
+               ))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-145-TO-110)]
     
     rule [BASIC-BLOCK-146-TO-111]: <foundry>
@@ -5401,7 +5279,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                ~> #pc [ STATICCALL ] )
                ~> #endPrank
                ~> #checkRevert
-               ~> #updateRevertOutput 128 32
+               ~> #updateRevertOutput 32 164
                ~> #execute
                ~> _CONTINUATION:K
              </k>
@@ -5444,6 +5322,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_IDENTITY_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -5462,6 +5343,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -5546,26 +5430,6 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _ACTIVE_CELL:Bool
        andBool ( _NEWCALLER_CELL:Account ==K NCL:Int
@@ -5577,6 +5441,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -5590,6 +5455,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( C_IDENTITY_ID:Int <Int pow160
        andBool ( C_IDENTITY_ID:Int =/=Int NCL:Int
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -5600,10 +5466,16 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
-               ))))))))))))))))))))))))))))))))
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
+               ))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-146-TO-111)]
     
     rule [BASIC-BLOCK-147-TO-112]: <foundry>
@@ -5613,7 +5485,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                ~> #pc [ STATICCALL ] )
                ~> #endPrank
                ~> #checkRevert
-               ~> #updateRevertOutput 128 32
+               ~> #updateRevertOutput 32 164
                ~> #execute
                ~> _CONTINUATION:K
              </k>
@@ -5656,6 +5528,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_IDENTITY_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -5674,6 +5549,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -5758,26 +5636,6 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _ACTIVE_CELL:Bool
        andBool ( _NEWCALLER_CELL:Account ==K NCL:Int
@@ -5788,6 +5646,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -5801,6 +5660,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( C_IDENTITY_ID:Int <Int pow160
        andBool ( C_IDENTITY_ID:Int =/=Int NCL:Int
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -5808,10 +5668,16 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
-               ))))))))))))))))))))))))))))))
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
+               ))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-147-TO-112)]
     
     rule [BASIC-BLOCK-152-TO-87]: <foundry>
@@ -5862,6 +5728,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      DEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_IDENTITY_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -5880,6 +5749,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -5964,26 +5836,6 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _ACTIVE_CELL:Bool
        andBool ( _CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int
@@ -5993,6 +5845,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -6007,6 +5860,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( _NOG:Int =/=Int NOG0:Int
        andBool ( C_IDENTITY_ID:Int =/=Int NCL:Int
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -6017,11 +5871,17 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
        andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
-               ))))))))))))))))))))))))))))))))
+               ))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-152-TO-87)]
     
     rule [BASIC-BLOCK-153-TO-88]: <foundry>
@@ -6072,6 +5932,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      DEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_IDENTITY_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -6090,6 +5953,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -6174,26 +6040,6 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _ACTIVE_CELL:Bool
        andBool ( _CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int
@@ -6202,6 +6048,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -6216,6 +6063,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( _NOG:Int =/=Int NOG0:Int
        andBool ( C_IDENTITY_ID:Int =/=Int NCL:Int
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -6223,11 +6071,17 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
        andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
-               ))))))))))))))))))))))))))))))
+               ))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-153-TO-88)]
     
     rule [BASIC-BLOCK-154-TO-99]: <foundry>
@@ -6237,7 +6091,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                ~> #pc [ STATICCALL ] )
                ~> #endPrank
                ~> #checkRevert
-               ~> #updateRevertOutput 128 32
+               ~> #updateRevertOutput 32 164
                ~> #execute
                ~> _CONTINUATION:K
              </k>
@@ -6280,6 +6134,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_IDENTITY_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -6298,6 +6155,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -6382,26 +6242,6 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _ACTIVE_CELL:Bool
        andBool ( _NEWCALLER_CELL:Account ==K NCL:Int
@@ -6413,6 +6253,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -6426,6 +6267,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( C_IDENTITY_ID:Int <Int pow160
        andBool ( C_IDENTITY_ID:Int =/=Int NCL:Int
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -6436,10 +6278,16 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
-               ))))))))))))))))))))))))))))))))
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
+               ))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-154-TO-99)]
     
     rule [BASIC-BLOCK-155-TO-100]: <foundry>
@@ -6449,7 +6297,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                ~> #pc [ STATICCALL ] )
                ~> #endPrank
                ~> #checkRevert
-               ~> #updateRevertOutput 128 32
+               ~> #updateRevertOutput 32 164
                ~> #execute
                ~> _CONTINUATION:K
              </k>
@@ -6492,6 +6340,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_IDENTITY_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -6510,6 +6361,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -6594,26 +6448,6 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _ACTIVE_CELL:Bool
        andBool ( _NEWCALLER_CELL:Account ==K NCL:Int
@@ -6624,6 +6458,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -6637,6 +6472,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( C_IDENTITY_ID:Int <Int pow160
        andBool ( C_IDENTITY_ID:Int =/=Int NCL:Int
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -6644,10 +6480,16 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
-               ))))))))))))))))))))))))))))))
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
+               ))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-155-TO-100)]
     
     rule [BASIC-BLOCK-156-TO-102]: <foundry>
@@ -6657,7 +6499,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                ~> #pc [ STATICCALL ] )
                ~> #endPrank
                ~> #checkRevert
-               ~> #updateRevertOutput 128 32
+               ~> #updateRevertOutput 32 164
                ~> #execute
                ~> _CONTINUATION:K
              </k>
@@ -6700,6 +6542,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_IDENTITY_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -6718,6 +6563,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -6802,26 +6650,6 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _ACTIVE_CELL:Bool
        andBool ( _NEWCALLER_CELL:Account ==K NCL:Int
@@ -6833,6 +6661,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -6846,6 +6675,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( C_IDENTITY_ID:Int <Int pow160
        andBool ( C_IDENTITY_ID:Int =/=Int NCL:Int
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -6856,10 +6686,16 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
-               ))))))))))))))))))))))))))))))))
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
+               ))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-156-TO-102)]
     
     rule [BASIC-BLOCK-157-TO-103]: <foundry>
@@ -6869,7 +6705,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                ~> #pc [ STATICCALL ] )
                ~> #endPrank
                ~> #checkRevert
-               ~> #updateRevertOutput 128 32
+               ~> #updateRevertOutput 32 164
                ~> #execute
                ~> _CONTINUATION:K
              </k>
@@ -6912,6 +6748,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_IDENTITY_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -6930,6 +6769,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -7014,26 +6856,6 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _ACTIVE_CELL:Bool
        andBool ( _NEWCALLER_CELL:Account ==K NCL:Int
@@ -7044,6 +6866,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -7057,6 +6880,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( C_IDENTITY_ID:Int <Int pow160
        andBool ( C_IDENTITY_ID:Int =/=Int NCL:Int
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -7064,10 +6888,16 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
-               ))))))))))))))))))))))))))))))
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
+               ))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-157-TO-103)]
     
     rule [BASIC-BLOCK-158-TO-80]: <foundry>
@@ -7118,6 +6948,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      DEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_IDENTITY_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -7136,6 +6969,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -7220,26 +7056,6 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _ACTIVE_CELL:Bool
        andBool ( _CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int
@@ -7249,6 +7065,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -7262,6 +7079,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( C_IDENTITY_ID:Int <Int pow160
        andBool ( C_IDENTITY_ID:Int =/=Int NCL:Int
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -7272,11 +7090,17 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
        andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
-               )))))))))))))))))))))))))))))))
+               )))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-158-TO-80)]
     
     rule [BASIC-BLOCK-159-TO-81]: <foundry>
@@ -7327,6 +7151,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      DEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_IDENTITY_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -7345,6 +7172,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -7429,26 +7259,6 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _ACTIVE_CELL:Bool
        andBool ( _CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int
@@ -7457,6 +7267,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -7470,6 +7281,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( C_IDENTITY_ID:Int <Int pow160
        andBool ( C_IDENTITY_ID:Int =/=Int NCL:Int
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -7477,11 +7289,17 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
        andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
-               )))))))))))))))))))))))))))))
+               )))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-159-TO-81)]
     
     rule [BASIC-BLOCK-160-TO-84]: <foundry>
@@ -7532,6 +7350,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      DEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_IDENTITY_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -7550,6 +7371,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -7634,26 +7458,6 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _ACTIVE_CELL:Bool
        andBool ( _CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int
@@ -7663,6 +7467,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -7676,6 +7481,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( C_IDENTITY_ID:Int <Int pow160
        andBool ( C_IDENTITY_ID:Int =/=Int NCL:Int
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -7686,11 +7492,17 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
        andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
-               )))))))))))))))))))))))))))))))
+               )))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-160-TO-84)]
     
     rule [BASIC-BLOCK-161-TO-85]: <foundry>
@@ -7741,6 +7553,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      DEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_IDENTITY_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -7759,6 +7574,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -7843,26 +7661,6 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _ACTIVE_CELL:Bool
        andBool ( _CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int
@@ -7871,6 +7669,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -7884,6 +7683,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( C_IDENTITY_ID:Int <Int pow160
        andBool ( C_IDENTITY_ID:Int =/=Int NCL:Int
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -7891,17 +7691,24 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
        andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
-               )))))))))))))))))))))))))))))
+               )))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-161-TO-85)]
     
     rule [BASIC-BLOCK-126-TO-78]: <foundry>
            <kevm>
              <k>
-               ( #next [ STATICCALL ] ~> .K => 1
+               ( #next [ STATICCALL ] ~> .K => #refund 0
+               ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
                ~> #pc [ STATICCALL ] )
@@ -7948,6 +7755,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      DEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     ( C_IDENTITY_ID:Int => #address ( FoundryConsole ) )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -7966,6 +7776,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -8050,26 +7863,6 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _ACTIVE_CELL:Bool
        andBool ( _CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int
@@ -8079,6 +7872,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -8092,6 +7886,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( C_IDENTITY_ID:Int <Int pow160
        andBool ( C_IDENTITY_ID:Int =/=Int NCL:Int
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -8102,18 +7897,25 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
        andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
-               )))))))))))))))))))))))))))))))
+               )))))))))))))))))))))))))))))))))
        ensures NCL:Int =/=Int #address ( FoundryConsole )
       [priority(20), label(BASIC-BLOCK-126-TO-78)]
     
     rule [BASIC-BLOCK-128-TO-82]: <foundry>
            <kevm>
              <k>
-               ( #next [ STATICCALL ] ~> .K => 1
+               ( #next [ STATICCALL ] ~> .K => #refund 0
+               ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
                ~> #pc [ STATICCALL ] )
@@ -8160,6 +7962,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      DEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     ( C_IDENTITY_ID:Int => #address ( FoundryConsole ) )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -8178,6 +7983,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -8262,26 +8070,6 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _ACTIVE_CELL:Bool
        andBool ( _CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int
@@ -8291,6 +8079,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -8304,6 +8093,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( C_IDENTITY_ID:Int <Int pow160
        andBool ( C_IDENTITY_ID:Int =/=Int NCL:Int
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -8314,11 +8104,17 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
        andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
-               )))))))))))))))))))))))))))))))
+               )))))))))))))))))))))))))))))))))
        ensures NCL:Int =/=Int #address ( FoundryConsole )
       [priority(20), label(BASIC-BLOCK-128-TO-82)]
     
@@ -8326,6 +8122,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => #consoleLog 2889346747 #buf ( 32 , KV0_x:Int )
+               ~> #refund 0
                ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
@@ -8373,6 +8170,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      DEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     ( C_IDENTITY_ID:Int => #address ( FoundryConsole ) )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -8391,6 +8191,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -8475,26 +8278,6 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _ACTIVE_CELL:Bool
        andBool ( _CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int
@@ -8504,6 +8287,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -8517,6 +8301,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( C_IDENTITY_ID:Int <Int pow160
        andBool ( C_IDENTITY_ID:Int =/=Int NCL:Int
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -8527,11 +8312,17 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
        andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
-               )))))))))))))))))))))))))))))))
+               )))))))))))))))))))))))))))))))))
        ensures NCL:Int =/=Int #address ( FoundryConsole )
       [priority(20), label(BASIC-BLOCK-148-TO-79)]
     
@@ -8539,6 +8330,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => #consoleLog 2889346747 #buf ( 32 , KV0_x:Int )
+               ~> #refund 0
                ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
@@ -8586,6 +8378,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      DEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     ( C_IDENTITY_ID:Int => #address ( FoundryConsole ) )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -8604,6 +8399,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -8688,26 +8486,6 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _ACTIVE_CELL:Bool
        andBool ( _CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int
@@ -8717,6 +8495,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -8730,6 +8509,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( C_IDENTITY_ID:Int <Int pow160
        andBool ( C_IDENTITY_ID:Int =/=Int NCL:Int
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -8740,11 +8520,17 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
        andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
-               )))))))))))))))))))))))))))))))
+               )))))))))))))))))))))))))))))))))
        ensures NCL:Int =/=Int #address ( FoundryConsole )
       [priority(20), label(BASIC-BLOCK-150-TO-83)]
     
@@ -8752,6 +8538,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => #consoleLog 2889346747 #buf ( 32 , KV0_x:Int )
+               ~> #refund 0
                ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
@@ -8799,6 +8586,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      DEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     ( C_IDENTITY_ID:Int => #address ( FoundryConsole ) )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -8817,6 +8607,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -8901,26 +8694,6 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _ACTIVE_CELL:Bool
        andBool ( _CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int
@@ -8930,6 +8703,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -8944,6 +8718,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( _NOG:Int =/=Int NOG0:Int
        andBool ( C_IDENTITY_ID:Int =/=Int NCL:Int
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -8954,11 +8729,17 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
        andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
-               ))))))))))))))))))))))))))))))))
+               ))))))))))))))))))))))))))))))))))
        ensures NCL:Int =/=Int #address ( FoundryConsole )
       [priority(20), label(BASIC-BLOCK-130-TO-86)]
     
@@ -9021,6 +8802,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      CALLDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_IDENTITY_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -9042,6 +8826,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -9123,30 +8910,11 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -9160,6 +8928,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( C_IDENTITY_ID:Int <Int pow160
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -9167,15 +8936,21 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
        andBool ( ( notBool ( CALLDEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
        andBool ( ( notBool ( ( notBool <acctID>
           #address ( FoundryConsole )
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) ) andBool C_IDENTITY_ID:Int ==Int #address ( FoundryConsole ) ) )
        andBool ( ( notBool ( ACTIVE_CELL:Bool andBool ( CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int andBool NEWCALLER_CELL:Account =/=K C_IDENTITY_ID:Int ) ) )
-               )))))))))))))))))))))))))))
+               )))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-132-TO-96)]
     
     rule [BASIC-BLOCK-133-TO-97]: <foundry>
@@ -9234,6 +9009,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      CALLDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     C_IDENTITY_ID:Int
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -9255,6 +9033,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -9336,30 +9117,11 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -9373,6 +9135,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( C_IDENTITY_ID:Int <Int pow160
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -9380,28 +9143,35 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
        andBool ( ( notBool ( CALLDEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
        andBool ( ( notBool ( ( notBool <acctID>
           #address ( FoundryConsole )
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) ) andBool C_IDENTITY_ID:Int ==Int #address ( FoundryConsole ) ) )
        andBool ( ( notBool ( ACTIVE_CELL:Bool andBool ( CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int andBool NEWCALLER_CELL:Account =/=K C_IDENTITY_ID:Int ) ) )
-               )))))))))))))))))))))))))))
+               )))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-133-TO-97)]
     
     rule [BASIC-BLOCK-134-TO-98]: <foundry>
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => #consoleLog 2889346747 #buf ( 32 , KV0_x:Int )
+               ~> #refund 0
                ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
                ~> #pc [ STATICCALL ] )
                ~> #endPrank
                ~> #checkRevert
-               ~> #updateRevertOutput 128 32
+               ~> #updateRevertOutput 32 164
                ~> #execute
                ~> _CONTINUATION:K
              </k>
@@ -9444,6 +9214,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     ( C_IDENTITY_ID:Int => #address ( FoundryConsole ) )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -9462,6 +9235,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -9546,26 +9322,6 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _ACTIVE_CELL:Bool
        andBool ( _NEWCALLER_CELL:Account ==K NCL:Int
@@ -9577,6 +9333,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -9590,6 +9347,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( C_IDENTITY_ID:Int <Int pow160
        andBool ( C_IDENTITY_ID:Int =/=Int NCL:Int
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -9600,10 +9358,16 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
-               ))))))))))))))))))))))))))))))))
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
+               ))))))))))))))))))))))))))))))))))
        ensures NCL:Int =/=Int #address ( FoundryConsole )
       [priority(20), label(BASIC-BLOCK-134-TO-98)]
     
@@ -9611,13 +9375,14 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => #consoleLog 2889346747 #buf ( 32 , KV0_x:Int )
+               ~> #refund 0
                ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
                ~> #pc [ STATICCALL ] )
                ~> #endPrank
                ~> #checkRevert
-               ~> #updateRevertOutput 128 32
+               ~> #updateRevertOutput 32 164
                ~> #execute
                ~> _CONTINUATION:K
              </k>
@@ -9660,6 +9425,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <callDepth>
                      EXPECTEDDEPTH_CELL:Int
                    </callDepth>
+                   <codeAddr>
+                     ( C_IDENTITY_ID:Int => #address ( FoundryConsole ) )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -9678,6 +9446,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -9762,26 +9533,6 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
              </mockFunctions>
              ...
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _ACTIVE_CELL:Bool
        andBool ( _NEWCALLER_CELL:Account ==K NCL:Int
@@ -9793,6 +9544,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
@@ -9806,6 +9558,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( C_IDENTITY_ID:Int <Int pow160
        andBool ( C_IDENTITY_ID:Int =/=Int NCL:Int
        andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
@@ -9816,10 +9569,16 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
-               ))))))))))))))))))))))))))))))))
+       andBool ( ( CALLER_ID:Int <=Int 0
+          orBool ( 10 <Int CALLER_ID:Int
+                 ))
+       andBool ( ( ORIGIN_ID:Int <=Int 0
+          orBool ( 10 <Int ORIGIN_ID:Int
+                 ))
+       andBool ( ( C_IDENTITY_ID:Int <=Int 0
+          orBool ( 10 <Int C_IDENTITY_ID:Int
+                 ))
+               ))))))))))))))))))))))))))))))))))
        ensures NCL:Int =/=Int #address ( FoundryConsole )
       [priority(20), label(BASIC-BLOCK-136-TO-101)]
 

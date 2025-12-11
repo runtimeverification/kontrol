@@ -223,6 +223,9 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                      <callDepth>
                        1
                      </callDepth>
+                     <codeAddr>
+                       491460923342184218035706888008750043977755113263
+                     </codeAddr>
                      ...
                    </callState> ) ListItem ( <callState>
                      <id>
@@ -255,6 +258,9 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                      <callDepth>
                        0
                      </callDepth>
+                     <codeAddr>
+                       #address ( FoundryTest )
+                     </codeAddr>
                      ...
                    </callState> ) )
                  </callStack>
@@ -465,6 +471,9 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                    <callDepth>
                      ( 0 => 2 )
                    </callDepth>
+                   <codeAddr>
+                     ( #address ( FoundryTest ) => 491460923342184218035706888008750043977755113263 )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -497,6 +506,9 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -653,32 +665,14 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                .MockFunctionCellMap
              </mockFunctions>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
-      requires ( pow24 <Int NUMBER_CELL:Int
+      requires ( 0 <=Int MIXHASH_CELL:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-               ))))
+       andBool ( MIXHASH_CELL:Int <Int pow256
+               ))))))
        ensures ( 0 <=Int ?KV0_x:Int
        andBool ( 0 <=Int ?KV1_y:Int
        andBool ( 0 <=Int ?KV2_z:Int
@@ -751,6 +745,9 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                      <callDepth>
                        1
                      </callDepth>
+                     <codeAddr>
+                       491460923342184218035706888008750043977755113263
+                     </codeAddr>
                      ...
                    </callState> ) ListItem ( <callState>
                      <id>
@@ -783,6 +780,9 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                      <callDepth>
                        0
                      </callDepth>
+                     <codeAddr>
+                       #address ( FoundryTest )
+                     </codeAddr>
                      ...
                    </callState> ) => .List )
                  </callStack>
@@ -993,6 +993,9 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                    <callDepth>
                      ( 2 => 0 )
                    </callDepth>
+                   <codeAddr>
+                     ( 491460923342184218035706888008750043977755113263 => #address ( FoundryTest ) )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -1025,6 +1028,9 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -1160,30 +1166,11 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                .MockFunctionCellMap
              </mockFunctions>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int KV1_y:Int
        andBool ( 0 <=Int KV2_z:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
@@ -1191,8 +1178,9 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
        andBool ( KV0_x:Int <Int pow256
        andBool ( KV1_y:Int <Int pow256
        andBool ( KV2_z:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( ( maxUInt256 -Int KV1_y:Int ) <Int KV0_x:Int
-               )))))))))))
+               )))))))))))))
       [priority(20), label(BASIC-BLOCK-9-TO-16)]
     
     rule [BASIC-BLOCK-39-TO-20]: <foundry>
@@ -1258,6 +1246,9 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                      <callDepth>
                        1
                      </callDepth>
+                     <codeAddr>
+                       491460923342184218035706888008750043977755113263
+                     </codeAddr>
                      ...
                    </callState> ) ListItem ( <callState>
                      <id>
@@ -1290,6 +1281,9 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                      <callDepth>
                        0
                      </callDepth>
+                     <codeAddr>
+                       #address ( FoundryTest )
+                     </codeAddr>
                      ...
                    </callState> ) => .List )
                  </callStack>
@@ -1500,6 +1494,9 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                    <callDepth>
                      ( 2 => 0 )
                    </callDepth>
+                   <codeAddr>
+                     ( 491460923342184218035706888008750043977755113263 => #address ( FoundryTest ) )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -1532,6 +1529,9 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -1667,30 +1667,11 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                .MockFunctionCellMap
              </mockFunctions>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int KV1_y:Int
        andBool ( 0 <=Int KV2_z:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
@@ -1698,9 +1679,10 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
        andBool ( KV0_x:Int <Int pow256
        andBool ( KV1_y:Int <Int pow256
        andBool ( KV2_z:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( ( KV0_x:Int +Int KV1_y:Int ) <Int KV2_z:Int
        andBool ( KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int )
-               ))))))))))))
+               ))))))))))))))
       [priority(20), label(BASIC-BLOCK-39-TO-20)]
     
     rule [BASIC-BLOCK-47-TO-29]: <foundry>
@@ -1766,6 +1748,9 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                      <callDepth>
                        1
                      </callDepth>
+                     <codeAddr>
+                       491460923342184218035706888008750043977755113263
+                     </codeAddr>
                      ...
                    </callState> ) ListItem ( <callState>
                      <id>
@@ -1798,6 +1783,9 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                      <callDepth>
                        0
                      </callDepth>
+                     <codeAddr>
+                       #address ( FoundryTest )
+                     </codeAddr>
                      ...
                    </callState> ) => .List )
                  </callStack>
@@ -2008,6 +1996,9 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                    <callDepth>
                      ( 2 => 0 )
                    </callDepth>
+                   <codeAddr>
+                     ( 491460923342184218035706888008750043977755113263 => #address ( FoundryTest ) )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -2040,6 +2031,9 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -2175,30 +2169,11 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                .MockFunctionCellMap
              </mockFunctions>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int KV1_y:Int
        andBool ( 0 <=Int KV2_z:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
@@ -2206,13 +2181,12 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
        andBool ( KV0_x:Int <Int pow256
        andBool ( KV1_y:Int <Int pow256
        andBool ( KV2_z:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( KV2_z:Int <=Int ( KV0_x:Int +Int KV1_y:Int )
        andBool ( KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int )
        andBool ( ( maxUInt256 -Int KV1_y:Int ) <Int ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int )
-               )))))))))))))
-       ensures ( 0 <=Int ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int )
-       andBool ( ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) <Int pow256
-               ))
+               )))))))))))))))
+       ensures ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) <Int pow256
       [priority(20), label(BASIC-BLOCK-47-TO-29)]
     
     rule [BASIC-BLOCK-53-TO-33]: <foundry>
@@ -2278,6 +2252,9 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                      <callDepth>
                        1
                      </callDepth>
+                     <codeAddr>
+                       491460923342184218035706888008750043977755113263
+                     </codeAddr>
                      ...
                    </callState> ) ListItem ( <callState>
                      <id>
@@ -2310,6 +2287,9 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                      <callDepth>
                        0
                      </callDepth>
+                     <codeAddr>
+                       #address ( FoundryTest )
+                     </codeAddr>
                      ...
                    </callState> ) => .List )
                  </callStack>
@@ -2520,6 +2500,9 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                    <callDepth>
                      ( 2 => 0 )
                    </callDepth>
+                   <codeAddr>
+                     ( 491460923342184218035706888008750043977755113263 => #address ( FoundryTest ) )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -2552,6 +2535,9 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -2687,30 +2673,11 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                .MockFunctionCellMap
              </mockFunctions>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int KV1_y:Int
        andBool ( 0 <=Int KV2_z:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
@@ -2718,14 +2685,13 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
        andBool ( KV0_x:Int <Int pow256
        andBool ( KV1_y:Int <Int pow256
        andBool ( KV2_z:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( KV2_z:Int <=Int ( KV0_x:Int +Int KV1_y:Int )
        andBool ( KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int )
        andBool ( ( ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) +Int KV1_y:Int ) <Int KV2_z:Int
        andBool ( ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) <=Int ( maxUInt256 -Int KV1_y:Int )
-               ))))))))))))))
-       ensures ( 0 <=Int ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int )
-       andBool ( ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) <Int pow256
-               ))
+               ))))))))))))))))
+       ensures ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) <Int pow256
       [priority(20), label(BASIC-BLOCK-53-TO-33)]
     
     rule [BASIC-BLOCK-56-TO-36]: <foundry>
@@ -2791,6 +2757,9 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                      <callDepth>
                        1
                      </callDepth>
+                     <codeAddr>
+                       491460923342184218035706888008750043977755113263
+                     </codeAddr>
                      ...
                    </callState> ) ListItem ( <callState>
                      <id>
@@ -2823,6 +2792,9 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                      <callDepth>
                        0
                      </callDepth>
+                     <codeAddr>
+                       #address ( FoundryTest )
+                     </codeAddr>
                      ...
                    </callState> ) => .List )
                  </callStack>
@@ -3033,6 +3005,9 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                    <callDepth>
                      ( 2 => 0 )
                    </callDepth>
+                   <codeAddr>
+                     ( 491460923342184218035706888008750043977755113263 => #address ( FoundryTest ) )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -3065,6 +3040,9 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -3200,30 +3178,11 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                .MockFunctionCellMap
              </mockFunctions>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int KV1_y:Int
        andBool ( 0 <=Int KV2_z:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
@@ -3231,15 +3190,14 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
        andBool ( KV0_x:Int <Int pow256
        andBool ( KV1_y:Int <Int pow256
        andBool ( KV2_z:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( KV2_z:Int <=Int ( KV0_x:Int +Int KV1_y:Int )
        andBool ( KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int )
        andBool ( KV2_z:Int <=Int ( ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) +Int KV1_y:Int )
        andBool ( ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) <=Int ( maxUInt256 -Int KV1_y:Int )
        andBool ( KV0_x:Int <Int ( ( ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) +Int KV1_y:Int ) -Int KV2_z:Int )
-               )))))))))))))))
-       ensures ( 0 <=Int ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int )
-       andBool ( ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) <Int pow256
-               ))
+               )))))))))))))))))
+       ensures ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) <Int pow256
       [priority(20), label(BASIC-BLOCK-56-TO-36)]
     
     rule [BASIC-BLOCK-57-TO-37]: <foundry>
@@ -3305,6 +3263,9 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                      <callDepth>
                        1
                      </callDepth>
+                     <codeAddr>
+                       491460923342184218035706888008750043977755113263
+                     </codeAddr>
                      ...
                    </callState> ) ListItem ( <callState>
                      <id>
@@ -3337,6 +3298,9 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                      <callDepth>
                        0
                      </callDepth>
+                     <codeAddr>
+                       #address ( FoundryTest )
+                     </codeAddr>
                      ...
                    </callState> ) => .List )
                  </callStack>
@@ -3547,6 +3511,9 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                    <callDepth>
                      ( 2 => 0 )
                    </callDepth>
+                   <codeAddr>
+                     ( 491460923342184218035706888008750043977755113263 => #address ( FoundryTest ) )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -3579,6 +3546,9 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -3714,30 +3684,11 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                .MockFunctionCellMap
              </mockFunctions>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int KV1_y:Int
        andBool ( 0 <=Int KV2_z:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
@@ -3745,15 +3696,14 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
        andBool ( KV0_x:Int <Int pow256
        andBool ( KV1_y:Int <Int pow256
        andBool ( KV2_z:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( KV2_z:Int <=Int ( KV0_x:Int +Int KV1_y:Int )
        andBool ( KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int )
        andBool ( KV2_z:Int <=Int ( ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) +Int KV1_y:Int )
        andBool ( ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) <=Int ( maxUInt256 -Int KV1_y:Int )
        andBool ( ( ( ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) +Int KV1_y:Int ) -Int KV2_z:Int ) <=Int KV0_x:Int
-               )))))))))))))))
-       ensures ( 0 <=Int ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int )
-       andBool ( ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) <Int pow256
-               ))
+               )))))))))))))))))
+       ensures ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) <Int pow256
       [priority(20), label(BASIC-BLOCK-57-TO-37)]
 
 endmodule

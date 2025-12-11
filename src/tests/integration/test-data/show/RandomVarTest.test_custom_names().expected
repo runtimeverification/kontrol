@@ -10,7 +10,7 @@
 │  (369 steps)
 ├─ 3
 │   k: #rename ( ?WORD:Int , "BOOLEAN" ) ~> #cheatcode_return 128 32 ~> #pc [ STATICCAL ...
-│   pc: 2955
+│   pc: 2952
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │   src: test/RandomVar.t.sol:58:58
@@ -19,7 +19,7 @@
 │  (1 step)
 ├─ 4
 │   k: #cheatcode_return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-│   pc: 2955
+│   pc: 2952
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │   src: test/RandomVar.t.sol:58:58
@@ -28,7 +28,7 @@
 │  (454 steps)
 ├─ 5
 │   k: #rename ( ?WORD:Int , "BOOLEAN" ) ~> #cheatcode_return 160 32 ~> #pc [ STATICCAL ...
-│   pc: 3090
+│   pc: 3087
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │   src: test/RandomVar.t.sol:59:59
@@ -37,7 +37,7 @@
 │  (1 step)
 ├─ 6
 │   k: #cheatcode_return 160 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-│   pc: 3090
+│   pc: 3087
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │   src: test/RandomVar.t.sol:59:59
@@ -46,7 +46,7 @@
 │  (1000 steps)
 ├─ 7
 │   k: #execute ~> CONTINUATION:K
-│   pc: 6976
+│   pc: 7011
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │   method: test%RandomVarTest.test_custom_names()
@@ -54,7 +54,7 @@
 │  (251 steps)
 ├─ 8
 │   k: #rename ( ?WORD:Int , "NEW_SLOT" ) ~> #cheatcode_return 256 32 ~> #pc [ STATICCA ...
-│   pc: 5606
+│   pc: 5641
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │   src: lib/kontrol-cheatcodes/src/KontrolCheats.sol:277:277
@@ -63,7 +63,7 @@
 │  (1 step)
 ├─ 9
 │   k: #cheatcode_return 256 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-│   pc: 5606
+│   pc: 5641
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │   src: lib/kontrol-cheatcodes/src/KontrolCheats.sol:277:277
@@ -72,7 +72,7 @@
 │  (450 steps)
 ├─ 10
 │   k: #rename ( ?WORD:Int , "NEW_ACCOUNT" ) ~> #cheatcode_return 288 32 ~> #pc [ STATI ...
-│   pc: 3454
+│   pc: 3451
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │   src: test/RandomVar.t.sol:63:63
@@ -81,7 +81,7 @@
 │  (1 step)
 ├─ 11
 │   k: #cheatcode_return 288 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-│   pc: 3454
+│   pc: 3451
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │   src: test/RandomVar.t.sol:63:63
@@ -90,7 +90,7 @@
 │  (551 steps)
 ├─ 12
 │   k: #rename ( ?STORAGE:Map , "NEW_ACCOUNT_STORAGE" ) ~> #cheatcode_return 320 0 ~> # ...
-│   pc: 3630
+│   pc: 3627
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │   src: test/RandomVar.t.sol:64:64
@@ -99,7 +99,7 @@
 │  (1 step)
 ├─ 13
 │   k: #cheatcode_return 320 0 ~> #pc [ CALL ] ~> #execute ~> CONTINUATION:K
-│   pc: 3630
+│   pc: 3627
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │   src: test/RandomVar.t.sol:64:64
@@ -108,7 +108,7 @@
 │  (261 steps)
 ├─ 14
 │   k: #rename ( ?BYTES:Bytes , "NEW_BYTES" ) ~> #cheatcode_return 320 0 ~> #pc [ STATI ...
-│   pc: 3740
+│   pc: 3737
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │   src: test/RandomVar.t.sol:65:65
@@ -117,7 +117,7 @@
 │  (1 step)
 ├─ 15
 │   k: #cheatcode_return 320 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-│   pc: 3740
+│   pc: 3737
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │   src: test/RandomVar.t.sol:65:65
@@ -126,7 +126,7 @@
 │  (1000 steps)
 ├─ 16
 │   k: POP 1 ~> #pc [ POP ] ~> #execute ~> CONTINUATION:K
-│   pc: 3928
+│   pc: 3925
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │   src: test/RandomVar.t.sol:57:67
@@ -220,6 +220,9 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                    <callDepth>
                      0
                    </callDepth>
+                   <codeAddr>
+                     #address ( FoundryTest )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -250,6 +253,9 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -362,32 +368,14 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                .MockFunctionCellMap
              </mockFunctions>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
-      requires ( pow24 <Int NUMBER_CELL:Int
+      requires ( 0 <=Int MIXHASH_CELL:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-               ))))
+       andBool ( MIXHASH_CELL:Int <Int pow256
+               ))))))
        ensures ( ??WORD:Int <Int 2
        andBool ( 0 <=Int ??WORD:Int
                ))
@@ -456,6 +444,9 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                    <callDepth>
                      0
                    </callDepth>
+                   <codeAddr>
+                     #address ( FoundryTest )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -486,6 +477,9 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -598,34 +592,16 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                .MockFunctionCellMap
              </mockFunctions>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( ?WORD:Int <Int 2
        andBool ( 0 <=Int ?WORD:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-               ))))))
+       andBool ( MIXHASH_CELL:Int <Int pow256
+               ))))))))
        ensures ( ?BOOLEAN:Int <Int 2
        andBool ( 0 <=Int ?BOOLEAN:Int
                ))
@@ -694,6 +670,9 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                    <callDepth>
                      0
                    </callDepth>
+                   <codeAddr>
+                     #address ( FoundryTest )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -724,6 +703,9 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -836,34 +818,16 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                .MockFunctionCellMap
              </mockFunctions>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( BOOLEAN:Int <Int 2
        andBool ( 0 <=Int BOOLEAN:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-               ))))))
+       andBool ( MIXHASH_CELL:Int <Int pow256
+               ))))))))
        ensures ( ??WORD:Int <Int 2
        andBool ( 0 <=Int ??WORD:Int
                ))
@@ -932,6 +896,9 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                    <callDepth>
                      0
                    </callDepth>
+                   <codeAddr>
+                     #address ( FoundryTest )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -962,6 +929,9 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -1074,36 +1044,18 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                .MockFunctionCellMap
              </mockFunctions>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( ?WORD:Int <Int 2
        andBool ( 0 <=Int ?WORD:Int
        andBool ( BOOLEAN:Int <Int 2
        andBool ( 0 <=Int BOOLEAN:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-               ))))))))
+       andBool ( MIXHASH_CELL:Int <Int pow256
+               ))))))))))
        ensures ( ?BOOLEAN_0:Int <Int 2
        andBool ( 0 <=Int ?BOOLEAN_0:Int
                ))
@@ -1154,7 +1106,7 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                      0
                    </callValue>
                    <wordStack>
-                     ( ( 260 => 0 ) : ( ( selector ( "freshBool(string)" ) => 260 ) : ( ( #address ( FoundryCheat ) => 192 ) : ( ( 0 => 32 ) : ( ( BOOLEAN:Int => 5594 ) : ( ( 370 => selector ( "freshUInt(uint8,string)" ) ) : ( ( 2252261289 => #address ( FoundryCheat ) ) : ( .WordStack => ( 0 : ( 192 : ( 3366 : ( 0 : ( 0 : ( 1 : ( 370 : ( 2252261289 : .WordStack ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) )
+                     ( ( 260 => 0 ) : ( ( selector ( "freshBool(string)" ) => 260 ) : ( ( #address ( FoundryCheat ) => 192 ) : ( ( 0 => 32 ) : ( ( BOOLEAN:Int => 5629 ) : ( ( 370 => selector ( "freshUInt(uint8,string)" ) ) : ( ( 2252261289 => #address ( FoundryCheat ) ) : ( .WordStack => ( 0 : ( 192 : ( 3363 : ( 0 : ( 0 : ( 1 : ( 370 : ( 2252261289 : .WordStack ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , BOOLEAN:Int ) +Bytes b"\x1fUw\x04\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x07BOOLEAN\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x08NEW_SLOT\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00[?\xdf\t\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00@" )
@@ -1171,6 +1123,9 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                    <callDepth>
                      0
                    </callDepth>
+                   <codeAddr>
+                     #address ( FoundryTest )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -1201,6 +1156,9 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -1313,36 +1271,18 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                .MockFunctionCellMap
              </mockFunctions>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( BOOLEAN:Int <Int 2
        andBool ( 0 <=Int BOOLEAN:Int
        andBool ( BOOLEAN_0:Int <Int 2
        andBool ( 0 <=Int BOOLEAN_0:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-               ))))))))
+       andBool ( MIXHASH_CELL:Int <Int pow256
+               ))))))))))
        ensures ( BOOLEAN:Int ==Int 1
        andBool ( BOOLEAN_0:Int ==Int 0
                ))
@@ -1394,7 +1334,7 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                      0
                    </callValue>
                    <wordStack>
-                     ( ( 0 => 388 ) : ( ( 260 => selector ( "freshUInt(uint8,string)" ) ) : ( ( 192 => #address ( FoundryCheat ) ) : ( ( 32 => 0 ) : ( ( 5594 => 192 ) : ( ( selector ( "freshUInt(uint8,string)" ) => 3366 ) : ( ( #address ( FoundryCheat ) => 0 ) : ( 0 : ( ( 192 => 1 ) : ( ( 3366 => 370 ) : ( ( 0 => 2252261289 ) : ( ( 0 : ( 1 : ( 370 : ( 2252261289 : .WordStack ) ) ) ) => .WordStack ) ) ) ) ) ) ) ) ) ) ) )
+                     ( ( 0 => 388 ) : ( ( 260 => selector ( "freshUInt(uint8,string)" ) ) : ( ( 192 => #address ( FoundryCheat ) ) : ( ( 32 => 0 ) : ( ( 5629 => 192 ) : ( ( selector ( "freshUInt(uint8,string)" ) => 3363 ) : ( ( #address ( FoundryCheat ) => 0 ) : ( 0 : ( ( 192 => 1 ) : ( ( 3363 => 370 ) : ( ( 0 => 2252261289 ) : ( ( 0 : ( 1 : ( 370 : ( 2252261289 : .WordStack ) ) ) ) => .WordStack ) ) ) ) ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x08NEW_SLOT\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00[?\xdf\t\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00@" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x08NEW_SLOT\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00[?\xdf\t\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00@\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x08NEW_SLOT\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" )
@@ -1411,6 +1351,9 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                    <callDepth>
                      0
                    </callDepth>
+                   <codeAddr>
+                     #address ( FoundryTest )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -1441,6 +1384,9 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -1553,34 +1499,16 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                .MockFunctionCellMap
              </mockFunctions>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _BOOLEAN:Int ==Int 1
        andBool ( _BOOLEAN_0:Int ==Int 0
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-               ))))))
+       andBool ( MIXHASH_CELL:Int <Int pow256
+               ))))))))
        ensures ( 0 <=Int ??WORD:Int
        andBool ( ??WORD:Int <Int pow256
                ))
@@ -1632,7 +1560,7 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                      0
                    </callValue>
                    <wordStack>
-                     ( 388 : ( selector ( "freshUInt(uint8,string)" ) : ( #address ( FoundryCheat ) : ( 0 : ( 192 : ( 3366 : ( 0 : ( 0 : ( 1 : ( 370 : ( 2252261289 : .WordStack ) ) ) ) ) ) ) ) ) ) )
+                     ( 388 : ( selector ( "freshUInt(uint8,string)" ) : ( #address ( FoundryCheat ) : ( 0 : ( 192 : ( 3363 : ( 0 : ( 0 : ( 1 : ( 370 : ( 2252261289 : .WordStack ) ) ) ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x08NEW_SLOT\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00[?\xdf\t\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00@\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x08NEW_SLOT\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
@@ -1649,6 +1577,9 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                    <callDepth>
                      0
                    </callDepth>
+                   <codeAddr>
+                     #address ( FoundryTest )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -1679,6 +1610,9 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -1791,36 +1725,18 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                .MockFunctionCellMap
              </mockFunctions>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _BOOLEAN:Int ==Int 1
        andBool ( _BOOLEAN_0:Int ==Int 0
        andBool ( 0 <=Int ?WORD:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( ?WORD:Int <Int pow256
-               ))))))))
+       andBool ( MIXHASH_CELL:Int <Int pow256
+               ))))))))))
        ensures ( 0 <=Int ?NEW_SLOT:Int
        andBool ( ?NEW_SLOT:Int <Int pow256
                ))
@@ -1872,7 +1788,7 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                      0
                    </callValue>
                    <wordStack>
-                     ( 388 : ( ( selector ( "freshUInt(uint8,string)" ) => selector ( "freshAddress(string)" ) ) : ( #address ( FoundryCheat ) : ( 0 : ( ( 192 => NEW_SLOT:Int ) : ( ( 3366 => 0 ) : ( ( 0 => 1 ) : ( ( 0 => 370 ) : ( ( 1 => 2252261289 ) : ( ( 370 : ( 2252261289 : .WordStack ) ) => .WordStack ) ) ) ) ) ) ) ) ) )
+                     ( 388 : ( ( selector ( "freshUInt(uint8,string)" ) => selector ( "freshAddress(string)" ) ) : ( #address ( FoundryCheat ) : ( 0 : ( ( 192 => NEW_SLOT:Int ) : ( ( 3363 => 0 ) : ( ( 0 => 1 ) : ( ( 0 => 370 ) : ( ( 1 => 2252261289 ) : ( ( 370 : ( 2252261289 : .WordStack ) ) => .WordStack ) ) ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x08NEW_SLOT\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00[?\xdf\t\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00@\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x08NEW_SLOT\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01 \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x08NEW_SLOT\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , NEW_SLOT:Int ) +Bytes b"G\xa6\\{\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0bNEW_ACCOUNT\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" )
@@ -1889,6 +1805,9 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                    <callDepth>
                      0
                    </callDepth>
+                   <codeAddr>
+                     #address ( FoundryTest )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -1919,6 +1838,9 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -2031,36 +1953,18 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                .MockFunctionCellMap
              </mockFunctions>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _BOOLEAN:Int ==Int 1
        andBool ( _BOOLEAN_0:Int ==Int 0
        andBool ( 0 <=Int NEW_SLOT:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( NEW_SLOT:Int <Int pow256
-               ))))))))
+       andBool ( MIXHASH_CELL:Int <Int pow256
+               ))))))))))
        ensures ( 0 <=Int ??WORD:Int
        andBool ( ??WORD:Int <Int pow160
        andBool ( ??WORD:Int =/=Int #address ( FoundryCheat )
@@ -2131,6 +2035,9 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                    <callDepth>
                      0
                    </callDepth>
+                   <codeAddr>
+                     #address ( FoundryTest )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -2161,6 +2068,9 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -2273,40 +2183,22 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                .MockFunctionCellMap
              </mockFunctions>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _BOOLEAN:Int ==Int 1
        andBool ( _BOOLEAN_0:Int ==Int 0
        andBool ( 0 <=Int ?WORD:Int
        andBool ( 0 <=Int NEW_SLOT:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( ?WORD:Int <Int pow160
        andBool ( NEW_SLOT:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( ?WORD:Int =/=Int #address ( FoundryCheat )
        andBool ( ?WORD:Int =/=Int #address ( FoundryTest )
-               ))))))))))))
+               ))))))))))))))
        ensures ( 0 <=Int ?NEW_ACCOUNT:Int
        andBool ( ?NEW_ACCOUNT:Int <Int pow160
        andBool ( ?NEW_ACCOUNT:Int =/=Int #address ( FoundryCheat )
@@ -2378,6 +2270,9 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                    <callDepth>
                      0
                    </callDepth>
+                   <codeAddr>
+                     #address ( FoundryTest )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -2408,6 +2303,9 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -2561,40 +2459,22 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                .MockFunctionCellMap
              </mockFunctions>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _BOOLEAN:Int ==Int 1
        andBool ( _BOOLEAN_0:Int ==Int 0
        andBool ( 0 <=Int NEW_SLOT:Int
        andBool ( 0 <=Int NEW_ACCOUNT:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( NEW_ACCOUNT:Int <Int pow160
        andBool ( NEW_SLOT:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( NEW_ACCOUNT:Int =/=Int #address ( FoundryCheat )
        andBool ( NEW_ACCOUNT:Int =/=Int #address ( FoundryTest )
-               ))))))))))))
+               ))))))))))))))
       [priority(20), label(BASIC-BLOCK-11-TO-12)]
     
     rule [BASIC-BLOCK-12-TO-13]: <foundry>
@@ -2660,6 +2540,9 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                    <callDepth>
                      0
                    </callDepth>
+                   <codeAddr>
+                     #address ( FoundryTest )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -2690,6 +2573,9 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -2823,40 +2709,22 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                .MockFunctionCellMap
              </mockFunctions>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _BOOLEAN:Int ==Int 1
        andBool ( _BOOLEAN_0:Int ==Int 0
        andBool ( 0 <=Int NEW_SLOT:Int
        andBool ( 0 <=Int NEW_ACCOUNT:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( NEW_ACCOUNT:Int <Int pow160
        andBool ( NEW_SLOT:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( NEW_ACCOUNT:Int =/=Int #address ( FoundryCheat )
        andBool ( NEW_ACCOUNT:Int =/=Int #address ( FoundryTest )
-               ))))))))))))
+               ))))))))))))))
       [priority(20), label(BASIC-BLOCK-12-TO-13)]
     
     rule [BASIC-BLOCK-13-TO-14]: <foundry>
@@ -2923,6 +2791,9 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                    <callDepth>
                      0
                    </callDepth>
+                   <codeAddr>
+                     #address ( FoundryTest )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -2953,6 +2824,9 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -3086,40 +2960,22 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                .MockFunctionCellMap
              </mockFunctions>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _BOOLEAN:Int ==Int 1
        andBool ( _BOOLEAN_0:Int ==Int 0
        andBool ( 0 <=Int NEW_SLOT:Int
        andBool ( 0 <=Int NEW_ACCOUNT:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( NEW_ACCOUNT:Int <Int pow160
        andBool ( NEW_SLOT:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( NEW_ACCOUNT:Int =/=Int #address ( FoundryCheat )
        andBool ( NEW_ACCOUNT:Int =/=Int #address ( FoundryTest )
-               ))))))))))))
+               ))))))))))))))
        ensures 32 ==Int lengthBytes ( ??BYTES:Bytes )
       [priority(20), label(BASIC-BLOCK-13-TO-14)]
     
@@ -3186,6 +3042,9 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                    <callDepth>
                      0
                    </callDepth>
+                   <codeAddr>
+                     #address ( FoundryTest )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -3216,6 +3075,9 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -3349,41 +3211,23 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                .MockFunctionCellMap
              </mockFunctions>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _BOOLEAN:Int ==Int 1
        andBool ( _BOOLEAN_0:Int ==Int 0
        andBool ( 0 <=Int NEW_SLOT:Int
        andBool ( 0 <=Int NEW_ACCOUNT:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( NEW_ACCOUNT:Int <Int pow160
        andBool ( NEW_SLOT:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( 32 ==Int lengthBytes ( ?BYTES:Bytes )
        andBool ( NEW_ACCOUNT:Int =/=Int #address ( FoundryCheat )
        andBool ( NEW_ACCOUNT:Int =/=Int #address ( FoundryTest )
-               )))))))))))))
+               )))))))))))))))
        ensures 32 ==Int lengthBytes ( ?NEW_BYTES:Bytes )
       [priority(20), label(BASIC-BLOCK-14-TO-15)]
     
@@ -3450,6 +3294,9 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                    <callDepth>
                      0
                    </callDepth>
+                   <codeAddr>
+                     #address ( FoundryTest )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -3480,6 +3327,9 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -3613,41 +3463,23 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                .MockFunctionCellMap
              </mockFunctions>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _BOOLEAN:Int ==Int 1
        andBool ( _BOOLEAN_0:Int ==Int 0
        andBool ( 0 <=Int NEW_SLOT:Int
        andBool ( 0 <=Int NEW_ACCOUNT:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( NEW_ACCOUNT:Int <Int pow160
        andBool ( NEW_SLOT:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( 32 ==Int lengthBytes ( NEW_BYTES:Bytes )
        andBool ( NEW_ACCOUNT:Int =/=Int #address ( FoundryCheat )
        andBool ( NEW_ACCOUNT:Int =/=Int #address ( FoundryTest )
-               )))))))))))))
+               )))))))))))))))
       [priority(20), label(BASIC-BLOCK-15-TO-16)]
     
     rule [BASIC-BLOCK-16-TO-17]: <foundry>
@@ -3715,6 +3547,9 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                    <callDepth>
                      0
                    </callDepth>
+                   <codeAddr>
+                     #address ( FoundryTest )
+                   </codeAddr>
                    ...
                  </callState>
                  <substate>
@@ -3745,6 +3580,9 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -3878,49 +3716,28 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                .MockFunctionCellMap
              </mockFunctions>
            </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
          </foundry>
       requires ( _BOOLEAN:Int ==Int 1
        andBool ( _BOOLEAN_0:Int ==Int 0
        andBool ( 0 <=Int NEW_SLOT:Int
        andBool ( 0 <=Int NEW_ACCOUNT:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( NEW_ACCOUNT:Int <Int pow160
        andBool ( NEW_SLOT:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( 32 ==Int lengthBytes ( NEW_BYTES:Bytes )
        andBool ( NEW_ACCOUNT:Int =/=Int #address ( FoundryCheat )
        andBool ( NEW_ACCOUNT:Int =/=Int #address ( FoundryTest )
-               )))))))))))))
+               )))))))))))))))
       [priority(20), label(BASIC-BLOCK-16-TO-17)]
 
 endmodule
 0 Failure nodes. (0 pending and 0 failing)
 
 Join the Runtime Verification Discord server (https://discord.com/invite/CurfmXNtbN) or Telegram group (https://t.me/rv_kontrol) for support.
-
-See `foundry_success` predicate for more information:
-https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/foundry.md#foundry-success-predicate
 
 Access documentation for Kontrol at https://docs.runtimeverification.com/kontrol

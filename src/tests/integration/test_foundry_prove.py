@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import sys
 import xml.etree.ElementTree as Et
+from os import environ
 from pathlib import Path
 from typing import TYPE_CHECKING
 
@@ -242,6 +243,38 @@ def test_constructor_with_symbolic_args(
 
     # then
     assert_or_update_show_output(show_res, TEST_DATA_DIR / f'show/{test_id}.expected', update=update_expected_output)
+
+
+def test_foundry_ffi(
+    foundry: Foundry, bug_report: BugReport | None, server: KoreServer, force_sequential: bool
+) -> None:
+    test_id = 'FfiTest.testffi()'
+
+    if bug_report is not None:
+        server._populate_bug_report(bug_report)
+
+    # Enable FFI for this test only
+    old_ffi_value = environ.get('FOUNDRY_FFI', 'false')
+    environ['FOUNDRY_FFI'] = 'true'
+
+    try:
+        prove_res = foundry_prove(
+            foundry=foundry,
+            options=ProveOptions(
+                {
+                    'tests': [(test_id, None)],
+                    'bug_report': bug_report,
+                    'port': server.port,
+                    'force_sequential': force_sequential,
+                }
+            ),
+        )
+
+        # Then
+        assert_pass(test_id, single(prove_res))
+
+    finally:
+        environ['FOUNDRY_FFI'] = old_ffi_value
 
 
 all_bmc_tests: Final = tuple((TEST_DATA_DIR / 'foundry-bmc-all').read_text().splitlines())

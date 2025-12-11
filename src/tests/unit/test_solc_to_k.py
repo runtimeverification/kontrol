@@ -1,8 +1,10 @@
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 import pytest
 from kevm_pyk.kevm import KEVM
-from pyk.kast.inner import KApply, KVariable
+from pyk.kast.inner import KApply, KToken, KVariable
 from pyk.kast.prelude.kint import eqInt, intToken
 
 from kontrol.solc_to_k import (
@@ -11,10 +13,14 @@ from kontrol.solc_to_k import (
     StorageField,
     _contract_name_from_bytecode,
     _range_predicates,
+    decode_kinner_output,
     find_function_calls,
     process_length_equals,
     process_storage_layout,
 )
+
+if TYPE_CHECKING:
+    from pyk.kast.inner import KInner
 
 PREDICATE_DATA: list[tuple[str, KApply, int | None, list[KApply]]] = [
     ('bytes4', KApply('bytes4', KVariable('V0_x')), None, [KEVM.range_bytes(intToken(4), KVariable('V0_x'))]),
@@ -637,3 +643,117 @@ def test_contract_name_from_bytecode() -> None:
         )
         == 'contract3'
     )
+
+
+DECODE_DATA: list[tuple[str, KInner, str, dict[bytes, tuple[str, list[str]]], str]] = [
+    (
+        'concrete-0',
+        KToken(
+            token='b"\\x08\\xc3y\\xa0\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00 \\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\nx is false\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00"',
+            sort='Bytes',
+        ),
+        r'b"\x08\xc3y\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\nx is false\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"',
+        {},
+        'x is false',
+    ),
+    (
+        'concrete-1',
+        KToken(
+            token='b"\\x05S\\xae\\xd9\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00"',
+            sort='Bytes',
+        ),
+        r'b"\x05S\xae\xd9\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"',
+        {b'\x05S\xae\xd9': ('TestError', ['uint256', 'bool'])},
+        'TestError(0, False)',
+    ),
+    (
+        'symbolic-0',
+        KApply(
+            label='_+Bytes__BYTES-HOOKED_Bytes_Bytes_Bytes',
+            args=(
+                KToken(
+                    token='b"\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x12value not accepted\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00"',
+                    sort='Bytes',
+                ),
+                KApply(
+                    label='String2Bytes(_)_BYTES-HOOKED_Bytes_String',
+                    args=(
+                        KApply(
+                            label='_+String__STRING-COMMON_String_String_String',
+                            args=(
+                                KApply(
+                                    label='_+String__STRING-COMMON_String_String_String',
+                                    args=(
+                                        KApply(
+                                            label='_+String__STRING-COMMON_String_String_String',
+                                            args=(
+                                                KToken(token='": "', sort='String'),
+                                                KApply(
+                                                    label='Int2String(_)_STRING-COMMON_String_Int',
+                                                    args=(KVariable(name='KV1_foo', sort='Int'),),
+                                                ),
+                                            ),
+                                        ),
+                                        KToken(token='" != "', sort='String'),
+                                    ),
+                                ),
+                                KToken(token='"0"', sort='String'),
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+        ),
+        r'b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x12value not accepted\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes String2Bytes ( ": " +String Int2String ( KV1_foo:Int ) +String " != " +String "0" )',
+        {},
+        'value not accepted `String2Bytes ( ": " +String Int2String ( KV1_foo:Int ) +String " != " +String "0" )`',
+    ),
+    (
+        'symbolic-1',
+        KApply(
+            label='_+Bytes__BYTES-HOOKED_Bytes_Bytes_Bytes',
+            args=(
+                KToken(token='b"\\xd3_E\\xde"', sort='Bytes'),
+                KApply(label='buf', args=(KToken(token='32', sort='Int'), KVariable(name='KV0_a', sort='Int'))),
+            ),
+        ),
+        r'b"\xd3_E\xde" +Bytes #buf ( 32 , KV0_a:Int )',
+        {b'\xd3_E\xde': ('MyCustomError', ['uint256'])},
+        'MyCustomError `#buf ( 32 , KV0_a:Int )`',
+    ),
+    (
+        'symbolic-2',
+        KApply(
+            label='_+Bytes__BYTES-HOOKED_Bytes_Bytes_Bytes',
+            args=(
+                KToken(
+                    token='b"\\x08\\xc3y\\xa0\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00 \\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00.a is equal to "',
+                    sort='Bytes',
+                ),
+                KApply(
+                    label='_+Bytes__BYTES-HOOKED_Bytes_Bytes_Bytes',
+                    args=(
+                        KApply(label='buf', args=(KToken(token='32', sort='Int'), KVariable(name='KV0_a', sort='Int'))),
+                        KToken(
+                            token='b"\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00"',
+                            sort='Bytes',
+                        ),
+                    ),
+                ),
+            ),
+        ),
+        r'b"\x08\xc3y\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00.a is equal to " +Bytes #buf ( 32 , KV0_a:Int ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"',
+        {},
+        'Error: .a is equal to `#buf ( 32 , KV0_a:Int )`',
+    ),
+]
+
+
+@pytest.mark.parametrize(
+    'test_id,kinner,kinner_pretty,contract_errors,expected', DECODE_DATA, ids=[test_id for test_id, *_ in DECODE_DATA]
+)
+def test_decode_kinner_output(
+    test_id: str, kinner: KInner, kinner_pretty: str, contract_errors: dict[bytes, tuple[str, list[str]]], expected: str
+) -> None:
+    output = decode_kinner_output(kinner, kinner_pretty, contract_errors)
+    assert output == expected

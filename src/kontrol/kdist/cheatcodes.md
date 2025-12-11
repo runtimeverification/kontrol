@@ -550,6 +550,98 @@ This rule returns a symbolic address value.
        [preserves-definedness]
 ```
 
+### `toString` - Convert data types to their hexadecimal string representation
+
+```
+function toString(address) external returns (string memory);
+function toString(bytes) external returns (string memory);
+function toString(bool) external returns (string memory);
+function toString(bytes32) external returns (string memory);
+function toString(uint256) external returns (string memory);
+function toString(int256) external returns (string memory);
+```
+
+```k
+    syntax String ::= toChecksumAddress( Int )                         [function]
+                    | toChecksumAddress0( String, String, Int, String) [function]
+                    | toAddress( Int )                                 [function]
+                    | wordToHex( Int )                                 [function]
+                    | toUpper( String )                                [function, total]
+ // ----------------------------------------------
+   
+    rule toUpper( "a" ) => "A"
+    rule toUpper( "b" ) => "B"
+    rule toUpper( "c" ) => "C"
+    rule toUpper( "d" ) => "D"
+    rule toUpper( "e" ) => "E"
+    rule toUpper( "f" ) => "F"
+    rule toUpper( CHAR ) => CHAR [owise]
+
+    rule wordToHex( VALUE ) => Bytes2Hex( Int2Bytes( 32, VALUE, BE) )
+
+    rule toAddress( ADDR ) => Bytes2Hex( Int2Bytes( 20, ADDR, BE) )
+   
+    // EIP-55 checksum address, see: https://eips.ethereum.org/EIPS/eip-55
+    rule toChecksumAddress( ADDR ) => toChecksumAddress0( toAddress( ADDR ), wordToHex( keccak( String2Bytes( toAddress( ADDR ) ) ) ), 0, "0x")
+
+    rule toChecksumAddress0( _ADDR, _HASH, INDEX, RESULT ) => RESULT
+      requires INDEX >=Int 40
+
+    rule toChecksumAddress0( ADDR, HASH, INDEX, RESULT ) => toChecksumAddress0( ADDR, HASH, INDEX +Int 1, RESULT +String toUpper( substrString( ADDR, INDEX, INDEX +Int 1 ) ) )
+      requires INDEX <Int 40 andBool findString( "abcdef", substrString( ADDR, INDEX, INDEX +Int 1 ), 0 ) >Int -1 andBool String2Base( substrString( HASH, INDEX, INDEX +Int 1 ), 16 ) >Int 7
+
+    rule toChecksumAddress0( ADDR, HASH, INDEX, RESULT ) => toChecksumAddress0( ADDR, HASH, INDEX +Int 1, RESULT +String substrString(ADDR, INDEX, INDEX +Int 1) )
+      [owise]
+
+    rule [toString-address]:
+          <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
+          <output> _ => #enc( #tuple( #string( toChecksumAddress( #asWord(#range(ARGS, 12, 20 ) ) ) ) ) ) </output>
+      requires SELECTOR ==Int selector ( "toString(address)" )
+      [preserves-definedness]
+
+    // ABI-encoding for dynamic bytes:
+    // OFFSET := #range(ARGS, 0, 32 )                                     encodes the "head": an offset pointing the "body"
+    // LEGNTH := #range(ARGS, #asWord(OFFSET), 32)                        encodes the lenght of the byte string
+    // DATA   := #range(ARGS, #asWord(OFFSET) +Int 32, #asWord(LENGTH ) ) encodes the contents
+    rule [toString-bytes]:
+          <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
+          <output> _ => #enc( #tuple( #string( "0x" +String Bytes2Hex(#range(ARGS, #asWord(#range(ARGS, 0, 32 )) +Int 32, #asWord(#range(ARGS, #asWord(#range(ARGS, 0, 32 )), 32) ) ) ) ) ) ) </output>
+      requires SELECTOR ==Int selector ( "toString(bytes)" )
+      [preserves-definedness]
+
+    rule [toString-bytes32]:
+          <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
+          <output> _ => #enc( #tuple( #string( "0x" +String Bytes2Hex(#range(ARGS, 0, 32 ) ) ) ) ) </output>
+      requires SELECTOR ==Int selector ( "toString(bytes32)" )
+      [preserves-definedness]
+
+    rule [toString-true]:
+          <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
+          <output> _ => #enc( #tuple( #string( "true" ) ) ) </output>
+      requires SELECTOR ==Int selector ( "toString(bool)" ) andBool
+               #asWord(#range(ARGS, 0, 32 )) ==Int 1
+      [preserves-definedness]
+
+    rule [toString-false]:
+          <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
+          <output> _ => #enc( #tuple( #string( "false" ) ) ) </output>
+      requires SELECTOR ==Int selector ( "toString(bool)" ) andBool
+               #asWord(#range(ARGS, 0, 32 )) ==Int 0
+      [preserves-definedness]
+
+    rule [toString-uint256]:
+          <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
+          <output> _ => #enc( #tuple( #string( Int2String( #asWord(ARGS) ) ) ) ) </output>
+      requires SELECTOR ==Int selector ( "toString(uint256)" )
+      [preserves-definedness]
+
+    rule [toString-int256]:
+          <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
+          <output> _ => #enc( #tuple( #string( Int2String( Bytes2Int(ARGS, BE, Signed) ) ) ) ) </output>
+      requires SELECTOR ==Int selector ( "toString(int256)" )
+      [preserves-definedness]
+```
+
 Expecting the next call to revert
 ---------------------------------
 
@@ -557,18 +649,6 @@ Expecting the next call to revert
 function expectRevert() external;
 function expectRevert(bytes4 msg) external;
 function expectRevert(bytes calldata msg) external;
-```
-
-All cheat code calls which take place while `expectRevert` is active are ignored.
-
-```k
-    rule [cheatcode.call.ignoreCalls]:
-         <k> #cheatcode_call _ _ => .K ... </k>
-         <expectedRevert>
-           <isRevertExpected> true </isRevertExpected>
-           ...
-         </expectedRevert>
-      [priority(35)]
 ```
 
 We use the `#next[OP]` to identify OpCodes that can revert and insert a `#checkRevert` production used to examine the end of each call/create in KEVM.
@@ -579,23 +659,37 @@ WThe `#checkRevert` will be used to compare the status code of the execution and
     rule [foundry.set.expectrevert.1]:
          <k> #next [ _OP:CallOp ] ~> (.K => #checkRevert ~> #updateRevertOutput RETSTART RETWIDTH) ~> #execute ... </k>
          <callDepth> CD </callDepth>
-         <wordStack> _ : _ : _ : _ : _ : RETSTART : RETWIDTH : _WS </wordStack>
+         <wordStack> _ : ACCTTO : _ : _ : _ : RETSTART : RETWIDTH : _WS </wordStack>
          <expectedRevert>
            <isRevertExpected> true </isRevertExpected>
            <expectedDepth> CD </expectedDepth>
            ...
          </expectedRevert>
+         requires ACCTTO =/=Int #address(FoundryCheat)
       [priority(32)]
 
     rule [foundry.set.expectrevert.2]:
          <k> #next [ _OP:CallSixOp ] ~> (.K => #checkRevert ~> #updateRevertOutput RETSTART RETWIDTH) ~> #execute ... </k>
          <callDepth> CD </callDepth>
-         <wordStack> _ : _ : _ : _ : RETSTART : RETWIDTH : _WS </wordStack>
+         <wordStack> _ : ACCTTO : _ : _ : _ : RETSTART : RETWIDTH : _WS </wordStack>
          <expectedRevert>
            <isRevertExpected> true </isRevertExpected>
            <expectedDepth> CD </expectedDepth>
            ...
          </expectedRevert>
+         requires ACCTTO =/=Int #address(FoundryCheat)
+      [priority(32)]
+
+    rule [foundry.clear.expectrevert]:
+         <k> #next [ DELEGATECALL ] ~> (.K => #clearExpectRevert) ~> #execute ... </k>
+         <callDepth> CD </callDepth>
+         <wordStack> _ : ACCTTO : _ : _ : _ : _ : _ : _WS </wordStack>
+         <expectedRevert>
+           <isRevertExpected> true </isRevertExpected>
+           <expectedDepth> CD </expectedDepth>
+           ...
+         </expectedRevert>
+         requires ACCTTO ==Int #address(FoundryCheat)
       [priority(32)]
 
     rule [foundry.set.expectrevert.3]:
@@ -865,6 +959,8 @@ It is applied by default.
 Expecting Events
 ----------------
 ```
+function expectEmit() external;
+function expectEmit(address emitter) external;
 function expectEmit(bool checkTopic1, bool checkTopic2, bool checkTopic3, bool checkData) external;
 function expectEmit(bool checkTopic1, bool checkTopic2, bool checkTopic3, bool checkData, address emitter) external;
 ```
@@ -873,6 +969,7 @@ Assert a specific log is emitted before the end of the current function.
 
 Call the cheat code, specifying whether we should check the first, second or third topic, and the log data.
 Topic 0 is always checked.
+`expectEmit()` checks them all.
 Emit the event we are supposed to see before the end of the current function.
 Perform the call.
 If the event is not available in the current scope (e.g. if we are using an interface, or an external smart contract), we can define the event ourselves with an identical event signature.
@@ -883,6 +980,14 @@ Without checking the emitter address: Asserts the topics match without checking 
 With address: Asserts the topics match and that the emitting address matches.
 
 ```k
+    rule [cheatcode.call.expectEmitNoArgs]:
+         <k> #cheatcode_call SELECTOR _ARGS => #setExpectEmit true true true true .Account ... </k>
+      requires SELECTOR ==Int selector ( "expectEmit()" )
+
+    rule [cheatcode.call.expectEmitNoArgsAddr]:
+         <k> #cheatcode_call SELECTOR ARGS => #setExpectEmit true true true true #asWord(#range(ARGS, 0, 32)) ... </k>
+      requires SELECTOR ==Int selector ( "expectEmit(address)" )
+
     rule [cheatcode.call.expectEmit]:
          <k> #cheatcode_call SELECTOR ARGS => #setExpectEmit word2Bool(#asWord(#range(ARGS, 0, 32))) word2Bool(#asWord(#range(ARGS, 32, 32))) word2Bool(#asWord(#range(ARGS, 64, 32))) word2Bool(#asWord(#range(ARGS, 96, 32))) .Account ... </k>
       requires SELECTOR ==Int selector ( "expectEmit(bool,bool,bool,bool)" )
@@ -1054,13 +1159,24 @@ function sign(uint256 privateKey, bytes32 digest) external returns (uint8 v, byt
 This rule takes the `privateKey` to sign using `#range(ARGS,0,32)` and the `digest` to be signed using `#range(ARGS, 32, 32)`,
 then performs the signature by passing them to the `ECDSASign ( Bytes, Bytes )` function (from KEVM).
 The `ECDSASign` function returns the signed data in [r,s,v] form, which we convert to a `Bytes` using `#parseByteStack`.
+Finally, we abi-encode the result with the following signature (uint8,bytes32,bytes32)
 
 ```k
+    syntax Bytes ::= #encSig( Bytes ) [function, symbol(enc_sig)]
+
+    rule #encSig( SIG ) =>
+         #enc( #tuple(
+            #uint8(  #asWord( #range( SIG, 64,  1 ) ) +Int 27 ), // v
+            #bytes32(#asWord( #range( SIG,  0, 32 ) ) ),         // r
+            #bytes32(#asWord( #range( SIG, 32, 32 ) ) )          // s
+        ) )
+
     rule [cheatcode.call.sign]:
          <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
-         <output> _ => #sign(#range(ARGS, 32, 32),#range(ARGS,0,32)) </output>
+         <output> _ => #encSig( #sign( #range( ARGS, 32, 32 ), #range( ARGS, 0, 32 ) ) ) </output>
       requires SELECTOR ==Int selector ( "sign(uint256,bytes32)" )
       [preserves-definedness]
+
 ```
 
 Otherwise, throw an error for any other call to the Foundry contract.
@@ -1185,8 +1301,35 @@ Abstraction functions
 
 ```
 
+Foreign function calls
+----------------------
+
+#### `ffi` - allows you to execute an arbitrary shell command and capture the output.
+In the context of symbolic execution, ffi will return a new symbolic variable.
+To actually execute the arbitrary shell command, use the `--ffi` flag.
+
+```
+    function ffi(string[] calldata commandInput) external returns (bytes memory result);
+```
+
+```{.k .symbolic}
+    rule [cheatcode.call.ffi]:
+         <k> #cheatcode_call SELECTOR ARGS => #shell(ARGS) ... </k>
+      requires SELECTOR ==Int selector ( "ffi(string[])" )
+```
+
 Utils
 -----
+ - Defining a new production `#shell`.
+If the `--ffi` option is used, the custom_step logic defined for ffi will overwrite the `#shell` rule with the actual output.
+If the `--ffi` option is not used, a new symbolic value will be considered as the output of the ffi command.
+
+```{.k .symbolic}
+    syntax KItem ::= #shell ( Bytes ) [symbol(ffi_shell)]
+ // -----------------------------------------------------
+    rule <k> #shell(_ARGS) => .K ... </k>
+         <output> _ => ?_FFI_OUTPUT </output>
+```
 
  - Defining a new production `#rename` for all the types for which we generate symbolic values.
 We don't care about the values because they will be processed in the `custom_step` function in Python.
@@ -1696,6 +1839,7 @@ If the flag is false, it skips comparison, assuming success; otherwise, it compa
            )
            ...
          </mockCalls>
+      [owise]
 ```
 
 - `#setMockFunction MOCKADDRESS MOCKTARGET MOCKCALLDATA` will update the `<mockFunctions>` mapping for the given account and calldata.
@@ -1720,6 +1864,7 @@ If the flag is false, it skips comparison, assuming success; otherwise, it compa
            )
            ...
          </mockFunctions>
+      [owise]
 ```
 
 - `#execMockCall` will update the output of the function call with `RETURNDATA` using `#setLocalMem`. In case the function did not end with `EVMC_SUCCESS` it will update the status code to `EVMC_SUCCESS`.
@@ -1763,6 +1908,8 @@ Selectors for **implemented** cheat code functions.
     rule ( selector ( "expectRegularCall(address,uint256,bytes)" ) => 1973496647 )
     rule ( selector ( "expectCreate(address,uint256,bytes)" )      => 658968394  )
     rule ( selector ( "expectCreate2(address,uint256,bytes)" )     => 3854582462 )
+    rule ( selector ( "expectEmit()" )                             => 1141821709 )
+    rule ( selector ( "expectEmit(address)" )                      => 2260296205 )
     rule ( selector ( "expectEmit(bool,bool,bool,bool)" )          => 1226622914 )
     rule ( selector ( "expectEmit(bool,bool,bool,bool,address)" )  => 2176505587 )
     rule ( selector ( "sign(uint256,bytes32)" )                    => 3812747940 )
@@ -1796,6 +1943,13 @@ Selectors for **implemented** cheat code functions.
     rule ( selector ( "mockFunction(address,address,bytes)" )      => 2918731041 )
     rule ( selector ( "copyStorage(address,address)" )             => 540912653  )
     rule ( selector ( "forgetBranch(uint256,uint8,uint256)" )      => 1720990067 )
+    rule ( selector ( "toString(address)" )                        => 1456103998 )
+    rule ( selector ( "toString(bytes)" )                          => 1907020045 )
+    rule ( selector ( "toString(bytes32)" )                        => 2971277800 )
+    rule ( selector ( "toString(bool)" )                           => 1910302682 )
+    rule ( selector ( "toString(uint256)" )                        => 1761649582 )
+    rule ( selector ( "toString(int256)" )                         => 2736964622 )
+    rule ( selector ( "ffi(string[])" )                            => 2299921511 )
 ```
 
 Selectors for **unimplemented** cheat code functions.
@@ -1803,7 +1957,6 @@ Selectors for **unimplemented** cheat code functions.
 ```k
     rule selector ( "expectRegularCall(address,bytes)" )        => 3178868520
     rule selector ( "expectNoCall()" )                          => 3861374088
-    rule selector ( "ffi(string[])" )                           => 2299921511
     rule selector ( "setEnv(string,string)" )                   => 1029252078
     rule selector ( "envBool(string)" )                         => 2127686781
     rule selector ( "envUint(string)" )                         => 3247934751
@@ -1837,12 +1990,6 @@ Selectors for **unimplemented** cheat code functions.
     rule selector ( "writeLine(string,string)" )                => 1637714303
     rule selector ( "closeFile(string)" )                       => 1220748319
     rule selector ( "removeFile(string)" )                      => 4054835277
-    rule selector ( "toString(address)" )                       => 1456103998
-    rule selector ( "toString(bytes)" )                         => 1907020045
-    rule selector ( "toString(bytes32)" )                       => 2971277800
-    rule selector ( "toString(bool)" )                          => 1910302682
-    rule selector ( "toString(uint256)" )                       => 1761649582
-    rule selector ( "toString(int256)" )                        => 2736964622
     rule selector ( "recordLogs()" )                            => 1101999954
     rule selector ( "getRecordedLogs()" )                       => 420828068
     rule selector ( "snapshot()" )                              => 2534502746

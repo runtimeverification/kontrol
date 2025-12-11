@@ -83,22 +83,6 @@ class RpcOptions(Options):
         }
 
 
-class TraceOptions(Options):
-    active_tracing: bool
-    trace_storage: bool
-    trace_wordstack: bool
-    trace_memory: bool
-
-    @staticmethod
-    def default() -> dict[str, Any]:
-        return {
-            'active_tracing': False,
-            'trace_storage': False,
-            'trace_wordstack': False,
-            'trace_memory': False,
-        }
-
-
 class CleanOptions(FoundryOptions, LoggingOptions):
     proofs: bool
     old_proofs: bool
@@ -175,17 +159,21 @@ class GetModelOptions(FoundryTestOptions, LoggingOptions, RpcOptions, BugReportO
 class InitOptions(LoggingOptions):
     project_root: Path
     skip_forge: bool
+    skip_kontrol_test: bool
 
     @staticmethod
     def default() -> dict[str, Any]:
         return {
             'project_root': Path.cwd(),
             'skip_forge': False,
+            'skip_kontrol_test': False,
         }
 
     @staticmethod
     def from_option_string() -> dict[str, str]:
-        return LoggingOptions.from_option_string()
+        return LoggingOptions.from_option_string() | {
+            'skip-kontrol-test': 'skip_kontrol_test',
+        }
 
     @staticmethod
     def get_argument_type() -> dict[str, Callable]:
@@ -329,7 +317,6 @@ class ProveOptions(
     BugReportOptions,
     ExploreOptions,
     FoundryOptions,
-    TraceOptions,
     EVMChainOptions,
 ):
     tests: list[tuple[str, int | None]]
@@ -355,6 +342,7 @@ class ProveOptions(
     stack_checks: bool
     extra_module: str | None
     symbolic_caller: bool
+    generate_counterexample: bool
 
     def __init__(self, args: dict[str, Any]) -> None:
         super().__init__(args)
@@ -387,6 +375,7 @@ class ProveOptions(
             'stack_checks': True,
             'extra_module': None,
             'symbolic_caller': False,
+            'generate_counterexample': False,
         }
 
     @staticmethod
@@ -401,7 +390,6 @@ class ProveOptions(
             | BugReportOptions.from_option_string()
             | ExploreOptions.from_option_string()
             | FoundryOptions.from_option_string()
-            | TraceOptions.from_option_string()
             | EVMChainOptions.from_option_string()
             | {
                 'match-test': 'tests',
@@ -423,7 +411,6 @@ class ProveOptions(
             | BugReportOptions.get_argument_type()
             | ExploreOptions.get_argument_type()
             | FoundryOptions.get_argument_type()
-            | TraceOptions.get_argument_type()
             | EVMChainOptions.get_argument_type()
             | {
                 'match-test': list_of(parse_test_version_tuple),
@@ -778,6 +765,39 @@ class ViewKcfgOptions(FoundryTestOptions, LoggingOptions, FoundryOptions):
             | LoggingOptions.get_argument_type()
             | FoundryTestOptions.get_argument_type()
         )
+
+
+class SetupStorageOptions(LoggingOptions, FoundryOptions):
+    contract_names: list[str]
+    solidity_version: str
+    output_file: str | None
+    skip_kontrol_init: bool
+    generate_setup_contracts: bool
+
+    @staticmethod
+    def default() -> dict[str, Any]:
+        return {
+            'solidity_version': '0.8.26',
+            'output_file': None,
+            'skip_kontrol_init': False,
+            'generate_setup_contracts': False,
+        }
+
+    @staticmethod
+    def from_option_string() -> dict[str, str]:
+        return (
+            FoundryOptions.from_option_string()
+            | LoggingOptions.from_option_string()
+            | {
+                'output-file': 'output_file',
+                'skip-kontrol-init': 'skip_kontrol_init',
+                'generate-setup-contracts': 'generate_setup_contracts',
+            }
+        )
+
+    @staticmethod
+    def get_argument_type() -> dict[str, Callable]:
+        return FoundryOptions.get_argument_type() | LoggingOptions.get_argument_type()
 
 
 class BuildOptions(LoggingOptions, KOptions, KompileOptions, FoundryOptions, KompileTargetOptions):

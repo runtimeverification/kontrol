@@ -12,9 +12,9 @@ from pyk.kore.rpc import kore_server
 from pyk.utils import single
 
 from kontrol.display import foundry_show
-from kontrol.foundry import Foundry, init_project
+from kontrol.foundry import Foundry, foundry_storage_generation, init_project
 from kontrol.kompile import foundry_kompile
-from kontrol.options import BuildOptions, ProveOptions, ShowOptions
+from kontrol.options import BuildOptions, ProveOptions, SetupStorageOptions, ShowOptions
 from kontrol.prove import foundry_prove
 from kontrol.utils import append_to_file, foundry_toml_use_optimizer
 
@@ -65,7 +65,8 @@ def foundry_end_to_end(foundry_root_dir: Path | None, tmp_path_factory: TempPath
     with FileLock(str(foundry_root) + '.lock'):
         if not foundry_root.is_dir():
             init_project(project_root=foundry_root, skip_forge=False)
-            copytree(str(TEST_DATA_DIR / 'src'), str(foundry_root / 'test'), dirs_exist_ok=True)
+            copytree(str(TEST_DATA_DIR / 'src'), str(foundry_root / 'src'), dirs_exist_ok=True)
+            copytree(str(TEST_DATA_DIR / 'test'), str(foundry_root / 'test'), dirs_exist_ok=True)
             append_to_file(foundry_root / 'foundry.toml', foundry_toml_use_optimizer())
 
             try:
@@ -154,3 +155,77 @@ def test_kontrol_end_to_end(
 
     # Then
     assert_or_update_show_output(show_res, TEST_DATA_DIR / f'show/{test_id}.expected', update=update_expected_output)
+
+
+def test_kontrol_setup_storage(foundry_end_to_end: Foundry, update_expected_output: bool) -> None:
+    """Test the setup-storage command with both storage constants and setup contract generation."""
+
+    options = SetupStorageOptions(
+        {
+            'contract_names': ['src%SimpleStorage'],
+            'solidity_version': '0.8.26',
+            'output_file': None,
+            'foundry_root': foundry_end_to_end._root,
+            'enum_constraints': False,
+            'log_level': 'INFO',
+            'generate_setup_contracts': True,
+        }
+    )
+
+    foundry_storage_generation(foundry_end_to_end, options)
+
+    # Check that storage constants file was created
+    storage_file = foundry_end_to_end._root / 'test' / 'kontrol' / 'storage' / 'SimpleStorageStorageConstants.sol'
+    assert storage_file.exists(), f'SimpleStorage constants file not created: {storage_file}'
+
+    # Check storage constants content and update expected output
+    storage_content = storage_file.read_text()
+    assert_or_update_show_output(
+        storage_content,
+        TEST_DATA_DIR / 'show' / 'SimpleStorageStorageConstants.expected',
+        update=update_expected_output,
+    )
+
+    # Check that setup contract file was created
+    setup_file = foundry_end_to_end._root / 'test' / 'kontrol' / 'setup' / 'SimpleStorageStorageSetup.sol'
+    assert setup_file.exists(), f'SimpleStorage setup file not created: {setup_file}'
+
+    # Check setup contract content and update expected output
+    setup_content = setup_file.read_text()
+    assert_or_update_show_output(
+        setup_content,
+        TEST_DATA_DIR / 'show' / 'SimpleStorageStorageSetup.expected',
+        update=update_expected_output,
+    )
+
+
+def test_kontrol_counterexample_generation(foundry_end_to_end: Foundry, update_expected_output: bool) -> None:
+    """Test counterexample generation for a failing proof."""
+
+    # Run kontrol prove with --generate-counterexample on a test that will fail
+    prove_options = ProveOptions(
+        {
+            'tests': [('UnitTest.test_counterexample', None)],
+            'workers': 1,
+            'foundry_root': foundry_end_to_end._root,
+            'max_depth': 10000,
+            'max_iterations': 10000,
+            'failure_info': True,
+            'generate_counterexample': True,  # Enable counterexample generation
+        }
+    )
+
+    # Run the prove command (this should fail and generate a counterexample)
+    foundry_prove(prove_options, foundry_end_to_end)
+
+    # Check that the counterexample file was created in the same directory as the original test
+    counterexample_file = foundry_end_to_end._root / 'test' / 'UnitTestCounterexampleTest.t.sol'
+    assert counterexample_file.exists(), f'Counterexample file not created: {counterexample_file}'
+
+    # Check counterexample content and update expected output
+    counterexample_content = counterexample_file.read_text()
+    assert_or_update_show_output(
+        counterexample_content,
+        TEST_DATA_DIR / 'show' / 'UnitTestCounterexampleTest.expected',
+        update=update_expected_output,
+    )
