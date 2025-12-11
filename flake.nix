@@ -65,8 +65,21 @@
       };
       # due to the nixpkgs that we use in this flake being outdated, uv is also heavily outdated
       # we can just use the binary release of uv provided by uv2nix
-      uvOverlay = final: prev: {
-        uv = uv2nix.packages.${final.system}.uv-bin;
+      uvOverlay = final: prev: 
+      let
+        uv-bin = uv2nix.packages.${final.system}.uv-bin;
+      in {
+        # haskell-backend uses kontrol for profiling and uses a nix develop shell with the `--ignore-environment` flag set
+        # uv has an optional runtime dependency on git, which is not included by default in the uv derivation
+        uv = final.symlinkJoin {
+          name = "uv";
+          paths = [ uv-bin ];
+          buildInputs = [ uv-bin final.makeWrapper ];
+          postBuild = ''
+            wrapProgram $out/bin/uv \
+              --prefix PATH : ${final.git}/bin
+          '';
+        };
       };
       kontrolOverlay = final: prev:
       let
