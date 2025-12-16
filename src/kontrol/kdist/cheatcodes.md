@@ -653,7 +653,10 @@ returns the default value.
 ```k
     rule [envOr-word]:
           <k> #cheatcode_call SELECTOR ARGS
-            => #getEnvOrWord #range(ARGS, 96, #asWord(#range(ARGS, 64, 32))) #range(ARGS, 32, 32)... </k>
+            => #getEnvOrValue #range(ARGS, 96, #asWord(#range(ARGS, 64, 32))) String2Bytes(Int2String(#asWord(#range(ARGS, 32, 32)))) ~>
+               #processOutputAsInt
+            ...
+          </k>
       requires SELECTOR in (
          SetItem( selector ( "envOr(string,bool)" ) )
          SetItem( selector ( "envOr(string,uint256)" ) )
@@ -664,22 +667,21 @@ returns the default value.
       [preserves-definedness]
 
     rule [envOr-string]:
-          <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
-          <output> _ => 
-               #let DATA_OFFSET = #asWord(#range(ARGS, 32, 32)) #in
-               #let DATA_SIZE   = #asWord(#range(ARGS, DATA_OFFSET, 32)) #in
-               #range(ARGS, 32 +Int DATA_OFFSET, DATA_SIZE)
-         </output>
+          <k> #cheatcode_call SELECTOR ARGS
+            => #getEnvOrValue #range(ARGS, 96, #asWord(#range(ARGS, 64, 32))) #range(ARGS, 32 +Int #asWord(#range(ARGS, 32, 32)), #asWord(#range(ARGS, #asWord(#range(ARGS, 32, 32)), 32)))... </k>
+          // The following rule, which is more readable, doesn't work. Needs investigation.
+          //      #let DATA_OFFSET = #asWord(#range(ARGS, 32, 32)) #in
+          //      #let DATA_SIZE   = #asWord(#range(ARGS, DATA_OFFSET, 32)) #in
+          //      #let DATA = #range(ARGS, 32 +Int DATA_OFFSET, DATA_SIZE) #in
+          //      #let VARNAME = #range(ARGS, 96, #asWord(#range(ARGS, 64, 32))) #in
+          //      #getEnvOrValue VARNAME DATA
+          //
       requires SELECTOR ==Int selector( "envOr(string,string)" )
       [preserves-definedness]
 
     rule [envOr-bytes]:
-          <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
-          <output> _ => 
-            #let DATA_OFFSET = #asWord(#range(ARGS, 32, 32)) #in
-            #let DATA_SIZE   = #asWord(#range(ARGS, DATA_OFFSET, 32)) #in
-            #range(ARGS, DATA_OFFSET +Int 32, DATA_SIZE)
-          </output>
+          <k> #cheatcode_call SELECTOR ARGS
+            => #getEnvOrValue #range(ARGS, 96, #asWord(#range(ARGS, 64, 32))) #range(ARGS, 32 +Int #asWord(#range(ARGS, 32, 32)), #asWord(#range(ARGS, #asWord(#range(ARGS, 32, 32)), 32)))... </k>
       requires SELECTOR ==Int selector( "envOr(string,bytes)" )
       [preserves-definedness]
 
@@ -1925,19 +1927,25 @@ If the flag is false, it skips comparison, assuming success; otherwise, it compa
          <wordStack> _ : WS => 1 : WS </wordStack>
 ```
 
-- `#getEnvOrWord` will get the return the environment variable from the `<enVars>` mapping iif it's there, or will return the default value for the variable
+- `#getEnvOrValue` will get the return the environment variable from the `<enVars>` mapping iif it's there, or will return the default value for the variable
 
 ```k
-    syntax KItem ::= "#getEnvOrWord" Bytes Bytes [symbol(foundry_getEnvOrWord)]
+    syntax KItem ::= "#getEnvOrValue" Bytes Bytes [symbol(foundry_getEnvOrValue)]
  // -----------------------------------------------------------------------------
-    rule <k> #getEnvOrWord VARNAME _ => .K ... </k>
+    rule <k> #getEnvOrValue VARNAME _ => .K ... </k>
          <output> _ => VARVALUE </output>
-         <envVars> ... KEY |-> VARVALUE ... </envVars>
-      requires #range(VARNAME, 0, lengthBytes(KEY)) ==K KEY
+         <envVars> ... VARNAME |-> VARVALUE ... </envVars>
 
-   rule <k> #getEnvOrWord _ VARDEFAULTVALUE => .K ... </k>
+   rule <k> #getEnvOrValue _ VARDEFAULTVALUE => .K ... </k>
          <output> _ => VARDEFAULTVALUE </output>
    [owise]
+```
+
+```k
+   syntax KItem ::= "#processOutputAsInt" [symbol(foundry_processOutputAsInt)]
+ // -----------------------------------------------------------------------------
+    rule <k> #processOutputAsInt => .K ... </k>
+         <output> VARVALUE => Int2Bytes(32, String2Int(Bytes2String(VARVALUE)), BE) </output>
 ```
 
 
