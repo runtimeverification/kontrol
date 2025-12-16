@@ -331,6 +331,42 @@ def decode_log_message(token: str, selector: int) -> str | None:
         return None
 
 
+def parse_env_file(file_path: Path) -> dict[str, str]:
+    """Parse a .env file into a dictionary of key-value pairs.
+
+    :param file_path: Path to the .env file
+    :return: Dictionary with environment variable names as keys and their values as strings
+    """
+    env_vars = {}
+    if not file_path.exists():
+        return env_vars
+    with open(file_path, 'r', encoding='utf-8') as f:
+        for line in f:
+            line = line.strip()
+            if not line or line.startswith('#'):
+                continue
+            if '=' not in line:
+                continue
+            key, value = line.split('=', 1)
+            key = key.strip()
+            value = value.strip()
+            # Remove surrounding quotes if present
+            if (value.startswith('"') and value.endswith('"')) or (value.startswith("'") and value.endswith("'")):
+                value = value[1:-1]
+            env_vars[key] = value
+    return env_vars
+
+
+def parse_foundry_env(foundry_root: Path) -> dict[str, str]:
+    """Parse the .env file located in the Foundry root directory.
+
+    :param foundry_root: Path to the Foundry project root directory
+    :return: Dictionary with environment variable names as keys and their values as strings
+    """
+    env_file = foundry_root / '.env'
+    return parse_env_file(env_file)
+
+
 EMPTY_LOG_SELECTOR = 1368866505
 # a mapping from function selectors to the argument types used in the log functions from
 # https://github.com/foundry-rs/forge-std/blob/ee93fdc45d1e5e4dee883afe0103109881a83549/src/console.sol
