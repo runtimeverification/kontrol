@@ -1010,7 +1010,7 @@ def _init_cterm(
     env_vars = parse_foundry_env(foundry._root)
     env_map = map_empty()
     for key, value in env_vars.items():
-        env_map = KApply('_Map_', [map_item(bytesToken(key.encode('utf-8')), bytesToken(value.encode('utf-8'))), env_map])
+        env_map = KApply('_Map_', [map_item(bytesToken(key.encode('utf-8')), token(value)), env_map])
     init_subst['ENVVARS_CELL'] = env_map
 
     storage_constraints: list[KApply] = []

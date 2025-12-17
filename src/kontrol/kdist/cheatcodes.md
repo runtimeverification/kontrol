@@ -653,8 +653,7 @@ returns the default value.
 ```k
     rule [envOr-word]:
           <k> #cheatcode_call SELECTOR ARGS
-            => #getEnvOrValue #range(ARGS, 96, #asWord(#range(ARGS, 64, 32))) String2Bytes(Int2String(#asWord(#range(ARGS, 32, 32)))) ~>
-               #processOutputAsInt
+            => #getEnvOrValue SELECTOR #range(ARGS, 96, #asWord(#range(ARGS, 64, 32))) #range(ARGS, 32, 32)
             ...
           </k>
       requires SELECTOR in (
@@ -668,20 +667,20 @@ returns the default value.
 
     rule [envOr-string]:
           <k> #cheatcode_call SELECTOR ARGS
-            => #getEnvOrValue #range(ARGS, 96, #asWord(#range(ARGS, 64, 32))) #range(ARGS, 32 +Int #asWord(#range(ARGS, 32, 32)), #asWord(#range(ARGS, #asWord(#range(ARGS, 32, 32)), 32)))... </k>
+            => #getEnvOrValue SELECTOR #range(ARGS, 96, #asWord(#range(ARGS, 64, 32))) #range(ARGS, 32 +Int #asWord(#range(ARGS, 32, 32)), #asWord(#range(ARGS, #asWord(#range(ARGS, 32, 32)), 32)))... </k>
           // The following rule, which is more readable, doesn't work. Needs investigation.
           //      #let DATA_OFFSET = #asWord(#range(ARGS, 32, 32)) #in
           //      #let DATA_SIZE   = #asWord(#range(ARGS, DATA_OFFSET, 32)) #in
           //      #let DATA = #range(ARGS, 32 +Int DATA_OFFSET, DATA_SIZE) #in
           //      #let VARNAME = #range(ARGS, 96, #asWord(#range(ARGS, 64, 32))) #in
-          //      #getEnvOrValue VARNAME DATA
+          //      #getEnvOrValue SELECTOR VARNAME DATA
           //
       requires SELECTOR ==Int selector( "envOr(string,string)" )
       [preserves-definedness]
 
     rule [envOr-bytes]:
           <k> #cheatcode_call SELECTOR ARGS
-            => #getEnvOrValue #range(ARGS, 96, #asWord(#range(ARGS, 64, 32))) #range(ARGS, 32 +Int #asWord(#range(ARGS, 32, 32)), #asWord(#range(ARGS, #asWord(#range(ARGS, 32, 32)), 32)))... </k>
+            => #getEnvOrValue SELECTOR #range(ARGS, 96, #asWord(#range(ARGS, 64, 32))) #range(ARGS, 32 +Int #asWord(#range(ARGS, 32, 32)), #asWord(#range(ARGS, #asWord(#range(ARGS, 32, 32)), 32)))... </k>
       requires SELECTOR ==Int selector( "envOr(string,bytes)" )
       [preserves-definedness]
 
@@ -1930,22 +1929,35 @@ If the flag is false, it skips comparison, assuming success; otherwise, it compa
 - `#getEnvOrValue` will get the return the environment variable from the `<enVars>` mapping iif it's there, or will return the default value for the variable
 
 ```k
-    syntax KItem ::= "#getEnvOrValue" Bytes Bytes [symbol(foundry_getEnvOrValue)]
+    syntax KItem ::= "#getEnvOrValue" Int Bytes Bytes [symbol(foundry_getEnvOrValue)]
  // -----------------------------------------------------------------------------
-    rule <k> #getEnvOrValue VARNAME _ => .K ... </k>
-         <output> _ => VARVALUE </output>
+    rule <k> #getEnvOrValue SELECTOR VARNAME _ => #processOutput SELECTOR VARVALUE ... </k>
          <envVars> ... VARNAME |-> VARVALUE ... </envVars>
 
-   rule <k> #getEnvOrValue _ VARDEFAULTVALUE => .K ... </k>
+   rule <k> #getEnvOrValue _ _ VARDEFAULTVALUE => .K ... </k>
          <output> _ => VARDEFAULTVALUE </output>
    [owise]
 ```
 
 ```k
-   syntax KItem ::= "#processOutputAsInt" [symbol(foundry_processOutputAsInt)]
+    syntax KItem ::= "#processOutput" Int String [symbol(foundry_processOutputAsInt)]
  // -----------------------------------------------------------------------------
-    rule <k> #processOutputAsInt => .K ... </k>
-         <output> VARVALUE => Int2Bytes(32, String2Int(Bytes2String(VARVALUE)), BE) </output>
+    rule <k> #processOutput SELECTOR VARVALUE => .K ... </k>
+         <output> _ => Int2Bytes(32, String2Int(VARVALUE), BE) </output>
+      requires SELECTOR ==Int selector ( "envOr(string,int256)" ) orBool SELECTOR ==Int selector ( "envOr(string,uint256)" )
+
+    rule <k> #processOutput SELECTOR VARVALUE => .K ... </k>
+         <output> _ => Int2Bytes(32, #parseHexWord(VARVALUE), BE) </output>
+      requires SELECTOR ==Int selector ( "envOr(string,address)" ) andBool substrString(VARVALUE, 0, 2) ==String "0x" andBool lengthString(VARVALUE) >Int 2
+
+    rule <k> #processOutput SELECTOR VARVALUE => .K ... </k>
+         <output> _ => Int2Bytes(32, String2Int(VARVALUE), BE) </output>
+      requires SELECTOR ==Int selector ( "envOr(string,address)" )
+      [owise]
+
+    rule <k> #processOutput SELECTOR VARVALUE => .K ... </k>
+         <output> _ => Int2Bytes(32, bool2Word( String2Bool(VARVALUE) ), BE) </output>
+      requires SELECTOR ==Int selector ( "envOr(string,bool)" )
 ```
 
 
