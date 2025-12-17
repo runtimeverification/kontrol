@@ -1931,7 +1931,7 @@ If the flag is false, it skips comparison, assuming success; otherwise, it compa
 ```k
     syntax KItem ::= "#getEnvOrValue" Int Bytes Bytes [symbol(foundry_getEnvOrValue)]
  // -----------------------------------------------------------------------------
-    rule <k> #getEnvOrValue SELECTOR VARNAME _ => #processOutput SELECTOR VARVALUE ... </k>
+    rule <k> #getEnvOrValue SELECTOR VARNAME VARDEFAULTVALUE => #processOutput SELECTOR VARVALUE VARDEFAULTVALUE ... </k>
          <envVars> ... VARNAME |-> VARVALUE ... </envVars>
 
    rule <k> #getEnvOrValue _ _ VARDEFAULTVALUE => .K ... </k>
@@ -1940,24 +1940,43 @@ If the flag is false, it skips comparison, assuming success; otherwise, it compa
 ```
 
 ```k
-    syntax KItem ::= "#processOutput" Int String [symbol(foundry_processOutputAsInt)]
+    syntax KItem ::= "#processOutput" Int String Bytes [symbol(foundry_processOutputAsInt)]
  // -----------------------------------------------------------------------------
-    rule <k> #processOutput SELECTOR VARVALUE => .K ... </k>
+    rule <k> #processOutput SELECTOR VARVALUE _ => .K ... </k>
          <output> _ => Int2Bytes(32, String2Int(VARVALUE), BE) </output>
-      requires SELECTOR ==Int selector ( "envOr(string,int256)" ) orBool SELECTOR ==Int selector ( "envOr(string,uint256)" )
+      requires SELECTOR ==Int selector ( "envOr(string,int256)" ) andBool isIntegerString(VARVALUE)
 
-    rule <k> #processOutput SELECTOR VARVALUE => .K ... </k>
+    rule <k> #processOutput SELECTOR VARVALUE _ => .K ... </k>
+         <output> _ => Int2Bytes(32, String2Int(VARVALUE), BE) </output>
+      requires SELECTOR ==Int selector ( "envOr(string,uint256)" ) andBool isUnsignedIntegerString(VARVALUE)
+
+    rule <k> #processOutput SELECTOR VARVALUE _ => .K ... </k>
          <output> _ => Int2Bytes(32, #parseHexWord(VARVALUE), BE) </output>
-      requires SELECTOR ==Int selector ( "envOr(string,address)" ) andBool substrString(VARVALUE, 0, 2) ==String "0x" andBool lengthString(VARVALUE) >Int 2
+      requires SELECTOR ==Int selector ( "envOr(string,address)" ) andBool (lengthString(VARVALUE) ==Int 42 orBool lengthString(VARVALUE) ==Int 40)
 
-    rule <k> #processOutput SELECTOR VARVALUE => .K ... </k>
-         <output> _ => Int2Bytes(32, String2Int(VARVALUE), BE) </output>
-      requires SELECTOR ==Int selector ( "envOr(string,address)" )
-      [owise]
+    rule <k> #processOutput SELECTOR VARVALUE _ => .K ... </k>
+         <output> _ => Int2Bytes(32, #parseHexWord(VARVALUE), BE)</output>
+      requires SELECTOR ==Int selector ( "envOr(string,bytes32)" ) andBool (lengthString(VARVALUE) ==Int 66 orBool lengthString(VARVALUE) ==Int 64)
 
-    rule <k> #processOutput SELECTOR VARVALUE => .K ... </k>
+    rule <k> #processOutput SELECTOR VARVALUE _ => .K ... </k>
          <output> _ => Int2Bytes(32, bool2Word( String2Bool(VARVALUE) ), BE) </output>
       requires SELECTOR ==Int selector ( "envOr(string,bool)" )
+
+    rule <k> #processOutput SELECTOR VARVALUE VARDEFAULTVALUE => .K ... </k>
+         <output> _ => VARDEFAULTVALUE </output>
+     [owise]
+```
+
+```k
+syntax Bool ::= isIntegerString(String) [function]
+
+rule isIntegerString(S) => true requires String2Int(S) ==K 0 orBool String2Int(S) =/=K 0
+rule isIntegerString(_) => false [owise]
+
+syntax Bool ::= isUnsignedIntegerString(String) [function]
+
+rule isUnsignedIntegerString(S) => true requires String2Int(S) >=Int 0
+rule isUnsignedIntegerString(_) => false [owise]
 ```
 
 
