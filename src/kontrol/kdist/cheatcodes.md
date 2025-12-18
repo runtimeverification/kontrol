@@ -1960,9 +1960,9 @@ If the flag is false, it skips comparison, assuming success; otherwise, it compa
 
     rule <k> #processOutput SELECTOR VARVALUE _ => .K ... </k>
          <output> _ => Int2Bytes(32, bool2Word( String2Bool(VARVALUE) ), BE) </output>
-      requires SELECTOR ==Int selector ( "envOr(string,bool)" )
+      requires SELECTOR ==Int selector ( "envOr(string,bool)" ) andBool (VARVALUE ==K "true" orBool VARVALUE ==K "false")
 
-    rule <k> #processOutput SELECTOR VARVALUE VARDEFAULTVALUE => .K ... </k>
+    rule <k> #processOutput _ _ VARDEFAULTVALUE => .K ... </k>
          <output> _ => VARDEFAULTVALUE </output>
      [owise]
 ```
