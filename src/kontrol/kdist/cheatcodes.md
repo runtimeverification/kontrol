@@ -667,7 +667,7 @@ returns the default value.
 
       rule [envOr-string]:
                <k> #cheatcode_call SELECTOR ARGS
-                  => #getEnvOrValue SELECTOR #range(ARGS, 96, #asWord(#range(ARGS, 64, 32))) #range(ARGS, #asWord(#range(ARGS, 32, 32)), lengthBytes(ARGS) -Int #asWord(#range(ARGS, 32, 32))) ... </k>
+                  => #getEnvOrValue SELECTOR #range(ARGS, 96, #asWord(#range(ARGS, 64, 32))) (Int2Bytes(32, 32, BE) +Bytes #range(ARGS, #asWord(#range(ARGS, 32, 32)), lengthBytes(ARGS) -Int #asWord(#range(ARGS, 32, 32)))) ... </k>
                   //#getEnvOrValue SELECTOR #range(ARGS, 96, #asWord(#range(ARGS, 64, 32))) #enc( #tuple( #string( "default" ) ) ) ... </k>
          requires SELECTOR ==Int selector( "envOr(string,string)" )
          [preserves-definedness]
