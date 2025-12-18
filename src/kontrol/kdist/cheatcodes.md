@@ -665,22 +665,22 @@ returns the default value.
       )
       [preserves-definedness]
 
-    rule [envOr-string]:
-          <k> #cheatcode_call SELECTOR ARGS
-            => #getEnvOrValue SELECTOR #range(ARGS, 96, #asWord(#range(ARGS, 64, 32))) #range(ARGS, 32 +Int #asWord(#range(ARGS, 32, 32)), #asWord(#range(ARGS, #asWord(#range(ARGS, 32, 32)), 32)))... </k>
-          // The following rule, which is more readable, doesn't work. Needs investigation.
-          //      #let DATA_OFFSET = #asWord(#range(ARGS, 32, 32)) #in
-          //      #let DATA_SIZE   = #asWord(#range(ARGS, DATA_OFFSET, 32)) #in
-          //      #let DATA = #range(ARGS, 32 +Int DATA_OFFSET, DATA_SIZE) #in
-          //      #let VARNAME = #range(ARGS, 96, #asWord(#range(ARGS, 64, 32))) #in
-          //      #getEnvOrValue SELECTOR VARNAME DATA
-          //
-      requires SELECTOR ==Int selector( "envOr(string,string)" )
-      [preserves-definedness]
+      rule [envOr-string]:
+               <k> #cheatcode_call SELECTOR ARGS
+                  => #getEnvOrValue SELECTOR #range(ARGS, 96, #asWord(#range(ARGS, 64, 32))) #range(ARGS, #asWord(#range(ARGS, 32, 32)), lengthBytes(ARGS) -Int #asWord(#range(ARGS, 32, 32))) ... </k>
+                  //#getEnvOrValue SELECTOR #range(ARGS, 96, #asWord(#range(ARGS, 64, 32))) #enc( #tuple( #string( "default" ) ) ) ... </k>
+         requires SELECTOR ==Int selector( "envOr(string,string)" )
+         [preserves-definedness]
+         // The following rule, which is more readable, doesn't work. Needs investigation.
+         //      #let DATA_OFFSET = #asWord(#range(ARGS, 32, 32)) #in
+         //      #let DATA_SIZE   = #asWord(#range(ARGS, DATA_OFFSET, 32)) #in
+         //      #let DATA = #range(ARGS, 32 +Int DATA_OFFSET, DATA_SIZE) #in
+         //      #let VARNAME = #range(ARGS, 96, #asWord(#range(ARGS, 64, 32))) #in
+         //      #getEnvOrValue SELECTOR VARNAME DATA
 
     rule [envOr-bytes]:
           <k> #cheatcode_call SELECTOR ARGS
-            => #getEnvOrValue SELECTOR #range(ARGS, 96, #asWord(#range(ARGS, 64, 32))) #range(ARGS, 32 +Int #asWord(#range(ARGS, 32, 32)), #asWord(#range(ARGS, #asWord(#range(ARGS, 32, 32)), 32)))... </k>
+            => #getEnvOrValue SELECTOR #range(ARGS, 96, #asWord(#range(ARGS, 64, 32))) #range(ARGS, #asWord(#range(ARGS, 32, 32)), 32 +Int #asWord(#range(ARGS, #asWord(#range(ARGS, 32, 32)), 32)))... </k>
       requires SELECTOR ==Int selector( "envOr(string,bytes)" )
       [preserves-definedness]
 
@@ -1934,9 +1934,9 @@ If the flag is false, it skips comparison, assuming success; otherwise, it compa
     rule <k> #getEnvOrValue SELECTOR VARNAME VARDEFAULTVALUE => #processOutput SELECTOR VARVALUE VARDEFAULTVALUE ... </k>
          <envVars> ... VARNAME |-> VARVALUE ... </envVars>
 
-   rule <k> #getEnvOrValue _ _ VARDEFAULTVALUE => .K ... </k>
+    rule <k> #getEnvOrValue _ _ VARDEFAULTVALUE => .K ... </k>
          <output> _ => VARDEFAULTVALUE </output>
-   [owise]
+    [owise]
 ```
 
 ```k
