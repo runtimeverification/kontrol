@@ -665,24 +665,11 @@ returns the default value.
       )
       [preserves-definedness]
 
-      rule [envOr-string]:
+      rule [envOr-string-bytes]:
                <k> #cheatcode_call SELECTOR ARGS
                   => #getEnvOrValue SELECTOR #range(ARGS, 96, #asWord(#range(ARGS, 64, 32))) (Int2Bytes(32, 32, BE) +Bytes #range(ARGS, #asWord(#range(ARGS, 32, 32)), lengthBytes(ARGS) -Int #asWord(#range(ARGS, 32, 32)))) ... </k>
-                  //#getEnvOrValue SELECTOR #range(ARGS, 96, #asWord(#range(ARGS, 64, 32))) #enc( #tuple( #string( "default" ) ) ) ... </k>
-         requires SELECTOR ==Int selector( "envOr(string,string)" )
+         requires SELECTOR ==Int selector( "envOr(string,string)" ) orBool SELECTOR ==Int selector( "envOr(string,bytes)" )
          [preserves-definedness]
-         // The following rule, which is more readable, doesn't work. Needs investigation.
-         //      #let DATA_OFFSET = #asWord(#range(ARGS, 32, 32)) #in
-         //      #let DATA_SIZE   = #asWord(#range(ARGS, DATA_OFFSET, 32)) #in
-         //      #let DATA = #range(ARGS, 32 +Int DATA_OFFSET, DATA_SIZE) #in
-         //      #let VARNAME = #range(ARGS, 96, #asWord(#range(ARGS, 64, 32))) #in
-         //      #getEnvOrValue SELECTOR VARNAME DATA
-
-    rule [envOr-bytes]:
-          <k> #cheatcode_call SELECTOR ARGS
-            => #getEnvOrValue SELECTOR #range(ARGS, 96, #asWord(#range(ARGS, 64, 32))) #range(ARGS, #asWord(#range(ARGS, 32, 32)), 32 +Int #asWord(#range(ARGS, #asWord(#range(ARGS, 32, 32)), 32)))... </k>
-      requires SELECTOR ==Int selector( "envOr(string,bytes)" )
-      [preserves-definedness]
 
     rule [envOr-word-array]:
           <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
@@ -1952,16 +1939,29 @@ If the flag is false, it skips comparison, assuming success; otherwise, it compa
 
     rule <k> #processOutput SELECTOR VARVALUE _ => .K ... </k>
          <output> _ => Int2Bytes(32, #parseHexWord(VARVALUE), BE) </output>
-      requires SELECTOR ==Int selector ( "envOr(string,address)" ) andBool (lengthString(VARVALUE) ==Int 42 orBool lengthString(VARVALUE) ==Int 40)
+      requires SELECTOR ==Int selector ( "envOr(string,address)" ) 
+         andBool (lengthString(VARVALUE) ==Int 42 orBool lengthString(VARVALUE) ==Int 40)
+         andBool isHexString(VARVALUE)
 
     rule <k> #processOutput SELECTOR VARVALUE _ => .K ... </k>
          <output> _ => Int2Bytes(32, #parseHexWord(VARVALUE), BE)</output>
-      requires SELECTOR ==Int selector ( "envOr(string,bytes32)" ) andBool (lengthString(VARVALUE) ==Int 66 orBool lengthString(VARVALUE) ==Int 64)
+      requires SELECTOR ==Int selector ( "envOr(string,bytes32)" )
+         andBool (lengthString(VARVALUE) ==Int 66 orBool lengthString(VARVALUE) ==Int 64)
+         andBool isHexString(VARVALUE)
 
     rule <k> #processOutput SELECTOR VARVALUE _ => .K ... </k>
          <output> _ => Int2Bytes(32, bool2Word( String2Bool(VARVALUE) ), BE) </output>
-      requires SELECTOR ==Int selector ( "envOr(string,bool)" ) andBool (VARVALUE ==K "true" orBool VARVALUE ==K "false")
+      requires SELECTOR ==Int selector ( "envOr(string,bool)" )
+         andBool (VARVALUE ==K "true" orBool VARVALUE ==K "false")
 
+    rule <k> #processOutput SELECTOR VARVALUE _ => .K ... </k>
+         <output> _ => #enc( #tuple( #string(VARVALUE))) </output>
+      requires SELECTOR ==Int selector ( "envOr(string,string)" )
+
+    rule <k> #processOutput SELECTOR VARVALUE _ => .K ... </k>
+         <output> _ => #enc( #tuple( #bytes( #parseByteStack(VARVALUE) ))) </output>
+      requires SELECTOR ==Int selector ( "envOr(string,bytes)" ) andBool isHexString(VARVALUE)
+   
     rule <k> #processOutput _ _ VARDEFAULTVALUE => .K ... </k>
          <output> _ => VARDEFAULTVALUE </output>
      [owise]
@@ -1973,10 +1973,19 @@ syntax Bool ::= isIntegerString(String) [function]
 rule isIntegerString(S) => true requires String2Int(S) ==K 0 orBool String2Int(S) =/=K 0
 rule isIntegerString(_) => false [owise]
 
+
 syntax Bool ::= isUnsignedIntegerString(String) [function]
 
 rule isUnsignedIntegerString(S) => true requires String2Int(S) >=Int 0
 rule isUnsignedIntegerString(_) => false [owise]
+
+
+syntax Bool ::= isHexString(String) [function]
+
+rule isHexString(S) => true
+  requires String2Base(replaceAll(S, "0x", ""), 16) ==K 0
+       orBool String2Base(replaceAll(S, "0x", ""), 16) =/=K 0
+rule isHexString(_) => false [owise]
 ```
 
 

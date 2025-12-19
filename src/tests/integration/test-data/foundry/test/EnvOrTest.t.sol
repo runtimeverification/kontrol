@@ -5,7 +5,7 @@ import "forge-std/Test.sol";
 
 contract EnvOrTest is Test {
 
-    function testEnvOrUint256() public view {
+        function testEnvOrUint256() public view {
         uint256 defaultValue = 42;
         uint256 value = vm.envOr("UINT256", defaultValue);
         assertEq(100, value);
@@ -107,13 +107,32 @@ contract EnvOrTest is Test {
 
     function testEnvOrBytes() public view {
         bytes memory defaultValue = "default";
-        bytes memory value = vm.envOr("ANY", defaultValue);
+        bytes memory value = vm.envOr("BYTES", defaultValue);
+        bytes memory expectedValue = hex"deadbeef";
+        assertEq(expectedValue, value);
+    }
+
+    function testEnvOrBytesDefault() public view {
+        bytes memory defaultValue = "default";
+        bytes memory value = vm.envOr("DEFAULT", defaultValue);
+        assertEq(defaultValue, value);
+    }
+
+    function testEnvOrBytesBad() public view {
+        bytes memory defaultValue = "default";
+        bytes memory value = vm.envOr("BADBYTES", defaultValue);
         assertEq(defaultValue, value);
     }
 
     function testEnvOrString() public view {
         string memory defaultValue = "default";
-        string memory value = vm.envOr("ANY", defaultValue);
+        string memory value = vm.envOr("STRING", defaultValue);
+        assertEq("hello_world", value);
+    }
+
+    function testEnvOrStringDefault() public view {
+        string memory defaultValue = "default";
+        string memory value = vm.envOr("DEFAULT", defaultValue);
         assertEq(defaultValue, value);
     }
 
