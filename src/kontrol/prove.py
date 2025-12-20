@@ -463,7 +463,7 @@ def _run_cfg_group(
             if progress is not None and task is not None:
                 progress.update(task, advance=1, status='Finished')
 
-            if options.minimize_proofs or options.config_type == ConfigType.SUMMARY_CONFIG:
+            if options.minimize_proofs:
                 proof.minimize_kcfg()
 
             if start_time is not None:
