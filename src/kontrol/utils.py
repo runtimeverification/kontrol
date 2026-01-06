@@ -337,7 +337,7 @@ def parse_env_file(file_path: Path) -> dict[str, str]:
     :param file_path: Path to the .env file
     :return: Dictionary with environment variable names as keys and their values as strings
     """
-    env_vars = {}
+    env_vars: dict[str, str] = {}
     if not file_path.exists():
         return env_vars
     with open(file_path, 'r', encoding='utf-8') as f:

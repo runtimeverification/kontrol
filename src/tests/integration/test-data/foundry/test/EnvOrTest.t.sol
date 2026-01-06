@@ -5,7 +5,7 @@ import "forge-std/Test.sol";
 
 contract EnvOrTest is Test {
 
-        function testEnvOrUint256() public view {
+    function testEnvOrUint256() public view {
         uint256 defaultValue = 42;
         uint256 value = vm.envOr("UINT256", defaultValue);
         assertEq(100, value);
