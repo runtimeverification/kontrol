@@ -752,6 +752,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -906,11 +909,13 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </mockFunctions>
            </cheatcodes>
          </foundry>
-      requires ( pow24 <Int NUMBER_CELL:Int
+      requires ( 0 <=Int MIXHASH_CELL:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-               ))))
+       andBool ( MIXHASH_CELL:Int <Int pow256
+               ))))))
       [priority(20), label(BASIC-BLOCK-1-TO-8)]
     
     rule [BASIC-BLOCK-8-TO-9]: <foundry>
@@ -1009,6 +1014,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -1143,11 +1151,13 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </mockFunctions>
            </cheatcodes>
          </foundry>
-      requires ( pow24 <Int NUMBER_CELL:Int
+      requires ( 0 <=Int MIXHASH_CELL:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-               ))))
+       andBool ( MIXHASH_CELL:Int <Int pow256
+               ))))))
        ensures ( 0 <=Int ?KV0_addr:Int
        andBool ( ?KV0_addr:Int <Int pow160
                ))
@@ -1248,6 +1258,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -1383,12 +1396,14 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </cheatcodes>
          </foundry>
       requires ( 0 <=Int KV0_addr:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( KV0_addr:Int <Int pow160
-               ))))))
+       andBool ( MIXHASH_CELL:Int <Int pow256
+               ))))))))
       [priority(20), label(BASIC-BLOCK-9-TO-11)]
     
     rule [BASIC-BLOCK-11-TO-12]: <foundry>
@@ -1489,6 +1504,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -1624,12 +1642,14 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </cheatcodes>
          </foundry>
       requires ( 0 <=Int KV0_addr:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( KV0_addr:Int <Int pow160
-               ))))))
+       andBool ( MIXHASH_CELL:Int <Int pow256
+               ))))))))
       [priority(20), label(BASIC-BLOCK-11-TO-12)]
     
     rule [BASIC-BLOCK-75-TO-76]: <foundry>
@@ -1732,6 +1752,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -1867,6 +1890,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </cheatcodes>
          </foundry>
       requires ( 0 <=Int KV0_addr:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
@@ -1875,7 +1899,8 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryCheat )
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryTest )
-               )))))))))
+       andBool ( MIXHASH_CELL:Int <Int pow256
+               )))))))))))
       [priority(20), label(BASIC-BLOCK-75-TO-76)]
     
     rule [BASIC-BLOCK-77-TO-81]: <foundry>
@@ -1976,6 +2001,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -2125,14 +2153,16 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </cheatcodes>
          </foundry>
       requires ( _KV0_addr:Int ==Int #address ( FoundryTest )
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryCheat )
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryTest )
-               ))))))))
+               ))))))))))
       [priority(20), label(BASIC-BLOCK-77-TO-81)]
     
     rule [BASIC-BLOCK-78-TO-82]: <foundry>
@@ -2234,6 +2264,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -2383,14 +2416,16 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </cheatcodes>
          </foundry>
       requires ( _KV0_addr:Int ==Int #address ( FoundryCheat )
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryCheat )
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryTest )
-               ))))))))
+               ))))))))))
       [priority(20), label(BASIC-BLOCK-78-TO-82)]
     
     rule [BASIC-BLOCK-79-TO-83]: <foundry>
@@ -2492,6 +2527,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -2641,14 +2679,16 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </cheatcodes>
          </foundry>
       requires ( _KV0_addr:Int ==Int 491460923342184218035706888008750043977755113263
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryCheat )
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryTest )
-               ))))))))
+               ))))))))))
       [priority(20), label(BASIC-BLOCK-79-TO-83)]
     
     rule [BASIC-BLOCK-80-TO-84]: <foundry>
@@ -2751,6 +2791,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -2941,18 +2984,20 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </cheatcodes>
          </foundry>
       requires ( 0 <=Int KV0_addr:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( KV0_addr:Int <Int pow160
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( KV0_addr:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( KV0_addr:Int =/=Int #address ( FoundryCheat )
        andBool ( KV0_addr:Int =/=Int #address ( FoundryTest )
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryCheat )
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryTest )
-               ))))))))))))
+               ))))))))))))))
       [priority(20), label(BASIC-BLOCK-80-TO-84)]
     
     rule [BASIC-BLOCK-81-TO-85]: <foundry>
@@ -3053,6 +3098,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -3202,14 +3250,16 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </cheatcodes>
          </foundry>
       requires ( _KV0_addr:Int ==Int #address ( FoundryTest )
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryCheat )
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryTest )
-               ))))))))
+               ))))))))))
       [priority(20), label(BASIC-BLOCK-81-TO-85)]
     
     rule [BASIC-BLOCK-82-TO-86]: <foundry>
@@ -3311,6 +3361,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -3460,14 +3513,16 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </cheatcodes>
          </foundry>
       requires ( _KV0_addr:Int ==Int #address ( FoundryCheat )
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryCheat )
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryTest )
-               ))))))))
+               ))))))))))
       [priority(20), label(BASIC-BLOCK-82-TO-86)]
     
     rule [BASIC-BLOCK-83-TO-87]: <foundry>
@@ -3569,6 +3624,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -3718,14 +3776,16 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </cheatcodes>
          </foundry>
       requires ( _KV0_addr:Int ==Int 491460923342184218035706888008750043977755113263
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryCheat )
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryTest )
-               ))))))))
+               ))))))))))
       [priority(20), label(BASIC-BLOCK-83-TO-87)]
     
     rule [BASIC-BLOCK-84-TO-88]: <foundry>
@@ -3827,6 +3887,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -3997,18 +4060,20 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </cheatcodes>
          </foundry>
       requires ( 0 <=Int KV0_addr:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( KV0_addr:Int <Int pow160
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( KV0_addr:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( KV0_addr:Int =/=Int #address ( FoundryCheat )
        andBool ( KV0_addr:Int =/=Int #address ( FoundryTest )
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryCheat )
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryTest )
-               ))))))))))))
+               ))))))))))))))
       [priority(20), label(BASIC-BLOCK-84-TO-88)]
     
     rule [BASIC-BLOCK-85-TO-89]: <foundry>
@@ -4230,6 +4295,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -4379,14 +4447,16 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </cheatcodes>
          </foundry>
       requires ( _KV0_addr:Int ==Int #address ( FoundryTest )
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryCheat )
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryTest )
-               ))))))))
+               ))))))))))
       [priority(20), label(BASIC-BLOCK-85-TO-89)]
     
     rule [BASIC-BLOCK-86-TO-90]: <foundry>
@@ -4609,6 +4679,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -4758,14 +4831,16 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </cheatcodes>
          </foundry>
       requires ( _KV0_addr:Int ==Int #address ( FoundryCheat )
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryCheat )
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryTest )
-               ))))))))
+               ))))))))))
       [priority(20), label(BASIC-BLOCK-86-TO-90)]
     
     rule [BASIC-BLOCK-87-TO-91]: <foundry>
@@ -4988,6 +5063,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -5137,14 +5215,16 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </cheatcodes>
          </foundry>
       requires ( _KV0_addr:Int ==Int 491460923342184218035706888008750043977755113263
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryCheat )
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryTest )
-               ))))))))
+               ))))))))))
       [priority(20), label(BASIC-BLOCK-87-TO-91)]
     
     rule [BASIC-BLOCK-88-TO-92]: <foundry>
@@ -5388,6 +5468,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -5558,18 +5641,20 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </cheatcodes>
          </foundry>
       requires ( 0 <=Int KV0_addr:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( KV0_addr:Int <Int pow160
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( KV0_addr:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( KV0_addr:Int =/=Int #address ( FoundryCheat )
        andBool ( KV0_addr:Int =/=Int #address ( FoundryTest )
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryCheat )
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryTest )
-               ))))))))))))
+               ))))))))))))))
       [priority(20), label(BASIC-BLOCK-88-TO-92)]
     
     rule [BASIC-BLOCK-89-TO-93]: <foundry>
@@ -5789,6 +5874,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -5938,14 +6026,16 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </cheatcodes>
          </foundry>
       requires ( _KV0_addr:Int ==Int #address ( FoundryTest )
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryCheat )
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryTest )
-               ))))))))
+               ))))))))))
       [priority(20), label(BASIC-BLOCK-89-TO-93)]
     
     rule [BASIC-BLOCK-90-TO-94]: <foundry>
@@ -6166,6 +6256,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -6315,14 +6408,16 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </cheatcodes>
          </foundry>
       requires ( _KV0_addr:Int ==Int #address ( FoundryCheat )
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryCheat )
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryTest )
-               ))))))))
+               ))))))))))
       [priority(20), label(BASIC-BLOCK-90-TO-94)]
     
     rule [BASIC-BLOCK-91-TO-95]: <foundry>
@@ -6543,6 +6638,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -6692,14 +6790,16 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </cheatcodes>
          </foundry>
       requires ( _KV0_addr:Int ==Int 491460923342184218035706888008750043977755113263
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryCheat )
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryTest )
-               ))))))))
+               ))))))))))
       [priority(20), label(BASIC-BLOCK-91-TO-95)]
     
     rule [BASIC-BLOCK-92-TO-96]: <foundry>
@@ -6941,6 +7041,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -7111,18 +7214,20 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </cheatcodes>
          </foundry>
       requires ( 0 <=Int KV0_addr:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( KV0_addr:Int <Int pow160
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( KV0_addr:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( KV0_addr:Int =/=Int #address ( FoundryCheat )
        andBool ( KV0_addr:Int =/=Int #address ( FoundryTest )
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryCheat )
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryTest )
-               ))))))))))))
+               ))))))))))))))
       [priority(20), label(BASIC-BLOCK-92-TO-96)]
     
     rule [BASIC-BLOCK-93-TO-97]: <foundry>
@@ -7343,6 +7448,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -7492,14 +7600,16 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </cheatcodes>
          </foundry>
       requires ( _KV0_addr:Int ==Int #address ( FoundryTest )
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryCheat )
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryTest )
-               ))))))))
+               ))))))))))
       [priority(20), label(BASIC-BLOCK-93-TO-97)]
     
     rule [BASIC-BLOCK-94-TO-98]: <foundry>
@@ -7721,6 +7831,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -7870,14 +7983,16 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </cheatcodes>
          </foundry>
       requires ( _KV0_addr:Int ==Int #address ( FoundryCheat )
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryCheat )
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryTest )
-               ))))))))
+               ))))))))))
       [priority(20), label(BASIC-BLOCK-94-TO-98)]
     
     rule [BASIC-BLOCK-95-TO-99]: <foundry>
@@ -8099,6 +8214,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -8248,14 +8366,16 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </cheatcodes>
          </foundry>
       requires ( _KV0_addr:Int ==Int 491460923342184218035706888008750043977755113263
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryCheat )
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryTest )
-               ))))))))
+               ))))))))))
       [priority(20), label(BASIC-BLOCK-95-TO-99)]
     
     rule [BASIC-BLOCK-96-TO-100]: <foundry>
@@ -8498,6 +8618,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -8668,18 +8791,20 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </cheatcodes>
          </foundry>
       requires ( 0 <=Int KV0_addr:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( KV0_addr:Int <Int pow160
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( KV0_addr:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( KV0_addr:Int =/=Int #address ( FoundryCheat )
        andBool ( KV0_addr:Int =/=Int #address ( FoundryTest )
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryCheat )
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryTest )
-               ))))))))))))
+               ))))))))))))))
       [priority(20), label(BASIC-BLOCK-96-TO-100)]
     
     rule [BASIC-BLOCK-97-TO-101]: <foundry>
@@ -8903,6 +9028,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -9052,14 +9180,16 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </cheatcodes>
          </foundry>
       requires ( _KV0_addr:Int ==Int #address ( FoundryTest )
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryCheat )
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryTest )
-               ))))))))
+               ))))))))))
       [priority(20), label(BASIC-BLOCK-97-TO-101)]
     
     rule [BASIC-BLOCK-98-TO-102]: <foundry>
@@ -9284,6 +9414,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -9433,14 +9566,16 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </cheatcodes>
          </foundry>
       requires ( _KV0_addr:Int ==Int #address ( FoundryCheat )
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryCheat )
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryTest )
-               ))))))))
+               ))))))))))
       [priority(20), label(BASIC-BLOCK-98-TO-102)]
     
     rule [BASIC-BLOCK-99-TO-103]: <foundry>
@@ -9665,6 +9800,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -9814,14 +9952,16 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </cheatcodes>
          </foundry>
       requires ( _KV0_addr:Int ==Int 491460923342184218035706888008750043977755113263
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryCheat )
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryTest )
-               ))))))))
+               ))))))))))
       [priority(20), label(BASIC-BLOCK-99-TO-103)]
     
     rule [BASIC-BLOCK-100-TO-104]: <foundry>
@@ -10067,6 +10207,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -10237,18 +10380,20 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </cheatcodes>
          </foundry>
       requires ( 0 <=Int KV0_addr:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( KV0_addr:Int <Int pow160
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( KV0_addr:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( KV0_addr:Int =/=Int #address ( FoundryCheat )
        andBool ( KV0_addr:Int =/=Int #address ( FoundryTest )
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryCheat )
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryTest )
-               ))))))))))))
+               ))))))))))))))
       [priority(20), label(BASIC-BLOCK-100-TO-104)]
     
     rule [BASIC-BLOCK-101-TO-105]: <foundry>
@@ -10472,6 +10617,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -10621,14 +10769,16 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </cheatcodes>
          </foundry>
       requires ( _KV0_addr:Int ==Int #address ( FoundryTest )
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryCheat )
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryTest )
-               ))))))))
+               ))))))))))
       [priority(20), label(BASIC-BLOCK-101-TO-105)]
     
     rule [BASIC-BLOCK-102-TO-106]: <foundry>
@@ -10853,6 +11003,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -11002,14 +11155,16 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </cheatcodes>
          </foundry>
       requires ( _KV0_addr:Int ==Int #address ( FoundryCheat )
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryCheat )
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryTest )
-               ))))))))
+               ))))))))))
       [priority(20), label(BASIC-BLOCK-102-TO-106)]
     
     rule [BASIC-BLOCK-103-TO-107]: <foundry>
@@ -11234,6 +11389,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -11383,14 +11541,16 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </cheatcodes>
          </foundry>
       requires ( _KV0_addr:Int ==Int 491460923342184218035706888008750043977755113263
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryCheat )
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryTest )
-               ))))))))
+               ))))))))))
       [priority(20), label(BASIC-BLOCK-103-TO-107)]
     
     rule [BASIC-BLOCK-104-TO-108]: <foundry>
@@ -11636,6 +11796,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -11806,18 +11969,20 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </cheatcodes>
          </foundry>
       requires ( 0 <=Int KV0_addr:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( KV0_addr:Int <Int pow160
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( KV0_addr:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( KV0_addr:Int =/=Int #address ( FoundryCheat )
        andBool ( KV0_addr:Int =/=Int #address ( FoundryTest )
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryCheat )
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryTest )
-               ))))))))))))
+               ))))))))))))))
       [priority(20), label(BASIC-BLOCK-104-TO-108)]
     
     rule [BASIC-BLOCK-105-TO-109]: <foundry>
@@ -12044,6 +12209,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -12193,14 +12361,16 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </cheatcodes>
          </foundry>
       requires ( _KV0_addr:Int ==Int #address ( FoundryTest )
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryCheat )
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryTest )
-               ))))))))
+               ))))))))))
       [priority(20), label(BASIC-BLOCK-105-TO-109)]
     
     rule [BASIC-BLOCK-106-TO-110]: <foundry>
@@ -12428,6 +12598,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -12577,14 +12750,16 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </cheatcodes>
          </foundry>
       requires ( _KV0_addr:Int ==Int #address ( FoundryCheat )
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryCheat )
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryTest )
-               ))))))))
+               ))))))))))
       [priority(20), label(BASIC-BLOCK-106-TO-110)]
     
     rule [BASIC-BLOCK-107-TO-111]: <foundry>
@@ -12812,6 +12987,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -12961,14 +13139,16 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </cheatcodes>
          </foundry>
       requires ( _KV0_addr:Int ==Int 491460923342184218035706888008750043977755113263
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryCheat )
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryTest )
-               ))))))))
+               ))))))))))
       [priority(20), label(BASIC-BLOCK-107-TO-111)]
     
     rule [BASIC-BLOCK-108-TO-112]: <foundry>
@@ -13217,6 +13397,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -13387,18 +13570,20 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </cheatcodes>
          </foundry>
       requires ( 0 <=Int KV0_addr:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( KV0_addr:Int <Int pow160
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( KV0_addr:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( KV0_addr:Int =/=Int #address ( FoundryCheat )
        andBool ( KV0_addr:Int =/=Int #address ( FoundryTest )
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryCheat )
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryTest )
-               ))))))))))))
+               ))))))))))))))
       [priority(20), label(BASIC-BLOCK-108-TO-112)]
     
     rule [BASIC-BLOCK-109-TO-113]: <foundry>
@@ -13625,6 +13810,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -13774,14 +13962,16 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </cheatcodes>
          </foundry>
       requires ( _KV0_addr:Int ==Int #address ( FoundryTest )
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryCheat )
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryTest )
-               ))))))))
+               ))))))))))
       [priority(20), label(BASIC-BLOCK-109-TO-113)]
     
     rule [BASIC-BLOCK-110-TO-114]: <foundry>
@@ -14009,6 +14199,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -14158,14 +14351,16 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </cheatcodes>
          </foundry>
       requires ( _KV0_addr:Int ==Int #address ( FoundryCheat )
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryCheat )
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryTest )
-               ))))))))
+               ))))))))))
       [priority(20), label(BASIC-BLOCK-110-TO-114)]
     
     rule [BASIC-BLOCK-111-TO-115]: <foundry>
@@ -14393,6 +14588,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -14542,14 +14740,16 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </cheatcodes>
          </foundry>
       requires ( _KV0_addr:Int ==Int 491460923342184218035706888008750043977755113263
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryCheat )
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryTest )
-               ))))))))
+               ))))))))))
       [priority(20), label(BASIC-BLOCK-111-TO-115)]
     
     rule [BASIC-BLOCK-112-TO-116]: <foundry>
@@ -14798,6 +14998,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -14968,18 +15171,20 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </cheatcodes>
          </foundry>
       requires ( 0 <=Int KV0_addr:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( KV0_addr:Int <Int pow160
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( KV0_addr:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( KV0_addr:Int =/=Int #address ( FoundryCheat )
        andBool ( KV0_addr:Int =/=Int #address ( FoundryTest )
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryCheat )
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryTest )
-               ))))))))))))
+               ))))))))))))))
       [priority(20), label(BASIC-BLOCK-112-TO-116)]
     
     rule [BASIC-BLOCK-113-TO-117]: <foundry>
@@ -15083,6 +15288,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -15232,14 +15440,16 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </cheatcodes>
          </foundry>
       requires ( _KV0_addr:Int ==Int #address ( FoundryTest )
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryCheat )
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryTest )
-               ))))))))
+               ))))))))))
       [priority(20), label(BASIC-BLOCK-113-TO-117)]
     
     rule [BASIC-BLOCK-114-TO-118]: <foundry>
@@ -15343,6 +15553,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -15492,14 +15705,16 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </cheatcodes>
          </foundry>
       requires ( _KV0_addr:Int ==Int #address ( FoundryCheat )
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryCheat )
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryTest )
-               ))))))))
+               ))))))))))
       [priority(20), label(BASIC-BLOCK-114-TO-118)]
     
     rule [BASIC-BLOCK-115-TO-119]: <foundry>
@@ -15603,6 +15818,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -15752,14 +15970,16 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </cheatcodes>
          </foundry>
       requires ( _KV0_addr:Int ==Int 491460923342184218035706888008750043977755113263
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryCheat )
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryTest )
-               ))))))))
+               ))))))))))
       [priority(20), label(BASIC-BLOCK-115-TO-119)]
     
     rule [BASIC-BLOCK-116-TO-120]: <foundry>
@@ -15863,6 +16083,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -16033,18 +16256,20 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </cheatcodes>
          </foundry>
       requires ( 0 <=Int KV0_addr:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( KV0_addr:Int <Int pow160
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( KV0_addr:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( KV0_addr:Int =/=Int #address ( FoundryCheat )
        andBool ( KV0_addr:Int =/=Int #address ( FoundryTest )
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryCheat )
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryTest )
-               ))))))))))))
+               ))))))))))))))
       [priority(20), label(BASIC-BLOCK-116-TO-120)]
     
     rule [BASIC-BLOCK-117-TO-121]: <foundry>
@@ -16149,6 +16374,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -16298,14 +16526,16 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </cheatcodes>
          </foundry>
       requires ( _KV0_addr:Int ==Int #address ( FoundryTest )
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryCheat )
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryTest )
-               ))))))))
+               ))))))))))
       [priority(20), label(BASIC-BLOCK-117-TO-121)]
     
     rule [BASIC-BLOCK-118-TO-122]: <foundry>
@@ -16410,6 +16640,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -16559,14 +16792,16 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </cheatcodes>
          </foundry>
       requires ( _KV0_addr:Int ==Int #address ( FoundryCheat )
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryCheat )
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryTest )
-               ))))))))
+               ))))))))))
       [priority(20), label(BASIC-BLOCK-118-TO-122)]
     
     rule [BASIC-BLOCK-119-TO-123]: <foundry>
@@ -16671,6 +16906,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -16820,14 +17058,16 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </cheatcodes>
          </foundry>
       requires ( _KV0_addr:Int ==Int 491460923342184218035706888008750043977755113263
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryCheat )
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryTest )
-               ))))))))
+               ))))))))))
       [priority(20), label(BASIC-BLOCK-119-TO-123)]
     
     rule [BASIC-BLOCK-120-TO-124]: <foundry>
@@ -16932,6 +17172,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -17102,18 +17345,20 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </cheatcodes>
          </foundry>
       requires ( 0 <=Int KV0_addr:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( KV0_addr:Int <Int pow160
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( KV0_addr:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( KV0_addr:Int =/=Int #address ( FoundryCheat )
        andBool ( KV0_addr:Int =/=Int #address ( FoundryTest )
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryCheat )
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryTest )
-               ))))))))))))
+               ))))))))))))))
       [priority(20), label(BASIC-BLOCK-120-TO-124)]
     
     rule [BASIC-BLOCK-121-TO-125]: <foundry>
@@ -17214,6 +17459,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -17363,14 +17611,16 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </cheatcodes>
          </foundry>
       requires ( _KV0_addr:Int ==Int #address ( FoundryTest )
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryCheat )
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryTest )
-               ))))))))
+               ))))))))))
       [priority(20), label(BASIC-BLOCK-121-TO-125)]
     
     rule [BASIC-BLOCK-122-TO-126]: <foundry>
@@ -17471,6 +17721,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -17620,14 +17873,16 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </cheatcodes>
          </foundry>
       requires ( _KV0_addr:Int ==Int #address ( FoundryCheat )
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryCheat )
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryTest )
-               ))))))))
+               ))))))))))
       [priority(20), label(BASIC-BLOCK-122-TO-126)]
     
     rule [BASIC-BLOCK-123-TO-127]: <foundry>
@@ -17728,6 +17983,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -17877,14 +18135,16 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </cheatcodes>
          </foundry>
       requires ( _KV0_addr:Int ==Int 491460923342184218035706888008750043977755113263
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryCheat )
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryTest )
-               ))))))))
+               ))))))))))
       [priority(20), label(BASIC-BLOCK-123-TO-127)]
     
     rule [BASIC-BLOCK-124-TO-128]: <foundry>
@@ -17985,6 +18245,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -18155,18 +18418,20 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </cheatcodes>
          </foundry>
       requires ( 0 <=Int KV0_addr:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( KV0_addr:Int <Int pow160
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( KV0_addr:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( KV0_addr:Int =/=Int #address ( FoundryCheat )
        andBool ( KV0_addr:Int =/=Int #address ( FoundryTest )
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryCheat )
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryTest )
-               ))))))))))))
+               ))))))))))))))
       [priority(20), label(BASIC-BLOCK-124-TO-128)]
     
     rule [BASIC-BLOCK-125-TO-129]: <foundry>
@@ -18267,6 +18532,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -18416,14 +18684,16 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </cheatcodes>
          </foundry>
       requires ( _KV0_addr:Int ==Int #address ( FoundryTest )
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryCheat )
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryTest )
-               ))))))))
+               ))))))))))
       [priority(20), label(BASIC-BLOCK-125-TO-129)]
     
     rule [BASIC-BLOCK-126-TO-130]: <foundry>
@@ -18524,6 +18794,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -18673,14 +18946,16 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </cheatcodes>
          </foundry>
       requires ( _KV0_addr:Int ==Int #address ( FoundryCheat )
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryCheat )
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryTest )
-               ))))))))
+               ))))))))))
       [priority(20), label(BASIC-BLOCK-126-TO-130)]
     
     rule [BASIC-BLOCK-127-TO-131]: <foundry>
@@ -18781,6 +19056,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -18930,14 +19208,16 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </cheatcodes>
          </foundry>
       requires ( _KV0_addr:Int ==Int 491460923342184218035706888008750043977755113263
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryCheat )
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryTest )
-               ))))))))
+               ))))))))))
       [priority(20), label(BASIC-BLOCK-127-TO-131)]
     
     rule [BASIC-BLOCK-128-TO-132]: <foundry>
@@ -19038,6 +19318,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -19208,18 +19491,20 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </cheatcodes>
          </foundry>
       requires ( 0 <=Int KV0_addr:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( KV0_addr:Int <Int pow160
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( KV0_addr:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( KV0_addr:Int =/=Int #address ( FoundryCheat )
        andBool ( KV0_addr:Int =/=Int #address ( FoundryTest )
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryCheat )
        andBool ( VV0_addr_114b9705:Int =/=Int #address ( FoundryTest )
-               ))))))))))))
+               ))))))))))))))
       [priority(20), label(BASIC-BLOCK-128-TO-132)]
 
 endmodule

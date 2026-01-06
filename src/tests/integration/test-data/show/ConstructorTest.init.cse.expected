@@ -124,6 +124,9 @@ module SUMMARY-TEST%CONSTRUCTORTEST.INIT:0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -280,12 +283,14 @@ module SUMMARY-TEST%CONSTRUCTORTEST.INIT:0
              </mockFunctions>
            </cheatcodes>
          </foundry>
-      requires ( pow24 <Int NUMBER_CELL:Int
+      requires ( 0 <=Int MIXHASH_CELL:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( lengthBytes ( CALLDATA_CELL:Bytes ) <Int pow128
-               )))))
+               )))))))
       [priority(20), label(BASIC-BLOCK-1-TO-5)]
 
 endmodule

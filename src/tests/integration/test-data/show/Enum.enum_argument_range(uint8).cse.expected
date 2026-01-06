@@ -107,6 +107,9 @@ module SUMMARY-TEST%ENUM.ENUM-ARGUMENT-RANGE(UINT8):0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -195,6 +198,7 @@ module SUMMARY-TEST%ENUM.ENUM-ARGUMENT-RANGE(UINT8):0
        andBool ( 0 <=Int KV0_letter:Int
        andBool ( KV0_letter:Int <Int 256
        andBool ( 0 <=Int C_ENUM_NONCE:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( C_ENUM_ID:Int =/=Int C_ENUM_MEMBER_CONTRACT_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
@@ -215,6 +219,7 @@ module SUMMARY-TEST%ENUM.ENUM-ARGUMENT-RANGE(UINT8):0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int <Int pow160
        andBool ( C_ENUM_BAL:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_ENUM_MEMBER_CONTRACT_BAL:Int <Int pow256
        andBool ( ( notBool <acctID>
           C_ENUM_ID:Int
@@ -235,7 +240,7 @@ module SUMMARY-TEST%ENUM.ENUM-ARGUMENT-RANGE(UINT8):0
        andBool ( ( C_ENUM_MEMBER_CONTRACT_ID:Int <=Int 0
           orBool ( 10 <Int C_ENUM_MEMBER_CONTRACT_ID:Int
                  ))
-               ))))))))))))))))))))))))))))))))))))
+               ))))))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-1-TO-3)]
 
 endmodule

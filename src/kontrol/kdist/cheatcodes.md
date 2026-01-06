@@ -716,18 +716,6 @@ function expectRevert(bytes4 msg) external;
 function expectRevert(bytes calldata msg) external;
 ```
 
-All cheat code calls which take place while `expectRevert` is active are ignored.
-
-```k
-    rule [cheatcode.call.ignoreCalls]:
-         <k> #cheatcode_call _ _ => .K ... </k>
-         <expectedRevert>
-           <isRevertExpected> true </isRevertExpected>
-           ...
-         </expectedRevert>
-      [priority(35)]
-```
-
 We use the `#next[OP]` to identify OpCodes that can revert and insert a `#checkRevert` production used to examine the end of each call/create in KEVM.
 The check will be inserted only if the current depth is the same as the depth at which the `expectRevert` cheat code was used.
 WThe `#checkRevert` will be used to compare the status code of the execution and the output of the call against the expect reason provided.
@@ -736,23 +724,37 @@ WThe `#checkRevert` will be used to compare the status code of the execution and
     rule [foundry.set.expectrevert.1]:
          <k> #next [ _OP:CallOp ] ~> (.K => #checkRevert ~> #updateRevertOutput RETSTART RETWIDTH) ~> #execute ... </k>
          <callDepth> CD </callDepth>
-         <wordStack> _ : _ : _ : _ : _ : RETSTART : RETWIDTH : _WS </wordStack>
+         <wordStack> _ : ACCTTO : _ : _ : _ : RETSTART : RETWIDTH : _WS </wordStack>
          <expectedRevert>
            <isRevertExpected> true </isRevertExpected>
            <expectedDepth> CD </expectedDepth>
            ...
          </expectedRevert>
+         requires ACCTTO =/=Int #address(FoundryCheat)
       [priority(32)]
 
     rule [foundry.set.expectrevert.2]:
          <k> #next [ _OP:CallSixOp ] ~> (.K => #checkRevert ~> #updateRevertOutput RETSTART RETWIDTH) ~> #execute ... </k>
          <callDepth> CD </callDepth>
-         <wordStack> _ : _ : _ : _ : RETSTART : RETWIDTH : _WS </wordStack>
+         <wordStack> _ : ACCTTO : _ : _ : _ : RETSTART : RETWIDTH : _WS </wordStack>
          <expectedRevert>
            <isRevertExpected> true </isRevertExpected>
            <expectedDepth> CD </expectedDepth>
            ...
          </expectedRevert>
+         requires ACCTTO =/=Int #address(FoundryCheat)
+      [priority(32)]
+
+    rule [foundry.clear.expectrevert]:
+         <k> #next [ DELEGATECALL ] ~> (.K => #clearExpectRevert) ~> #execute ... </k>
+         <callDepth> CD </callDepth>
+         <wordStack> _ : ACCTTO : _ : _ : _ : _ : _ : _WS </wordStack>
+         <expectedRevert>
+           <isRevertExpected> true </isRevertExpected>
+           <expectedDepth> CD </expectedDepth>
+           ...
+         </expectedRevert>
+         requires ACCTTO ==Int #address(FoundryCheat)
       [priority(32)]
 
     rule [foundry.set.expectrevert.3]:
@@ -1364,8 +1366,35 @@ Abstraction functions
 
 ```
 
+Foreign function calls
+----------------------
+
+#### `ffi` - allows you to execute an arbitrary shell command and capture the output.
+In the context of symbolic execution, ffi will return a new symbolic variable.
+To actually execute the arbitrary shell command, use the `--ffi` flag.
+
+```
+    function ffi(string[] calldata commandInput) external returns (bytes memory result);
+```
+
+```{.k .symbolic}
+    rule [cheatcode.call.ffi]:
+         <k> #cheatcode_call SELECTOR ARGS => #shell(ARGS) ... </k>
+      requires SELECTOR ==Int selector ( "ffi(string[])" )
+```
+
 Utils
 -----
+ - Defining a new production `#shell`.
+If the `--ffi` option is used, the custom_step logic defined for ffi will overwrite the `#shell` rule with the actual output.
+If the `--ffi` option is not used, a new symbolic value will be considered as the output of the ffi command.
+
+```{.k .symbolic}
+    syntax KItem ::= #shell ( Bytes ) [symbol(ffi_shell)]
+ // -----------------------------------------------------
+    rule <k> #shell(_ARGS) => .K ... </k>
+         <output> _ => ?_FFI_OUTPUT </output>
+```
 
  - Defining a new production `#rename` for all the types for which we generate symbolic values.
 We don't care about the values because they will be processed in the `custom_step` function in Python.
@@ -2061,6 +2090,7 @@ Selectors for **implemented** cheat code functions.
     rule ( selector ( "toString(bool)" )                           => 1910302682 )
     rule ( selector ( "toString(uint256)" )                        => 1761649582 )
     rule ( selector ( "toString(int256)" )                         => 2736964622 )
+    rule ( selector ( "ffi(string[])" )                            => 2299921511 )
     rule ( selector ( "envOr(string,address)" )                    => 1444930880 )
     rule ( selector ( "envOr(string,bool)" )                       => 1199043535 )
     rule ( selector ( "envOr(string,bytes)" )                      => 3018094341 )
@@ -2082,7 +2112,6 @@ Selectors for **unimplemented** cheat code functions.
 ```k
     rule selector ( "expectRegularCall(address,bytes)" )        => 3178868520
     rule selector ( "expectNoCall()" )                          => 3861374088
-    rule selector ( "ffi(string[])" )                           => 2299921511
     rule selector ( "setEnv(string,string)" )                   => 1029252078
     rule selector ( "envBool(string)" )                         => 2127686781
     rule selector ( "envUint(string)" )                         => 3247934751

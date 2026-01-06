@@ -144,6 +144,9 @@ module SUMMARY-TEST%PRECONDITIONTEST.TESTPRECONDITION-STORAGE():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -257,11 +260,13 @@ module SUMMARY-TEST%PRECONDITIONTEST.TESTPRECONDITION-STORAGE():0
              </mockFunctions>
            </cheatcodes>
          </foundry>
-      requires ( pow24 <Int NUMBER_CELL:Int
+      requires ( 0 <=Int MIXHASH_CELL:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-               ))))
+       andBool ( MIXHASH_CELL:Int <Int pow256
+               ))))))
        ensures ( 0 <=Int ??WORD:Int
        andBool ( ??WORD:Int <Int pow256
                ))
@@ -363,6 +368,9 @@ module SUMMARY-TEST%PRECONDITIONTEST.TESTPRECONDITION-STORAGE():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -477,12 +485,14 @@ module SUMMARY-TEST%PRECONDITIONTEST.TESTPRECONDITION-STORAGE():0
            </cheatcodes>
          </foundry>
       requires ( 0 <=Int ?WORD:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( ?WORD:Int <Int pow256
-               ))))))
+       andBool ( MIXHASH_CELL:Int <Int pow256
+               ))))))))
        ensures ?WORD:Int ==Int 6000000000000000000
       [priority(20), label(BASIC-BLOCK-3-TO-4)]
     
@@ -582,6 +592,9 @@ module SUMMARY-TEST%PRECONDITIONTEST.TESTPRECONDITION-STORAGE():0
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -696,11 +709,13 @@ module SUMMARY-TEST%PRECONDITIONTEST.TESTPRECONDITION-STORAGE():0
            </cheatcodes>
          </foundry>
       requires ( _?WORD:Int ==Int 6000000000000000000
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-               )))))
+       andBool ( MIXHASH_CELL:Int <Int pow256
+               )))))))
       [priority(20), label(BASIC-BLOCK-4-TO-6)]
 
 endmodule

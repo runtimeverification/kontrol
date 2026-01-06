@@ -36,6 +36,7 @@ from .state_record import (
     read_recorded_state_dump,
     recorded_state_to_account_cells,
 )
+from .telemetry import _emit_event
 from .utils import (
     _LOG_FORMAT,
     _rv_blue,
@@ -169,6 +170,13 @@ def exec_build(options: BuildOptions) -> None:
 def exec_prove(options: ProveOptions) -> None:
     _LOGGER.debug(options)
 
+    _emit_event(
+        'kontrol_prove_start',
+        {
+            'reinit': options.reinit,
+        },
+    )
+
     if options.extra_module is not None:
         _LOGGER.warning('Option --extra-module is being deprecated in favor of option --lemmas.')
         if options.lemmas is not None:
@@ -199,11 +207,20 @@ def exec_prove(options: ProveOptions) -> None:
             init_accounts=init_accounts,
         )
     except CTermSMTError as err:
+        _emit_event(
+            'kontrol_prove_smt_error',
+            {
+                'smt_timeout': options.smt_timeout,
+                'smt_retry_limit': options.smt_retry_limit,
+            },
+        )
         raise RuntimeError(
             f'SMT solver error; SMT timeout occured. SMT timeout parameter is currently set to {options.smt_timeout}ms, you may increase it using "--smt-timeout" command line argument. Related KAST pattern provided below:\n{err.message}'
         ) from err
 
     failed = 0
+    passed = 0
+    total_time = 0.0
     for proof in results:
         _, test = proof.id.split('.')
         if not any(test.startswith(prefix) for prefix in ['test', 'check', 'prove']):
@@ -211,7 +228,11 @@ def exec_prove(options: ProveOptions) -> None:
             _LOGGER.warning(
                 f"{signature} is not prefixed with 'test', 'prove', or 'check', therefore, it is not reported as failing in the presence of reverts or assertion violations."
             )
+
+        total_time += proof.exec_time if hasattr(proof, 'exec_time') else 0.0
+
         if proof.passed:
+            passed += 1
             console.print(f':sparkles: [bold green]PROOF PASSED[/bold green] :sparkles: {proof.id}')
             console.print(
                 f':hourglass_not_done: [bold blue]Time: {proof.formatted_exec_time()}[/bold blue] :hourglass_not_done:'
@@ -228,6 +249,14 @@ def exec_prove(options: ProveOptions) -> None:
             if len(refuted_nodes) > 0:
                 print(f'The proof cannot be completed while there are refuted nodes: {refuted_nodes}.')
                 print('Either unrefute the nodes or discharge the corresponding refutation subproofs.')
+
+    _emit_event(
+        'kontrol_prove_complete',
+        {
+            'total_proofs': len(results),
+            'total_time_ms': int(total_time * 1000) if total_time else None,
+        },
+    )
 
     sys.exit(1 if failed else 0)
 

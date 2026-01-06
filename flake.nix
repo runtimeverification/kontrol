@@ -5,7 +5,7 @@
     rv-nix-tools.url = "github:runtimeverification/rv-nix-tools/854d4f05ea78547d46e807b414faad64cea10ae4";
     nixpkgs.follows = "rv-nix-tools/nixpkgs";
 
-    kevm.url = "github:runtimeverification/evm-semantics/v1.0.875";
+    kevm.url = "github:runtimeverification/evm-semantics/v1.0.893";
     kevm.inputs.nixpkgs.follows = "nixpkgs";
 
     k-framework.follows = "kevm/k-framework";
@@ -21,7 +21,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
     };
-    uv2nix.url = "github:pyproject-nix/uv2nix/be511633027f67beee87ab499f7b16d0a2f7eceb";
+    uv2nix.url = "github:pyproject-nix/uv2nix/c8cf711802cb00b2e05d5c54d3486fce7bfc8f7c";
     # uv2nix requires a newer version of nixpkgs
     # therefore, we pin uv2nix specifically to a newer version of nixpkgs
     # until we replaced our stale version of nixpkgs with an upstream one as well
@@ -30,7 +30,7 @@
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     uv2nix.inputs.nixpkgs.follows = "nixpkgs-unstable";
     # uv2nix.inputs.nixpkgs.follows = "nixpkgs";
-    pyproject-build-systems.url = "github:pyproject-nix/build-system-pkgs/dbfc0483b5952c6b86e36f8b3afeb9dde30ea4b5";
+    pyproject-build-systems.url = "github:pyproject-nix/build-system-pkgs/795a980d25301e5133eca37adae37283ec3c8e66";
     pyproject-build-systems = {
       inputs.nixpkgs.follows = "uv2nix/nixpkgs";
       inputs.uv2nix.follows = "uv2nix";
@@ -70,8 +70,15 @@
       };
       kontrolOverlay = final: prev:
       let
+        kontrol-pyk-pyproject = final.callPackage ./nix/kontrol-pyk-pyproject {
+          inherit uv2nix;
+        };
         kontrol-pyk = final.callPackage ./nix/kontrol-pyk {
-          inherit pyproject-nix pyproject-build-systems uv2nix;
+          inherit pyproject-nix pyproject-build-systems kontrol-pyk-pyproject;
+          pyproject-overlays = [
+            (k-framework.overlays.pyk-pyproject system)
+            (kevm.overlays.pyk-pyproject system)
+          ];
           python = final."python${pythonVer}";
         };
         kontrol = final.callPackage ./nix/kontrol {
@@ -79,7 +86,7 @@
           rev = self.rev or null;
         };
       in {
-        inherit kontrol;
+        inherit kontrol kontrol-pyk-pyproject;
       };
       solcMkDefaultOverlay = final: prev: {
         solcMkDefault = solc.mkDefault;
@@ -148,13 +155,19 @@
         '';
       };
       packages = rec {
-        kontrol = pkgs.kontrol;
-        uv = pkgs.uv;
+        inherit (pkgs) kontrol uv kontrol-pyk kontrol-pyk-pyproject;
         default = kontrol;
       };
     }) // {
-      overlays.default = final: prev: {
-        inherit (self.packages.${final.system}) kontrol;
+      overlays = {
+        default = final: prev: {
+          inherit (self.packages.${final.system}) kontrol;
+        };
+        # this pyproject-nix overlay allows for overriding the python packages that are otherwise locked in `uv.lock`
+        # by using this overlay in dependant nix flakes, you ensure that nix overrides also override the python package     
+        pyk-pyproject = system: final: prev: {
+          inherit (self.packages.${system}.kontrol-pyk-pyproject.lockFileOverlay final prev) kontrol-pyk;
+        };
       };
     };
 }

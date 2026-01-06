@@ -387,6 +387,9 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -525,14 +528,16 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
          </foundry>
       requires ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int KV1_y:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( KV0_x:Int <Int pow256
        andBool ( KV1_y:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( ( maxUInt256 -Int KV1_y:Int ) <Int KV0_x:Int
-               )))))))))
+               )))))))))))
       [priority(20), label(BASIC-BLOCK-9-TO-11)]
     
     rule [BASIC-BLOCK-1-TO-7]: <foundry>
@@ -753,6 +758,9 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -910,11 +918,13 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
              </mockFunctions>
            </cheatcodes>
          </foundry>
-      requires ( pow24 <Int NUMBER_CELL:Int
+      requires ( 0 <=Int MIXHASH_CELL:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-               ))))
+       andBool ( MIXHASH_CELL:Int <Int pow256
+               ))))))
        ensures ( 0 <=Int ?KV0_x:Int
        andBool ( 0 <=Int ?KV1_y:Int
        andBool ( ?KV0_x:Int <Int pow256
@@ -1143,6 +1153,9 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -1281,15 +1294,17 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
          </foundry>
       requires ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int KV1_y:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( KV0_x:Int <Int pow256
        andBool ( KV1_y:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int )
        andBool ( ( maxUInt256 -Int KV1_y:Int ) <Int ( KV0_x:Int +Int KV1_y:Int )
-               ))))))))))
+               ))))))))))))
        ensures ( KV0_x:Int +Int KV1_y:Int ) <Int pow256
       [priority(20), label(BASIC-BLOCK-29-TO-15)]
     
@@ -1514,6 +1529,9 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -1653,15 +1671,17 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
       requires ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int KV1_y:Int
        andBool ( KV0_x:Int <Int KV1_y:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( KV0_x:Int <Int pow256
        andBool ( KV1_y:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int )
        andBool ( ( KV0_x:Int +Int KV1_y:Int ) <=Int ( maxUInt256 -Int KV1_y:Int )
-               )))))))))))
+               )))))))))))))
        ensures ( KV0_x:Int +Int KV1_y:Int ) <Int pow256
       [priority(20), label(BASIC-BLOCK-37-TO-19)]
     
@@ -1886,6 +1906,9 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -2025,16 +2048,18 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
       requires ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int KV1_y:Int
        andBool ( KV1_y:Int <=Int KV0_x:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( KV0_x:Int <Int pow256
        andBool ( KV1_y:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( ( KV0_x:Int -Int KV1_y:Int ) <Int KV1_y:Int
        andBool ( KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int )
        andBool ( ( KV0_x:Int +Int KV1_y:Int ) <=Int ( maxUInt256 -Int KV1_y:Int )
-               ))))))))))))
+               ))))))))))))))
        ensures ( ( KV0_x:Int +Int KV1_y:Int ) <Int pow256
        andBool ( ( KV0_x:Int -Int KV1_y:Int ) <Int pow256
                ))
@@ -2261,6 +2286,9 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -2400,17 +2428,19 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
       requires ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int KV1_y:Int
        andBool ( KV1_y:Int <=Int KV0_x:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( KV0_x:Int <Int pow256
        andBool ( KV1_y:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( KV1_y:Int <=Int ( KV0_x:Int -Int KV1_y:Int )
        andBool ( KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int )
        andBool ( ( KV0_x:Int +Int KV1_y:Int ) <=Int ( maxUInt256 -Int KV1_y:Int )
        andBool ( ( ( ( KV0_x:Int +Int KV1_y:Int ) +Int KV1_y:Int ) -Int ( ( KV0_x:Int -Int KV1_y:Int ) -Int KV1_y:Int ) ) =/=Int 0
-               )))))))))))))
+               )))))))))))))))
        ensures ( ( KV0_x:Int +Int KV1_y:Int ) <Int pow256
        andBool ( ( KV0_x:Int -Int KV1_y:Int ) <Int pow256
        andBool ( 0 =/=Int ( ( ( KV0_x:Int +Int KV1_y:Int ) +Int KV1_y:Int ) -Int ( ( KV0_x:Int -Int KV1_y:Int ) -Int KV1_y:Int ) )
@@ -2638,6 +2668,9 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                    <timestamp>
                      TIMESTAMP_CELL:Int
                    </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
                    ...
                  </block>
                  ...
@@ -2777,17 +2810,19 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
       requires ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int KV1_y:Int
        andBool ( KV1_y:Int <=Int KV0_x:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( KV0_x:Int <Int pow256
        andBool ( KV1_y:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( KV1_y:Int <=Int ( KV0_x:Int -Int KV1_y:Int )
        andBool ( KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int )
        andBool ( ( KV0_x:Int +Int KV1_y:Int ) <=Int ( maxUInt256 -Int KV1_y:Int )
        andBool ( 0 ==Int ( ( ( KV0_x:Int +Int KV1_y:Int ) +Int KV1_y:Int ) -Int ( ( KV0_x:Int -Int KV1_y:Int ) -Int KV1_y:Int ) )
-               )))))))))))))
+               )))))))))))))))
        ensures ( ( KV0_x:Int +Int KV1_y:Int ) <Int pow256
        andBool ( ( KV0_x:Int -Int KV1_y:Int ) <Int pow256
                ))
