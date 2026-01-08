@@ -1960,7 +1960,7 @@ If the flag is false, it skips comparison, assuming success; otherwise, it compa
 ```k
     syntax KItem ::= "#getEnvOrArray" Int Bytes String Bytes [symbol(foundry_getEnvOrArray)]
  // -----------------------------------------------------------------------------
-    rule <k> #getEnvOrArray SELECTOR VARNAME DELIMITER VARDEFAULTVALUE => #processArrayOutput SELECTOR DELIMITER VARVALUE VARDEFAULTVALUE ... </k>
+    rule <k> #getEnvOrArray SELECTOR VARNAME DELIMITER VARDEFAULTVALUE => #processArrayOutput SELECTOR split(VARVALUE, DELIMITER) VARDEFAULTVALUE ... </k>
          <envVars> ... VARNAME |-> VARVALUE ... </envVars>
 
     rule <k> #getEnvOrArray _ _ _ VARDEFAULTVALUE => .K ... </k>
@@ -2014,19 +2014,35 @@ If the flag is false, it skips comparison, assuming success; otherwise, it compa
 - ` #processArrayOutput` will process the output as an array based on the selector and the variable value retrieved from the environment variable mapping.
 
 ```k
-    syntax KItem ::= "#processArrayOutput" Int String String Bytes [symbol(foundry_processArrayOutputAsInt)]
+    syntax KItem ::= "#processArrayOutput" Int List Bytes [symbol(foundry_processArrayOutputAsInt)]
  // -----------------------------------------------------------------------------
-    rule <k> #processArrayOutput SELECTOR DELIMITER VARVALUE _ => #processUint256Array( split(VARVALUE, DELIMITER) ) ... </k>
-         //<output> _ =>   </output>
+    rule <k> #processArrayOutput SELECTOR VALUES _ => .K ... </k>
+         <output> _ => (Int2Bytes(32, 32, BE)) +Bytes Int2Bytes(32, size(VALUES), BE) +Bytes mapStringToInt256Bytes(VALUES) </output>
+      requires SELECTOR ==Int selector ( "envOr(string,string,int256[])" ) // andBool forallBool( split(VARVALUE, DELIMITER), isIntegerString )
+
+    rule <k> #processArrayOutput SELECTOR VALUES _ => .K ... </k>
+         <output> _ => (Int2Bytes(32, 32, BE)) +Bytes Int2Bytes(32, size(VALUES), BE) +Bytes mapStringToInt256Bytes(VALUES) </output>
       requires SELECTOR ==Int selector ( "envOr(string,string,uint256[])" ) // andBool forallBool( split(VARVALUE, DELIMITER), isIntegerString )
+
+    rule <k> #processArrayOutput SELECTOR VALUES _ => .K ... </k>
+         <output> _ => (Int2Bytes(32, 32, BE)) +Bytes Int2Bytes(32, size(VALUES), BE) +Bytes mapStringToAddressBytes(VALUES) </output>
+      requires SELECTOR ==Int selector ( "envOr(string,string,address[])" ) // andBool forallBool( split(VARVALUE, DELIMITER), isIntegerString )
+
+    rule <k> #processArrayOutput SELECTOR VALUES _ => .K ... </k>
+         <output> _ => (Int2Bytes(32, 32, BE)) +Bytes Int2Bytes(32, size(VALUES), BE) +Bytes mapStringToBytes32Bytes(VALUES) </output>
+      requires SELECTOR ==Int selector ( "envOr(string,string,bytes32[])" ) // andBool forallBool( split(VARVALUE, DELIMITER), isIntegerString )
+
+    rule <k> #processArrayOutput SELECTOR VALUES _ => .K ... </k>
+         <output> _ => (Int2Bytes(32, 32, BE)) +Bytes Int2Bytes(32, size(VALUES), BE) +Bytes mapStringToBoolBytes(VALUES) </output>
+      requires SELECTOR ==Int selector ( "envOr(string,string,bool[])" ) // andBool forallBool( split(VARVALUE, DELIMITER), isIntegerString )
 
     rule <k> #processArrayOutput _ _ _ VARDEFAULTVALUE => .K ... </k>
          <output> _ => VARDEFAULTVALUE </output>
      [owise]
 
-    syntax KItem ::= "#processUint256Array" List [symbol(foundry_processUint256Array)]
-    rule <k> #processUint256Array(VALUES) => .K ... </k>
-         <output> _ => (Int2Bytes(32, 32, BE)) +Bytes Int2Bytes(32, size(VALUES), BE) +Bytes mapStringToBytes(VALUES) </output>
+    //syntax KItem ::= "#processUint256Array" List [symbol(foundry_processUint256Array)]
+    //rule <k> #processUint256Array(VALUES) => .K ... </k>
+    //     <output> _ => (Int2Bytes(32, 32, BE)) +Bytes Int2Bytes(32, size(VALUES), BE) +Bytes mapStringToBytes(VALUES) </output>
 ```
 
 ```k
@@ -2053,9 +2069,25 @@ syntax List ::= split ( String , String ) [function]
 rule split(S, D) => ListItem(S) requires findString(S, D, 0) ==Int -1
 rule split(S, D) => ListItem(substrString(S, 0, findString(S, D, 0))) split(substrString(S, findString(S, D, 0) +Int lengthString(D), lengthString(S)), D) requires findString(S, D, 0) =/=Int -1
 
-syntax Bytes ::= mapStringToBytes ( List ) [function]
-rule mapStringToBytes(.List) => .Bytes
-rule mapStringToBytes(ListItem(X) XS) => #buf(32, String2Int(X)) +Bytes mapStringToBytes(XS)
+syntax Bytes ::= mapStringToInt256Bytes ( List ) [function]
+rule mapStringToInt256Bytes(.List) => .Bytes
+rule mapStringToInt256Bytes(ListItem(X) XS) => #buf(32, String2Int(X)) +Bytes mapStringToInt256Bytes(XS)
+
+syntax Bytes ::= mapStringToInt256Bytes ( List ) [function]
+rule mapStringToInt256Bytes(.List) => .Bytes
+rule mapStringToInt256Bytes(ListItem(X) XS) => #buf(32, String2Int(X)) +Bytes mapStringToInt256Bytes(XS)
+
+syntax Bytes ::= mapStringToAddressBytes ( List ) [function]
+rule mapStringToAddressBytes(.List) => .Bytes
+rule mapStringToAddressBytes(ListItem(X) XS) => #buf(32, #parseHexWord(X)) +Bytes mapStringToAddressBytes(XS)
+
+syntax Bytes ::= mapStringToBytes32Bytes ( List ) [function]
+rule mapStringToBytes32Bytes(.List) => .Bytes
+rule mapStringToBytes32Bytes(ListItem(X) XS) => #buf(32, #parseHexWord(X)) +Bytes mapStringToBytes32Bytes(XS)
+
+syntax Bytes ::= mapStringToBoolBytes ( List ) [function]
+rule mapStringToBoolBytes(.List) => .Bytes
+rule mapStringToBoolBytes(ListItem(X) XS) => #buf(32, bool2Word( String2Bool(X) )) +Bytes mapStringToBoolBytes(XS) 
 ```
 
 
