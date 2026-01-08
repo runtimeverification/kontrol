@@ -44,6 +44,8 @@ module FOUNDRY-CHEAT-CODES
     imports FOUNDRY-ACCOUNTS
     imports INFINITE-GAS
     imports ID
+    imports BYTES
+    imports STRING
 
     configuration
       <cheatcodes>
@@ -672,15 +674,13 @@ returns the default value.
          [preserves-definedness]
 
     rule [envOr-word-array]:
-          <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
-          <output> _ => 
-            #let DATA_OFFSET = #asWord(#range(ARGS, 64, 32)) #in
-            #let DATA_SIZE   = #range(ARGS, DATA_OFFSET, 32) #in
-            #let DATA        = #range(ARGS, DATA_OFFSET +Int 32, #asWord(DATA_SIZE) *Int 32) #in
-            #let HEAD        = Int2Bytes(32, 32, BE) #in
-            #let BODY        = DATA_SIZE +Bytes DATA #in
-            HEAD +Bytes BODY
-          </output>
+          <k> #cheatcode_call SELECTOR ARGS =>
+           #getEnvOrArray SELECTOR
+                          #range(ARGS, 128, #asWord(#range(ARGS, 96, 32))) // KEY_VALUE
+                          Bytes2String( #range(ARGS, #asWord(#range(ARGS, 32, 32)) +Int 32, #asWord(#range(ARGS, #asWord(#range(ARGS, 32, 32)), 32)))) // DELIMITER
+                          (Int2Bytes(32, 32, BE) +Bytes #range(ARGS, #asWord(#range(ARGS, 64, 32)), lengthBytes(ARGS) -Int #asWord(#range(ARGS, 64, 32)))) // DEFAULT_VALUE
+            ...
+          </k>
       requires SELECTOR in (
          SetItem( selector ( "envOr(string,string,bool[])" ) )
          SetItem( selector ( "envOr(string,string,uint256[])" ) )
@@ -1942,7 +1942,7 @@ If the flag is false, it skips comparison, assuming success; otherwise, it compa
          <wordStack> _ : WS => 1 : WS </wordStack>
 ```
 
-- `#getEnvOrValue` will get the return the environment variable from the `<enVars>` mapping iif it's there, or will return the default value for the variable
+- `#getEnvOrValue` will get and process the environment variable from the `<enVars>` mapping if it's there, or will return the default value for the variable otherwise.
 
 ```k
     syntax KItem ::= "#getEnvOrValue" Int Bytes Bytes [symbol(foundry_getEnvOrValue)]
@@ -1954,6 +1954,21 @@ If the flag is false, it skips comparison, assuming success; otherwise, it compa
          <output> _ => VARDEFAULTVALUE </output>
     [owise]
 ```
+
+- `#getEnvOrArray` will get and process the environment variable from the `<enVars>` mapping if it's there, or will return the default array value for the variable otherwise.
+
+```k
+    syntax KItem ::= "#getEnvOrArray" Int Bytes String Bytes [symbol(foundry_getEnvOrArray)]
+ // -----------------------------------------------------------------------------
+    rule <k> #getEnvOrArray SELECTOR VARNAME DELIMITER VARDEFAULTVALUE => #processArrayOutput SELECTOR DELIMITER VARVALUE VARDEFAULTVALUE ... </k>
+         <envVars> ... VARNAME |-> VARVALUE ... </envVars>
+
+    rule <k> #getEnvOrArray _ _ _ VARDEFAULTVALUE => .K ... </k>
+         <output> _ => VARDEFAULTVALUE </output>
+    [owise]
+```
+
+- `#processOutput` will process the output based on the selector and the variable value retrieved from the environment variable mapping.
 
 ```k
     syntax KItem ::= "#processOutput" Int String Bytes [symbol(foundry_processOutputAsInt)]
@@ -1996,6 +2011,24 @@ If the flag is false, it skips comparison, assuming success; otherwise, it compa
      [owise]
 ```
 
+- ` #processArrayOutput` will process the output as an array based on the selector and the variable value retrieved from the environment variable mapping.
+
+```k
+    syntax KItem ::= "#processArrayOutput" Int String String Bytes [symbol(foundry_processArrayOutputAsInt)]
+ // -----------------------------------------------------------------------------
+    rule <k> #processArrayOutput SELECTOR DELIMITER VARVALUE _ => #processUint256Array( split(VARVALUE, DELIMITER) ) ... </k>
+         //<output> _ =>   </output>
+      requires SELECTOR ==Int selector ( "envOr(string,string,uint256[])" ) // andBool forallBool( split(VARVALUE, DELIMITER), isIntegerString )
+
+    rule <k> #processArrayOutput _ _ _ VARDEFAULTVALUE => .K ... </k>
+         <output> _ => VARDEFAULTVALUE </output>
+     [owise]
+
+    syntax KItem ::= "#processUint256Array" List [symbol(foundry_processUint256Array)]
+    rule <k> #processUint256Array(VALUES) => .K ... </k>
+         <output> _ => (Int2Bytes(32, 32, BE)) +Bytes Int2Bytes(32, size(VALUES), BE) +Bytes mapStringToBytes(VALUES) </output>
+```
+
 ```k
 syntax Bool ::= isIntegerString(String) [function]
 
@@ -2015,6 +2048,14 @@ rule isHexString(S) => true
   requires String2Base(replaceAll(S, "0x", ""), 16) ==K 0
        orBool String2Base(replaceAll(S, "0x", ""), 16) =/=K 0
 rule isHexString(_) => false [owise]
+
+syntax List ::= split ( String , String ) [function]
+rule split(S, D) => ListItem(S) requires findString(S, D, 0) ==Int -1
+rule split(S, D) => ListItem(substrString(S, 0, findString(S, D, 0))) split(substrString(S, findString(S, D, 0) +Int lengthString(D), lengthString(S)), D) requires findString(S, D, 0) =/=Int -1
+
+syntax Bytes ::= mapStringToBytes ( List ) [function]
+rule mapStringToBytes(.List) => .Bytes
+rule mapStringToBytes(ListItem(X) XS) => #buf(32, String2Int(X)) +Bytes mapStringToBytes(XS)
 ```
 
 
