@@ -2039,10 +2039,6 @@ If the flag is false, it skips comparison, assuming success; otherwise, it compa
     rule <k> #processArrayOutput _ _ _ VARDEFAULTVALUE => .K ... </k>
          <output> _ => VARDEFAULTVALUE </output>
      [owise]
-
-    //syntax KItem ::= "#processUint256Array" List [symbol(foundry_processUint256Array)]
-    //rule <k> #processUint256Array(VALUES) => .K ... </k>
-    //     <output> _ => (Int2Bytes(32, 32, BE)) +Bytes Int2Bytes(32, size(VALUES), BE) +Bytes mapStringToBytes(VALUES) </output>
 ```
 
 ```k
@@ -2071,11 +2067,7 @@ rule split(S, D) => ListItem(substrString(S, 0, findString(S, D, 0))) split(subs
 
 syntax Bytes ::= mapStringToInt256Bytes ( List ) [function]
 rule mapStringToInt256Bytes(.List) => .Bytes
-rule mapStringToInt256Bytes(ListItem(X) XS) => #buf(32, String2Int(X)) +Bytes mapStringToInt256Bytes(XS)
-
-syntax Bytes ::= mapStringToInt256Bytes ( List ) [function]
-rule mapStringToInt256Bytes(.List) => .Bytes
-rule mapStringToInt256Bytes(ListItem(X) XS) => #buf(32, String2Int(X)) +Bytes mapStringToInt256Bytes(XS)
+rule mapStringToInt256Bytes(ListItem(X) XS) => Int2Bytes(32, String2Int(X), BE) +Bytes mapStringToInt256Bytes(XS)
 
 syntax Bytes ::= mapStringToAddressBytes ( List ) [function]
 rule mapStringToAddressBytes(.List) => .Bytes
