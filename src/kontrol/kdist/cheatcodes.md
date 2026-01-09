@@ -687,6 +687,7 @@ returns the default value.
          SetItem( selector ( "envOr(string,string,int256[])" ) )
          SetItem( selector ( "envOr(string,string,address[])" ) )
          SetItem( selector ( "envOr(string,string,bytes32[])" ) )
+         SetItem( selector ( "envOr(string,string,string[])" ) )
       )
       [preserves-definedness]
 
@@ -701,7 +702,7 @@ returns the default value.
             HEAD +Bytes BODY
           </output>
       requires SELECTOR in (
-         SetItem( selector ( "envOr(string,string,string[])" ) )
+         //SetItem( selector ( "envOr(string,string,string[])" ) )
          SetItem( selector ( "envOr(string,string,bytes[])" ) )
       )
       [preserves-definedness]
@@ -2036,6 +2037,10 @@ If the flag is false, it skips comparison, assuming success; otherwise, it compa
          <output> _ => (Int2Bytes(32, 32, BE)) +Bytes Int2Bytes(32, size(VALUES), BE) +Bytes mapStringToBoolBytes(VALUES) </output>
       requires SELECTOR ==Int selector ( "envOr(string,string,bool[])" ) // andBool forallBool( split(VARVALUE, DELIMITER), isIntegerString )
 
+    rule <k> #processArrayOutput SELECTOR VALUES _ => .K ... </k>
+         <output> _ => (Int2Bytes(32, 32, BE)) +Bytes Int2Bytes(32, size(VALUES), BE) +Bytes #enc ( #tuple (mapStringToStringBytes(VALUES) ) ) </output>
+      requires SELECTOR ==Int selector ( "envOr(string,string,string[])" ) // andBool forallBool( split(VARVALUE, DELIMITER), isIntegerString )
+
     rule <k> #processArrayOutput _ _ _ VARDEFAULTVALUE => .K ... </k>
          <output> _ => VARDEFAULTVALUE </output>
      [owise]
@@ -2079,7 +2084,11 @@ rule mapStringToBytes32Bytes(ListItem(X) XS) => #buf(32, #parseHexWord(X)) +Byte
 
 syntax Bytes ::= mapStringToBoolBytes ( List ) [function]
 rule mapStringToBoolBytes(.List) => .Bytes
-rule mapStringToBoolBytes(ListItem(X) XS) => #buf(32, bool2Word( String2Bool(X) )) +Bytes mapStringToBoolBytes(XS) 
+rule mapStringToBoolBytes(ListItem(X) XS) => #buf(32, bool2Word( String2Bool(X) )) +Bytes mapStringToBoolBytes(XS)
+
+syntax TypedArgs ::= mapStringToStringBytes ( List ) [function]
+rule mapStringToStringBytes(.List) => .TypedArgs
+rule mapStringToStringBytes(ListItem(X) XS) => #string(X), mapStringToStringBytes(XS)
 ```
 
 
