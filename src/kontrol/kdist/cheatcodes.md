@@ -1948,8 +1948,10 @@ If the flag is false, it skips comparison, assuming success; otherwise, it compa
 ```k
     syntax KItem ::= "#getEnvOrValue" Int Bytes Bytes [symbol(foundry_getEnvOrValue)]
  // -----------------------------------------------------------------------------
-    rule <k> #getEnvOrValue SELECTOR VARNAME VARDEFAULTVALUE => #processOutput SELECTOR VARVALUE VARDEFAULTVALUE ... </k>
+    rule <k> #getEnvOrValue SELECTOR VARNAME _ => .K ... </k>
          <envVars> ... VARNAME |-> VARVALUE ... </envVars>
+         <output> _ => #enc( valueAsTypedArg(SELECTOR, VARVALUE) ) </output>
+      requires valueAsTypedArg(SELECTOR, VARVALUE) =/=K #bytes( .Bytes )
 
     rule <k> #getEnvOrValue _ _ VARDEFAULTVALUE => .K ... </k>
          <output> _ => VARDEFAULTVALUE </output>
@@ -1961,7 +1963,11 @@ If the flag is false, it skips comparison, assuming success; otherwise, it compa
 ```k
     syntax KItem ::= "#getEnvOrArray" Int Bytes String Bytes [symbol(foundry_getEnvOrArray)]
  // -----------------------------------------------------------------------------
-    rule <k> #getEnvOrArray SELECTOR VARNAME DELIMITER VARDEFAULTVALUE => #processArrayOutput SELECTOR split(VARVALUE, DELIMITER) VARDEFAULTVALUE ... </k>
+    rule <k> #getEnvOrArray SELECTOR VARNAME DELIMITER VARDEFAULTVALUE =>
+               #let VALUES = split(VARVALUE, DELIMITER) #in
+               #processArrayOutput size(VALUES) mapTypedArgValue(SELECTOR, VALUES) VARDEFAULTVALUE
+            ...
+         </k>
          <envVars> ... VARNAME |-> VARVALUE ... </envVars>
 
     rule <k> #getEnvOrArray _ _ _ VARDEFAULTVALUE => .K ... </k>
@@ -1969,79 +1975,16 @@ If the flag is false, it skips comparison, assuming success; otherwise, it compa
     [owise]
 ```
 
-- `#processOutput` will process the output based on the selector and the variable value retrieved from the environment variable mapping.
+- ` #processArrayOutput` will process the output as an array based on the variable value retrieved from the environment variable mapping.
 
 ```k
-    syntax KItem ::= "#processOutput" Int String Bytes [symbol(foundry_processOutputAsInt)]
- // -----------------------------------------------------------------------------
-    rule <k> #processOutput SELECTOR VARVALUE _ => .K ... </k>
-         <output> _ => Int2Bytes(32, String2Int(VARVALUE), BE) </output>
-      requires SELECTOR ==Int selector ( "envOr(string,int256)" ) andBool isIntegerString(VARVALUE)
+    syntax KItem ::= "#processArrayOutput" Int TypedArgs Bytes [symbol(foundry_processArrayOutput)]
+   // -----------------------------------------------------------------------------
+    rule <k> #processArrayOutput SIZE OUT _ => .K ... </k>
+         <output> _ => #enc( #tuple( #array(#bytes( .Bytes ), SIZE, OUT) ) ) </output>
+      requires sizeOfTypedArgs(OUT) ==Int SIZE
 
-    rule <k> #processOutput SELECTOR VARVALUE _ => .K ... </k>
-         <output> _ => Int2Bytes(32, String2Int(VARVALUE), BE) </output>
-      requires SELECTOR ==Int selector ( "envOr(string,uint256)" ) andBool isUnsignedIntegerString(VARVALUE)
-
-    rule <k> #processOutput SELECTOR VARVALUE _ => .K ... </k>
-         <output> _ => Int2Bytes(32, #parseHexWord(VARVALUE), BE) </output>
-      requires SELECTOR ==Int selector ( "envOr(string,address)" ) 
-         andBool (lengthString(VARVALUE) ==Int 42 orBool lengthString(VARVALUE) ==Int 40)
-         andBool isHexString(VARVALUE)
-
-    rule <k> #processOutput SELECTOR VARVALUE _ => .K ... </k>
-         <output> _ => Int2Bytes(32, #parseHexWord(VARVALUE), BE)</output>
-      requires SELECTOR ==Int selector ( "envOr(string,bytes32)" )
-         andBool (lengthString(VARVALUE) ==Int 66 orBool lengthString(VARVALUE) ==Int 64)
-         andBool isHexString(VARVALUE)
-
-    rule <k> #processOutput SELECTOR VARVALUE _ => .K ... </k>
-         <output> _ => Int2Bytes(32, bool2Word( String2Bool(VARVALUE) ), BE) </output>
-      requires SELECTOR ==Int selector ( "envOr(string,bool)" )
-         andBool (VARVALUE ==K "true" orBool VARVALUE ==K "false")
-
-    rule <k> #processOutput SELECTOR VARVALUE _ => .K ... </k>
-         <output> _ => #enc( #tuple( #string(VARVALUE))) </output>
-      requires SELECTOR ==Int selector ( "envOr(string,string)" )
-
-    rule <k> #processOutput SELECTOR VARVALUE _ => .K ... </k>
-         <output> _ => #enc( #tuple( #bytes( #parseByteStack(VARVALUE) ))) </output>
-      requires SELECTOR ==Int selector ( "envOr(string,bytes)" ) andBool isHexString(VARVALUE)
-   
-    rule <k> #processOutput _ _ VARDEFAULTVALUE => .K ... </k>
-         <output> _ => VARDEFAULTVALUE </output>
-     [owise]
-```
-
-- ` #processArrayOutput` will process the output as an array based on the selector and the variable value retrieved from the environment variable mapping.
-
-```k
-    syntax KItem ::= "#processArrayOutput" Int List Bytes [symbol(foundry_processArrayOutputAsInt)]
- // -----------------------------------------------------------------------------
-    rule <k> #processArrayOutput SELECTOR VALUES _ => .K ... </k>
-         <output> _ => (Int2Bytes(32, 32, BE)) +Bytes Int2Bytes(32, size(VALUES), BE) +Bytes mapStringToInt256Bytes(VALUES) </output>
-      requires SELECTOR ==Int selector ( "envOr(string,string,int256[])" ) // andBool forallBool( split(VARVALUE, DELIMITER), isIntegerString )
-
-    rule <k> #processArrayOutput SELECTOR VALUES _ => .K ... </k>
-         <output> _ => (Int2Bytes(32, 32, BE)) +Bytes Int2Bytes(32, size(VALUES), BE) +Bytes mapStringToInt256Bytes(VALUES) </output>
-      requires SELECTOR ==Int selector ( "envOr(string,string,uint256[])" ) // andBool forallBool( split(VARVALUE, DELIMITER), isIntegerString )
-
-    rule <k> #processArrayOutput SELECTOR VALUES _ => .K ... </k>
-         <output> _ => (Int2Bytes(32, 32, BE)) +Bytes Int2Bytes(32, size(VALUES), BE) +Bytes mapStringToAddressBytes(VALUES) </output>
-      requires SELECTOR ==Int selector ( "envOr(string,string,address[])" ) // andBool forallBool( split(VARVALUE, DELIMITER), isIntegerString )
-
-    rule <k> #processArrayOutput SELECTOR VALUES _ => .K ... </k>
-         <output> _ => (Int2Bytes(32, 32, BE)) +Bytes Int2Bytes(32, size(VALUES), BE) +Bytes mapStringToBytes32Bytes(VALUES) </output>
-      requires SELECTOR ==Int selector ( "envOr(string,string,bytes32[])" ) // andBool forallBool( split(VARVALUE, DELIMITER), isIntegerString )
-
-    rule <k> #processArrayOutput SELECTOR VALUES _ => .K ... </k>
-         <output> _ => (Int2Bytes(32, 32, BE)) +Bytes Int2Bytes(32, size(VALUES), BE) +Bytes mapStringToBoolBytes(VALUES) </output>
-      requires SELECTOR ==Int selector ( "envOr(string,string,bool[])" ) // andBool forallBool( split(VARVALUE, DELIMITER), isIntegerString )
-
-    rule <k> #processArrayOutput SELECTOR VALUES _ => .K ... </k>
-         <output> _ => (Int2Bytes(32, 32, BE)) +Bytes Int2Bytes(32, size(VALUES), BE) +Bytes #enc ( #tuple (mapStringToStringBytes(VALUES) ) ) </output>
-      requires SELECTOR ==Int selector ( "envOr(string,string,string[])" ) // andBool forallBool( split(VARVALUE, DELIMITER), isIntegerString )
-
-    rule <k> #processArrayOutput _ _ _ VARDEFAULTVALUE => .K ... </k>
+    rule <k> #processArrayOutput _ _ VARDEFAULTVALUE => .K ... </k>
          <output> _ => VARDEFAULTVALUE </output>
      [owise]
 ```
@@ -2066,29 +2009,56 @@ rule isHexString(S) => true
        orBool String2Base(replaceAll(S, "0x", ""), 16) =/=K 0
 rule isHexString(_) => false [owise]
 
+syntax TypedArg ::= valueAsTypedArg ( Int , String ) [function]
+
+rule valueAsTypedArg(SELECTOR, VALUE) => #int256( String2Int(VALUE) )
+   requires (SELECTOR ==Int selector ( "envOr(string,int256)" ) orBool SELECTOR ==Int selector ( "envOr(string,string,int256[])" ))
+      andBool isIntegerString(VALUE)
+
+rule valueAsTypedArg(SELECTOR, VALUE) => #uint256( String2Int(VALUE) )
+   requires (SELECTOR ==Int selector ( "envOr(string,uint256)" ) orBool SELECTOR ==Int selector ( "envOr(string,string,uint256[])" ))
+      andBool isUnsignedIntegerString(VALUE)
+
+rule valueAsTypedArg(SELECTOR, VALUE) => #address( #parseHexWord(VALUE) ) 
+   requires (SELECTOR ==Int selector ( "envOr(string,address)" ) orBool SELECTOR ==Int selector ( "envOr(string,string,address[])" ))
+      andBool (lengthString(VALUE) ==Int 42 orBool lengthString(VALUE) ==Int 40)
+      andBool isHexString(VALUE)
+
+rule valueAsTypedArg(SELECTOR, VALUE) => #bytes32( #parseHexWord(VALUE) ) 
+   requires (SELECTOR ==Int selector ( "envOr(string,bytes32)" ) orBool SELECTOR ==Int selector ( "envOr(string,string,bytes32[])" ))
+      andBool (lengthString(VALUE) ==Int 66 orBool lengthString(VALUE) ==Int 64)
+      andBool isHexString(VALUE)
+
+rule valueAsTypedArg(SELECTOR, VALUE) => #bool( bool2Word( String2Bool(VALUE) )) 
+   requires (SELECTOR ==Int selector ( "envOr(string,bool)" ) orBool SELECTOR ==Int selector ( "envOr(string,string,bool[])" ))
+      andBool (VALUE ==K "true" orBool VALUE ==K "false")
+
+rule valueAsTypedArg(SELECTOR, VALUE) => #tuple( #string(VALUE))
+   requires SELECTOR ==Int selector ( "envOr(string,string)" )
+
+rule valueAsTypedArg(SELECTOR, VALUE) => #string(VALUE) 
+   requires SELECTOR ==Int selector ( "envOr(string,string,string[])" )
+
+rule valueAsTypedArg(SELECTOR, VALUE) => #tuple( #bytes( #parseByteStack(VALUE) ))
+   requires (SELECTOR ==Int selector ( "envOr(string,bytes)" ) orBool SELECTOR ==Int selector ( "envOr(string,string,bytes[])" ))
+      andBool isHexString(VALUE)
+
+rule valueAsTypedArg(_, _) => #bytes( .Bytes )
+   [owise]
+
 syntax List ::= split ( String , String ) [function]
 rule split(S, D) => ListItem(S) requires findString(S, D, 0) ==Int -1
 rule split(S, D) => ListItem(substrString(S, 0, findString(S, D, 0))) split(substrString(S, findString(S, D, 0) +Int lengthString(D), lengthString(S)), D) requires findString(S, D, 0) =/=Int -1
 
-syntax Bytes ::= mapStringToInt256Bytes ( List ) [function]
-rule mapStringToInt256Bytes(.List) => .Bytes
-rule mapStringToInt256Bytes(ListItem(X) XS) => Int2Bytes(32, String2Int(X), BE) +Bytes mapStringToInt256Bytes(XS)
+syntax TypedArgs ::= mapTypedArgValue (Int, List) [function]
+rule mapTypedArgValue(SELECTOR, ListItem(X) XS) => valueAsTypedArg(SELECTOR, X), mapTypedArgValue(SELECTOR, XS)
+   requires valueAsTypedArg(SELECTOR, X) =/=K #bytes( .Bytes )
+rule mapTypedArgValue(_, _) => .TypedArgs
+   [owise]
 
-syntax Bytes ::= mapStringToAddressBytes ( List ) [function]
-rule mapStringToAddressBytes(.List) => .Bytes
-rule mapStringToAddressBytes(ListItem(X) XS) => #buf(32, #parseHexWord(X)) +Bytes mapStringToAddressBytes(XS)
-
-syntax Bytes ::= mapStringToBytes32Bytes ( List ) [function]
-rule mapStringToBytes32Bytes(.List) => .Bytes
-rule mapStringToBytes32Bytes(ListItem(X) XS) => #buf(32, #parseHexWord(X)) +Bytes mapStringToBytes32Bytes(XS)
-
-syntax Bytes ::= mapStringToBoolBytes ( List ) [function]
-rule mapStringToBoolBytes(.List) => .Bytes
-rule mapStringToBoolBytes(ListItem(X) XS) => #buf(32, bool2Word( String2Bool(X) )) +Bytes mapStringToBoolBytes(XS)
-
-syntax TypedArgs ::= mapStringToStringBytes ( List ) [function]
-rule mapStringToStringBytes(.List) => .TypedArgs
-rule mapStringToStringBytes(ListItem(X) XS) => #string(X), mapStringToStringBytes(XS)
+syntax Int ::= sizeOfTypedArgs ( TypedArgs ) [function]
+rule sizeOfTypedArgs(.TypedArgs) => 0
+rule sizeOfTypedArgs(_ , TAIL) => 1 +Int sizeOfTypedArgs(TAIL)
 ```
 
 
