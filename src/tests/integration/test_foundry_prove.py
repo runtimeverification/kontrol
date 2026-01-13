@@ -793,7 +793,7 @@ def test_load_state_diff(
                 'from_state_diff': 'True',
             }
         ),
-        output_dir=foundry.out,
+        output_dir=foundry.test_path,
     )
 
     generated_main_file = foundry_root_dir / 'src' / 'LoadStateDiff.sol'
@@ -835,7 +835,7 @@ def test_load_state_dump(
                 'output_dir_name': 'src',
             }
         ),
-        output_dir=foundry.out,
+        output_dir=foundry.test_path,
     )
 
     generated_main_file = foundry_root_dir / 'src' / 'LoadStateDump.sol'

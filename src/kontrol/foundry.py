@@ -520,6 +520,11 @@ class Foundry:
             return self.out / 'build-info'
 
     @property
+    def test_path(self) -> Path:
+        test_path = self.config('test', '')
+        return self._root / test_path
+
+    @property
     def ffi(self) -> bool:
         if os.getenv('FOUNDRY_FFI', '').lower() in ('true', '1'):
             return True
