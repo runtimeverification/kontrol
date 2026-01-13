@@ -137,7 +137,7 @@ def main() -> None:
 def exec_load_state(options: LoadStateOptions) -> None:
     foundry = _load_foundry(options.foundry_root, add_enum_constraints=options.enum_constraints)
     if options.output_dir_name is None:
-        output_dir = foundry.config('test', '')
+        output_dir = foundry.test_path
     else:
         output_dir = foundry._root / options.output_dir_name
     foundry_state_load(options=options, output_dir=output_dir)
