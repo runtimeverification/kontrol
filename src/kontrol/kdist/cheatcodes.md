@@ -673,7 +673,7 @@ returns the default value.
          requires SELECTOR ==Int selector( "envOr(string,string)" ) orBool SELECTOR ==Int selector( "envOr(string,bytes)" )
          [preserves-definedness]
 
-    rule [envOr-word-array]:
+    rule [envOr-array]:
           <k> #cheatcode_call SELECTOR ARGS =>
            #getEnvOrArray SELECTOR
                           #range(ARGS, 128, #asWord(#range(ARGS, 96, 32))) // KEY_VALUE
@@ -688,21 +688,6 @@ returns the default value.
          SetItem( selector ( "envOr(string,string,address[])" ) )
          SetItem( selector ( "envOr(string,string,bytes32[])" ) )
          SetItem( selector ( "envOr(string,string,string[])" ) )
-      )
-      [preserves-definedness]
-
-    rule [envOr-dynamic-array]:
-          <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
-          <output> _ => 
-            #let DATA_OFFSET = #asWord(#range(ARGS, 64, 32)) #in
-            #let DATA_SIZE   = #range(ARGS, DATA_OFFSET, 32) #in
-            #let DATA        = #range(ARGS, DATA_OFFSET +Int 32, #asWord(DATA_SIZE) *Int 32) #in
-            #let HEAD        = Int2Bytes(32, 32, BE) #in
-            #let BODY        = DATA_SIZE +Bytes DATA #in 
-            HEAD +Bytes BODY
-          </output>
-      requires SELECTOR in (
-         //SetItem( selector ( "envOr(string,string,string[])" ) )
          SetItem( selector ( "envOr(string,string,bytes[])" ) )
       )
       [preserves-definedness]
@@ -1990,75 +1975,61 @@ If the flag is false, it skips comparison, assuming success; otherwise, it compa
 ```
 
 ```k
-syntax Bool ::= isIntegerString(String) [function]
+    syntax Bool ::= isIntegerString(String) [function]
+    rule isIntegerString(S) => true requires String2Int(S) ==K 0 orBool String2Int(S) =/=K 0
+    rule isIntegerString(_) => false [owise]
 
-rule isIntegerString(S) => true requires String2Int(S) ==K 0 orBool String2Int(S) =/=K 0
-rule isIntegerString(_) => false [owise]
+    syntax Bool ::= isUnsignedIntegerString(String) [function]
+    rule isUnsignedIntegerString(S) => true requires String2Int(S) >=Int 0
+    rule isUnsignedIntegerString(_) => false [owise]
 
+    syntax Bool ::= isHexString(String) [function]
+    rule isHexString(S) => true
+      requires String2Base(replaceAll(S, "0x", ""), 16) ==K 0
+           orBool String2Base(replaceAll(S, "0x", ""), 16) =/=K 0
+    rule isHexString(_) => false [owise]
 
-syntax Bool ::= isUnsignedIntegerString(String) [function]
+    syntax TypedArg ::= valueAsTypedArg ( Int , String ) [function]
+    rule valueAsTypedArg(SELECTOR, VALUE) => #int256( String2Int(VALUE) )
+       requires (SELECTOR ==Int selector ( "envOr(string,int256)" ) orBool SELECTOR ==Int selector ( "envOr(string,string,int256[])" ))
+          andBool isIntegerString(VALUE)
+    rule valueAsTypedArg(SELECTOR, VALUE) => #uint256( String2Int(VALUE) )
+       requires (SELECTOR ==Int selector ( "envOr(string,uint256)" ) orBool SELECTOR ==Int selector ( "envOr(string,string,uint256[])" ))
+          andBool isUnsignedIntegerString(VALUE)
+    rule valueAsTypedArg(SELECTOR, VALUE) => #address( #parseHexWord(VALUE) )
+       requires (SELECTOR ==Int selector ( "envOr(string,address)" ) orBool SELECTOR ==Int selector ( "envOr(string,string,address[])" ))
+          andBool (lengthString(VALUE) ==Int 42 orBool lengthString(VALUE) ==Int 40)
+          andBool isHexString(VALUE)
+    rule valueAsTypedArg(SELECTOR, VALUE) => #bytes32( #parseHexWord(VALUE) )
+       requires (SELECTOR ==Int selector ( "envOr(string,bytes32)" ) orBool SELECTOR ==Int selector ( "envOr(string,string,bytes32[])" ))
+          andBool (lengthString(VALUE) ==Int 66 orBool lengthString(VALUE) ==Int 64)
+          andBool isHexString(VALUE)
+    rule valueAsTypedArg(SELECTOR, VALUE) => #bool( bool2Word( String2Bool(VALUE) ))
+       requires (SELECTOR ==Int selector ( "envOr(string,bool)" ) orBool SELECTOR ==Int selector ( "envOr(string,string,bool[])" ))
+          andBool (VALUE ==K "true" orBool VALUE ==K "false")
+    rule valueAsTypedArg(SELECTOR, VALUE) => #tuple( #string(VALUE))
+       requires SELECTOR ==Int selector ( "envOr(string,string)" )
+    rule valueAsTypedArg(SELECTOR, VALUE) => #string(VALUE)
+       requires SELECTOR ==Int selector ( "envOr(string,string,string[])" )
+    rule valueAsTypedArg(SELECTOR, VALUE) => #tuple( #bytes( #parseByteStack(VALUE) ))
+       requires (SELECTOR ==Int selector ( "envOr(string,bytes)" ) orBool SELECTOR ==Int selector ( "envOr(string,string,bytes[])" ))
+          andBool isHexString(VALUE)
+    rule valueAsTypedArg(_, _) => #bytes( .Bytes )
+       [owise]
 
-rule isUnsignedIntegerString(S) => true requires String2Int(S) >=Int 0
-rule isUnsignedIntegerString(_) => false [owise]
+    syntax List ::= split ( String , String ) [function]
+    rule split(S, D) => ListItem(S) requires findString(S, D, 0) ==Int -1
+    rule split(S, D) => ListItem(substrString(S, 0, findString(S, D, 0))) split(substrString(S, findString(S, D, 0) +Int lengthString(D), lengthString(S)), D) requires findString(S, D, 0) =/=Int -1
 
+    syntax TypedArgs ::= mapTypedArgValue (Int, List) [function]
+    rule mapTypedArgValue(SELECTOR, ListItem(X) XS) => valueAsTypedArg(SELECTOR, X), mapTypedArgValue(SELECTOR, XS)
+       requires valueAsTypedArg(SELECTOR, X) =/=K #bytes( .Bytes )
+    rule mapTypedArgValue(_, _) => .TypedArgs
+       [owise]
 
-syntax Bool ::= isHexString(String) [function]
-
-rule isHexString(S) => true
-  requires String2Base(replaceAll(S, "0x", ""), 16) ==K 0
-       orBool String2Base(replaceAll(S, "0x", ""), 16) =/=K 0
-rule isHexString(_) => false [owise]
-
-syntax TypedArg ::= valueAsTypedArg ( Int , String ) [function]
-
-rule valueAsTypedArg(SELECTOR, VALUE) => #int256( String2Int(VALUE) )
-   requires (SELECTOR ==Int selector ( "envOr(string,int256)" ) orBool SELECTOR ==Int selector ( "envOr(string,string,int256[])" ))
-      andBool isIntegerString(VALUE)
-
-rule valueAsTypedArg(SELECTOR, VALUE) => #uint256( String2Int(VALUE) )
-   requires (SELECTOR ==Int selector ( "envOr(string,uint256)" ) orBool SELECTOR ==Int selector ( "envOr(string,string,uint256[])" ))
-      andBool isUnsignedIntegerString(VALUE)
-
-rule valueAsTypedArg(SELECTOR, VALUE) => #address( #parseHexWord(VALUE) ) 
-   requires (SELECTOR ==Int selector ( "envOr(string,address)" ) orBool SELECTOR ==Int selector ( "envOr(string,string,address[])" ))
-      andBool (lengthString(VALUE) ==Int 42 orBool lengthString(VALUE) ==Int 40)
-      andBool isHexString(VALUE)
-
-rule valueAsTypedArg(SELECTOR, VALUE) => #bytes32( #parseHexWord(VALUE) ) 
-   requires (SELECTOR ==Int selector ( "envOr(string,bytes32)" ) orBool SELECTOR ==Int selector ( "envOr(string,string,bytes32[])" ))
-      andBool (lengthString(VALUE) ==Int 66 orBool lengthString(VALUE) ==Int 64)
-      andBool isHexString(VALUE)
-
-rule valueAsTypedArg(SELECTOR, VALUE) => #bool( bool2Word( String2Bool(VALUE) )) 
-   requires (SELECTOR ==Int selector ( "envOr(string,bool)" ) orBool SELECTOR ==Int selector ( "envOr(string,string,bool[])" ))
-      andBool (VALUE ==K "true" orBool VALUE ==K "false")
-
-rule valueAsTypedArg(SELECTOR, VALUE) => #tuple( #string(VALUE))
-   requires SELECTOR ==Int selector ( "envOr(string,string)" )
-
-rule valueAsTypedArg(SELECTOR, VALUE) => #string(VALUE) 
-   requires SELECTOR ==Int selector ( "envOr(string,string,string[])" )
-
-rule valueAsTypedArg(SELECTOR, VALUE) => #tuple( #bytes( #parseByteStack(VALUE) ))
-   requires (SELECTOR ==Int selector ( "envOr(string,bytes)" ) orBool SELECTOR ==Int selector ( "envOr(string,string,bytes[])" ))
-      andBool isHexString(VALUE)
-
-rule valueAsTypedArg(_, _) => #bytes( .Bytes )
-   [owise]
-
-syntax List ::= split ( String , String ) [function]
-rule split(S, D) => ListItem(S) requires findString(S, D, 0) ==Int -1
-rule split(S, D) => ListItem(substrString(S, 0, findString(S, D, 0))) split(substrString(S, findString(S, D, 0) +Int lengthString(D), lengthString(S)), D) requires findString(S, D, 0) =/=Int -1
-
-syntax TypedArgs ::= mapTypedArgValue (Int, List) [function]
-rule mapTypedArgValue(SELECTOR, ListItem(X) XS) => valueAsTypedArg(SELECTOR, X), mapTypedArgValue(SELECTOR, XS)
-   requires valueAsTypedArg(SELECTOR, X) =/=K #bytes( .Bytes )
-rule mapTypedArgValue(_, _) => .TypedArgs
-   [owise]
-
-syntax Int ::= sizeOfTypedArgs ( TypedArgs ) [function]
-rule sizeOfTypedArgs(.TypedArgs) => 0
-rule sizeOfTypedArgs(_ , TAIL) => 1 +Int sizeOfTypedArgs(TAIL)
+    syntax Int ::= sizeOfTypedArgs ( TypedArgs ) [function]
+    rule sizeOfTypedArgs(.TypedArgs) => 0
+    rule sizeOfTypedArgs(_ , TAIL) => 1 +Int sizeOfTypedArgs(TAIL)
 ```
 
 

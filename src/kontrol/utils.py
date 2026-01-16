@@ -12,6 +12,7 @@ from eth_abi import decode
 from pyk.kbuild.utils import KVersion, k_version
 
 if TYPE_CHECKING:
+    from io import TextIOWrapper
     from typing import Final
     from pyk.cterm import CTerm
     from argparse import Namespace
@@ -332,29 +333,70 @@ def decode_log_message(token: str, selector: int) -> str | None:
         return None
 
 
-def parse_env_file(file_path: Path) -> dict[str, str]:
+def parse_quoted_value(f: TextIOWrapper, val: str) -> str | None:
+    quote = val[0]
+    # Find closing quote on the same line
+    end_quote = val.find(quote, 1)
+    if end_quote != -1:
+        return val[1:end_quote]
+    else:
+        # Multi-line quoted value
+        val_accum = [val[1:]]
+        while True:
+            next_line = f.readline()
+            if not next_line:
+                # EOF before closing quote, skip
+                return None
+            next_line = next_line.rstrip('\n')
+            end_quote = next_line.find(quote)
+            if end_quote != -1:
+                val_accum.append(next_line[:end_quote])
+                return '\n'.join(val_accum)
+            else:
+                val_accum.append(next_line)
+
+
+def parse_env_file(path: Path) -> dict[str, str]:
     """Parse a .env file into a dictionary of key-value pairs.
 
     :param file_path: Path to the .env file
     :return: Dictionary with environment variable names as keys and their values as strings
     """
     env_vars: dict[str, str] = {}
-    if not file_path.exists():
+    if not path.exists():
         return env_vars
-    with open(file_path, encoding='utf-8') as f:
+    with open(path, encoding='utf-8') as f:
         for line in f:
             line = line.strip()
-            if not line or line.startswith('#'):
+            if not line:
                 continue
-            if '=' not in line:
+            # Match KEY=VALUE or KEY: VALUE
+            m = re.match(r'^([\w\.]+)\s*=\s*(.*)$', line)
+            if not m:
                 continue
-            key, value = line.split('=', 1)
-            key = key.strip()
-            value = value.strip()
-            # Remove surrounding quotes if present
-            if (value.startswith('"') and value.endswith('"')) or (value.startswith("'") and value.endswith("'")):
-                value = value[1:-1]
-            env_vars[key] = value
+            key, val = m.group(1), m.group(2)
+            # Robust quoted value parsing
+            if line.startswith('#'):
+                env_vars[key] = ''
+                continue
+            if val.startswith(('"', "'")):
+                parsed_val = parse_quoted_value(f, val)
+                if parsed_val is None:
+                    continue  # skip if parsing failed
+                val = parsed_val
+            else:
+                # Remove inline comments (unquoted) only if ' #' is present
+                hash_idx = val.find('#')
+                if hash_idx != -1:
+                    if val[hash_idx - 1] != ' ':
+                        continue  # skip if # is not preceded by a space
+                    val = val.split(' #', 1)[0].strip()
+
+                # If unquoted value contains whitespace, skip this variable
+                if any(c.isspace() for c in val):
+                    continue
+
+            env_vars[key] = val
     return env_vars
 
 
