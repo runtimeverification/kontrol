@@ -1050,7 +1050,7 @@ def _init_cterm(
         else:
             # Symbolic accounts of all relevant contracts
             accounts, storage_constraints = _create_cse_accounts(
-                foundry, storage_fields, contract_account_name, contract_code
+                foundry, storage_fields, contract_account_name, contract_code, schedule
             )
 
         accounts.append(KVariable('ACCOUNTS_REST', sort=KSort('AccountCellMap')))
@@ -1144,6 +1144,7 @@ def _create_cse_accounts(
     storage_fields: tuple[StorageField, ...],
     contract_name: str,
     contract_code: KInner,
+    schedule: KApply,
 ) -> tuple[list[KInner], list[KApply]]:
     """
     Recursively generates a list of new accounts corresponding to `contract` fields, each having <code> and <storage> cell (partially) set up.
@@ -1225,6 +1226,30 @@ def _create_cse_accounts(
                 address_range_ub = ltInt(field_variable, intToken(1461501637330902918203684832716283019655932542976))
                 new_account_constraints.append(mlEqualsTrue(address_range_lb))
                 new_account_constraints.append(mlEqualsTrue(address_range_ub))
+                # Address is not the cheatcode contract address
+                new_account_constraints.append(
+                    mlEqualsFalse(
+                        KApply(
+                            '_==Int_',
+                            [
+                                field_variable,
+                                Foundry.address_CHEATCODE(),
+                            ],
+                        )
+                    )
+                )
+                # Address is not a precompiled contract address
+                # _account_constraints.append(
+                #     mlEqualsFalse(KEVM.is_precompiled_account(acct_id.args[0], cterm.cell('SCHEDULE_CELL')))
+                # )
+                new_account_constraints.append(
+                    mlEqualsFalse(
+                        KEVM.is_precompiled_account(
+                            field_variable,
+                            schedule,
+                        )
+                    )
+                )
         # Processing of contracts
         if field.data_type.startswith('contract '):
             if field.linked_interface:
