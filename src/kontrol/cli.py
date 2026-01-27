@@ -647,6 +647,30 @@ def _create_argument_parser() -> ArgumentParser:
         help='Print elements in hexadecimal encoding.',
     )
 
+    view_kcfg_args.add_argument(
+        '--omit-code-cells',
+        dest='omit_code_cells',
+        default=None,
+        action='store_true',
+        help='Hide cells that contain bytecode in the TUI.',
+    )
+
+    view_kcfg_args.add_argument(
+        '--omit-interim-cells',
+        dest='omit_interim_cells',
+        default=None,
+        action='store_true',
+        help='Hide the <callStack> and <interimStates> cells in the TUI.',
+    )
+
+    view_kcfg_args.add_argument(
+        '--omit-cost-cells',
+        dest='omit_cost_cells',
+        default=None,
+        action='store_true',
+        help='Hide the gas-related cells in the TUI.',
+    )
+
     minimize_proof_args = command_parser.add_parser(
         'minimize-proof',
         help='Minimize the KCFG of the proof for a given test.',
