@@ -652,7 +652,7 @@ def _create_argument_parser() -> ArgumentParser:
         dest='omit_code_cells',
         default=None,
         action='store_true',
-        help='Hide cells that contain bytecode in the TUI.',
+        help='Hide cells that contain bytecode in the TUI (<program>, <code> and <jumpDests>).',
     )
 
     view_kcfg_args.add_argument(
@@ -668,7 +668,7 @@ def _create_argument_parser() -> ArgumentParser:
         dest='omit_cost_cells',
         default=None,
         action='store_true',
-        help='Hide the gas-related cells in the TUI.',
+        help='Hide the gas-related cells in the TUI (<gas>, <memoryUsed>, <callGas> and <refund>).',
     )
 
     minimize_proof_args = command_parser.add_parser(
