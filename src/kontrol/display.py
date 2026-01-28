@@ -283,9 +283,22 @@ def foundry_view(foundry: Foundry, options: ViewKcfgOptions) -> None:
     def _custom_view(elem: KCFGElem) -> Iterable[str]:
         return custom_view(contract_name, elem, compilation_unit)
 
+    omit_cells = []
+    if options.omit_code_cells:
+        omit_cells.extend(['<program>', '<code>', '<jumpDests>'])
+    if options.omit_interim_cells:
+        omit_cells.extend(['<callStack>', '<interimStates>'])
+    if options.omit_cost_cells:
+        omit_cells.extend(['<gas>', '<memoryUsed>', '<callGas>', '<refund>'])
     printer = PrettyPrinter(foundry.kevm.definition, patch_symbol_table=KEVM._kevm_patch_symbol_table)
-    cterm_show = CTermShow(printer.print)
+    cterm_show = CTermShow(printer.print, omit_labels=omit_cells)
     node_printer = foundry_node_printer(foundry, cterm_show, contract_name, proof)
 
-    viewer = APRProofViewer(proof, foundry.kevm, node_printer=node_printer, custom_view=_custom_view)
+    viewer = APRProofViewer(
+        proof,
+        foundry.kevm,
+        node_printer=node_printer,
+        custom_view=_custom_view,
+        cterm_show=cterm_show,
+    )
     viewer.run()
