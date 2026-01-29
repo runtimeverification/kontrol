@@ -276,6 +276,10 @@ use-hex-encoding           = false
 [view-kcfg.default]
 foundry-project-root       = '.'
 use-hex-encoding           = false
+omit-code-cells            = true
+omit-interim-cells         = true
+omit-cost-cells            = true
+
 """
 
 

@@ -743,11 +743,17 @@ class VersionOptions(LoggingOptions):
 class ViewKcfgOptions(FoundryTestOptions, LoggingOptions, FoundryOptions):
 
     use_hex_encoding: bool
+    omit_code_cells: bool
+    omit_interim_cells: bool
+    omit_cost_cells: bool
 
     @staticmethod
     def default() -> dict[str, Any]:
         return {
             'use_hex_encoding': False,
+            'omit_code_cells': False,
+            'omit_interim_cells': False,
+            'omit_cost_cells': False,
         }
 
     @staticmethod
