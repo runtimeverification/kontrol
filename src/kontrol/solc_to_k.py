@@ -1020,7 +1020,7 @@ def _range_predicate(term: KInner, type_label: str, dynamic_type_length: int | N
     ]
 
     for f in predicate_functions:
-        (success, result) = f(term, type_label)
+        success, result = f(term, type_label)
         if success:
             return result
 
@@ -1303,7 +1303,7 @@ def parse_output(output: bytes, contract_errors: dict[bytes, tuple[str, list[str
 
     # User defined errors
     elif selector in contract_errors:
-        (error_name, args) = contract_errors[selector]
+        error_name, args = contract_errors[selector]
         decoded = decode(args, output[4:])
         return f'{error_name}{decoded}'
 
