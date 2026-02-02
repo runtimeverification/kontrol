@@ -94,7 +94,7 @@ class Instruction:
 
     def source_range(self) -> SourceRange:
         try:
-            (s, l, f, *_) = self.source_map_entry
+            s, l, f, *_ = self.source_map_entry
             try:
                 source = self.compilation_unit.get_source_by_id(f)
             except KeyError:
