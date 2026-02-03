@@ -175,7 +175,7 @@ def sgp_ast_to_kast(node: Any, method: Contract.Method, init_cterm: CTerm, contr
                 return KVariable(function_arg)
 
             # Check if it's a storage variable
-            (storage_slot, _slot_offset) = contract.get_storage_slot_by_name(node.name)
+            storage_slot, _slot_offset = contract.get_storage_slot_by_name(node.name)
             target_address = init_cterm.cell('ID_CELL')
             if storage_slot:
                 storage_map = lookup_storage_by_address(init_cterm, target_address)
