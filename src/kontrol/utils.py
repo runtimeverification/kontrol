@@ -374,7 +374,10 @@ def parse_env_file(path: Path) -> dict[str, str]:
             line = line.strip()
             if not line:
                 continue
-            # Match KEY=VALUE or KEY: VALUE
+            # Support lines starting with 'export '
+            if line.startswith('export '):
+                line = line[len('export '):].lstrip()
+            # Match KEY=VALUE
             m = re.match(r'^([\w\.]+)\s*=\s*(.*)$', line)
             if not m:
                 continue
