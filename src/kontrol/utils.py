@@ -372,7 +372,7 @@ def parse_env_file(path: Path) -> dict[str, str]:
     with open(path, encoding='utf-8') as f:
         for line in f:
             line = line.strip()
-            if not line:
+            if not line or line.startswith('#'):
                 continue
             # Support lines starting with 'export '
             if line.startswith('export '):
@@ -382,7 +382,8 @@ def parse_env_file(path: Path) -> dict[str, str]:
             if not m:
                 continue
             key, val = m.group(1).strip(), m.group(2).strip()
-            if line.startswith('#'):
+            if val.startswith('#'):
+                # if # is right after =, for instance VAR=#value, then treat as empty value
                 env_vars[key] = ''
                 continue
             # Robust quoted value parsing
@@ -395,9 +396,6 @@ def parse_env_file(path: Path) -> dict[str, str]:
                 # Remove inline comments (unquoted) only if ' #' is present
                 hash_idx = val.find('#')
                 if hash_idx != -1:
-                    if val.startswith('#'):
-                        env_vars[key] = ''
-                        continue  # if # is right after =, for instance VAR=#value, then treat as empty value
                     if val[hash_idx - 1] != ' ':
                         continue  # skip if # is not preceded by a space because it's not a valid comment
                     val = val.split(' #', 1)[0].strip()
@@ -408,16 +406,6 @@ def parse_env_file(path: Path) -> dict[str, str]:
 
             env_vars[key] = val
     return env_vars
-
-
-def parse_foundry_env(foundry_root: Path) -> dict[str, str]:
-    """Parse the .env file located in the Foundry root directory.
-
-    :param foundry_root: Path to the Foundry project root directory
-    :return: Dictionary with environment variable names as keys and their values as strings
-    """
-    env_file = foundry_root / '.env'
-    return parse_env_file(env_file)
 
 
 EMPTY_LOG_SELECTOR = 1368866505

@@ -39,7 +39,7 @@ from .foundry import Foundry, KontrolSemantics, foundry_to_xml
 from .natspec import apply_natspec_preconditions
 from .options import ConfigType
 from .solc_to_k import Contract, decode_kinner_output
-from .utils import console, parse_foundry_env, parse_test_version_tuple, replace_k_words
+from .utils import console, parse_env_file, parse_test_version_tuple, replace_k_words
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -1008,12 +1008,13 @@ def _init_cterm(
         'ENVVARS_CELL': KApply('.Map'),
     }
 
-    # Initialize ENVVARS_CELL with environment variables from .env file
-    env_vars = parse_foundry_env(foundry._root)
-    env_map = map_empty()
-    for key, value in env_vars.items():
-        env_map = KApply('_Map_', [map_item(bytesToken(key.encode('utf-8')), token(value)), env_map])
-    init_subst['ENVVARS_CELL'] = env_map
+    if foundry.env_file is not None:
+        # Initialize ENVVARS_CELL with environment variables from .env file
+        env_vars = parse_env_file(foundry._root / foundry.env_file)
+        env_map = map_empty()
+        for key, value in env_vars.items():
+            env_map = KApply('_Map_', [map_item(bytesToken(key.encode('utf-8')), token(value)), env_map])
+        init_subst['ENVVARS_CELL'] = env_map
 
     storage_constraints: list[KApply] = []
 
