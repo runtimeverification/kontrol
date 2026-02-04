@@ -374,6 +374,10 @@ def parse_env_file(path: Path) -> dict[str, str]:
             line = line.strip()
             if not line:
                 continue
+                # Robust quoted value parsing
+            if line.startswith('#'):
+                env_vars[key] = ''
+                continue
             # Support lines starting with 'export '
             if line.startswith('export '):
                 line = line[len('export '):].lstrip()
@@ -381,11 +385,7 @@ def parse_env_file(path: Path) -> dict[str, str]:
             m = re.match(r'^([\w\.]+)\s*=\s*(.*)$', line)
             if not m:
                 continue
-            key, val = m.group(1), m.group(2)
-            # Robust quoted value parsing
-            if line.startswith('#'):
-                env_vars[key] = ''
-                continue
+            key, val = m.group(1).strip(), m.group(2).strip()
             if val.startswith(('"', "'")):
                 parsed_val = parse_quoted_value(f, val)
                 if parsed_val is None:
@@ -395,8 +395,11 @@ def parse_env_file(path: Path) -> dict[str, str]:
                 # Remove inline comments (unquoted) only if ' #' is present
                 hash_idx = val.find('#')
                 if hash_idx != -1:
+                    if val.startswith('#'):
+                        env_vars[key] = ''
+                        continue # if # is right after =, for instance VAR=#value, then treat as empty value
                     if val[hash_idx - 1] != ' ':
-                        continue  # skip if # is not preceded by a space
+                        continue  # skip if # is not preceded by a space because it's not a valid comment
                     val = val.split(' #', 1)[0].strip()
 
                 # If unquoted value contains whitespace, skip this variable
