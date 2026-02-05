@@ -66,7 +66,7 @@
 ┃  │   method: test%AssertTest.test_failing_branch(uint256)
 ┃  │
 ┃  │  (2 steps)
-┃  ├─ 14 (terminal)
+┃  ├─ 15 (terminal)
 ┃  │   k: #halt ~> CONTINUATION:K
 ┃  │   pc: 328
 ┃  │   callDepth: 0
@@ -103,7 +103,7 @@
    │   method: test%AssertTest.test_failing_branch(uint256)
    │
    │  (1 step)
-   ├─ 15
+   ├─ 14
    │   k: #halt ~> #pc [ REVERT ] ~> #execute ~> CONTINUATION:K
    │   pc: 2995
    │   callDepth: 0
@@ -1854,256 +1854,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-FAILING-BRANCH(UINT256):0
                )))))))))
       [priority(20), label(BASIC-BLOCK-10-TO-13)]
     
-    rule [BASIC-BLOCK-12-TO-14]: <foundry>
-           <kevm>
-             <k>
-               #halt
-               ~> ( #pc [ STOP ]
-               ~> #execute => .K )
-               ~> _CONTINUATION:K
-             </k>
-             <mode>
-               NORMAL
-             </mode>
-             <schedule>
-               CANCUN
-             </schedule>
-             <useGas>
-               false
-             </useGas>
-             <ethereum>
-               <evm>
-                 <output>
-                   b""
-                 </output>
-                 <statusCode>
-                   EVMC_SUCCESS
-                 </statusCode>
-                 <callStack>
-                   .List
-                 </callStack>
-                 <interimStates>
-                   .List
-                 </interimStates>
-                 <touchedAccounts>
-                   .Set
-                 </touchedAccounts>
-                 <callState>
-                   <id>
-                     #address ( FoundryTest )
-                   </id>
-                   <caller>
-                     137122462167341575662000267002353578582749290296
-                   </caller>
-                   <callData>
-                     b"F\"\xb1U" +Bytes #buf ( 32 , KV0_x:Int )
-                   </callData>
-                   <callValue>
-                     0
-                   </callValue>
-                   <wordStack>
-                     ( 1176678741 : .WordStack )
-                   </wordStack>
-                   <localMem>
-                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80"
-                   </localMem>
-                   <memoryUsed>
-                     0
-                   </memoryUsed>
-                   <callGas>
-                     0
-                   </callGas>
-                   <static>
-                     false
-                   </static>
-                   <callDepth>
-                     0
-                   </callDepth>
-                   <codeAddr>
-                     #address ( FoundryTest )
-                   </codeAddr>
-                   ...
-                 </callState>
-                 <substate>
-                   <log>
-                     .List
-                   </log>
-                   <refund>
-                     0
-                   </refund>
-                   <accessedAccounts>
-                     .Set
-                   </accessedAccounts>
-                   <accessedStorage>
-                     .Map
-                   </accessedStorage>
-                   <createdAccounts>
-                     .Set
-                   </createdAccounts>
-                   ...
-                 </substate>
-                 <origin>
-                   137122462167341575662000267002353578582749290296
-                 </origin>
-                 <block>
-                   <number>
-                     NUMBER_CELL:Int
-                   </number>
-                   <timestamp>
-                     TIMESTAMP_CELL:Int
-                   </timestamp>
-                   <mixHash>
-                     MIXHASH_CELL:Int
-                   </mixHash>
-                   ...
-                 </block>
-                 ...
-               </evm>
-               <network>
-                 <chainID>
-                   1
-                 </chainID>
-                 <accounts>
-                   ( <account>
-                     <acctID>
-                       #address ( FoundryCheat )
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     <storage>
-                       .Map
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <transientStorage>
-                       .Map
-                     </transientStorage>
-                     <nonce>
-                       0
-                     </nonce>
-                     ...
-                   </account>
-                   <account>
-                     <acctID>
-                       #address ( FoundryTest )
-                     </acctID>
-                     <balance>
-                       maxUInt96
-                     </balance>
-                     <storage>
-                       .Map
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <transientStorage>
-                       .Map
-                     </transientStorage>
-                     <nonce>
-                       1
-                     </nonce>
-                     ...
-                   </account> )
-                 </accounts>
-                 ...
-               </network>
-             </ethereum>
-             ...
-           </kevm>
-           <stackChecks>
-             true
-           </stackChecks>
-           <cheatcodes>
-             <prank>
-               <active>
-                 false
-               </active>
-               <singleCall>
-                 false
-               </singleCall>
-               ...
-             </prank>
-             <expectedRevert>
-               <isRevertExpected>
-                 false
-               </isRevertExpected>
-               ...
-             </expectedRevert>
-             <expectedOpcode>
-               <isOpcodeExpected>
-                 false
-               </isOpcodeExpected>
-               ...
-             </expectedOpcode>
-             <expectEmit>
-               <recordEvent>
-                 false
-               </recordEvent>
-               <isEventExpected>
-                 false
-               </isEventExpected>
-               ...
-             </expectEmit>
-             <whitelist>
-               <isCallWhitelistActive>
-                 false
-               </isCallWhitelistActive>
-               <allowedCallsList>
-                 .List
-               </allowedCallsList>
-               <isStorageWhitelistActive>
-                 false
-               </isStorageWhitelistActive>
-               <storageSlotList>
-                 .List
-               </storageSlotList>
-             </whitelist>
-             <mockCalls>
-               .MockCallCellMap
-             </mockCalls>
-             <mockFunctions>
-               .MockFunctionCellMap
-             </mockFunctions>
-             <envVars>
-               ( ( b"ADDRESS" |-> "0x1234567890123456789012345678901234567890" )
-               ( ( b"ADDRESSARRAY" |-> "0x1234567890123456789012345678901234567890,0x2345678901234567890123456789012345678901,0x3456789012345678901234567890123456789012" )
-               ( ( b"ADDRESSINT" |-> "7584896468543216876435687541650546890874" )
-               ( ( b"BADADDRESS" |-> "0xGHIJKLMNOPQRSTUVWXYZ1234567890ABCDEFGHSL" )
-               ( ( b"BADBOOLFALSE" |-> "notaboolvalue" )
-               ( ( b"BADBOOLTRUE" |-> "notaboolvalue" )
-               ( ( b"BADBYTES32" |-> "0xbadbytes32_badbytes32_badbytes32_badbytes32_badbytes32_badbytes3" )
-               ( ( b"BADINT256" |-> "notanint" )
-               ( ( b"BADUINT256" |-> "-100" )
-               ( ( b"BOOLARRAY" |-> "true,false,true,false" )
-               ( ( b"BOOLFALSE" |-> "false" )
-               ( ( b"BOOLTRUE" |-> "true" )
-               ( ( b"BYTES" |-> "0xdeadbeef" )
-               ( ( b"BYTES32" |-> "0x123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0" )
-               ( ( b"BYTES32ARRAY" |-> "0x123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0,0x15864864541fe8548484c8548654189d4184864a48618c54615156d165651f65,0x7468697264d18561e8691a891968f189868c18969d1868641f1818861685a189" )
-               ( ( b"INT256" |-> "-100" )
-               ( ( b"INT256ARRAY" |-> "-2,-1,0,1,2" )
-               ( ( b"STRING" |-> "hello_world" )
-               ( ( b"STRINGARRAY" |-> "one,two" )
-               ( ( b"UINT256" |-> "100" )
-               ( b"UINT256ARRAY" |-> "0,1,2,3,4" ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) )
-             </envVars>
-           </cheatcodes>
-         </foundry>
-      requires ( 0 <=Int KV0_x:Int
-       andBool ( 100 <=Int KV0_x:Int
-       andBool ( 0 <=Int MIXHASH_CELL:Int
-       andBool ( pow24 <Int NUMBER_CELL:Int
-       andBool ( NUMBER_CELL:Int <Int pow32
-       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
-       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( KV0_x:Int <Int pow256
-       andBool ( MIXHASH_CELL:Int <Int pow256
-               )))))))))
-      [priority(20), label(BASIC-BLOCK-12-TO-14)]
-    
-    rule [BASIC-BLOCK-13-TO-15]: <foundry>
+    rule [BASIC-BLOCK-13-TO-14]: <foundry>
            <kevm>
              <k>
                ( #end EVMC_REVERT => #halt )
@@ -2350,9 +2101,258 @@ module SUMMARY-TEST%ASSERTTEST.TEST-FAILING-BRANCH(UINT256):0
        andBool ( KV0_x:Int <Int pow256
        andBool ( MIXHASH_CELL:Int <Int pow256
                )))))))))
-      [priority(20), label(BASIC-BLOCK-13-TO-15)]
+      [priority(20), label(BASIC-BLOCK-13-TO-14)]
     
-    rule [BASIC-BLOCK-15-TO-16]: <foundry>
+    rule [BASIC-BLOCK-12-TO-15]: <foundry>
+           <kevm>
+             <k>
+               #halt
+               ~> ( #pc [ STOP ]
+               ~> #execute => .K )
+               ~> _CONTINUATION:K
+             </k>
+             <mode>
+               NORMAL
+             </mode>
+             <schedule>
+               CANCUN
+             </schedule>
+             <useGas>
+               false
+             </useGas>
+             <ethereum>
+               <evm>
+                 <output>
+                   b""
+                 </output>
+                 <statusCode>
+                   EVMC_SUCCESS
+                 </statusCode>
+                 <callStack>
+                   .List
+                 </callStack>
+                 <interimStates>
+                   .List
+                 </interimStates>
+                 <touchedAccounts>
+                   .Set
+                 </touchedAccounts>
+                 <callState>
+                   <id>
+                     #address ( FoundryTest )
+                   </id>
+                   <caller>
+                     137122462167341575662000267002353578582749290296
+                   </caller>
+                   <callData>
+                     b"F\"\xb1U" +Bytes #buf ( 32 , KV0_x:Int )
+                   </callData>
+                   <callValue>
+                     0
+                   </callValue>
+                   <wordStack>
+                     ( 1176678741 : .WordStack )
+                   </wordStack>
+                   <localMem>
+                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80"
+                   </localMem>
+                   <memoryUsed>
+                     0
+                   </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
+                   <static>
+                     false
+                   </static>
+                   <callDepth>
+                     0
+                   </callDepth>
+                   <codeAddr>
+                     #address ( FoundryTest )
+                   </codeAddr>
+                   ...
+                 </callState>
+                 <substate>
+                   <log>
+                     .List
+                   </log>
+                   <refund>
+                     0
+                   </refund>
+                   <accessedAccounts>
+                     .Set
+                   </accessedAccounts>
+                   <accessedStorage>
+                     .Map
+                   </accessedStorage>
+                   <createdAccounts>
+                     .Set
+                   </createdAccounts>
+                   ...
+                 </substate>
+                 <origin>
+                   137122462167341575662000267002353578582749290296
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
+                   <mixHash>
+                     MIXHASH_CELL:Int
+                   </mixHash>
+                   ...
+                 </block>
+                 ...
+               </evm>
+               <network>
+                 <chainID>
+                   1
+                 </chainID>
+                 <accounts>
+                   ( <account>
+                     <acctID>
+                       #address ( FoundryCheat )
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       0
+                     </nonce>
+                     ...
+                   </account>
+                   <account>
+                     <acctID>
+                       #address ( FoundryTest )
+                     </acctID>
+                     <balance>
+                       maxUInt96
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       1
+                     </nonce>
+                     ...
+                   </account> )
+                 </accounts>
+                 ...
+               </network>
+             </ethereum>
+             ...
+           </kevm>
+           <stackChecks>
+             true
+           </stackChecks>
+           <cheatcodes>
+             <prank>
+               <active>
+                 false
+               </active>
+               <singleCall>
+                 false
+               </singleCall>
+               ...
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 false
+               </isRevertExpected>
+               ...
+             </expectedRevert>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 false
+               </isOpcodeExpected>
+               ...
+             </expectedOpcode>
+             <expectEmit>
+               <recordEvent>
+                 false
+               </recordEvent>
+               <isEventExpected>
+                 false
+               </isEventExpected>
+               ...
+             </expectEmit>
+             <whitelist>
+               <isCallWhitelistActive>
+                 false
+               </isCallWhitelistActive>
+               <allowedCallsList>
+                 .List
+               </allowedCallsList>
+               <isStorageWhitelistActive>
+                 false
+               </isStorageWhitelistActive>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
+             </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
+             <envVars>
+               ( ( b"ADDRESS" |-> "0x1234567890123456789012345678901234567890" )
+               ( ( b"ADDRESSARRAY" |-> "0x1234567890123456789012345678901234567890,0x2345678901234567890123456789012345678901,0x3456789012345678901234567890123456789012" )
+               ( ( b"ADDRESSINT" |-> "7584896468543216876435687541650546890874" )
+               ( ( b"BADADDRESS" |-> "0xGHIJKLMNOPQRSTUVWXYZ1234567890ABCDEFGHSL" )
+               ( ( b"BADBOOLFALSE" |-> "notaboolvalue" )
+               ( ( b"BADBOOLTRUE" |-> "notaboolvalue" )
+               ( ( b"BADBYTES32" |-> "0xbadbytes32_badbytes32_badbytes32_badbytes32_badbytes32_badbytes3" )
+               ( ( b"BADINT256" |-> "notanint" )
+               ( ( b"BADUINT256" |-> "-100" )
+               ( ( b"BOOLARRAY" |-> "true,false,true,false" )
+               ( ( b"BOOLFALSE" |-> "false" )
+               ( ( b"BOOLTRUE" |-> "true" )
+               ( ( b"BYTES" |-> "0xdeadbeef" )
+               ( ( b"BYTES32" |-> "0x123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0" )
+               ( ( b"BYTES32ARRAY" |-> "0x123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0,0x15864864541fe8548484c8548654189d4184864a48618c54615156d165651f65,0x7468697264d18561e8691a891968f189868c18969d1868641f1818861685a189" )
+               ( ( b"INT256" |-> "-100" )
+               ( ( b"INT256ARRAY" |-> "-2,-1,0,1,2" )
+               ( ( b"STRING" |-> "hello_world" )
+               ( ( b"STRINGARRAY" |-> "one,two" )
+               ( ( b"UINT256" |-> "100" )
+               ( b"UINT256ARRAY" |-> "0,1,2,3,4" ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) )
+             </envVars>
+           </cheatcodes>
+         </foundry>
+      requires ( 0 <=Int KV0_x:Int
+       andBool ( 100 <=Int KV0_x:Int
+       andBool ( 0 <=Int MIXHASH_CELL:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( KV0_x:Int <Int pow256
+       andBool ( MIXHASH_CELL:Int <Int pow256
+               )))))))))
+      [priority(20), label(BASIC-BLOCK-12-TO-15)]
+    
+    rule [BASIC-BLOCK-14-TO-16]: <foundry>
            <kevm>
              <k>
                #halt
@@ -2599,7 +2599,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-FAILING-BRANCH(UINT256):0
        andBool ( KV0_x:Int <Int pow256
        andBool ( MIXHASH_CELL:Int <Int pow256
                )))))))))
-      [priority(20), label(BASIC-BLOCK-15-TO-16)]
+      [priority(20), label(BASIC-BLOCK-14-TO-16)]
 
 endmodule
 1 Failure nodes. (0 pending and 1 failing)

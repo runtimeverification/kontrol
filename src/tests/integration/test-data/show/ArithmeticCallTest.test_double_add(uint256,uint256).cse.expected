@@ -30,7 +30,7 @@
 ┃  │   method: src%ArithmeticContract.add(uint256,uint256)
 ┃  │
 ┃  │  (73 steps)
-┃  └─ 11 (leaf, terminal)
+┃  └─ 13 (leaf, terminal)
 ┃      k: #halt ~> CONTINUATION:K
 ┃      pc: 2357
 ┃      callDepth: 0
@@ -51,7 +51,7 @@
 ┃  │   method: src%ArithmeticContract.add(uint256,uint256)
 ┃  │
 ┃  │  (486 steps)
-┃  └─ 17 (leaf, terminal)
+┃  └─ 15 (leaf, terminal)
 ┃      k: #halt ~> CONTINUATION:K
 ┃      pc: 2474
 ┃      callDepth: 0
@@ -117,7 +117,7 @@
 module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD(UINT256,UINT256):0
     
     
-    rule [BASIC-BLOCK-9-TO-11]: <foundry>
+    rule [BASIC-BLOCK-9-TO-13]: <foundry>
            <kevm>
              <k>
                ( #execute
@@ -512,7 +512,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD(UINT256,UINT256):0
        andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( ( maxUInt256 -Int KV1_y:Int ) <Int KV0_x:Int
                )))))))))))
-      [priority(20), label(BASIC-BLOCK-9-TO-11)]
+      [priority(20), label(BASIC-BLOCK-9-TO-13)]
     
     rule [BASIC-BLOCK-1-TO-7]: <foundry>
            <kevm>
@@ -929,7 +929,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD(UINT256,UINT256):0
                ))))
       [priority(20), label(BASIC-BLOCK-1-TO-7)]
     
-    rule [BASIC-BLOCK-21-TO-17]: <foundry>
+    rule [BASIC-BLOCK-21-TO-15]: <foundry>
            <kevm>
              <k>
                ( #execute
@@ -1326,7 +1326,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD(UINT256,UINT256):0
        andBool ( ( maxUInt256 -Int KV1_y:Int ) <Int ( KV0_x:Int +Int KV1_y:Int )
                ))))))))))))
        ensures ( KV0_x:Int +Int KV1_y:Int ) <Int pow256
-      [priority(20), label(BASIC-BLOCK-21-TO-17)]
+      [priority(20), label(BASIC-BLOCK-21-TO-15)]
     
     rule [BASIC-BLOCK-24-TO-18]: <foundry>
            <kevm>

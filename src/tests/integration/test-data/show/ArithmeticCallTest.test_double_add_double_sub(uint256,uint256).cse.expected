@@ -30,7 +30,7 @@
 ┃  │   method: src%ArithmeticContract.add(uint256,uint256)
 ┃  │
 ┃  │  (73 steps)
-┃  └─ 13 (leaf, terminal)
+┃  └─ 11 (leaf, terminal)
 ┃      k: #halt ~> CONTINUATION:K
 ┃      pc: 2613
 ┃      callDepth: 0
@@ -166,7 +166,7 @@
 module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT256):0
     
     
-    rule [BASIC-BLOCK-9-TO-13]: <foundry>
+    rule [BASIC-BLOCK-9-TO-11]: <foundry>
            <kevm>
              <k>
                ( #execute
@@ -561,7 +561,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
        andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( ( maxUInt256 -Int KV1_y:Int ) <Int KV0_x:Int
                )))))))))))
-      [priority(20), label(BASIC-BLOCK-9-TO-13)]
+      [priority(20), label(BASIC-BLOCK-9-TO-11)]
     
     rule [BASIC-BLOCK-1-TO-7]: <foundry>
            <kevm>

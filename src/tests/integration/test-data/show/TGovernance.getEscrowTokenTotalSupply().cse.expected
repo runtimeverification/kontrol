@@ -147,7 +147,7 @@
 ┃  ┃  ┃ (1 step)
 ┃  ┃  ┣━━┓
 ┃  ┃  ┃  │
-┃  ┃  ┃  └─ 45 (leaf, pending)
+┃  ┃  ┃  └─ 47 (leaf, pending)
 ┃  ┃  ┃      k: #next [ CALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32 ~> #ex ...
 ┃  ┃  ┃      pc: 138
 ┃  ┃  ┃      callDepth: EXPECTEDDEPTH_CELL:Int
@@ -157,7 +157,7 @@
 ┃  ┃  ┃
 ┃  ┃  ┣━━┓
 ┃  ┃  ┃  │
-┃  ┃  ┃  └─ 46 (leaf, pending)
+┃  ┃  ┃  └─ 48 (leaf, pending)
 ┃  ┃  ┃      k: #next [ CALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32 ~> #ex ...
 ┃  ┃  ┃      pc: 138
 ┃  ┃  ┃      callDepth: EXPECTEDDEPTH_CELL:Int
@@ -167,7 +167,7 @@
 ┃  ┃  ┃
 ┃  ┃  ┗━━┓
 ┃  ┃     │
-┃  ┃     └─ 47 (leaf, pending)
+┃  ┃     └─ 49 (leaf, pending)
 ┃  ┃         k: #injectPrank ~> #next [ CALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutp ...
 ┃  ┃         pc: 138
 ┃  ┃         callDepth: EXPECTEDDEPTH_CELL:Int
@@ -233,76 +233,6 @@
 ┃  ┃  ┃ (1 step)
 ┃  ┃  ┣━━┓
 ┃  ┃  ┃  │
-┃  ┃  ┃  └─ 33 (leaf, pending)
-┃  ┃  ┃      k: #refund 0 ~> #pushCallStack ~> #pushWorldState ~> #end EVMC_BALANCE_UNDERFLOW ~> ...
-┃  ┃  ┃      pc: 138
-┃  ┃  ┃      callDepth: DEPTH_CELL:Int
-┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
-┃  ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃  ┃      method: test%TGovernance.getEscrowTokenTotalSupply()
-┃  ┃  ┃
-┃  ┃  ┣━━┓
-┃  ┃  ┃  │
-┃  ┃  ┃  └─ 34 (leaf, pending)
-┃  ┃  ┃      k: #checkDepthExceeded ~> #call NCL:Int C_TGOVERNANCE_ESCROW_ID:Int C_TGOVERNANCE_E ...
-┃  ┃  ┃      pc: 138
-┃  ┃  ┃      callDepth: DEPTH_CELL:Int
-┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
-┃  ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃  ┃      method: test%TGovernance.getEscrowTokenTotalSupply()
-┃  ┃  ┃
-┃  ┃  ┣━━┓
-┃  ┃  ┃  │
-┃  ┃  ┃  └─ 35 (leaf, pending)
-┃  ┃  ┃      k: #checkDepthExceeded ~> #call NCL:Int NCL:Int NCL:Int 0 0 b"W\xdf\x84K" false ~>  ...
-┃  ┃  ┃      pc: 138
-┃  ┃  ┃      callDepth: DEPTH_CELL:Int
-┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
-┃  ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃  ┃      method: test%TGovernance.getEscrowTokenTotalSupply()
-┃  ┃  ┃
-┃  ┃  ┣━━┓
-┃  ┃  ┃  │
-┃  ┃  ┃  └─ 36 (leaf, pending)
-┃  ┃  ┃      k: #checkDepthExceeded ~> #call NCL:Int C_TGOVERNANCE_ESCROW_ID:Int C_TGOVERNANCE_E ...
-┃  ┃  ┃      pc: 138
-┃  ┃  ┃      callDepth: DEPTH_CELL:Int
-┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
-┃  ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃  ┃      method: test%TGovernance.getEscrowTokenTotalSupply()
-┃  ┃  ┃
-┃  ┃  ┗━━┓
-┃  ┃     │
-┃  ┃     └─ 37 (leaf, pending)
-┃  ┃         k: #checkBalanceUnderflow NCL:Int 0 ~> #checkDepthExceeded ~> #call NCL:Int C_TGOVE ...
-┃  ┃         pc: 138
-┃  ┃         callDepth: DEPTH_CELL:Int
-┃  ┃         statusCode: STATUSCODE:StatusCode
-┃  ┃         src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃         method: test%TGovernance.getEscrowTokenTotalSupply()
-┃  ┃
-┃  ┣━━┓
-┃  ┃  │
-┃  ┃  ├─ 10
-┃  ┃  │   k: #next [ CALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
-┃  ┃  │   pc: 138
-┃  ┃  │   callDepth: DEPTH_CELL:Int
-┃  ┃  │   statusCode: STATUSCODE:StatusCode
-┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃  │   method: test%TGovernance.getEscrowTokenTotalSupply()
-┃  ┃  │
-┃  ┃  │  (7 steps)
-┃  ┃  ├─ 17
-┃  ┃  │   k: #checkBalanceUnderflow NCL:Int 0 ~> #checkDepthExceeded ~> #call NCL:Int C_TGOVE ...
-┃  ┃  │   pc: 138
-┃  ┃  │   callDepth: DEPTH_CELL:Int
-┃  ┃  │   statusCode: STATUSCODE:StatusCode
-┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃  │   method: test%TGovernance.getEscrowTokenTotalSupply()
-┃  ┃  ┃
-┃  ┃  ┃ (1 step)
-┃  ┃  ┣━━┓
-┃  ┃  ┃  │
 ┃  ┃  ┃  └─ 26 (leaf, pending)
 ┃  ┃  ┃      k: #refund 0 ~> #pushCallStack ~> #pushWorldState ~> #end EVMC_BALANCE_UNDERFLOW ~> ...
 ┃  ┃  ┃      pc: 138
@@ -351,6 +281,76 @@
 ┃  ┃         src: test/nested/SimpleNested.t.sol:7:11
 ┃  ┃         method: test%TGovernance.getEscrowTokenTotalSupply()
 ┃  ┃
+┃  ┣━━┓
+┃  ┃  │
+┃  ┃  ├─ 10
+┃  ┃  │   k: #next [ CALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃  ┃  │   pc: 138
+┃  ┃  │   callDepth: DEPTH_CELL:Int
+┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃  │   method: test%TGovernance.getEscrowTokenTotalSupply()
+┃  ┃  │
+┃  ┃  │  (7 steps)
+┃  ┃  ├─ 17
+┃  ┃  │   k: #checkBalanceUnderflow NCL:Int 0 ~> #checkDepthExceeded ~> #call NCL:Int C_TGOVE ...
+┃  ┃  │   pc: 138
+┃  ┃  │   callDepth: DEPTH_CELL:Int
+┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃  │   method: test%TGovernance.getEscrowTokenTotalSupply()
+┃  ┃  ┃
+┃  ┃  ┃ (1 step)
+┃  ┃  ┣━━┓
+┃  ┃  ┃  │
+┃  ┃  ┃  └─ 33 (leaf, pending)
+┃  ┃  ┃      k: #refund 0 ~> #pushCallStack ~> #pushWorldState ~> #end EVMC_BALANCE_UNDERFLOW ~> ...
+┃  ┃  ┃      pc: 138
+┃  ┃  ┃      callDepth: DEPTH_CELL:Int
+┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃  ┃      method: test%TGovernance.getEscrowTokenTotalSupply()
+┃  ┃  ┃
+┃  ┃  ┣━━┓
+┃  ┃  ┃  │
+┃  ┃  ┃  └─ 34 (leaf, pending)
+┃  ┃  ┃      k: #checkDepthExceeded ~> #call NCL:Int C_TGOVERNANCE_ESCROW_ID:Int C_TGOVERNANCE_E ...
+┃  ┃  ┃      pc: 138
+┃  ┃  ┃      callDepth: DEPTH_CELL:Int
+┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃  ┃      method: test%TGovernance.getEscrowTokenTotalSupply()
+┃  ┃  ┃
+┃  ┃  ┣━━┓
+┃  ┃  ┃  │
+┃  ┃  ┃  └─ 35 (leaf, pending)
+┃  ┃  ┃      k: #checkDepthExceeded ~> #call NCL:Int NCL:Int NCL:Int 0 0 b"W\xdf\x84K" false ~>  ...
+┃  ┃  ┃      pc: 138
+┃  ┃  ┃      callDepth: DEPTH_CELL:Int
+┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃  ┃      method: test%TGovernance.getEscrowTokenTotalSupply()
+┃  ┃  ┃
+┃  ┃  ┣━━┓
+┃  ┃  ┃  │
+┃  ┃  ┃  └─ 36 (leaf, pending)
+┃  ┃  ┃      k: #checkDepthExceeded ~> #call NCL:Int C_TGOVERNANCE_ESCROW_ID:Int C_TGOVERNANCE_E ...
+┃  ┃  ┃      pc: 138
+┃  ┃  ┃      callDepth: DEPTH_CELL:Int
+┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃  ┃      method: test%TGovernance.getEscrowTokenTotalSupply()
+┃  ┃  ┃
+┃  ┃  ┗━━┓
+┃  ┃     │
+┃  ┃     └─ 37 (leaf, pending)
+┃  ┃         k: #checkBalanceUnderflow NCL:Int 0 ~> #checkDepthExceeded ~> #call NCL:Int C_TGOVE ...
+┃  ┃         pc: 138
+┃  ┃         callDepth: DEPTH_CELL:Int
+┃  ┃         statusCode: STATUSCODE:StatusCode
+┃  ┃         src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃         method: test%TGovernance.getEscrowTokenTotalSupply()
+┃  ┃
 ┃  ┗━━┓
 ┃     │
 ┃     ├─ 11
@@ -364,7 +364,7 @@
 ┃     ┃ (1 step)
 ┃     ┣━━┓
 ┃     ┃  │
-┃     ┃  ├─ 23
+┃     ┃  ├─ 21
 ┃     ┃  │   k: #next [ CALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
 ┃     ┃  │   pc: 138
 ┃     ┃  │   callDepth: DEPTH_CELL:Int
@@ -373,7 +373,7 @@
 ┃     ┃  │   method: test%TGovernance.getEscrowTokenTotalSupply()
 ┃     ┃  │
 ┃     ┃  │  (7 steps)
-┃     ┃  └─ 44 (leaf, pending)
+┃     ┃  └─ 42 (leaf, pending)
 ┃     ┃      k: #checkBalanceUnderflow NCL:Int 0 ~> #checkDepthExceeded ~> #call NCL:Int C_TGOVE ...
 ┃     ┃      pc: 138
 ┃     ┃      callDepth: DEPTH_CELL:Int
@@ -383,7 +383,7 @@
 ┃     ┃
 ┃     ┗━━┓
 ┃        │
-┃        ├─ 24
+┃        ├─ 22
 ┃        │   k: #injectPrank ~> #next [ CALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
 ┃        │   pc: 138
 ┃        │   callDepth: DEPTH_CELL:Int
@@ -394,7 +394,7 @@
 ┃        ┃ (1 step)
 ┃        ┣━━┓
 ┃        ┃  │
-┃        ┃  └─ 48 (leaf, pending)
+┃        ┃  └─ 43 (leaf, pending)
 ┃        ┃      k: #next [ CALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
 ┃        ┃      pc: 138
 ┃        ┃      callDepth: DEPTH_CELL:Int
@@ -404,7 +404,7 @@
 ┃        ┃
 ┃        ┗━━┓
 ┃           │
-┃           └─ 49 (leaf, pending)
+┃           └─ 44 (leaf, pending)
 ┃               k: #injectPrank ~> #next [ CALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
 ┃               pc: 138
 ┃               callDepth: DEPTH_CELL:Int
@@ -436,7 +436,7 @@
    ┃  │   method: test%TGovernance.getEscrowTokenTotalSupply()
    ┃  │
    ┃  │  (24 steps)
-   ┃  └─ 42 (leaf, pending)
+   ┃  └─ 45 (leaf, pending)
    ┃      k: #next [ CALL ] ~> #execute ~> #return 128 32 ~> #pc [ CALL ] ~> #execute ~> CONT ...
    ┃      pc: 143
    ┃      callDepth: ( CALLDEPTH_CELL:Int +Int 1 )
@@ -457,7 +457,7 @@
       │   method: test%TGovernance.getEscrowTokenTotalSupply()
       │
       │  (83 steps)
-      └─ 43 (leaf, pending)
+      └─ 46 (leaf, pending)
           k: #halt ~> CONTINUATION:K
           pc: 153
           callDepth: CALLDEPTH_CELL:Int
@@ -2486,7 +2486,7 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
                )))))))))))))))))))))))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-19-TO-39)]
     
-    rule [BASIC-BLOCK-23-TO-44]: <foundry>
+    rule [BASIC-BLOCK-21-TO-42]: <foundry>
            <kevm>
              <k>
                ( #next [ CALL ] ~> .K => #checkBalanceUnderflow NCL:Int 0
@@ -2779,9 +2779,9 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
                  ))
        andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
                )))))))))))))))))))))))))))))))))))))))))))))))))))))))
-      [priority(20), label(BASIC-BLOCK-23-TO-44)]
+      [priority(20), label(BASIC-BLOCK-21-TO-42)]
     
-    rule [BASIC-BLOCK-50-TO-42]: <foundry>
+    rule [BASIC-BLOCK-50-TO-45]: <foundry>
            <kevm>
              <k>
                ( #addr [ CALL ]
@@ -3231,9 +3231,9 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
        andBool ( ( notBool ( CALLDEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
        andBool ( ( notBool ( ACTIVE_CELL:Bool andBool ( CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int andBool NEWCALLER_CELL:Account =/=K C_TGOVERNANCE_ID:Int ) ) )
                )))))))))))))))))))))))))))))))))))))))))))))))))))
-      [priority(20), label(BASIC-BLOCK-50-TO-42)]
+      [priority(20), label(BASIC-BLOCK-50-TO-45)]
     
-    rule [BASIC-BLOCK-51-TO-43]: <foundry>
+    rule [BASIC-BLOCK-51-TO-46]: <foundry>
            <kevm>
              <k>
                ( #addr [ CALL ]
@@ -3522,6 +3522,6 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
        andBool ( ( notBool ( CALLDEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
        andBool ( ( notBool ( ACTIVE_CELL:Bool andBool ( CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int andBool NEWCALLER_CELL:Account =/=K C_TGOVERNANCE_ID:Int ) ) )
                )))))))))))))))))))))))))))))))))))))))))))))))))))
-      [priority(20), label(BASIC-BLOCK-51-TO-43)]
+      [priority(20), label(BASIC-BLOCK-51-TO-46)]
 
 endmodule
