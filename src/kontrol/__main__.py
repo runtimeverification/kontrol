@@ -87,6 +87,7 @@ def _load_foundry(
     use_hex_encoding: bool = False,
     add_enum_constraints: bool = False,
     expand_config: bool = False,
+    env_file: str | None = None,
 ) -> Foundry:
     try:
         foundry = Foundry(
@@ -95,6 +96,7 @@ def _load_foundry(
             use_hex_encoding=use_hex_encoding,
             add_enum_constraints=add_enum_constraints,
             expand_config=expand_config,
+            env_file=env_file,
         )
     except FileNotFoundError:
         print(
@@ -157,7 +159,9 @@ def exec_build(options: BuildOptions) -> None:
         console.print(building_message)
         foundry_kompile(
             options=options,
-            foundry=_load_foundry(options.foundry_root, add_enum_constraints=options.enum_constraints),
+            foundry=_load_foundry(
+                options.foundry_root, add_enum_constraints=options.enum_constraints, env_file=options.env_file
+            ),
         )
         console.print(
             ':white_heavy_check_mark: [bold green]Success![/bold green] [bold]Kontrol project built[/bold] :muscle:'
@@ -198,7 +202,12 @@ def exec_prove(options: ProveOptions) -> None:
         proving_message = f'[{_rv_blue()}]:person_running: [bold]Running [{_rv_yellow()}]Kontrol[/{_rv_yellow()}] proofs[/bold] :person_running:[/{_rv_blue()}]'
     else:
         proving_message = f'[{_rv_blue()}]:person_running: [bold]Running [{_rv_yellow()}]Kontrol[/{_rv_yellow()}] proofs[/bold] :person_running: \n Add `--verbose` to `kontrol prove` for more details![/{_rv_blue()}]'
-    foundry = _load_foundry(options.foundry_root, options.bug_report, add_enum_constraints=options.enum_constraints)
+    foundry = _load_foundry(
+        options.foundry_root,
+        options.bug_report,
+        add_enum_constraints=options.enum_constraints,
+        env_file=options.env_file,
+    )
     try:
         console.print(proving_message)
         results = foundry_prove(
@@ -268,6 +277,7 @@ def exec_show(options: ShowOptions) -> None:
             use_hex_encoding=options.use_hex_encoding,
             add_enum_constraints=options.enum_constraints,
             expand_config=options.expand_config,
+            env_file=options.env_file,
         ),
         options=options,
     )
@@ -275,7 +285,9 @@ def exec_show(options: ShowOptions) -> None:
 
 
 def exec_refute_node(options: RefuteNodeOptions) -> None:
-    foundry = _load_foundry(options.foundry_root, add_enum_constraints=options.enum_constraints)
+    foundry = _load_foundry(
+        options.foundry_root, add_enum_constraints=options.enum_constraints, env_file=options.env_file
+    )
     refutation = foundry_refute_node(foundry=foundry, options=options)
 
     if refutation:
@@ -289,14 +301,18 @@ def exec_refute_node(options: RefuteNodeOptions) -> None:
 
 def exec_unrefute_node(options: UnrefuteNodeOptions) -> None:
     foundry_unrefute_node(
-        foundry=_load_foundry(options.foundry_root, add_enum_constraints=options.enum_constraints),
+        foundry=_load_foundry(
+            options.foundry_root, add_enum_constraints=options.enum_constraints, env_file=options.env_file
+        ),
         options=options,
     )
 
 
 def exec_split_node(options: SplitNodeOptions) -> None:
     node_ids = foundry_split_node(
-        foundry=_load_foundry(options.foundry_root, add_enum_constraints=options.enum_constraints),
+        foundry=_load_foundry(
+            options.foundry_root, add_enum_constraints=options.enum_constraints, env_file=options.env_file
+        ),
         options=options,
     )
 
@@ -304,27 +320,38 @@ def exec_split_node(options: SplitNodeOptions) -> None:
 
 
 def exec_list(options: ListOptions) -> None:
-    stats = foundry_list(foundry=_load_foundry(options.foundry_root, add_enum_constraints=options.enum_constraints))
+    stats = foundry_list(
+        foundry=_load_foundry(
+            options.foundry_root, add_enum_constraints=options.enum_constraints, env_file=options.env_file
+        )
+    )
     print('\n'.join(stats))
 
 
 def exec_view_kcfg(options: ViewKcfgOptions) -> None:
     foundry = _load_foundry(
-        options.foundry_root, use_hex_encoding=options.use_hex_encoding, add_enum_constraints=options.enum_constraints
+        options.foundry_root,
+        use_hex_encoding=options.use_hex_encoding,
+        add_enum_constraints=options.enum_constraints,
+        env_file=options.env_file,
     )
     foundry_view(foundry, options)
 
 
 def exec_minimize_proof(options: MinimizeProofOptions) -> None:
     foundry_minimize_proof(
-        foundry=_load_foundry(options.foundry_root, add_enum_constraints=options.enum_constraints),
+        foundry=_load_foundry(
+            options.foundry_root, add_enum_constraints=options.enum_constraints, env_file=options.env_file
+        ),
         options=options,
     )
 
 
 def exec_remove_node(options: RemoveNodeOptions) -> None:
     foundry_remove_node(
-        foundry=_load_foundry(options.foundry_root, add_enum_constraints=options.enum_constraints),
+        foundry=_load_foundry(
+            options.foundry_root, add_enum_constraints=options.enum_constraints, env_file=options.env_file
+        ),
         options=options,
     )
 
@@ -332,7 +359,12 @@ def exec_remove_node(options: RemoveNodeOptions) -> None:
 def exec_simplify_node(options: SimplifyNodeOptions) -> None:
 
     pretty_term = foundry_simplify_node(
-        foundry=_load_foundry(options.foundry_root, options.bug_report, add_enum_constraints=options.enum_constraints),
+        foundry=_load_foundry(
+            options.foundry_root,
+            options.bug_report,
+            add_enum_constraints=options.enum_constraints,
+            env_file=options.env_file,
+        ),
         options=options,
     )
     print(f'Simplified:\n{pretty_term}')
@@ -340,14 +372,21 @@ def exec_simplify_node(options: SimplifyNodeOptions) -> None:
 
 def exec_step_node(options: StepNodeOptions) -> None:
     foundry_step_node(
-        foundry=_load_foundry(options.foundry_root, options.bug_report, add_enum_constraints=options.enum_constraints),
+        foundry=_load_foundry(
+            options.foundry_root,
+            options.bug_report,
+            add_enum_constraints=options.enum_constraints,
+            env_file=options.env_file,
+        ),
         options=options,
     )
 
 
 def exec_merge_nodes(options: MergeNodesOptions) -> None:
     foundry_merge_nodes(
-        foundry=_load_foundry(options.foundry_root, add_enum_constraints=options.enum_constraints),
+        foundry=_load_foundry(
+            options.foundry_root, add_enum_constraints=options.enum_constraints, env_file=options.env_file
+        ),
         options=options,
     )
 
@@ -355,7 +394,12 @@ def exec_merge_nodes(options: MergeNodesOptions) -> None:
 def exec_section_edge(options: SectionEdgeOptions) -> None:
 
     foundry_section_edge(
-        foundry=_load_foundry(options.foundry_root, options.bug_report, add_enum_constraints=options.enum_constraints),
+        foundry=_load_foundry(
+            options.foundry_root,
+            options.bug_report,
+            add_enum_constraints=options.enum_constraints,
+            env_file=options.env_file,
+        ),
         options=options,
     )
 
@@ -363,14 +407,16 @@ def exec_section_edge(options: SectionEdgeOptions) -> None:
 def exec_get_model(options: GetModelOptions) -> None:
 
     output = foundry_get_model(
-        foundry=_load_foundry(options.foundry_root, add_enum_constraints=options.enum_constraints),
+        foundry=_load_foundry(
+            options.foundry_root, add_enum_constraints=options.enum_constraints, env_file=options.env_file
+        ),
         options=options,
     )
     print(output)
 
 
 def exec_clean(options: CleanOptions) -> None:
-    foundry_clean(foundry=_load_foundry(options.foundry_root), options=options)
+    foundry_clean(foundry=_load_foundry(options.foundry_root, env_file=options.env_file), options=options)
 
 
 def exec_init(options: InitOptions) -> None:
@@ -380,7 +426,9 @@ def exec_init(options: InitOptions) -> None:
 
 
 def exec_setup_storage(options: SetupStorageOptions) -> None:
-    foundry = _load_foundry(options.foundry_root, add_enum_constraints=options.enum_constraints)
+    foundry = _load_foundry(
+        options.foundry_root, add_enum_constraints=options.enum_constraints, env_file=options.env_file
+    )
     foundry_storage_generation(foundry=foundry, options=options)
 
 
