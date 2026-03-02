@@ -8,13 +8,15 @@ version = "1.0.0"
 description = "Foundry integration for KEVM"
 requires-python = "~=3.10"
 dependencies = [
-    "kevm-pyk@git+https://github.com/runtimeverification/evm-semantics.git@v1.0.882#subdirectory=kevm-pyk",
+    "kevm-pyk@git+https://github.com/runtimeverification/evm-semantics.git@v1.0.893#subdirectory=kevm-pyk",
     "eth-utils>=5,<6",
     "pycryptodome>=3.20.0,<4",
     "pyevmasm>=0.2.3,<0.3",
     "eth-abi>=5.2.0",
     "openzeppelin-solidity-grammar-parser>=0.0.5",
     "types-antlr4-python3-runtime>=4.13.0.20250822",
+    "types-requests>=2.32.4.20250913",
+    "tomli-w>=1.2.0",
 ]
 
 [[project.authors]]
