@@ -93,13 +93,11 @@ Capturing cheat code calls
 
     rule [cheatcode.call.assertEq.Dtype]:
          <k> #cheatcode_call SELECTOR ARGS =>
-               #let ARG1_START = #asWord(#range(ARGS,  0, 32)) #in
-               #let ARG2_START = #asWord(#range(ARGS, 32, 32)) #in
-               #let ARG1_LEN   = #asWord(#range(ARGS, ARG1_START, 32)) #in
-               #let ARG2_LEN   = #asWord(#range(ARGS, ARG2_START, 32)) #in
-               #let ARG1_VALUE = #asWord(#range(ARGS, 32 +Int ARG1_START, ARG1_LEN)) #in
-               #let ARG2_VALUE = #asWord(#range(ARGS, 32 +Int ARG2_START, ARG2_LEN)) #in
-                 #assert_eq ARG1_VALUE ARG2_VALUE String2Bytes("assertion failed") ... </k>
+               #assert_eq #asWord(#range(ARGS, 32 +Int #asWord(#range(ARGS,  0, 32)), #asWord(#range(ARGS, #asWord(#range(ARGS,  0, 32)), 32))))
+                          #asWord(#range(ARGS, 32 +Int #asWord(#range(ARGS, 32, 32)), #asWord(#range(ARGS, #asWord(#range(ARGS, 32, 32)), 32)))) 
+                          String2Bytes("assertion failed") 
+            ... 
+          </k>
       requires SELECTOR ==Int selector ( "assertEq(string,string)" )
         orBool SELECTOR ==Int selector ( "assertEq(bytes,bytes)" )
     [preserves-definedness]

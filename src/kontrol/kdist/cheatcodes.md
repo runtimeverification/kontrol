@@ -43,6 +43,9 @@ module FOUNDRY-CHEAT-CODES
     imports EVM-ABI
     imports FOUNDRY-ACCOUNTS
     imports INFINITE-GAS
+    imports ID
+    imports BYTES
+    imports STRING
 
     configuration
       <cheatcodes>
@@ -92,6 +95,7 @@ module FOUNDRY-CHEAT-CODES
                <mockFunctionValues>  .Map </mockFunctionValues>
             </mockFunction>
          </mockFunctions>
+         <envVars> .Map </envVars>
       </cheatcodes>
 ```
 
@@ -639,6 +643,53 @@ function toString(int256) external returns (string memory);
           <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
           <output> _ => #enc( #tuple( #string( Int2String( Bytes2Int(ARGS, BE, Signed) ) ) ) ) </output>
       requires SELECTOR ==Int selector ( "toString(int256)" )
+      [preserves-definedness]
+```
+
+### `envOr(...)` cheatcodes
+
+The `envOr` cheatcodes in Foundry are used to read environment variables with a fallback.
+In Kontrol, `envOr` is currently only implemented for concrete execution, and we always
+returns the default value.
+
+```k
+    rule [envOr-word]:
+          <k> #cheatcode_call SELECTOR ARGS
+            => #getEnvOrValue SELECTOR #range(ARGS, 96, #asWord(#range(ARGS, 64, 32))) #range(ARGS, 32, 32)
+            ...
+          </k>
+      requires SELECTOR in (
+         SetItem( selector ( "envOr(string,bool)" ) )
+         SetItem( selector ( "envOr(string,uint256)" ) )
+         SetItem( selector ( "envOr(string,int256)" ) )
+         SetItem( selector ( "envOr(string,address)" ) )
+         SetItem( selector ( "envOr(string,bytes32)" ) )
+      )
+      [preserves-definedness]
+
+      rule [envOr-string-bytes]:
+               <k> #cheatcode_call SELECTOR ARGS
+                  => #getEnvOrValue SELECTOR #range(ARGS, 96, #asWord(#range(ARGS, 64, 32))) (Int2Bytes(32, 32, BE) +Bytes #range(ARGS, #asWord(#range(ARGS, 32, 32)), lengthBytes(ARGS) -Int #asWord(#range(ARGS, 32, 32)))) ... </k>
+         requires SELECTOR ==Int selector( "envOr(string,string)" ) orBool SELECTOR ==Int selector( "envOr(string,bytes)" )
+         [preserves-definedness]
+
+    rule [envOr-array]:
+          <k> #cheatcode_call SELECTOR ARGS =>
+           #getEnvOrArray SELECTOR
+                          #range(ARGS, 128, #asWord(#range(ARGS, 96, 32))) // KEY_VALUE
+                          Bytes2String( #range(ARGS, #asWord(#range(ARGS, 32, 32)) +Int 32, #asWord(#range(ARGS, #asWord(#range(ARGS, 32, 32)), 32)))) // DELIMITER
+                          (Int2Bytes(32, 32, BE) +Bytes #range(ARGS, #asWord(#range(ARGS, 64, 32)), lengthBytes(ARGS) -Int #asWord(#range(ARGS, 64, 32)))) // DEFAULT_VALUE
+            ...
+          </k>
+      requires SELECTOR in (
+         SetItem( selector ( "envOr(string,string,bool[])" ) )
+         SetItem( selector ( "envOr(string,string,uint256[])" ) )
+         SetItem( selector ( "envOr(string,string,int256[])" ) )
+         SetItem( selector ( "envOr(string,string,address[])" ) )
+         SetItem( selector ( "envOr(string,string,bytes32[])" ) )
+         SetItem( selector ( "envOr(string,string,string[])" ) )
+         SetItem( selector ( "envOr(string,string,bytes[])" ) )
+      )
       [preserves-definedness]
 ```
 
@@ -1877,6 +1928,111 @@ If the flag is false, it skips comparison, assuming success; otherwise, it compa
          <wordStack> _ : WS => 1 : WS </wordStack>
 ```
 
+- `#getEnvOrValue` will get and process the environment variable from the `<enVars>` mapping if it's there, or will return the default value for the variable otherwise.
+
+```k
+    syntax KItem ::= "#getEnvOrValue" Int Bytes Bytes [symbol(foundry_getEnvOrValue)]
+ // -----------------------------------------------------------------------------
+    rule <k> #getEnvOrValue SELECTOR VARNAME _ => .K ... </k>
+         <envVars> ... VARNAME |-> VARVALUE ... </envVars>
+         <output> _ => #enc( valueAsTypedArg(SELECTOR, VARVALUE) ) </output>
+      requires valueAsTypedArg(SELECTOR, VARVALUE) =/=K #bytes( .Bytes )
+
+    rule <k> #getEnvOrValue _ _ VARDEFAULTVALUE => .K ... </k>
+         <output> _ => VARDEFAULTVALUE </output>
+    [owise]
+```
+
+- `#getEnvOrArray` will get and process the environment variable from the `<enVars>` mapping if it's there, or will return the default array value for the variable otherwise.
+
+```k
+    syntax KItem ::= "#getEnvOrArray" Int Bytes String Bytes [symbol(foundry_getEnvOrArray)]
+ // -----------------------------------------------------------------------------
+    rule <k> #getEnvOrArray SELECTOR VARNAME DELIMITER VARDEFAULTVALUE =>
+               #let VALUES = split(VARVALUE, DELIMITER) #in
+               #processArrayOutput size(VALUES) mapTypedArgValue(SELECTOR, VALUES) VARDEFAULTVALUE
+            ...
+         </k>
+         <envVars> ... VARNAME |-> VARVALUE ... </envVars>
+
+    rule <k> #getEnvOrArray _ _ _ VARDEFAULTVALUE => .K ... </k>
+         <output> _ => VARDEFAULTVALUE </output>
+    [owise]
+```
+
+- ` #processArrayOutput` will process the output as an array based on the variable value retrieved from the environment variable mapping.
+
+```k
+    syntax KItem ::= "#processArrayOutput" Int TypedArgs Bytes [symbol(foundry_processArrayOutput)]
+   // -----------------------------------------------------------------------------
+    rule <k> #processArrayOutput SIZE OUT _ => .K ... </k>
+         <output> _ => #enc( #tuple( #array(#bytes( .Bytes ), SIZE, OUT) ) ) </output>
+      requires sizeOfTypedArgs(OUT) ==Int SIZE
+
+    rule <k> #processArrayOutput _ _ VARDEFAULTVALUE => .K ... </k>
+         <output> _ => VARDEFAULTVALUE </output>
+     [owise]
+```
+
+```k
+    syntax Bool ::= isIntegerString(String) [function]
+    rule isIntegerString(S) => true requires String2Int(S) ==K 0 orBool String2Int(S) =/=K 0
+    rule isIntegerString(_) => false [owise]
+
+    syntax Bool ::= isUnsignedIntegerString(String) [function]
+    rule isUnsignedIntegerString(S) => true requires String2Int(S) >=Int 0
+    rule isUnsignedIntegerString(_) => false [owise]
+
+    syntax Bool ::= isHexString(String) [function]
+    rule isHexString(S) => true
+      requires String2Base(replaceAll(S, "0x", ""), 16) ==K 0
+           orBool String2Base(replaceAll(S, "0x", ""), 16) =/=K 0
+    rule isHexString(_) => false [owise]
+
+    syntax TypedArg ::= valueAsTypedArg ( Int , String ) [function]
+    rule valueAsTypedArg(SELECTOR, VALUE) => #int256( String2Int(VALUE) )
+       requires (SELECTOR ==Int selector ( "envOr(string,int256)" ) orBool SELECTOR ==Int selector ( "envOr(string,string,int256[])" ))
+          andBool isIntegerString(VALUE)
+    rule valueAsTypedArg(SELECTOR, VALUE) => #uint256( String2Int(VALUE) )
+       requires (SELECTOR ==Int selector ( "envOr(string,uint256)" ) orBool SELECTOR ==Int selector ( "envOr(string,string,uint256[])" ))
+          andBool isUnsignedIntegerString(VALUE)
+    rule valueAsTypedArg(SELECTOR, VALUE) => #address( #parseHexWord(VALUE) )
+       requires (SELECTOR ==Int selector ( "envOr(string,address)" ) orBool SELECTOR ==Int selector ( "envOr(string,string,address[])" ))
+          andBool (lengthString(VALUE) ==Int 42 orBool lengthString(VALUE) ==Int 40)
+          andBool isHexString(VALUE)
+    rule valueAsTypedArg(SELECTOR, VALUE) => #bytes32( #parseHexWord(VALUE) )
+       requires (SELECTOR ==Int selector ( "envOr(string,bytes32)" ) orBool SELECTOR ==Int selector ( "envOr(string,string,bytes32[])" ))
+          andBool (lengthString(VALUE) ==Int 66 orBool lengthString(VALUE) ==Int 64)
+          andBool isHexString(VALUE)
+    rule valueAsTypedArg(SELECTOR, VALUE) => #bool( bool2Word( String2Bool(VALUE) ))
+       requires (SELECTOR ==Int selector ( "envOr(string,bool)" ) orBool SELECTOR ==Int selector ( "envOr(string,string,bool[])" ))
+          andBool (VALUE ==K "true" orBool VALUE ==K "false")
+    rule valueAsTypedArg(SELECTOR, VALUE) => #tuple( #string(VALUE))
+       requires SELECTOR ==Int selector ( "envOr(string,string)" )
+    rule valueAsTypedArg(SELECTOR, VALUE) => #string(VALUE)
+       requires SELECTOR ==Int selector ( "envOr(string,string,string[])" )
+    rule valueAsTypedArg(SELECTOR, VALUE) => #tuple( #bytes( #parseByteStack(VALUE) ))
+       requires (SELECTOR ==Int selector ( "envOr(string,bytes)" ) orBool SELECTOR ==Int selector ( "envOr(string,string,bytes[])" ))
+          andBool isHexString(VALUE)
+    rule valueAsTypedArg(_, _) => #bytes( .Bytes )
+       [owise]
+
+    syntax List ::= split ( String , String ) [function]
+    rule split(S, D) => ListItem(S) requires findString(S, D, 0) ==Int -1
+    rule split(S, D) => ListItem(substrString(S, 0, findString(S, D, 0))) split(substrString(S, findString(S, D, 0) +Int lengthString(D), lengthString(S)), D) requires findString(S, D, 0) =/=Int -1
+
+    syntax TypedArgs ::= mapTypedArgValue (Int, List) [function]
+    rule mapTypedArgValue(SELECTOR, ListItem(X) XS) => valueAsTypedArg(SELECTOR, X), mapTypedArgValue(SELECTOR, XS)
+       requires valueAsTypedArg(SELECTOR, X) =/=K #bytes( .Bytes )
+    rule mapTypedArgValue(_, _) => .TypedArgs
+       [owise]
+
+    syntax Int ::= sizeOfTypedArgs ( TypedArgs ) [function]
+    rule sizeOfTypedArgs(.TypedArgs) => 0
+    rule sizeOfTypedArgs(_ , TAIL) => 1 +Int sizeOfTypedArgs(TAIL)
+```
+
+
 Selectors
 ---------
 
@@ -1950,6 +2106,20 @@ Selectors for **implemented** cheat code functions.
     rule ( selector ( "toString(uint256)" )                        => 1761649582 )
     rule ( selector ( "toString(int256)" )                         => 2736964622 )
     rule ( selector ( "ffi(string[])" )                            => 2299921511 )
+    rule ( selector ( "envOr(string,address)" )                    => 1444930880 )
+    rule ( selector ( "envOr(string,bool)" )                       => 1199043535 )
+    rule ( selector ( "envOr(string,bytes)" )                      => 3018094341 )
+    rule ( selector ( "envOr(string,bytes32)" )                    => 3030931602 )
+    rule ( selector ( "envOr(string,int256)" )                     => 3150672190 )
+    rule ( selector ( "envOr(string,string)" )                     => 3510989676 )
+    rule ( selector ( "envOr(string,string,address[])" )           => 3343818219 )
+    rule ( selector ( "envOr(string,string,bool[])" )              => 3951421499 )
+    rule ( selector ( "envOr(string,string,bytes32[])" )           => 578941799  )
+    rule ( selector ( "envOr(string,string,bytes[])" )             => 1690058340 )
+    rule ( selector ( "envOr(string,string,int256[])" )            => 1191237451 )
+    rule ( selector ( "envOr(string,string,string[])" )            => 2240943804 )
+    rule ( selector ( "envOr(string,string,uint256[])" )           => 1949402408 )
+    rule ( selector ( "envOr(string,uint256)" )                    => 1586967695 )
 ```
 
 Selectors for **unimplemented** cheat code functions.
