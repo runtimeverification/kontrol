@@ -784,7 +784,6 @@ def test_load_state_diff(
 
         foundry_root_dir = root_tmp_dir / 'foundry'
     foundry = Foundry(foundry_root=foundry_root_dir)
-    output_dir = foundry._root / foundry.profile.get('test', '')
     foundry_state_load(
         LoadStateOptions(
             {
@@ -794,7 +793,7 @@ def test_load_state_diff(
                 'from_state_diff': 'True',
             }
         ),
-        output_dir=output_dir,
+        output_dir=foundry.test_path,
     )
 
     generated_main_file = foundry_root_dir / 'src' / 'LoadStateDiff.sol'
@@ -828,7 +827,6 @@ def test_load_state_dump(
 
         foundry_root_dir = root_tmp_dir / 'foundry'
     foundry = Foundry(foundry_root=foundry_root_dir)
-    output_dir = foundry._root / foundry.profile.get('test', '')
     foundry_state_load(
         LoadStateOptions(
             {
@@ -837,7 +835,7 @@ def test_load_state_dump(
                 'output_dir_name': 'src',
             }
         ),
-        output_dir=output_dir,
+        output_dir=foundry.test_path,
     )
 
     generated_main_file = foundry_root_dir / 'src' / 'LoadStateDump.sol'
