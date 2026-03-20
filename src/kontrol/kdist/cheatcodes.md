@@ -303,6 +303,10 @@ function computeCreateAddress(address deployer, uint256 nonce) external pure ret
 This rule takes the `address` and `uint256` nonce from the function call data and computes the CREATE contract address using `#newAddr`, which applies RLP encoding and keccak256 as specified by the Ethereum Yellow Paper.
 The `<output>` cell will be updated with the computed address, padded to 32 bytes wide.
 
+This cheatcode is intended for use with concrete inputs.
+In practice, `computeCreateAddress` is used to predict a deployment address before a `new` call, so both the deployer address and nonce are expected to be concrete values known at proof time.
+Symbolic inputs will leave `#newAddr` unevaluated, causing spurious branching.
+
 ```k
     rule [cheatcode.call.computeCreateAddress]:
          <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
