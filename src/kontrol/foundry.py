@@ -532,37 +532,38 @@ class Foundry:
 
     @cached_property
     def contracts(self) -> dict[str, Contract]:
-        pattern = '**/*.sol/*.json'
-        paths = self.out.glob(pattern)
-        json_paths = [str(path) for path in paths]
-        json_paths = [json_path for json_path in json_paths if not json_path.endswith('.metadata.json')]
-        json_paths = sorted(json_paths)  # Must sort to get consistent output order on different platforms
+        lint_dir = self.out / 'lint'
+
+        def find_enums(dct: dict) -> None:
+            if dct['nodeType'] == 'EnumDefinition':
+                enum_name = dct['canonicalName']
+                enum_max = len(dct['members'])
+                if enum_name in self.enums and enum_max != self.enums[enum_name]:
+                    raise ValueError(
+                        f'enum name conflict: {enum_name} exists more than once in the codebase with a different size, which is not supported with --enum-constraints.'
+                    )
+                self.enums[enum_name] = enum_max
+            for node in dct.get('nodes', []):
+                find_enums(node)
+
+        # Exclude .metadata.json files and forge lint artifacts (out/lint/**) which lack 'ast'.
+        json_paths = sorted(
+            path
+            for path in self.out.glob('**/*.sol/*.json')
+            if not path.name.endswith('.metadata.json') and not path.is_relative_to(lint_dir)
+        )
         _LOGGER.info(f'Processing contract files: {json_paths}')
         _contracts: dict[str, Contract] = {}
 
         for json_path in json_paths:
-
-            def find_enums(dct: dict) -> None:
-                if dct['nodeType'] == 'EnumDefinition':
-                    enum_name = dct['canonicalName']
-                    enum_max = len([member['name'] for member in dct['members']])
-                    if enum_name in self.enums and enum_max != self.enums[enum_name]:
-                        raise ValueError(
-                            f'enum name conflict: {enum_name} exists more than once in the codebase with a different size, which is not supported with --enum-constraints.'
-                        )
-                    self.enums[enum_name] = len([member['name'] for member in dct['members']])
-                for node in dct['nodes']:
-                    find_enums(node)
-
             _LOGGER.debug(f'Processing contract file: {json_path}')
-            contract_name = json_path.split('/')[-1]
-            contract_json = json.loads(Path(json_path).read_text())
-            contract_name = contract_name[0:-5] if contract_name.endswith('.json') else contract_name
+            contract_name = json_path.stem
+            contract_json = json.loads(json_path.read_text())
             if self.add_enum_constraints:
                 find_enums(contract_json['ast'])
             try:
                 contract = Contract(contract_name, contract_json, foundry=True)
-            except (KeyError, TypeError):
+            except (KeyError, TypeError, ValueError):
                 _LOGGER.warning(f'Skipping non-compatible JSON file for contract: {contract_name} at {json_path}.')
                 continue
 
