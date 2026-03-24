@@ -293,6 +293,28 @@ The `<output>` cell will be updated with the value of the address generated from
       [preserves-definedness]
 ```
 
+#### `computeCreateAddress` - Computes the address a contract will be deployed to using CREATE.
+
+```
+function computeCreateAddress(address deployer, uint256 nonce) external pure returns (address);
+```
+
+`cheatcode.call.computeCreateAddress` will match when the `computeCreateAddress` cheat code function is called.
+This rule takes the `address` and `uint256` nonce from the function call data and computes the CREATE contract address using `#newAddr`, which applies RLP encoding and keccak256 as specified by the Ethereum Yellow Paper.
+The `<output>` cell will be updated with the computed address, padded to 32 bytes wide.
+
+This cheatcode is intended for use with concrete inputs.
+In practice, `computeCreateAddress` is used to predict a deployment address before a `new` call, so both the deployer address and nonce are expected to be concrete values known at proof time.
+Symbolic inputs will leave `#newAddr` unevaluated, causing spurious branching.
+
+```k
+    rule [cheatcode.call.computeCreateAddress]:
+         <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
+         <output> _ => #bufStrict(32, #newAddr(#asWord(#range(ARGS, 0, 32)), #asWord(#range(ARGS, 32, 32)))) </output>
+      requires SELECTOR ==Int selector ( "computeCreateAddress(address,uint256)" )
+      [preserves-definedness]
+```
+
 #### `load` - Loads a storage slot from an address.
 
 ```
@@ -1894,6 +1916,7 @@ Selectors for **implemented** cheat code functions.
     rule ( selector ( "label(address,string)" )                    => 3327641368 )
     rule ( selector ( "getNonce(address)" )                        => 755185067  )
     rule ( selector ( "addr(uint256)" )                            => 4288775753 )
+    rule ( selector ( "computeCreateAddress(address,uint256)" )    => 1952676474 )
     rule ( selector ( "load(address,bytes32)" )                    => 1719639408 )
     rule ( selector ( "store(address,bytes32,bytes32)" )           => 1892290747 )
     rule ( selector ( "setNonce(address,uint64)" )                 => 4175530839 )
