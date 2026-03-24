@@ -537,17 +537,16 @@ class Foundry:
         def find_enums(dct: dict) -> None:
             if dct['nodeType'] == 'EnumDefinition':
                 enum_name = dct['canonicalName']
-                enum_max = len([member['name'] for member in dct['members']])
+                enum_max = len(dct['members'])
                 if enum_name in self.enums and enum_max != self.enums[enum_name]:
                     raise ValueError(
                         f'enum name conflict: {enum_name} exists more than once in the codebase with a different size, which is not supported with --enum-constraints.'
                     )
-                self.enums[enum_name] = len([member['name'] for member in dct['members']])
-            for node in dct['nodes']:
+                self.enums[enum_name] = enum_max
+            for node in dct.get('nodes', []):
                 find_enums(node)
 
         # Exclude .metadata.json files and forge lint artifacts (out/lint/**) which lack 'ast'.
-        # Must sort to get consistent output order on different platforms.
         json_paths = sorted(
             path
             for path in self.out.glob('**/*.sol/*.json')
