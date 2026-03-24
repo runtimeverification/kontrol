@@ -476,9 +476,19 @@ class Foundry:
 
         return {**default_profile, **current_profile}
 
+    def config(self, key: str, default: Any = None) -> Any:
+        """
+        Get a configuration value from an environment variable or foundry.toml profile.
+        This mimics Foundry's behavior of allowing environment variables to override
+        settings in foundry.toml.
+        """
+        env_name = 'FOUNDRY_' + key.upper()
+        return os.getenv(env_name, self.profile.get(key, default))
+
     @property
     def out(self) -> Path:
-        return self._root / self.profile.get('out', '')
+        out = self.config('out', '')
+        return self._root / out
 
     @property
     def proofs_dir(self) -> Path:
@@ -502,12 +512,17 @@ class Foundry:
 
     @property
     def build_info(self) -> Path:
-        build_info_path = self.profile.get('build_info_path')
+        build_info_path = self.config('build_info_path', '')
 
         if build_info_path:
             return self._root / build_info_path
         else:
             return self.out / 'build-info'
+
+    @property
+    def test_path(self) -> Path:
+        test_path = self.config('test', '')
+        return self._root / test_path
 
     @property
     def ffi(self) -> bool:
@@ -645,7 +660,7 @@ class Foundry:
 
     @cached_property
     def all_tests(self) -> list[str]:
-        test_dir = os.path.join(self.profile.get('test', 'test'), '')
+        test_dir = os.path.join(self.config('test', 'test'), '')
         return [
             f'{contract.name_with_path}.{method.signature}'
             for contract in self.contracts.values()
