@@ -557,7 +557,9 @@ class Foundry:
 
         for json_path in json_paths:
             _LOGGER.debug(f'Processing contract file: {json_path}')
-            contract_name = json_path.stem
+            # Forge appends a version suffix (e.g. ".0.8.29") to JSON filenames when
+            # multiple Solidity compiler versions are used in the same project.
+            contract_name = re.sub(r'\.\d+\.\d+\.\d+$', '', json_path.stem)
             contract_json = json.loads(json_path.read_text())
             if self.add_enum_constraints:
                 find_enums(contract_json['ast'])
