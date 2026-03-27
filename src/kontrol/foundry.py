@@ -84,6 +84,7 @@ if TYPE_CHECKING:
     )
 
 _LOGGER: Final = logging.getLogger(__name__)
+_CONSOLE_LOG_DATETIME_FORMAT: Final = '%Y-%m-%d %H:%M:%S'
 
 
 class KontrolSemantics(KEVMSemantics):
@@ -303,10 +304,12 @@ class KontrolSemantics(KEVMSemantics):
                 selector = int(selector_token.token)
                 output = decode_log_message(data.token, selector)
                 if output is not None:
-                    print(f'    {output}')
+                    print(f'    [{datetime.datetime.now().strftime(_CONSOLE_LOG_DATETIME_FORMAT)}] {output}')
             else:
                 kevm = KEVM(kdist.get('kontrol.base'))
-                print(f'    {kevm.pretty_print(data)}')
+                print(
+                    f'    [{datetime.datetime.now().strftime(_CONSOLE_LOG_DATETIME_FORMAT)}] {kevm.pretty_print(data)}'
+                )
         except Exception as e:
             _LOGGER.warning(f'Console log decode error: {e}')
 
