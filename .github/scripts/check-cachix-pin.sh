@@ -22,6 +22,15 @@ CHECK_PACKAGES=(kontrol kontrol.solc_0_8_13 kontrol.solc_0_8_15)
 
 SUMMARY="${GITHUB_STEP_SUMMARY:-/dev/stdout}"
 
+# Append to the GitHub step summary when set; always print to stdout for live job logs.
+summary_and_log() {
+  if [[ "${SUMMARY}" == "/dev/stdout" ]]; then
+    cat
+  else
+    tee -a "${SUMMARY}"
+  fi
+}
+
 {
   echo "## Cachix Publish Summary"
   echo "CACHE: $CACHE"
@@ -53,7 +62,7 @@ for i in $(seq 1 "$PIN_VISIBILITY_ATTEMPTS"); do
         echo "key-${PKG}: ${KEY}"
         echo "pin-status-${PKG}: ${PIN_STATUS}"
         echo "push-http-${PKG}: ${PUSH_STATUS}"
-      }
+      } | summary_and_log
       continue
     fi
 
@@ -70,7 +79,7 @@ for i in $(seq 1 "$PIN_VISIBILITY_ATTEMPTS"); do
       echo "store-path-${PKG}: ${STORE_PATH}"
       echo "pin-status-${PKG}: ${PIN_STATUS}"
       echo "push-http-${PKG}: ${PUSH_STATUS}"
-    }
+    } | summary_and_log
   done
 
   if [ "$ALL_OK" = "1" ]; then
@@ -78,9 +87,13 @@ for i in $(seq 1 "$PIN_VISIBILITY_ATTEMPTS"); do
     exit 0
   fi
 
-  echo "cachix-check-attempt-${i}: not-ready, retrying in ${PIN_VISIBILITY_INTERVAL_SECONDS}s"
+  RETRY_MSG="cachix-check-attempt-${i}: not-ready, retrying in ${PIN_VISIBILITY_INTERVAL_SECONDS}s"
+  printf '%s\n' "$RETRY_MSG" | summary_and_log
   sleep "$PIN_VISIBILITY_INTERVAL_SECONDS"
 done
 
 echo "cachix-status: push-or-pin-missing-after-${PIN_VISIBILITY_TIMEOUT_SECONDS}s-for-at-least-one-package" >> "$SUMMARY"
+# Pin API bulk JSON goes to job logs only (step summary stays readable); helps if the response shape changes.
+echo "check-cachix-pin: raw Cachix pin API response (last fetch):" >&2
+echo "$PIN_JSON" >&2
 exit 1
