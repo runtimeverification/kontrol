@@ -207,7 +207,7 @@ Pass `--update-expected-output` via `TEST_ARGS` to regenerate expected outputs.
 
 ## Cheatcodes: Foundry vs Kontrol-proprietary
 
-All cheatcodes — both Foundry and Kontrol-proprietary — are implemented in `src/kontrol/kdist/cheatcodes.md` (module `FOUNDRY-CHEAT-CODES`) and `src/kontrol/kdist/assert.md` (module `KONTROL-ASSERTIONS`).
+All cheatcodes (both Foundry and Kontrol-proprietary) are implemented in `src/kontrol/kdist/cheatcodes.md` (module `FOUNDRY-CHEAT-CODES`) and `src/kontrol/kdist/assert.md` (module `KONTROL-ASSERTIONS`).
 They are all dispatched via the same Foundry cheatcode address (`0x7109709ecfa91a80626ff3989d68f67f5b1dd12d`), using ABI function selectors.
 
 ### Foundry cheatcodes (standard `vm.*`)
@@ -283,4 +283,4 @@ They exist to expose symbolic execution primitives directly to Solidity test cod
   They have different APIs; don't confuse them.
 - **`tomlkit` preserves TOML formatting on round-trip** — this is intentional in `foundry.py`.
   Don't swap it for a plain TOML parser.
-- **`kore-rpc-booster` lingers after integration test runs** — always run `pkill -9 -f "kore-rpc-booster" || true` after snapshot update runs, otherwise the process stays alive and interferes with subsequent test runs.
+- **`kore-rpc-booster` processes might be left hanging after integration test runs** — always run `pkill -9 -f "kore-rpc-booster"` after snapshot update runs, otherwise the process stays alive and interferes with subsequent test runs.
