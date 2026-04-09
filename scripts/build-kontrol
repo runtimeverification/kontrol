@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+goto_repo_root() {
+    local root
+    root=$(git rev-parse --show-toplevel)
+    if [ $? -eq 0 ]; then
+        echo "Building KONTROL at $root"
+        cd "$root" || return
+    else
+        echo "You're not inside a Git repository."
+    fi
+}
+
+install_k() {
+    echo "Installing or updating K to version $REQUIRED_VERSION..."
+    kup install k.openssl.secp256k1 --version "$REQUIRED_VERSION"
+}
+
+goto_repo_root
+
+REQUIRED_VERSION=v$(cat deps/k_release)
+
+# Check if K is installed and get the current version
+if command -v kompile &> /dev/null; then
+    INSTALLED_VERSION=$(kompile --version | grep "K version:" | awk '{print $3}')
+    echo "Installed version: $INSTALLED_VERSION"
+
+    # Compare installed version with required version
+    if [[ "$INSTALLED_VERSION" != "$REQUIRED_VERSION" ]]; then
+        echo "K version is outdated. Updating..."
+        install_k
+    else
+        echo "K version is up to date."
+    fi
+else
+    echo "K is not installed. Installing..."
+    install_k
+fi
+
+uv sync
+
+uv run kdist clean
+
+uv run --no-cache kdist --verbose build -j8 evm-semantics.haskell kontrol.*

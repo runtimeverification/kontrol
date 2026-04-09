@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+# Usage: selector "<function_signature>"
+# Example: selector "foo(address,uint256)"
+#
+# Computes the 4-byte function selector using `cast sig` and prints it as a decimal integer.
+
+if [ $# -ne 1 ]; then
+    echo "Usage: $0 \"<function_signature>\"" >&2
+    exit 1
+fi
+
+hex=$(cast sig "$1")
+printf '%d\n' "$hex"
