@@ -27,6 +27,7 @@ console = Console()
 
 _LOG_FORMAT: Final = '%(levelname)s %(asctime)s %(name)s - %(message)s'
 _LOGGER: Final = logging.getLogger(__name__)
+_DATETIME_FORMAT: Final = '%Y-%m-%d %H:%M:%S'
 
 
 def ensure_name_is_unique(name: str, cterm: CTerm) -> str:

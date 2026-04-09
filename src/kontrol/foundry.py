@@ -45,6 +45,7 @@ from . import VERSION
 from .solc_to_k import Contract, _contract_name_from_bytecode
 from .storage_generation import generate_setup_contract
 from .utils import (
+    _DATETIME_FORMAT,
     _read_digest_file,
     decode_log_message,
     empty_lemmas_file_contents,
@@ -84,7 +85,6 @@ if TYPE_CHECKING:
     )
 
 _LOGGER: Final = logging.getLogger(__name__)
-_CONSOLE_LOG_DATETIME_FORMAT: Final = '%Y-%m-%d %H:%M:%S'
 
 
 class KontrolSemantics(KEVMSemantics):
@@ -303,7 +303,7 @@ class KontrolSemantics(KEVMSemantics):
         data = subst['###DATA']
         assert type(selector_token) is KToken
 
-        prefix = f'    [{node_id}] [{datetime.datetime.now().strftime(_CONSOLE_LOG_DATETIME_FORMAT)}]'
+        prefix = f'    [{node_id}] [{datetime.datetime.now().strftime(_DATETIME_FORMAT)}]'
         try:
             if type(data) is KToken:
                 selector = int(selector_token.token)
