@@ -4,7 +4,7 @@ description: Update expected output golden files for integration test suites. Us
 
 Update expected output snapshots for integration test suites.
 
-> **Note:** This process can be very lengthy — running all suites can take 30+ minutes, with the CSE + minimize suite being the slowest.
+> **Note:** This process can be very lengthy. Running all suites can take 30+ minutes, with the CSE + minimize suite being the slowest.
 > Prefer targeting a specific suite (`--foundry`, `--cse`, or `--end-to-end`) or a single test (`-k <filter>`) unless a full update is explicitly needed.
 > Always run as a background task to avoid timeouts.
 

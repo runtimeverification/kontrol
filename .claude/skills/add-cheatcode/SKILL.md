@@ -19,7 +19,7 @@ Follow these steps:
          [preserves-definedness]
    ```
 
-   ABI-encoded ARGS: each parameter occupies 32 bytes — `#asWord(#range(ARGS, N*32, 32))` for the Nth argument (0-indexed).
+   ABI-encoded ARGS: each parameter occupies 32 bytes. As example, `#asWord(#range(ARGS, N*32, 32))` for the Nth argument (0-indexed).
    If the cheatcode writes state instead of returning a value, omit `<output>` and write to the appropriate configuration cell.
 
 2. **Add the selector rule** in the implemented selectors list:
@@ -38,7 +38,7 @@ Follow these steps:
 
    Choose the test strategy based on what the cheatcode affects:
    - **Assertion-testable** (effect visible at Solidity level): use `assert*` calls directly.
-     Example: `computeCreateAddress` — predict a value and assert it matches.
+     Example: `computeCreateAddress` can predict a value and assert it matches.
    - **KCFG-testable** (effect is on proof structure, not a runtime value): use a golden expected-output file in `test-data/show/`.
      Examples: `forgetBranch` (removes a branch), symbolic variable renaming (changes KCFG node labels), `console.log` (emits output not visible to assertions).
      Add the test to `end-to-end-prove-show` so the snapshot is captured and compared on each run.
@@ -52,5 +52,10 @@ Follow these steps:
    ```bash
    make test-integration TEST_ARGS="-k 'test_kontrol_end_to_end and <TestClass>'"
    ```
+
+7. **If this is a Kontrol-proprietary cheatcode** (not a standard Foundry `vm.*` cheatcode): notify the user that the cheatcode interface must also be added to the [runtimeverification/kontrol-cheatcodes](https://github.com/runtimeverification/kontrol-cheatcodes) repository, and that this must be done as a separate PR there.
+
+8. **Update `AGENTS.md`**: add a row for the new cheatcode in the appropriate table (Foundry cheatcodes or Kontrol-proprietary cheatcodes) under the `## Cheatcodes` section.
+   Follow the format of existing rows: `| \`signature\` | purpose |`.
 
 After all steps, summarise what was added and which files were changed.

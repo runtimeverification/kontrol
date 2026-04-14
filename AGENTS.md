@@ -102,7 +102,7 @@ src/tests/
 | ------------------ | ------------------------------------------------------------------------------------------------------------------------- |
 | `build-kontrol`    | Full build: K version check/install, `uv sync`, `kdist clean+build`. |
 | `selector "<sig>"` | Compute the ABI function selector for `<sig>` as a decimal integer (uses `cast sig`).                                     |
-| `update-expected-output [--foundry] [--cse] [--end-to-end] [-k <filter>]` | Regenerate expected-output snapshots. Pass a suite flag to target one suite; `-k` scopes to a single test. Runs all suites if no flag given. |
+| `update-expected-output [--foundry] [--cse] [--end-to-end] [-k <filter>]` | Wrapper script over the make recipes to egenerate expected-output snapshots. Pass a suite flag to target one suite; `-k` scopes to a single test. Runs all suites if no flag given. |
 
 ---
 
@@ -149,8 +149,10 @@ src/tests/
 ## Development Workflow
 
 ```bash
-# 1. Build (handles K version check/install, uv sync, kdist clean+build)
-./scripts/build-kontrol
+# 1. Build 
+# Recommendation: use the /build skill.
+# Required when: K semantic files changed (src/kontrol/kdist/), first-time setup, or K version upgrade.
+# Not required for Python-only changes (foundry.py, prove.py, etc.).
 
 # 2. After any Python change: format then run all checkers + unit tests
 make format   # auto-format (autoflake + isort + black)
@@ -161,8 +163,8 @@ make test-unit          # Fast, no kdist required
 make test-integration   # Full end-to-end, requires built kdist
 make profile            # Performance profiling
 
-# 4. Update expected output snapshots (use /update-expected-output skill)
-./scripts/update-expected-output
+# 4. Update expected output snapshots
+# Use the /update-expected-output skill.
 ```
 
 ---
@@ -273,14 +275,14 @@ They exist to expose symbolic execution primitives directly to Solidity test cod
 
 ## Gotchas
 
-- **Any change to `kdist/` requires a full rebuild** (`uv run kdist clean && uv run kdist build …`) before the prover will pick it up.
+- **Any change to `kdist/` requires a full rebuild**. Use the `/build` skill before running the prover.
   There is no incremental build within a target.
-- **`src/tests/integration/test-data` is excluded from `autoflake` and `mypy`** — lint errors there are expected and will not fail `make check`.
+- **`src/tests/integration/test-data` is excluded from `autoflake` and `mypy`**. Lint errors there are expected and will not fail `make check`.
 - **Integration tests require a pre-built kdist**.
   Running `make test-integration` without a built distribution will fail with a missing artifact error, not a helpful message.
-- **`make test` runs all tests including integration** — use `make test-unit` for fast feedback during development.
+- **`make test` runs all tests including integration**. Use `make test-unit` for fast feedback during development.
 - **The `multiprocess` library** (not `multiprocessing`) is used in `prove.py` for parallel proof execution.
   They have different APIs; don't confuse them.
-- **`tomlkit` preserves TOML formatting on round-trip** — this is intentional in `foundry.py`.
+- **`tomlkit` preserves TOML formatting on round-trip**. This is intentional in `foundry.py`.
   Don't swap it for a plain TOML parser.
-- **`kore-rpc-booster` processes might be left hanging after integration test runs** — always run `pkill -9 -f "kore-rpc-booster"` after snapshot update runs, otherwise the process stays alive and interferes with subsequent test runs.
+- **`kore-rpc-booster` processes might be left hanging after integration test runs**. Always run `pkill -9 -f "kore-rpc-booster"` after snapshot update runs, otherwise the process stays alive and interferes with subsequent test runs.

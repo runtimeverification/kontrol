@@ -1,11 +1,11 @@
 ---
-description: Build the Kontrol kdist. Use when kdist needs to be compiled or after any change to K semantic files in src/kontrol/kdist/.
+description: Full Kontrol build. Use whenever a build is needed. Handles K version check/install, uv sync, kdist clean, and kdist build.
 ---
 
 Build the Kontrol project by running the build script and capturing output to a tmp file.
 
 > **Note:** The build can take several minutes (longer if K needs to be installed first).
-> Always run it as a standalone step — never chain it with test commands or other long-running operations in the same tool call, to avoid hitting the 10-minute tool timeout.
+> Always run it as a standalone step. Never chain it with test commands or other long-running operations in the same tool call, to avoid hitting the 10-minute tool timeout.
 
 ```bash
 ./scripts/build-kontrol > /tmp/kontrol-build.log 2>&1
