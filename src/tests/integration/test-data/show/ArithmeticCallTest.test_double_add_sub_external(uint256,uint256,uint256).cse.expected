@@ -49,7 +49,7 @@
 ┃  │   method: src%ArithmeticContract.add(uint256,uint256)
 ┃  │
 ┃  │  (565 steps)
-┃  └─ 20 (leaf, terminal)
+┃  └─ 22 (leaf, terminal)
 ┃      k: #halt ~> CONTINUATION:K
 ┃      pc: 1584
 ┃      callDepth: 0
@@ -664,6 +664,29 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
              <mockFunctions>
                .MockFunctionCellMap
              </mockFunctions>
+             <envVars>
+               ( ( b"ADDRESS" |-> "0x1234567890123456789012345678901234567890" )
+               ( ( b"ADDRESSARRAY" |-> "0x1234567890123456789012345678901234567890,0x2345678901234567890123456789012345678901,0x3456789012345678901234567890123456789012" )
+               ( ( b"ADDRESSINT" |-> "7584896468543216876435687541650546890874" )
+               ( ( b"BADADDRESS" |-> "0xGHIJKLMNOPQRSTUVWXYZ1234567890ABCDEFGHSL" )
+               ( ( b"BADBOOLFALSE" |-> "notaboolvalue" )
+               ( ( b"BADBOOLTRUE" |-> "notaboolvalue" )
+               ( ( b"BADBYTES32" |-> "0xbadbytes32_badbytes32_badbytes32_badbytes32_badbytes32_badbytes3" )
+               ( ( b"BADINT256" |-> "notanint" )
+               ( ( b"BADUINT256" |-> "-100" )
+               ( ( b"BOOLARRAY" |-> "true,false,true,false" )
+               ( ( b"BOOLFALSE" |-> "false" )
+               ( ( b"BOOLTRUE" |-> "true" )
+               ( ( b"BYTES" |-> "0xdeadbeef" )
+               ( ( b"BYTES32" |-> "0x123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0" )
+               ( ( b"BYTES32ARRAY" |-> "0x123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0,0x15864864541fe8548484c8548654189d4184864a48618c54615156d165651f65,0x7468697264d18561e8691a891968f189868c18969d1868641f1818861685a189" )
+               ( ( b"INT256" |-> "-100" )
+               ( ( b"INT256ARRAY" |-> "-2,-1,0,1,2" )
+               ( ( b"STRING" |-> "hello_world" )
+               ( ( b"STRINGARRAY" |-> "one,two" )
+               ( ( b"UINT256" |-> "100" )
+               ( b"UINT256ARRAY" |-> "0,1,2,3,4" ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) )
+             </envVars>
            </cheatcodes>
          </foundry>
       requires ( 0 <=Int MIXHASH_CELL:Int
@@ -1165,6 +1188,29 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
              <mockFunctions>
                .MockFunctionCellMap
              </mockFunctions>
+             <envVars>
+               ( ( b"ADDRESS" |-> "0x1234567890123456789012345678901234567890" )
+               ( ( b"ADDRESSARRAY" |-> "0x1234567890123456789012345678901234567890,0x2345678901234567890123456789012345678901,0x3456789012345678901234567890123456789012" )
+               ( ( b"ADDRESSINT" |-> "7584896468543216876435687541650546890874" )
+               ( ( b"BADADDRESS" |-> "0xGHIJKLMNOPQRSTUVWXYZ1234567890ABCDEFGHSL" )
+               ( ( b"BADBOOLFALSE" |-> "notaboolvalue" )
+               ( ( b"BADBOOLTRUE" |-> "notaboolvalue" )
+               ( ( b"BADBYTES32" |-> "0xbadbytes32_badbytes32_badbytes32_badbytes32_badbytes32_badbytes3" )
+               ( ( b"BADINT256" |-> "notanint" )
+               ( ( b"BADUINT256" |-> "-100" )
+               ( ( b"BOOLARRAY" |-> "true,false,true,false" )
+               ( ( b"BOOLFALSE" |-> "false" )
+               ( ( b"BOOLTRUE" |-> "true" )
+               ( ( b"BYTES" |-> "0xdeadbeef" )
+               ( ( b"BYTES32" |-> "0x123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0" )
+               ( ( b"BYTES32ARRAY" |-> "0x123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0,0x15864864541fe8548484c8548654189d4184864a48618c54615156d165651f65,0x7468697264d18561e8691a891968f189868c18969d1868641f1818861685a189" )
+               ( ( b"INT256" |-> "-100" )
+               ( ( b"INT256ARRAY" |-> "-2,-1,0,1,2" )
+               ( ( b"STRING" |-> "hello_world" )
+               ( ( b"STRINGARRAY" |-> "one,two" )
+               ( ( b"UINT256" |-> "100" )
+               ( b"UINT256ARRAY" |-> "0,1,2,3,4" ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) )
+             </envVars>
            </cheatcodes>
          </foundry>
       requires ( 0 <=Int KV0_x:Int
@@ -1183,7 +1229,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                )))))))))))))
       [priority(20), label(BASIC-BLOCK-9-TO-16)]
     
-    rule [BASIC-BLOCK-39-TO-20]: <foundry>
+    rule [BASIC-BLOCK-39-TO-22]: <foundry>
            <kevm>
              <k>
                ( JUMPI 570 bool2Word ( KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int ) )
@@ -1666,6 +1712,29 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
              <mockFunctions>
                .MockFunctionCellMap
              </mockFunctions>
+             <envVars>
+               ( ( b"ADDRESS" |-> "0x1234567890123456789012345678901234567890" )
+               ( ( b"ADDRESSARRAY" |-> "0x1234567890123456789012345678901234567890,0x2345678901234567890123456789012345678901,0x3456789012345678901234567890123456789012" )
+               ( ( b"ADDRESSINT" |-> "7584896468543216876435687541650546890874" )
+               ( ( b"BADADDRESS" |-> "0xGHIJKLMNOPQRSTUVWXYZ1234567890ABCDEFGHSL" )
+               ( ( b"BADBOOLFALSE" |-> "notaboolvalue" )
+               ( ( b"BADBOOLTRUE" |-> "notaboolvalue" )
+               ( ( b"BADBYTES32" |-> "0xbadbytes32_badbytes32_badbytes32_badbytes32_badbytes32_badbytes3" )
+               ( ( b"BADINT256" |-> "notanint" )
+               ( ( b"BADUINT256" |-> "-100" )
+               ( ( b"BOOLARRAY" |-> "true,false,true,false" )
+               ( ( b"BOOLFALSE" |-> "false" )
+               ( ( b"BOOLTRUE" |-> "true" )
+               ( ( b"BYTES" |-> "0xdeadbeef" )
+               ( ( b"BYTES32" |-> "0x123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0" )
+               ( ( b"BYTES32ARRAY" |-> "0x123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0,0x15864864541fe8548484c8548654189d4184864a48618c54615156d165651f65,0x7468697264d18561e8691a891968f189868c18969d1868641f1818861685a189" )
+               ( ( b"INT256" |-> "-100" )
+               ( ( b"INT256ARRAY" |-> "-2,-1,0,1,2" )
+               ( ( b"STRING" |-> "hello_world" )
+               ( ( b"STRINGARRAY" |-> "one,two" )
+               ( ( b"UINT256" |-> "100" )
+               ( b"UINT256ARRAY" |-> "0,1,2,3,4" ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) )
+             </envVars>
            </cheatcodes>
          </foundry>
       requires ( 0 <=Int KV0_x:Int
@@ -1683,7 +1752,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
        andBool ( ( KV0_x:Int +Int KV1_y:Int ) <Int KV2_z:Int
        andBool ( KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int )
                ))))))))))))))
-      [priority(20), label(BASIC-BLOCK-39-TO-20)]
+      [priority(20), label(BASIC-BLOCK-39-TO-22)]
     
     rule [BASIC-BLOCK-47-TO-29]: <foundry>
            <kevm>
@@ -2168,6 +2237,29 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
              <mockFunctions>
                .MockFunctionCellMap
              </mockFunctions>
+             <envVars>
+               ( ( b"ADDRESS" |-> "0x1234567890123456789012345678901234567890" )
+               ( ( b"ADDRESSARRAY" |-> "0x1234567890123456789012345678901234567890,0x2345678901234567890123456789012345678901,0x3456789012345678901234567890123456789012" )
+               ( ( b"ADDRESSINT" |-> "7584896468543216876435687541650546890874" )
+               ( ( b"BADADDRESS" |-> "0xGHIJKLMNOPQRSTUVWXYZ1234567890ABCDEFGHSL" )
+               ( ( b"BADBOOLFALSE" |-> "notaboolvalue" )
+               ( ( b"BADBOOLTRUE" |-> "notaboolvalue" )
+               ( ( b"BADBYTES32" |-> "0xbadbytes32_badbytes32_badbytes32_badbytes32_badbytes32_badbytes3" )
+               ( ( b"BADINT256" |-> "notanint" )
+               ( ( b"BADUINT256" |-> "-100" )
+               ( ( b"BOOLARRAY" |-> "true,false,true,false" )
+               ( ( b"BOOLFALSE" |-> "false" )
+               ( ( b"BOOLTRUE" |-> "true" )
+               ( ( b"BYTES" |-> "0xdeadbeef" )
+               ( ( b"BYTES32" |-> "0x123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0" )
+               ( ( b"BYTES32ARRAY" |-> "0x123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0,0x15864864541fe8548484c8548654189d4184864a48618c54615156d165651f65,0x7468697264d18561e8691a891968f189868c18969d1868641f1818861685a189" )
+               ( ( b"INT256" |-> "-100" )
+               ( ( b"INT256ARRAY" |-> "-2,-1,0,1,2" )
+               ( ( b"STRING" |-> "hello_world" )
+               ( ( b"STRINGARRAY" |-> "one,two" )
+               ( ( b"UINT256" |-> "100" )
+               ( b"UINT256ARRAY" |-> "0,1,2,3,4" ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) )
+             </envVars>
            </cheatcodes>
          </foundry>
       requires ( 0 <=Int KV0_x:Int
@@ -2672,6 +2764,29 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
              <mockFunctions>
                .MockFunctionCellMap
              </mockFunctions>
+             <envVars>
+               ( ( b"ADDRESS" |-> "0x1234567890123456789012345678901234567890" )
+               ( ( b"ADDRESSARRAY" |-> "0x1234567890123456789012345678901234567890,0x2345678901234567890123456789012345678901,0x3456789012345678901234567890123456789012" )
+               ( ( b"ADDRESSINT" |-> "7584896468543216876435687541650546890874" )
+               ( ( b"BADADDRESS" |-> "0xGHIJKLMNOPQRSTUVWXYZ1234567890ABCDEFGHSL" )
+               ( ( b"BADBOOLFALSE" |-> "notaboolvalue" )
+               ( ( b"BADBOOLTRUE" |-> "notaboolvalue" )
+               ( ( b"BADBYTES32" |-> "0xbadbytes32_badbytes32_badbytes32_badbytes32_badbytes32_badbytes3" )
+               ( ( b"BADINT256" |-> "notanint" )
+               ( ( b"BADUINT256" |-> "-100" )
+               ( ( b"BOOLARRAY" |-> "true,false,true,false" )
+               ( ( b"BOOLFALSE" |-> "false" )
+               ( ( b"BOOLTRUE" |-> "true" )
+               ( ( b"BYTES" |-> "0xdeadbeef" )
+               ( ( b"BYTES32" |-> "0x123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0" )
+               ( ( b"BYTES32ARRAY" |-> "0x123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0,0x15864864541fe8548484c8548654189d4184864a48618c54615156d165651f65,0x7468697264d18561e8691a891968f189868c18969d1868641f1818861685a189" )
+               ( ( b"INT256" |-> "-100" )
+               ( ( b"INT256ARRAY" |-> "-2,-1,0,1,2" )
+               ( ( b"STRING" |-> "hello_world" )
+               ( ( b"STRINGARRAY" |-> "one,two" )
+               ( ( b"UINT256" |-> "100" )
+               ( b"UINT256ARRAY" |-> "0,1,2,3,4" ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) )
+             </envVars>
            </cheatcodes>
          </foundry>
       requires ( 0 <=Int KV0_x:Int
@@ -3177,6 +3292,29 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
              <mockFunctions>
                .MockFunctionCellMap
              </mockFunctions>
+             <envVars>
+               ( ( b"ADDRESS" |-> "0x1234567890123456789012345678901234567890" )
+               ( ( b"ADDRESSARRAY" |-> "0x1234567890123456789012345678901234567890,0x2345678901234567890123456789012345678901,0x3456789012345678901234567890123456789012" )
+               ( ( b"ADDRESSINT" |-> "7584896468543216876435687541650546890874" )
+               ( ( b"BADADDRESS" |-> "0xGHIJKLMNOPQRSTUVWXYZ1234567890ABCDEFGHSL" )
+               ( ( b"BADBOOLFALSE" |-> "notaboolvalue" )
+               ( ( b"BADBOOLTRUE" |-> "notaboolvalue" )
+               ( ( b"BADBYTES32" |-> "0xbadbytes32_badbytes32_badbytes32_badbytes32_badbytes32_badbytes3" )
+               ( ( b"BADINT256" |-> "notanint" )
+               ( ( b"BADUINT256" |-> "-100" )
+               ( ( b"BOOLARRAY" |-> "true,false,true,false" )
+               ( ( b"BOOLFALSE" |-> "false" )
+               ( ( b"BOOLTRUE" |-> "true" )
+               ( ( b"BYTES" |-> "0xdeadbeef" )
+               ( ( b"BYTES32" |-> "0x123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0" )
+               ( ( b"BYTES32ARRAY" |-> "0x123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0,0x15864864541fe8548484c8548654189d4184864a48618c54615156d165651f65,0x7468697264d18561e8691a891968f189868c18969d1868641f1818861685a189" )
+               ( ( b"INT256" |-> "-100" )
+               ( ( b"INT256ARRAY" |-> "-2,-1,0,1,2" )
+               ( ( b"STRING" |-> "hello_world" )
+               ( ( b"STRINGARRAY" |-> "one,two" )
+               ( ( b"UINT256" |-> "100" )
+               ( b"UINT256ARRAY" |-> "0,1,2,3,4" ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) )
+             </envVars>
            </cheatcodes>
          </foundry>
       requires ( 0 <=Int KV0_x:Int
@@ -3683,6 +3821,29 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
              <mockFunctions>
                .MockFunctionCellMap
              </mockFunctions>
+             <envVars>
+               ( ( b"ADDRESS" |-> "0x1234567890123456789012345678901234567890" )
+               ( ( b"ADDRESSARRAY" |-> "0x1234567890123456789012345678901234567890,0x2345678901234567890123456789012345678901,0x3456789012345678901234567890123456789012" )
+               ( ( b"ADDRESSINT" |-> "7584896468543216876435687541650546890874" )
+               ( ( b"BADADDRESS" |-> "0xGHIJKLMNOPQRSTUVWXYZ1234567890ABCDEFGHSL" )
+               ( ( b"BADBOOLFALSE" |-> "notaboolvalue" )
+               ( ( b"BADBOOLTRUE" |-> "notaboolvalue" )
+               ( ( b"BADBYTES32" |-> "0xbadbytes32_badbytes32_badbytes32_badbytes32_badbytes32_badbytes3" )
+               ( ( b"BADINT256" |-> "notanint" )
+               ( ( b"BADUINT256" |-> "-100" )
+               ( ( b"BOOLARRAY" |-> "true,false,true,false" )
+               ( ( b"BOOLFALSE" |-> "false" )
+               ( ( b"BOOLTRUE" |-> "true" )
+               ( ( b"BYTES" |-> "0xdeadbeef" )
+               ( ( b"BYTES32" |-> "0x123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0" )
+               ( ( b"BYTES32ARRAY" |-> "0x123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0,0x15864864541fe8548484c8548654189d4184864a48618c54615156d165651f65,0x7468697264d18561e8691a891968f189868c18969d1868641f1818861685a189" )
+               ( ( b"INT256" |-> "-100" )
+               ( ( b"INT256ARRAY" |-> "-2,-1,0,1,2" )
+               ( ( b"STRING" |-> "hello_world" )
+               ( ( b"STRINGARRAY" |-> "one,two" )
+               ( ( b"UINT256" |-> "100" )
+               ( b"UINT256ARRAY" |-> "0,1,2,3,4" ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) )
+             </envVars>
            </cheatcodes>
          </foundry>
       requires ( 0 <=Int KV0_x:Int

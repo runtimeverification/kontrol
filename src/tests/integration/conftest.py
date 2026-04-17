@@ -51,9 +51,11 @@ def server(foundry: Foundry) -> Iterator[KoreServer]:
 
 
 @pytest.fixture(scope='session')
-def foundry(foundry_root_dir: Path | None, tmp_path_factory: TempPathFactory, worker_id: str) -> Foundry:
+def foundry(
+    foundry_root_dir: Path | None, tmp_path_factory: TempPathFactory, worker_id: str, env_file: str = '.env'
+) -> Foundry:
     if foundry_root_dir:
-        return Foundry(foundry_root_dir, add_enum_constraints=True)
+        return Foundry(foundry_root_dir, add_enum_constraints=True, env_file=env_file)
 
     if worker_id == 'master':
         root_tmp_dir = tmp_path_factory.getbasetemp()
@@ -94,7 +96,7 @@ def foundry(foundry_root_dir: Path | None, tmp_path_factory: TempPathFactory, wo
                             'metadata': False,
                         }
                     ),
-                    foundry=Foundry(foundry_root, add_enum_constraints=True),
+                    foundry=Foundry(foundry_root, add_enum_constraints=True, env_file=env_file),
                 )
             except CalledProcessError as e:
                 _LOGGER.warning(e)
@@ -104,4 +106,4 @@ def foundry(foundry_root_dir: Path | None, tmp_path_factory: TempPathFactory, wo
 
     session_foundry_root = tmp_path_factory.mktemp('foundry')
     copytree(str(foundry_root), str(session_foundry_root), dirs_exist_ok=True)
-    return Foundry(session_foundry_root, add_enum_constraints=True)
+    return Foundry(session_foundry_root, add_enum_constraints=True, env_file=env_file)

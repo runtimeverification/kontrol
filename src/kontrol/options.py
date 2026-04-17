@@ -36,24 +36,28 @@ class ConfigType(Enum):
 class FoundryOptions(Options):
     foundry_root: Path
     enum_constraints: bool
+    env_file: str | None
 
     @staticmethod
     def default() -> dict[str, Any]:
         return {
             'foundry_root': Path('.'),
             'enum_constraints': False,
+            'env_file': None,
         }
 
     @staticmethod
     def from_option_string() -> dict[str, str]:
         return {
             'foundry-project-root': 'foundry_root',
+            'env-file': 'env_file',
         }
 
     @staticmethod
     def get_argument_type() -> dict[str, Callable]:
         return {
             'foundry-project-root': dir_path,
+            'env-file': str,
         }
 
 

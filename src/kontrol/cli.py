@@ -147,6 +147,14 @@ class ConfigArgs:
             default='default',
             help='Config profile to be used.',
         )
+        args.add_argument(
+            '--env-file',
+            dest='env_file',
+            nargs='?',
+            const='.env',
+            default=None,
+            help='Path to .env file to load environment variables from (default: .env if not specified).',
+        )
         return args
 
 

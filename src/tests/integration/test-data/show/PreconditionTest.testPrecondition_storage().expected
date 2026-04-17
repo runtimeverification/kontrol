@@ -258,6 +258,9 @@ module SUMMARY-TEST%PRECONDITIONTEST.TESTPRECONDITION-STORAGE():0
              <mockFunctions>
                .MockFunctionCellMap
              </mockFunctions>
+             <envVars>
+               .Map
+             </envVars>
            </cheatcodes>
          </foundry>
       requires ( 0 <=Int MIXHASH_CELL:Int
@@ -482,6 +485,9 @@ module SUMMARY-TEST%PRECONDITIONTEST.TESTPRECONDITION-STORAGE():0
              <mockFunctions>
                .MockFunctionCellMap
              </mockFunctions>
+             <envVars>
+               .Map
+             </envVars>
            </cheatcodes>
          </foundry>
       requires ( 0 <=Int ?WORD:Int
@@ -706,6 +712,9 @@ module SUMMARY-TEST%PRECONDITIONTEST.TESTPRECONDITION-STORAGE():0
              <mockFunctions>
                .MockFunctionCellMap
              </mockFunctions>
+             <envVars>
+               .Map
+             </envVars>
            </cheatcodes>
          </foundry>
       requires ( _?WORD:Int ==Int 6000000000000000000

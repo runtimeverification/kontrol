@@ -54,7 +54,7 @@
 ┃  ┃  ┃ (1 step)
 ┃  ┃  ┣━━┓
 ┃  ┃  ┃  │
-┃  ┃  ┃  ├─ 22
+┃  ┃  ┃  ├─ 18
 ┃  ┃  ┃  │   k: #next [ CALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32 ~> #ex ...
 ┃  ┃  ┃  │   pc: 138
 ┃  ┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
@@ -63,7 +63,7 @@
 ┃  ┃  ┃  │   method: test%TGovernance.getEscrowTokenTotalSupply()
 ┃  ┃  ┃  │
 ┃  ┃  ┃  │  (7 steps)
-┃  ┃  ┃  └─ 43 (leaf, pending)
+┃  ┃  ┃  └─ 38 (leaf, pending)
 ┃  ┃  ┃      k: #checkBalanceUnderflow NCL:Int 0 ~> #checkDepthExceeded ~> #call NCL:Int C_TGOVE ...
 ┃  ┃  ┃      pc: 138
 ┃  ┃  ┃      callDepth: EXPECTEDDEPTH_CELL:Int
@@ -73,7 +73,7 @@
 ┃  ┃  ┃
 ┃  ┃  ┣━━┓
 ┃  ┃  ┃  │
-┃  ┃  ┃  ├─ 23
+┃  ┃  ┃  ├─ 19
 ┃  ┃  ┃  │   k: #next [ CALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32 ~> #ex ...
 ┃  ┃  ┃  │   pc: 138
 ┃  ┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
@@ -82,7 +82,7 @@
 ┃  ┃  ┃  │   method: test%TGovernance.getEscrowTokenTotalSupply()
 ┃  ┃  ┃  │
 ┃  ┃  ┃  │  (7 steps)
-┃  ┃  ┃  └─ 44 (leaf, pending)
+┃  ┃  ┃  └─ 39 (leaf, pending)
 ┃  ┃  ┃      k: #checkBalanceUnderflow NCL:Int 0 ~> #checkDepthExceeded ~> #call NCL:Int C_TGOVE ...
 ┃  ┃  ┃      pc: 138
 ┃  ┃  ┃      callDepth: EXPECTEDDEPTH_CELL:Int
@@ -92,7 +92,7 @@
 ┃  ┃  ┃
 ┃  ┃  ┗━━┓
 ┃  ┃     │
-┃  ┃     ├─ 24
+┃  ┃     ├─ 20
 ┃  ┃     │   k: #injectPrank ~> #next [ CALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutp ...
 ┃  ┃     │   pc: 138
 ┃  ┃     │   callDepth: EXPECTEDDEPTH_CELL:Int
@@ -103,7 +103,7 @@
 ┃  ┃     ┃ (1 step)
 ┃  ┃     ┣━━┓
 ┃  ┃     ┃  │
-┃  ┃     ┃  └─ 45 (leaf, pending)
+┃  ┃     ┃  └─ 40 (leaf, pending)
 ┃  ┃     ┃      k: #next [ CALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32 ~> #ex ...
 ┃  ┃     ┃      pc: 138
 ┃  ┃     ┃      callDepth: EXPECTEDDEPTH_CELL:Int
@@ -113,7 +113,7 @@
 ┃  ┃     ┃
 ┃  ┃     ┗━━┓
 ┃  ┃        │
-┃  ┃        └─ 46 (leaf, pending)
+┃  ┃        └─ 41 (leaf, pending)
 ┃  ┃            k: #injectPrank ~> #next [ CALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutp ...
 ┃  ┃            pc: 138
 ┃  ┃            callDepth: EXPECTEDDEPTH_CELL:Int
@@ -181,30 +181,7 @@
 ┃  ┃  ┃     DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int
 ┃  ┃  ┃     ( notBool NEWCALLER_CELL:Account ==K C_TGOVERNANCE_ID:Int )
 ┃  ┃  │
-┃  ┃  ├─ 26
-┃  ┃  │   k: #next [ CALL ] ~> #checkRevert ~> #updateRevertOutput 128 32 ~> #execute ~> CONT ...
-┃  ┃  │   pc: 138
-┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
-┃  ┃  │   statusCode: STATUSCODE:StatusCode
-┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃  │   method: test%TGovernance.getEscrowTokenTotalSupply()
-┃  ┃  │
-┃  ┃  │  (1 step)
-┃  ┃  └─ 50 (leaf, pending)
-┃  ┃      k: #injectPrank ~> #next [ CALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutp ...
-┃  ┃      pc: 138
-┃  ┃      callDepth: EXPECTEDDEPTH_CELL:Int
-┃  ┃      statusCode: STATUSCODE:StatusCode
-┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃      method: test%TGovernance.getEscrowTokenTotalSupply()
-┃  ┃
-┃  ┣━━┓ subst: .Subst
-┃  ┃  ┃ constraint:
-┃  ┃  ┃     ACTIVE_CELL:Bool
-┃  ┃  ┃     DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int
-┃  ┃  ┃     ( notBool NEWCALLER_CELL:Account ==K C_TGOVERNANCE_ID:Int )
-┃  ┃  │
-┃  ┃  └─ 51 (leaf, pending)
+┃  ┃  └─ 31 (leaf, pending)
 ┃  ┃      k: #next [ CALL ] ~> #checkRevert ~> #updateRevertOutput 128 32 ~> #execute ~> CONT ...
 ┃  ┃      pc: 138
 ┃  ┃      callDepth: EXPECTEDDEPTH_CELL:Int
@@ -215,7 +192,7 @@
 ┃  ┗━━┓ subst: .Subst
 ┃     ┃ constraint: true
 ┃     │
-┃     └─ 52 (leaf, pending)
+┃     └─ 32 (leaf, pending)
 ┃         k: #next [ CALL ] ~> #checkRevert ~> #updateRevertOutput 128 32 ~> #execute ~> CONT ...
 ┃         pc: 138
 ┃         callDepth: EXPECTEDDEPTH_CELL:Int
@@ -256,8 +233,28 @@
 ┃  ┃  ┃ (1 step)
 ┃  ┃  ┣━━┓
 ┃  ┃  ┃  │
-┃  ┃  ┃  └─ 28 (leaf, pending)
+┃  ┃  ┃  └─ 26 (leaf, pending)
 ┃  ┃  ┃      k: #refund 0 ~> #pushCallStack ~> #pushWorldState ~> #end EVMC_BALANCE_UNDERFLOW ~> ...
+┃  ┃  ┃      pc: 138
+┃  ┃  ┃      callDepth: DEPTH_CELL:Int
+┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃  ┃      method: test%TGovernance.getEscrowTokenTotalSupply()
+┃  ┃  ┃
+┃  ┃  ┣━━┓
+┃  ┃  ┃  │
+┃  ┃  ┃  └─ 27 (leaf, pending)
+┃  ┃  ┃      k: #checkDepthExceeded ~> #call NCL:Int C_TGOVERNANCE_ESCROW_ID:Int C_TGOVERNANCE_E ...
+┃  ┃  ┃      pc: 138
+┃  ┃  ┃      callDepth: DEPTH_CELL:Int
+┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃  ┃      method: test%TGovernance.getEscrowTokenTotalSupply()
+┃  ┃  ┃
+┃  ┃  ┣━━┓
+┃  ┃  ┃  │
+┃  ┃  ┃  └─ 28 (leaf, pending)
+┃  ┃  ┃      k: #checkDepthExceeded ~> #call NCL:Int NCL:Int NCL:Int 0 0 b"W\xdf\x84K" false ~>  ...
 ┃  ┃  ┃      pc: 138
 ┃  ┃  ┃      callDepth: DEPTH_CELL:Int
 ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
@@ -274,29 +271,9 @@
 ┃  ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
 ┃  ┃  ┃      method: test%TGovernance.getEscrowTokenTotalSupply()
 ┃  ┃  ┃
-┃  ┃  ┣━━┓
-┃  ┃  ┃  │
-┃  ┃  ┃  └─ 30 (leaf, pending)
-┃  ┃  ┃      k: #checkDepthExceeded ~> #call NCL:Int NCL:Int NCL:Int 0 0 b"W\xdf\x84K" false ~>  ...
-┃  ┃  ┃      pc: 138
-┃  ┃  ┃      callDepth: DEPTH_CELL:Int
-┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
-┃  ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃  ┃      method: test%TGovernance.getEscrowTokenTotalSupply()
-┃  ┃  ┃
-┃  ┃  ┣━━┓
-┃  ┃  ┃  │
-┃  ┃  ┃  └─ 31 (leaf, pending)
-┃  ┃  ┃      k: #checkDepthExceeded ~> #call NCL:Int C_TGOVERNANCE_ESCROW_ID:Int C_TGOVERNANCE_E ...
-┃  ┃  ┃      pc: 138
-┃  ┃  ┃      callDepth: DEPTH_CELL:Int
-┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
-┃  ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃  ┃      method: test%TGovernance.getEscrowTokenTotalSupply()
-┃  ┃  ┃
 ┃  ┃  ┗━━┓
 ┃  ┃     │
-┃  ┃     └─ 32 (leaf, pending)
+┃  ┃     └─ 30 (leaf, pending)
 ┃  ┃         k: #checkBalanceUnderflow NCL:Int 0 ~> #checkDepthExceeded ~> #call NCL:Int C_TGOVE ...
 ┃  ┃         pc: 138
 ┃  ┃         callDepth: DEPTH_CELL:Int
@@ -387,7 +364,7 @@
 ┃     ┃ (1 step)
 ┃     ┣━━┓
 ┃     ┃  │
-┃     ┃  ├─ 18
+┃     ┃  ├─ 21
 ┃     ┃  │   k: #next [ CALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
 ┃     ┃  │   pc: 138
 ┃     ┃  │   callDepth: DEPTH_CELL:Int
@@ -396,7 +373,7 @@
 ┃     ┃  │   method: test%TGovernance.getEscrowTokenTotalSupply()
 ┃     ┃  │
 ┃     ┃  │  (7 steps)
-┃     ┃  └─ 38 (leaf, pending)
+┃     ┃  └─ 42 (leaf, pending)
 ┃     ┃      k: #checkBalanceUnderflow NCL:Int 0 ~> #checkDepthExceeded ~> #call NCL:Int C_TGOVE ...
 ┃     ┃      pc: 138
 ┃     ┃      callDepth: DEPTH_CELL:Int
@@ -406,7 +383,7 @@
 ┃     ┃
 ┃     ┗━━┓
 ┃        │
-┃        ├─ 19
+┃        ├─ 22
 ┃        │   k: #injectPrank ~> #next [ CALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
 ┃        │   pc: 138
 ┃        │   callDepth: DEPTH_CELL:Int
@@ -417,7 +394,7 @@
 ┃        ┃ (1 step)
 ┃        ┣━━┓
 ┃        ┃  │
-┃        ┃  └─ 39 (leaf, pending)
+┃        ┃  └─ 43 (leaf, pending)
 ┃        ┃      k: #next [ CALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
 ┃        ┃      pc: 138
 ┃        ┃      callDepth: DEPTH_CELL:Int
@@ -427,7 +404,7 @@
 ┃        ┃
 ┃        ┗━━┓
 ┃           │
-┃           └─ 40 (leaf, pending)
+┃           └─ 44 (leaf, pending)
 ┃               k: #injectPrank ~> #next [ CALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
 ┃               pc: 138
 ┃               callDepth: DEPTH_CELL:Int
@@ -450,7 +427,7 @@
    ┃  ┃ constraint:
    ┃  ┃     CALLDEPTH_CELL:Int <Int 1024
    ┃  │
-   ┃  ├─ 53
+   ┃  ├─ 50
    ┃  │   k: #addr [ CALL ] ~> #exec [ CALL ] ~> #pc [ CALL ] ~> #execute ~> CONTINUATION:K
    ┃  │   pc: 138
    ┃  │   callDepth: CALLDEPTH_CELL:Int
@@ -459,7 +436,7 @@
    ┃  │   method: test%TGovernance.getEscrowTokenTotalSupply()
    ┃  │
    ┃  │  (24 steps)
-   ┃  └─ 41 (leaf, pending)
+   ┃  └─ 45 (leaf, pending)
    ┃      k: #next [ CALL ] ~> #execute ~> #return 128 32 ~> #pc [ CALL ] ~> #execute ~> CONT ...
    ┃      pc: 143
    ┃      callDepth: ( CALLDEPTH_CELL:Int +Int 1 )
@@ -471,7 +448,7 @@
       ┃ constraint:
       ┃     1024 <=Int CALLDEPTH_CELL:Int
       │
-      ├─ 54
+      ├─ 51
       │   k: #addr [ CALL ] ~> #exec [ CALL ] ~> #pc [ CALL ] ~> #execute ~> CONTINUATION:K
       │   pc: 138
       │   callDepth: CALLDEPTH_CELL:Int
@@ -480,7 +457,7 @@
       │   method: test%TGovernance.getEscrowTokenTotalSupply()
       │
       │  (83 steps)
-      └─ 42 (leaf, pending)
+      └─ 46 (leaf, pending)
           k: #halt ~> CONTINUATION:K
           pc: 153
           callDepth: CALLDEPTH_CELL:Int
@@ -660,6 +637,29 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
              <mockFunctions>
                .MockFunctionCellMap
              </mockFunctions>
+             <envVars>
+               ( ( b"ADDRESS" |-> "0x1234567890123456789012345678901234567890" )
+               ( ( b"ADDRESSARRAY" |-> "0x1234567890123456789012345678901234567890,0x2345678901234567890123456789012345678901,0x3456789012345678901234567890123456789012" )
+               ( ( b"ADDRESSINT" |-> "7584896468543216876435687541650546890874" )
+               ( ( b"BADADDRESS" |-> "0xGHIJKLMNOPQRSTUVWXYZ1234567890ABCDEFGHSL" )
+               ( ( b"BADBOOLFALSE" |-> "notaboolvalue" )
+               ( ( b"BADBOOLTRUE" |-> "notaboolvalue" )
+               ( ( b"BADBYTES32" |-> "0xbadbytes32_badbytes32_badbytes32_badbytes32_badbytes32_badbytes3" )
+               ( ( b"BADINT256" |-> "notanint" )
+               ( ( b"BADUINT256" |-> "-100" )
+               ( ( b"BOOLARRAY" |-> "true,false,true,false" )
+               ( ( b"BOOLFALSE" |-> "false" )
+               ( ( b"BOOLTRUE" |-> "true" )
+               ( ( b"BYTES" |-> "0xdeadbeef" )
+               ( ( b"BYTES32" |-> "0x123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0" )
+               ( ( b"BYTES32ARRAY" |-> "0x123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0,0x15864864541fe8548484c8548654189d4184864a48618c54615156d165651f65,0x7468697264d18561e8691a891968f189868c18969d1868641f1818861685a189" )
+               ( ( b"INT256" |-> "-100" )
+               ( ( b"INT256ARRAY" |-> "-2,-1,0,1,2" )
+               ( ( b"STRING" |-> "hello_world" )
+               ( ( b"STRINGARRAY" |-> "one,two" )
+               ( ( b"UINT256" |-> "100" )
+               ( b"UINT256ARRAY" |-> "0,1,2,3,4" ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) )
+             </envVars>
              ...
            </cheatcodes>
          </foundry>
@@ -918,6 +918,29 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
              <mockFunctions>
                .MockFunctionCellMap
              </mockFunctions>
+             <envVars>
+               ( ( b"ADDRESS" |-> "0x1234567890123456789012345678901234567890" )
+               ( ( b"ADDRESSARRAY" |-> "0x1234567890123456789012345678901234567890,0x2345678901234567890123456789012345678901,0x3456789012345678901234567890123456789012" )
+               ( ( b"ADDRESSINT" |-> "7584896468543216876435687541650546890874" )
+               ( ( b"BADADDRESS" |-> "0xGHIJKLMNOPQRSTUVWXYZ1234567890ABCDEFGHSL" )
+               ( ( b"BADBOOLFALSE" |-> "notaboolvalue" )
+               ( ( b"BADBOOLTRUE" |-> "notaboolvalue" )
+               ( ( b"BADBYTES32" |-> "0xbadbytes32_badbytes32_badbytes32_badbytes32_badbytes32_badbytes3" )
+               ( ( b"BADINT256" |-> "notanint" )
+               ( ( b"BADUINT256" |-> "-100" )
+               ( ( b"BOOLARRAY" |-> "true,false,true,false" )
+               ( ( b"BOOLFALSE" |-> "false" )
+               ( ( b"BOOLTRUE" |-> "true" )
+               ( ( b"BYTES" |-> "0xdeadbeef" )
+               ( ( b"BYTES32" |-> "0x123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0" )
+               ( ( b"BYTES32ARRAY" |-> "0x123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0,0x15864864541fe8548484c8548654189d4184864a48618c54615156d165651f65,0x7468697264d18561e8691a891968f189868c18969d1868641f1818861685a189" )
+               ( ( b"INT256" |-> "-100" )
+               ( ( b"INT256ARRAY" |-> "-2,-1,0,1,2" )
+               ( ( b"STRING" |-> "hello_world" )
+               ( ( b"STRINGARRAY" |-> "one,two" )
+               ( ( b"UINT256" |-> "100" )
+               ( b"UINT256ARRAY" |-> "0,1,2,3,4" ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) )
+             </envVars>
              ...
            </cheatcodes>
          </foundry>
@@ -1189,6 +1212,29 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
              <mockFunctions>
                .MockFunctionCellMap
              </mockFunctions>
+             <envVars>
+               ( ( b"ADDRESS" |-> "0x1234567890123456789012345678901234567890" )
+               ( ( b"ADDRESSARRAY" |-> "0x1234567890123456789012345678901234567890,0x2345678901234567890123456789012345678901,0x3456789012345678901234567890123456789012" )
+               ( ( b"ADDRESSINT" |-> "7584896468543216876435687541650546890874" )
+               ( ( b"BADADDRESS" |-> "0xGHIJKLMNOPQRSTUVWXYZ1234567890ABCDEFGHSL" )
+               ( ( b"BADBOOLFALSE" |-> "notaboolvalue" )
+               ( ( b"BADBOOLTRUE" |-> "notaboolvalue" )
+               ( ( b"BADBYTES32" |-> "0xbadbytes32_badbytes32_badbytes32_badbytes32_badbytes32_badbytes3" )
+               ( ( b"BADINT256" |-> "notanint" )
+               ( ( b"BADUINT256" |-> "-100" )
+               ( ( b"BOOLARRAY" |-> "true,false,true,false" )
+               ( ( b"BOOLFALSE" |-> "false" )
+               ( ( b"BOOLTRUE" |-> "true" )
+               ( ( b"BYTES" |-> "0xdeadbeef" )
+               ( ( b"BYTES32" |-> "0x123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0" )
+               ( ( b"BYTES32ARRAY" |-> "0x123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0,0x15864864541fe8548484c8548654189d4184864a48618c54615156d165651f65,0x7468697264d18561e8691a891968f189868c18969d1868641f1818861685a189" )
+               ( ( b"INT256" |-> "-100" )
+               ( ( b"INT256ARRAY" |-> "-2,-1,0,1,2" )
+               ( ( b"STRING" |-> "hello_world" )
+               ( ( b"STRINGARRAY" |-> "one,two" )
+               ( ( b"UINT256" |-> "100" )
+               ( b"UINT256ARRAY" |-> "0,1,2,3,4" ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) )
+             </envVars>
              ...
            </cheatcodes>
          </foundry>
@@ -1460,6 +1506,29 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
              <mockFunctions>
                .MockFunctionCellMap
              </mockFunctions>
+             <envVars>
+               ( ( b"ADDRESS" |-> "0x1234567890123456789012345678901234567890" )
+               ( ( b"ADDRESSARRAY" |-> "0x1234567890123456789012345678901234567890,0x2345678901234567890123456789012345678901,0x3456789012345678901234567890123456789012" )
+               ( ( b"ADDRESSINT" |-> "7584896468543216876435687541650546890874" )
+               ( ( b"BADADDRESS" |-> "0xGHIJKLMNOPQRSTUVWXYZ1234567890ABCDEFGHSL" )
+               ( ( b"BADBOOLFALSE" |-> "notaboolvalue" )
+               ( ( b"BADBOOLTRUE" |-> "notaboolvalue" )
+               ( ( b"BADBYTES32" |-> "0xbadbytes32_badbytes32_badbytes32_badbytes32_badbytes32_badbytes3" )
+               ( ( b"BADINT256" |-> "notanint" )
+               ( ( b"BADUINT256" |-> "-100" )
+               ( ( b"BOOLARRAY" |-> "true,false,true,false" )
+               ( ( b"BOOLFALSE" |-> "false" )
+               ( ( b"BOOLTRUE" |-> "true" )
+               ( ( b"BYTES" |-> "0xdeadbeef" )
+               ( ( b"BYTES32" |-> "0x123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0" )
+               ( ( b"BYTES32ARRAY" |-> "0x123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0,0x15864864541fe8548484c8548654189d4184864a48618c54615156d165651f65,0x7468697264d18561e8691a891968f189868c18969d1868641f1818861685a189" )
+               ( ( b"INT256" |-> "-100" )
+               ( ( b"INT256ARRAY" |-> "-2,-1,0,1,2" )
+               ( ( b"STRING" |-> "hello_world" )
+               ( ( b"STRINGARRAY" |-> "one,two" )
+               ( ( b"UINT256" |-> "100" )
+               ( b"UINT256ARRAY" |-> "0,1,2,3,4" ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) )
+             </envVars>
              ...
            </cheatcodes>
          </foundry>
@@ -1724,6 +1793,29 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
              <mockFunctions>
                .MockFunctionCellMap
              </mockFunctions>
+             <envVars>
+               ( ( b"ADDRESS" |-> "0x1234567890123456789012345678901234567890" )
+               ( ( b"ADDRESSARRAY" |-> "0x1234567890123456789012345678901234567890,0x2345678901234567890123456789012345678901,0x3456789012345678901234567890123456789012" )
+               ( ( b"ADDRESSINT" |-> "7584896468543216876435687541650546890874" )
+               ( ( b"BADADDRESS" |-> "0xGHIJKLMNOPQRSTUVWXYZ1234567890ABCDEFGHSL" )
+               ( ( b"BADBOOLFALSE" |-> "notaboolvalue" )
+               ( ( b"BADBOOLTRUE" |-> "notaboolvalue" )
+               ( ( b"BADBYTES32" |-> "0xbadbytes32_badbytes32_badbytes32_badbytes32_badbytes32_badbytes3" )
+               ( ( b"BADINT256" |-> "notanint" )
+               ( ( b"BADUINT256" |-> "-100" )
+               ( ( b"BOOLARRAY" |-> "true,false,true,false" )
+               ( ( b"BOOLFALSE" |-> "false" )
+               ( ( b"BOOLTRUE" |-> "true" )
+               ( ( b"BYTES" |-> "0xdeadbeef" )
+               ( ( b"BYTES32" |-> "0x123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0" )
+               ( ( b"BYTES32ARRAY" |-> "0x123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0,0x15864864541fe8548484c8548654189d4184864a48618c54615156d165651f65,0x7468697264d18561e8691a891968f189868c18969d1868641f1818861685a189" )
+               ( ( b"INT256" |-> "-100" )
+               ( ( b"INT256ARRAY" |-> "-2,-1,0,1,2" )
+               ( ( b"STRING" |-> "hello_world" )
+               ( ( b"STRINGARRAY" |-> "one,two" )
+               ( ( b"UINT256" |-> "100" )
+               ( b"UINT256ARRAY" |-> "0,1,2,3,4" ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) )
+             </envVars>
              ...
            </cheatcodes>
          </foundry>
@@ -1801,278 +1893,6 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
       [priority(20), label(BASIC-BLOCK-14-TO-25)]
     
     rule [BASIC-BLOCK-18-TO-38]: <foundry>
-           <kevm>
-             <k>
-               ( #next [ CALL ] ~> .K => #checkBalanceUnderflow NCL:Int 0
-               ~> #checkDepthExceeded
-               ~> #call NCL:Int C_TGOVERNANCE_ESCROW_ID:Int C_TGOVERNANCE_ESCROW_ID:Int 0 0 b"W\xdf\x84K" false
-               ~> #return 128 32
-               ~> #pc [ CALL ] )
-               ~> #endPrank
-               ~> #execute
-               ~> _CONTINUATION:K
-             </k>
-             <mode>
-               NORMAL
-             </mode>
-             <schedule>
-               CANCUN
-             </schedule>
-             <useGas>
-               false
-             </useGas>
-             <ethereum>
-               <evm>
-                 <callState>
-                   <id>
-                     NCL:Int
-                   </id>
-                   <caller>
-                     CALLER_ID:Int
-                   </caller>
-                   <callData>
-                     b"z\xdb@\x8d"
-                   </callData>
-                   <callValue>
-                     0
-                   </callValue>
-                   <wordStack>
-                     ( ( 0 => 132 ) : ( ( C_TGOVERNANCE_ESCROW_ID:Int => 1474266187 ) : ( ( 0 => C_TGOVERNANCE_ESCROW_ID:Int ) : ( ( 128 => 0 ) : ( ( 4 => 51 ) : ( ( 128 => 2061189261 ) : ( ( 32 : ( 132 : ( 1474266187 : ( C_TGOVERNANCE_ESCROW_ID:Int : ( 0 : ( 51 : ( 2061189261 : .WordStack ) ) ) ) ) ) ) => .WordStack ) ) ) ) ) ) )
-                   </wordStack>
-                   <localMem>
-                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00W\xdf\x84K\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
-                   </localMem>
-                   <memoryUsed>
-                     0
-                   </memoryUsed>
-                   <callGas>
-                     0
-                   </callGas>
-                   <static>
-                     false
-                   </static>
-                   <callDepth>
-                     DEPTH_CELL:Int
-                   </callDepth>
-                   <codeAddr>
-                     C_TGOVERNANCE_ID:Int
-                   </codeAddr>
-                   ...
-                 </callState>
-                 <substate>
-                   <refund>
-                     0
-                   </refund>
-                   <accessedAccounts>
-                     ( ACCESSEDACCOUNTS_CELL:Set => ACCESSEDACCOUNTS_CELL:Set |Set SetItem ( C_TGOVERNANCE_ESCROW_ID:Int ) )
-                   </accessedAccounts>
-                   ...
-                 </substate>
-                 <origin>
-                   NOG0:Int
-                 </origin>
-                 <block>
-                   <number>
-                     NUMBER_CELL:Int
-                   </number>
-                   <timestamp>
-                     TIMESTAMP_CELL:Int
-                   </timestamp>
-                   <mixHash>
-                     MIXHASH_CELL:Int
-                   </mixHash>
-                   ...
-                 </block>
-                 ...
-               </evm>
-               <network>
-                 <chainID>
-                   1
-                 </chainID>
-                 <accounts>
-                   ( <account>
-                     <acctID>
-                       C_TGOVERNANCE_ESCROW_ID:Int
-                     </acctID>
-                     <balance>
-                       C_TGOVERNANCE_ESCROW_BAL:Int
-                     </balance>
-                     <storage>
-                       ( ( 0 |-> #asWord ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_BEFORE:Bytes +Bytes #buf ( 20 , C_TGOVERNANCE_ESCROW_TOKEN_ID:Int ) +Bytes C_TGOVERNANCE_ESCROW_TOKEN_SLOT_AFTER:Bytes ) )
-                       C_TGOVERNANCE_ESCROW_STORAGE:Map )
-                     </storage>
-                     <nonce>
-                       C_TGOVERNANCE_ESCROW_NONCE:Int
-                     </nonce>
-                     ...
-                   </account>
-                   ( <account>
-                     <acctID>
-                       C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
-                     </acctID>
-                     <balance>
-                       C_TGOVERNANCE_ESCROW_TOKEN_BAL:Int
-                     </balance>
-                     <nonce>
-                       C_TGOVERNANCE_ESCROW_TOKEN_NONCE:Int
-                     </nonce>
-                     ...
-                   </account>
-                   ( <account>
-                     <acctID>
-                       C_TGOVERNANCE_ID:Int
-                     </acctID>
-                     <balance>
-                       C_TGOVERNANCE_BAL:Int
-                     </balance>
-                     <storage>
-                       ( ( 0 |-> C_TGOVERNANCE_ESCROW_ID:Int )
-                       C_TGOVERNANCE_STORAGE:Map )
-                     </storage>
-                     <nonce>
-                       C_TGOVERNANCE_NONCE:Int
-                     </nonce>
-                     ...
-                   </account>
-                   ACCOUNTS_REST:AccountCellMap ) ) )
-                 </accounts>
-                 ...
-               </network>
-             </ethereum>
-             ...
-           </kevm>
-           <stackChecks>
-             true
-           </stackChecks>
-           <cheatcodes>
-             <prank>
-               <newCaller>
-                 NCL:Int
-               </newCaller>
-               <newOrigin>
-                 NOG0:Int
-               </newOrigin>
-               <active>
-                 true
-               </active>
-               <depth>
-                 DEPTH_CELL:Int
-               </depth>
-               ...
-             </prank>
-             <expectedRevert>
-               <isRevertExpected>
-                 ISREVERTEXPECTED_CELL:Bool
-               </isRevertExpected>
-               <expectedDepth>
-                 EXPECTEDDEPTH_CELL:Int
-               </expectedDepth>
-               ...
-             </expectedRevert>
-             <expectedOpcode>
-               <isOpcodeExpected>
-                 false
-               </isOpcodeExpected>
-               ...
-             </expectedOpcode>
-             <whitelist>
-               <isCallWhitelistActive>
-                 false
-               </isCallWhitelistActive>
-               <allowedCallsList>
-                 .List
-               </allowedCallsList>
-               <isStorageWhitelistActive>
-                 false
-               </isStorageWhitelistActive>
-               <storageSlotList>
-                 .List
-               </storageSlotList>
-             </whitelist>
-             <mockCalls>
-               .MockCallCellMap
-             </mockCalls>
-             <mockFunctions>
-               .MockFunctionCellMap
-             </mockFunctions>
-             ...
-           </cheatcodes>
-         </foundry>
-      requires ( _ACTIVE_CELL:Bool
-       andBool ( _CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int
-       andBool ( _NEWCALLER_CELL:Account ==K NCL:Int
-       andBool ( _NEWORIGIN_CELL:Account ==K NOG0:Int
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int MIXHASH_CELL:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ID:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_BAL:Int
-       andBool ( pow24 <Int NUMBER_CELL:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_NONCE:Int
-       andBool ( NUMBER_CELL:Int <Int pow32
-       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_ID:Int
-       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_BAL:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_NONCE:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_TOKEN_BAL:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_TOKEN_NONCE:Int
-       andBool ( C_TGOVERNANCE_NONCE:Int <Int maxUInt64
-       andBool ( C_TGOVERNANCE_ESCROW_NONCE:Int <Int maxUInt64
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_NONCE:Int <Int maxUInt64
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( C_TGOVERNANCE_ID:Int <Int pow160
-       andBool ( _NOG:Int =/=Int NOG0:Int
-       andBool ( C_TGOVERNANCE_ESCROW_ID:Int <Int pow160
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int <Int pow160
-       andBool ( C_TGOVERNANCE_ID:Int =/=Int NCL:Int
-       andBool ( MIXHASH_CELL:Int <Int pow256
-       andBool ( C_TGOVERNANCE_BAL:Int <Int pow256
-       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int C_TGOVERNANCE_ID:Int
-       andBool ( C_TGOVERNANCE_ESCROW_BAL:Int <Int pow256
-       andBool ( ( notBool 0 in_keys ( C_TGOVERNANCE_STORAGE:Map ) )
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int =/=Int C_TGOVERNANCE_ID:Int
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_BAL:Int <Int pow256
-       andBool ( ( notBool 0 in_keys ( C_TGOVERNANCE_ESCROW_STORAGE:Map ) )
-       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
-       andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
-       andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
-       andBool ( C_TGOVERNANCE_ID:Int =/=Int #address ( FoundryCheat )
-       andBool ( 1 ==Int lengthBytes ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_AFTER:Bytes )
-       andBool ( 11 ==Int lengthBytes ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_BEFORE:Bytes )
-       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int #address ( FoundryCheat )
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int =/=Int #address ( FoundryCheat )
-       andBool ( ( notBool <acctID>
-          C_TGOVERNANCE_ID:Int
-        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool <acctID>
-          C_TGOVERNANCE_ESCROW_ID:Int
-        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool <acctID>
-          C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
-        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( CALLER_ID:Int <=Int 0
-          orBool ( 10 <Int CALLER_ID:Int
-                 ))
-       andBool ( ( ORIGIN_ID:Int <=Int 0
-          orBool ( 10 <Int ORIGIN_ID:Int
-                 ))
-       andBool ( ( C_TGOVERNANCE_ID:Int <=Int 0
-          orBool ( 10 <Int C_TGOVERNANCE_ID:Int
-                 ))
-       andBool ( ( C_TGOVERNANCE_ESCROW_ID:Int <=Int 0
-          orBool ( 10 <Int C_TGOVERNANCE_ESCROW_ID:Int
-                 ))
-       andBool ( ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int <=Int 0
-          orBool ( 10 <Int C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
-                 ))
-       andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
-               )))))))))))))))))))))))))))))))))))))))))))))))))))))))
-      [priority(20), label(BASIC-BLOCK-18-TO-38)]
-    
-    rule [BASIC-BLOCK-22-TO-43]: <foundry>
            <kevm>
              <k>
                ( #next [ CALL ] ~> .K => #checkBalanceUnderflow NCL:Int 0
@@ -2269,6 +2089,29 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
              <mockFunctions>
                .MockFunctionCellMap
              </mockFunctions>
+             <envVars>
+               ( ( b"ADDRESS" |-> "0x1234567890123456789012345678901234567890" )
+               ( ( b"ADDRESSARRAY" |-> "0x1234567890123456789012345678901234567890,0x2345678901234567890123456789012345678901,0x3456789012345678901234567890123456789012" )
+               ( ( b"ADDRESSINT" |-> "7584896468543216876435687541650546890874" )
+               ( ( b"BADADDRESS" |-> "0xGHIJKLMNOPQRSTUVWXYZ1234567890ABCDEFGHSL" )
+               ( ( b"BADBOOLFALSE" |-> "notaboolvalue" )
+               ( ( b"BADBOOLTRUE" |-> "notaboolvalue" )
+               ( ( b"BADBYTES32" |-> "0xbadbytes32_badbytes32_badbytes32_badbytes32_badbytes32_badbytes3" )
+               ( ( b"BADINT256" |-> "notanint" )
+               ( ( b"BADUINT256" |-> "-100" )
+               ( ( b"BOOLARRAY" |-> "true,false,true,false" )
+               ( ( b"BOOLFALSE" |-> "false" )
+               ( ( b"BOOLTRUE" |-> "true" )
+               ( ( b"BYTES" |-> "0xdeadbeef" )
+               ( ( b"BYTES32" |-> "0x123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0" )
+               ( ( b"BYTES32ARRAY" |-> "0x123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0,0x15864864541fe8548484c8548654189d4184864a48618c54615156d165651f65,0x7468697264d18561e8691a891968f189868c18969d1868641f1818861685a189" )
+               ( ( b"INT256" |-> "-100" )
+               ( ( b"INT256ARRAY" |-> "-2,-1,0,1,2" )
+               ( ( b"STRING" |-> "hello_world" )
+               ( ( b"STRINGARRAY" |-> "one,two" )
+               ( ( b"UINT256" |-> "100" )
+               ( b"UINT256ARRAY" |-> "0,1,2,3,4" ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) )
+             </envVars>
              ...
            </cheatcodes>
          </foundry>
@@ -2344,9 +2187,9 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
           orBool ( 10 <Int C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
                  ))
                )))))))))))))))))))))))))))))))))))))))))))))))))))))))
-      [priority(20), label(BASIC-BLOCK-22-TO-43)]
+      [priority(20), label(BASIC-BLOCK-18-TO-38)]
     
-    rule [BASIC-BLOCK-23-TO-44]: <foundry>
+    rule [BASIC-BLOCK-19-TO-39]: <foundry>
            <kevm>
              <k>
                ( #next [ CALL ] ~> .K => #checkBalanceUnderflow NCL:Int 0
@@ -2543,6 +2386,29 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
              <mockFunctions>
                .MockFunctionCellMap
              </mockFunctions>
+             <envVars>
+               ( ( b"ADDRESS" |-> "0x1234567890123456789012345678901234567890" )
+               ( ( b"ADDRESSARRAY" |-> "0x1234567890123456789012345678901234567890,0x2345678901234567890123456789012345678901,0x3456789012345678901234567890123456789012" )
+               ( ( b"ADDRESSINT" |-> "7584896468543216876435687541650546890874" )
+               ( ( b"BADADDRESS" |-> "0xGHIJKLMNOPQRSTUVWXYZ1234567890ABCDEFGHSL" )
+               ( ( b"BADBOOLFALSE" |-> "notaboolvalue" )
+               ( ( b"BADBOOLTRUE" |-> "notaboolvalue" )
+               ( ( b"BADBYTES32" |-> "0xbadbytes32_badbytes32_badbytes32_badbytes32_badbytes32_badbytes3" )
+               ( ( b"BADINT256" |-> "notanint" )
+               ( ( b"BADUINT256" |-> "-100" )
+               ( ( b"BOOLARRAY" |-> "true,false,true,false" )
+               ( ( b"BOOLFALSE" |-> "false" )
+               ( ( b"BOOLTRUE" |-> "true" )
+               ( ( b"BYTES" |-> "0xdeadbeef" )
+               ( ( b"BYTES32" |-> "0x123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0" )
+               ( ( b"BYTES32ARRAY" |-> "0x123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0,0x15864864541fe8548484c8548654189d4184864a48618c54615156d165651f65,0x7468697264d18561e8691a891968f189868c18969d1868641f1818861685a189" )
+               ( ( b"INT256" |-> "-100" )
+               ( ( b"INT256ARRAY" |-> "-2,-1,0,1,2" )
+               ( ( b"STRING" |-> "hello_world" )
+               ( ( b"STRINGARRAY" |-> "one,two" )
+               ( ( b"UINT256" |-> "100" )
+               ( b"UINT256ARRAY" |-> "0,1,2,3,4" ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) )
+             </envVars>
              ...
            </cheatcodes>
          </foundry>
@@ -2618,16 +2484,17 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
           orBool ( 10 <Int C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
                  ))
                )))))))))))))))))))))))))))))))))))))))))))))))))))))))
-      [priority(20), label(BASIC-BLOCK-23-TO-44)]
+      [priority(20), label(BASIC-BLOCK-19-TO-39)]
     
-    rule [BASIC-BLOCK-26-TO-50]: <foundry>
+    rule [BASIC-BLOCK-21-TO-42]: <foundry>
            <kevm>
              <k>
-               ( #next [ CALL ] ~> .K => #injectPrank
-               ~> #next [ CALL ]
-               ~> #endPrank )
-               ~> #checkRevert
-               ~> #updateRevertOutput 128 32
+               ( #next [ CALL ] ~> .K => #checkBalanceUnderflow NCL:Int 0
+               ~> #checkDepthExceeded
+               ~> #call NCL:Int C_TGOVERNANCE_ESCROW_ID:Int C_TGOVERNANCE_ESCROW_ID:Int 0 0 b"W\xdf\x84K" false
+               ~> #return 128 32
+               ~> #pc [ CALL ] )
+               ~> #endPrank
                ~> #execute
                ~> _CONTINUATION:K
              </k>
@@ -2644,7 +2511,7 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
                <evm>
                  <callState>
                    <id>
-                     C_TGOVERNANCE_ID:Int
+                     NCL:Int
                    </id>
                    <caller>
                      CALLER_ID:Int
@@ -2656,7 +2523,7 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
                      0
                    </callValue>
                    <wordStack>
-                     ( 0 : ( C_TGOVERNANCE_ESCROW_ID:Int : ( 0 : ( 128 : ( 4 : ( 128 : ( 32 : ( 132 : ( 1474266187 : ( C_TGOVERNANCE_ESCROW_ID:Int : ( 0 : ( 51 : ( 2061189261 : .WordStack ) ) ) ) ) ) ) ) ) ) ) ) )
+                     ( ( 0 => 132 ) : ( ( C_TGOVERNANCE_ESCROW_ID:Int => 1474266187 ) : ( ( 0 => C_TGOVERNANCE_ESCROW_ID:Int ) : ( ( 128 => 0 ) : ( ( 4 => 51 ) : ( ( 128 => 2061189261 ) : ( ( 32 : ( 132 : ( 1474266187 : ( C_TGOVERNANCE_ESCROW_ID:Int : ( 0 : ( 51 : ( 2061189261 : .WordStack ) ) ) ) ) ) ) => .WordStack ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00W\xdf\x84K\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
@@ -2671,7 +2538,7 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
                      false
                    </static>
                    <callDepth>
-                     EXPECTEDDEPTH_CELL:Int
+                     DEPTH_CELL:Int
                    </callDepth>
                    <codeAddr>
                      C_TGOVERNANCE_ID:Int
@@ -2682,10 +2549,13 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
                    <refund>
                      0
                    </refund>
+                   <accessedAccounts>
+                     ( ACCESSEDACCOUNTS_CELL:Set => ACCESSEDACCOUNTS_CELL:Set |Set SetItem ( C_TGOVERNANCE_ESCROW_ID:Int ) )
+                   </accessedAccounts>
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   NOG0:Int
                  </origin>
                  <block>
                    <number>
@@ -2763,19 +2633,22 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
            <cheatcodes>
              <prank>
                <newCaller>
-                 NEWCALLER_CELL:Account
+                 NCL:Int
                </newCaller>
+               <newOrigin>
+                 NOG0:Int
+               </newOrigin>
                <active>
-                 ( ACTIVE_CELL:Bool => true )
+                 true
                </active>
                <depth>
-                 ( DEPTH_CELL:Int => EXPECTEDDEPTH_CELL:Int )
+                 DEPTH_CELL:Int
                </depth>
                ...
              </prank>
              <expectedRevert>
                <isRevertExpected>
-                 true
+                 ISREVERTEXPECTED_CELL:Bool
                </isRevertExpected>
                <expectedDepth>
                  EXPECTEDDEPTH_CELL:Int
@@ -2808,13 +2681,36 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
              <mockFunctions>
                .MockFunctionCellMap
              </mockFunctions>
+             <envVars>
+               ( ( b"ADDRESS" |-> "0x1234567890123456789012345678901234567890" )
+               ( ( b"ADDRESSARRAY" |-> "0x1234567890123456789012345678901234567890,0x2345678901234567890123456789012345678901,0x3456789012345678901234567890123456789012" )
+               ( ( b"ADDRESSINT" |-> "7584896468543216876435687541650546890874" )
+               ( ( b"BADADDRESS" |-> "0xGHIJKLMNOPQRSTUVWXYZ1234567890ABCDEFGHSL" )
+               ( ( b"BADBOOLFALSE" |-> "notaboolvalue" )
+               ( ( b"BADBOOLTRUE" |-> "notaboolvalue" )
+               ( ( b"BADBYTES32" |-> "0xbadbytes32_badbytes32_badbytes32_badbytes32_badbytes32_badbytes3" )
+               ( ( b"BADINT256" |-> "notanint" )
+               ( ( b"BADUINT256" |-> "-100" )
+               ( ( b"BOOLARRAY" |-> "true,false,true,false" )
+               ( ( b"BOOLFALSE" |-> "false" )
+               ( ( b"BOOLTRUE" |-> "true" )
+               ( ( b"BYTES" |-> "0xdeadbeef" )
+               ( ( b"BYTES32" |-> "0x123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0" )
+               ( ( b"BYTES32ARRAY" |-> "0x123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0,0x15864864541fe8548484c8548654189d4184864a48618c54615156d165651f65,0x7468697264d18561e8691a891968f189868c18969d1868641f1818861685a189" )
+               ( ( b"INT256" |-> "-100" )
+               ( ( b"INT256ARRAY" |-> "-2,-1,0,1,2" )
+               ( ( b"STRING" |-> "hello_world" )
+               ( ( b"STRINGARRAY" |-> "one,two" )
+               ( ( b"UINT256" |-> "100" )
+               ( b"UINT256ARRAY" |-> "0,1,2,3,4" ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) )
+             </envVars>
              ...
            </cheatcodes>
          </foundry>
-      requires ( ACTIVE_CELL:Bool
-       andBool ( _ISREVERTEXPECTED_CELL:Bool
-       andBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int
-       andBool ( _CALLDEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int
+      requires ( _ACTIVE_CELL:Bool
+       andBool ( _CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int
+       andBool ( _NEWCALLER_CELL:Account ==K NCL:Int
+       andBool ( _NEWORIGIN_CELL:Account ==K NOG0:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int MIXHASH_CELL:Int
@@ -2823,7 +2719,6 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( 0 <=Int C_TGOVERNANCE_NONCE:Int
        andBool ( NUMBER_CELL:Int <Int pow32
-       andBool ( NEWCALLER_CELL:Account =/=K C_TGOVERNANCE_ID:Int
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_ID:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
@@ -2838,8 +2733,10 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( C_TGOVERNANCE_ID:Int <Int pow160
+       andBool ( _NOG:Int =/=Int NOG0:Int
        andBool ( C_TGOVERNANCE_ESCROW_ID:Int <Int pow160
        andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int <Int pow160
+       andBool ( C_TGOVERNANCE_ID:Int =/=Int NCL:Int
        andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( C_TGOVERNANCE_BAL:Int <Int pow256
        andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int C_TGOVERNANCE_ID:Int
@@ -2880,11 +2777,11 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
        andBool ( ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int <=Int 0
           orBool ( 10 <Int C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
                  ))
-               )))))))))))))))))))))))))))))))))))))))))))))))))))))
-       ensures NEWCALLER_CELL:Account ~> .K =/=K C_TGOVERNANCE_ID:Int ~> .K
-      [priority(20), label(BASIC-BLOCK-26-TO-50)]
+       andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
+               )))))))))))))))))))))))))))))))))))))))))))))))))))))))
+      [priority(20), label(BASIC-BLOCK-21-TO-42)]
     
-    rule [BASIC-BLOCK-53-TO-41]: <foundry>
+    rule [BASIC-BLOCK-50-TO-45]: <foundry>
            <kevm>
              <k>
                ( #addr [ CALL ]
@@ -3240,6 +3137,29 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
              <mockFunctions>
                .MockFunctionCellMap
              </mockFunctions>
+             <envVars>
+               ( ( b"ADDRESS" |-> "0x1234567890123456789012345678901234567890" )
+               ( ( b"ADDRESSARRAY" |-> "0x1234567890123456789012345678901234567890,0x2345678901234567890123456789012345678901,0x3456789012345678901234567890123456789012" )
+               ( ( b"ADDRESSINT" |-> "7584896468543216876435687541650546890874" )
+               ( ( b"BADADDRESS" |-> "0xGHIJKLMNOPQRSTUVWXYZ1234567890ABCDEFGHSL" )
+               ( ( b"BADBOOLFALSE" |-> "notaboolvalue" )
+               ( ( b"BADBOOLTRUE" |-> "notaboolvalue" )
+               ( ( b"BADBYTES32" |-> "0xbadbytes32_badbytes32_badbytes32_badbytes32_badbytes32_badbytes3" )
+               ( ( b"BADINT256" |-> "notanint" )
+               ( ( b"BADUINT256" |-> "-100" )
+               ( ( b"BOOLARRAY" |-> "true,false,true,false" )
+               ( ( b"BOOLFALSE" |-> "false" )
+               ( ( b"BOOLTRUE" |-> "true" )
+               ( ( b"BYTES" |-> "0xdeadbeef" )
+               ( ( b"BYTES32" |-> "0x123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0" )
+               ( ( b"BYTES32ARRAY" |-> "0x123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0,0x15864864541fe8548484c8548654189d4184864a48618c54615156d165651f65,0x7468697264d18561e8691a891968f189868c18969d1868641f1818861685a189" )
+               ( ( b"INT256" |-> "-100" )
+               ( ( b"INT256ARRAY" |-> "-2,-1,0,1,2" )
+               ( ( b"STRING" |-> "hello_world" )
+               ( ( b"STRINGARRAY" |-> "one,two" )
+               ( ( b"UINT256" |-> "100" )
+               ( b"UINT256ARRAY" |-> "0,1,2,3,4" ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) )
+             </envVars>
              ...
            </cheatcodes>
          </foundry>
@@ -3311,9 +3231,9 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
        andBool ( ( notBool ( CALLDEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
        andBool ( ( notBool ( ACTIVE_CELL:Bool andBool ( CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int andBool NEWCALLER_CELL:Account =/=K C_TGOVERNANCE_ID:Int ) ) )
                )))))))))))))))))))))))))))))))))))))))))))))))))))
-      [priority(20), label(BASIC-BLOCK-53-TO-41)]
+      [priority(20), label(BASIC-BLOCK-50-TO-45)]
     
-    rule [BASIC-BLOCK-54-TO-42]: <foundry>
+    rule [BASIC-BLOCK-51-TO-46]: <foundry>
            <kevm>
              <k>
                ( #addr [ CALL ]
@@ -3508,6 +3428,29 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
              <mockFunctions>
                .MockFunctionCellMap
              </mockFunctions>
+             <envVars>
+               ( ( b"ADDRESS" |-> "0x1234567890123456789012345678901234567890" )
+               ( ( b"ADDRESSARRAY" |-> "0x1234567890123456789012345678901234567890,0x2345678901234567890123456789012345678901,0x3456789012345678901234567890123456789012" )
+               ( ( b"ADDRESSINT" |-> "7584896468543216876435687541650546890874" )
+               ( ( b"BADADDRESS" |-> "0xGHIJKLMNOPQRSTUVWXYZ1234567890ABCDEFGHSL" )
+               ( ( b"BADBOOLFALSE" |-> "notaboolvalue" )
+               ( ( b"BADBOOLTRUE" |-> "notaboolvalue" )
+               ( ( b"BADBYTES32" |-> "0xbadbytes32_badbytes32_badbytes32_badbytes32_badbytes32_badbytes3" )
+               ( ( b"BADINT256" |-> "notanint" )
+               ( ( b"BADUINT256" |-> "-100" )
+               ( ( b"BOOLARRAY" |-> "true,false,true,false" )
+               ( ( b"BOOLFALSE" |-> "false" )
+               ( ( b"BOOLTRUE" |-> "true" )
+               ( ( b"BYTES" |-> "0xdeadbeef" )
+               ( ( b"BYTES32" |-> "0x123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0" )
+               ( ( b"BYTES32ARRAY" |-> "0x123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0,0x15864864541fe8548484c8548654189d4184864a48618c54615156d165651f65,0x7468697264d18561e8691a891968f189868c18969d1868641f1818861685a189" )
+               ( ( b"INT256" |-> "-100" )
+               ( ( b"INT256ARRAY" |-> "-2,-1,0,1,2" )
+               ( ( b"STRING" |-> "hello_world" )
+               ( ( b"STRINGARRAY" |-> "one,two" )
+               ( ( b"UINT256" |-> "100" )
+               ( b"UINT256ARRAY" |-> "0,1,2,3,4" ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) )
+             </envVars>
              ...
            </cheatcodes>
          </foundry>
@@ -3579,6 +3522,6 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
        andBool ( ( notBool ( CALLDEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
        andBool ( ( notBool ( ACTIVE_CELL:Bool andBool ( CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int andBool NEWCALLER_CELL:Account =/=K C_TGOVERNANCE_ID:Int ) ) )
                )))))))))))))))))))))))))))))))))))))))))))))))))))
-      [priority(20), label(BASIC-BLOCK-54-TO-42)]
+      [priority(20), label(BASIC-BLOCK-51-TO-46)]
 
 endmodule

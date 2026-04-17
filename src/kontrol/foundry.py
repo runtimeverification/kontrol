@@ -430,6 +430,7 @@ class Foundry:
     _bug_report: BugReport | None
     _use_hex_encoding: bool
     _expand_config: bool
+    env_file: str | None
 
     add_enum_constraints: bool
     enums: dict[str, int]
@@ -441,6 +442,7 @@ class Foundry:
         use_hex_encoding: bool = False,
         add_enum_constraints: bool = False,
         expand_config: bool = False,
+        env_file: str | None = None,
     ) -> None:
         self._root = foundry_root
         with (foundry_root / 'foundry.toml').open('rb') as f:
@@ -450,6 +452,7 @@ class Foundry:
         self._expand_config = expand_config
         self.add_enum_constraints = add_enum_constraints
         self.enums = {}
+        self.env_file = env_file
 
     def lookup_full_contract_name(self, contract_name: str) -> str:
         contracts = [
