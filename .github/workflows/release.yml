@@ -82,6 +82,8 @@ jobs:
         env:
           CACHIX_AUTH_TOKEN: '${{ secrets.CACHIX_PRIVATE_KFB_TOKEN }}'
           GC_DONT_GC: '1'
+          OWNER_REPO: '${{ github.repository }}'
+          REV: '${{ github.sha }}'
         with:
           packages: jq
           script: |
@@ -89,6 +91,8 @@ jobs:
             kup publish k-framework-binary .#kontrol --keep-days 180
             kup publish k-framework-binary .#kontrol.solc_0_8_13 --keep-days 180
             kup publish k-framework-binary .#kontrol.solc_0_8_15 --keep-days 180
+            # Cachix has not been responding to 'cachix pin' requests made under the hood by kup. Verify the push and pin manually.
+            .github/scripts/check-cachix-pin.sh
 
       - name: 'On failure, delete drafted release'
         if: failure()
