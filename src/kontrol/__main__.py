@@ -7,6 +7,7 @@ from typing import TYPE_CHECKING
 
 from pyk.cli.pyk import parse_toml_args
 from pyk.cterm.symbolic import CTermSMTError
+from pyk.telemetry import emit_event
 
 from . import VERSION
 from .cli import _create_argument_parser, generate_options, get_argument_type_setter, get_option_string_destination
@@ -36,7 +37,6 @@ from .state_record import (
     read_recorded_state_dump,
     recorded_state_to_account_cells,
 )
-from .telemetry import _emit_event
 from .utils import (
     _LOG_FORMAT,
     _rv_blue,
@@ -170,7 +170,7 @@ def exec_build(options: BuildOptions) -> None:
 def exec_prove(options: ProveOptions) -> None:
     _LOGGER.debug(options)
 
-    _emit_event(
+    emit_event(
         'kontrol_prove_start',
         {
             'reinit': options.reinit,
@@ -207,7 +207,7 @@ def exec_prove(options: ProveOptions) -> None:
             init_accounts=init_accounts,
         )
     except CTermSMTError as err:
-        _emit_event(
+        emit_event(
             'kontrol_prove_smt_error',
             {
                 'smt_timeout': options.smt_timeout,
@@ -250,7 +250,7 @@ def exec_prove(options: ProveOptions) -> None:
                 print(f'The proof cannot be completed while there are refuted nodes: {refuted_nodes}.')
                 print('Either unrefute the nodes or discharge the corresponding refutation subproofs.')
 
-    _emit_event(
+    emit_event(
         'kontrol_prove_complete',
         {
             'total_proofs': len(results),
