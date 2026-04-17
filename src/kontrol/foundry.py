@@ -45,6 +45,7 @@ from . import VERSION
 from .solc_to_k import Contract, _contract_name_from_bytecode
 from .storage_generation import generate_setup_contract
 from .utils import (
+    _DATETIME_FORMAT,
     _read_digest_file,
     decode_log_message,
     empty_lemmas_file_contents,
@@ -158,7 +159,9 @@ class KontrolSemantics(KEVMSemantics):
     def _ffi_pattern(self) -> KSequence:
         return KSequence([KApply('ffi_shell', KVariable('###CMD')), KVariable('###CONTINUATION')])
 
-    def _exec_rename_custom_step(self, subst: Subst, cterm: CTerm, _c: CTermSymbolic) -> KCFGExtendResult | None:
+    def _exec_rename_custom_step(
+        self, subst: Subst, cterm: CTerm, _c: CTermSymbolic, _node_id: int
+    ) -> KCFGExtendResult | None:
         # Extract the target var and new name from the substitution
         target_var = subst['###RENAME_TARGET']
         name_token = subst['###NEW_NAME']
@@ -182,7 +185,7 @@ class KontrolSemantics(KEVMSemantics):
         return Step(CTerm(new_cterm.config, constraints), 1, (), ['foundry_rename'], cut=True)
 
     def _exec_forget_custom_step(
-        self, subst: Subst, cterm: CTerm, cterm_symbolic: CTermSymbolic
+        self, subst: Subst, cterm: CTerm, cterm_symbolic: CTermSymbolic, _node_id: int
     ) -> KCFGExtendResult | None:
         """Remove the constraint at the top of K_CELL of a given CTerm from its path constraints,
            as part of the 'FOUNDRY-ACCOUNTS.forget' cut-rule.
@@ -293,20 +296,23 @@ class KontrolSemantics(KEVMSemantics):
         new_cterm = CTerm.from_kast(set_cell(cterm.kast, 'K_CELL', KSequence(subst['###CONTINUATION'])))
         return Step(CTerm(new_cterm.config, new_constraints), 1, (), ['cheatcode_forget'], cut=True)
 
-    def _exec_console_log_custom_step(self, subst: Subst, cterm: CTerm, _c: CTermSymbolic) -> KCFGExtendResult | None:
+    def _exec_console_log_custom_step(
+        self, subst: Subst, cterm: CTerm, _c: CTermSymbolic, node_id: int
+    ) -> KCFGExtendResult | None:
         selector_token = subst['###SELECTOR']
         data = subst['###DATA']
         assert type(selector_token) is KToken
 
+        prefix = f'    [{node_id}] [{datetime.datetime.now().strftime(_DATETIME_FORMAT)}]'
         try:
             if type(data) is KToken:
                 selector = int(selector_token.token)
                 output = decode_log_message(data.token, selector)
                 if output is not None:
-                    print(f'    {output}')
+                    print(f'{prefix} {output}')
             else:
                 kevm = KEVM(kdist.get('kontrol.base'))
-                print(f'    {kevm.pretty_print(data)}')
+                print(f'{prefix} {kevm.pretty_print(data)}')
         except Exception as e:
             _LOGGER.warning(f'Console log decode error: {e}')
 
@@ -314,7 +320,9 @@ class KontrolSemantics(KEVMSemantics):
         new_cterm = CTerm.from_kast(set_cell(cterm.kast, 'K_CELL', KSequence(subst['###CONTINUATION'])))
         return Step(CTerm(new_cterm.config, cterm.constraints), 1, (), ['console.log'], cut=True)
 
-    def _exec_ffi_custom_step(self, subst: Subst, cterm: CTerm, _c: CTermSymbolic) -> KCFGExtendResult | None:
+    def _exec_ffi_custom_step(
+        self, subst: Subst, cterm: CTerm, _c: CTermSymbolic, _node_id: int
+    ) -> KCFGExtendResult | None:
         """Execute vm.ffi() cheatcode by running external commands and encoding their output as ABI bytes.
 
         This function decodes the command from the ABI-encoded string array, executes it as a subprocess, and processes
