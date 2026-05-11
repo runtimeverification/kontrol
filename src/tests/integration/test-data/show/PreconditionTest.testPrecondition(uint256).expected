@@ -1,6 +1,6 @@
 
 ┌─ 1 (root, init)
-│   k: #execute ~> CONTINUATION:K
+│   k: #execute ~> CONTINUATION:K ~> .K
 │   pc: 0
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
@@ -9,7 +9,7 @@
 │
 │  (536 steps)
 ├─ 3 (terminal)
-│   k: #halt ~> CONTINUATION:K
+│   k: #halt ~> CONTINUATION:K ~> .K
 │   pc: 275
 │   callDepth: 0
 │   statusCode: EVMC_SUCCESS
@@ -18,7 +18,7 @@
 │
 │  (1 step)
 ├─ 4
-│   k: #execute ~> CONTINUATION:K
+│   k: #execute ~> CONTINUATION:K ~> .K
 │   pc: 0
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
@@ -35,7 +35,7 @@
 │
 │  (482 steps)
 ├─ 7
-│   k: #halt ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
+│   k: #halt ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K ~> . ...
 │   pc: 73
 │   callDepth: 1
 │   statusCode: EVMC_SUCCESS
@@ -44,7 +44,7 @@
 │
 │  (305 steps)
 ├─ 8 (terminal)
-│   k: #halt ~> CONTINUATION:K
+│   k: #halt ~> CONTINUATION:K ~> .K
 │   pc: 275
 │   callDepth: 0
 │   statusCode: EVMC_SUCCESS
@@ -54,7 +54,7 @@
 ┊  constraint: true
 ┊  subst: ...
 └─ 5 (leaf, target, terminal)
-    k: #halt ~> CONTINUATION:K
+    k: #halt ~> CONTINUATION:K ~> .K
     pc: PC_CELL_5d410f2a:Int
     callDepth: CALLDEPTH_CELL_5d410f2a:Int
     statusCode: STATUSCODE_FINAL:StatusCode
@@ -70,6 +70,7 @@ module SUMMARY-TEST%PRECONDITIONTEST.TESTPRECONDITION(UINT256):0
              <k>
                ( #execute => #halt )
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -294,6 +295,7 @@ module SUMMARY-TEST%PRECONDITIONTEST.TESTPRECONDITION(UINT256):0
              <k>
                ( #halt => #execute )
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -521,9 +523,11 @@ module SUMMARY-TEST%PRECONDITIONTEST.TESTPRECONDITION(UINT256):0
              <k>
                ( .K => #halt
                ~> #codeDeposit 491460923342184218035706888008750043977755113263
-               ~> #pc [ CREATE ] )
+               ~> #pc [ CREATE ]
+               ~> .K )
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -890,10 +894,13 @@ module SUMMARY-TEST%PRECONDITIONTEST.TESTPRECONDITION(UINT256):0
              <k>
                #halt
                ~> ( #codeDeposit 491460923342184218035706888008750043977755113263
-               ~> #pc [ CREATE ] => #return 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ CREATE ]
+               ~> .K => #return 128 32
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -1282,8 +1289,10 @@ module SUMMARY-TEST%PRECONDITIONTEST.TESTPRECONDITION(UINT256):0
                #halt
                ~> ( #return 128 32
                ~> #pc [ STATICCALL ]
-               ~> #execute => .K )
+               ~> #execute
+               ~> .K => .K )
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL

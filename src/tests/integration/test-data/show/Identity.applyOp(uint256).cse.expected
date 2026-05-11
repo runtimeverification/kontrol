@@ -1,6 +1,6 @@
 
 ┌─ 1 (root, init)
-│   k: #execute ~> CONTINUATION:K
+│   k: #execute ~> CONTINUATION:K ~> .K
 │   pc: 0
 │   callDepth: CALLDEPTH_CELL:Int
 │   statusCode: STATUSCODE:StatusCode
@@ -9,7 +9,7 @@
 │
 │  (359 steps)
 ├─ 3
-│   k: #next [ STATICCALL ] ~> #execute ~> CONTINUATION:K
+│   k: #next [ STATICCALL ] ~> #execute ~> CONTINUATION:K ~> .K
 │   pc: 148
 │   callDepth: CALLDEPTH_CELL:Int
 │   statusCode: STATUSCODE:StatusCode
@@ -730,7 +730,7 @@
 ┣━━┓
 ┃  │
 ┃  ├─ 5
-┃  │   k: #injectPrank ~> #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃  │   k: #injectPrank ~> #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K  ...
 ┃  │   pc: 148
 ┃  │   callDepth: DEPTH_CELL:Int
 ┃  │   statusCode: STATUSCODE:StatusCode
@@ -741,7 +741,7 @@
 ┃  ┣━━┓
 ┃  ┃  │
 ┃  ┃  ├─ 9 (split)
-┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K ~> .K
 ┃  ┃  │   pc: 148
 ┃  ┃  │   callDepth: DEPTH_CELL:Int
 ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -757,7 +757,7 @@
 </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
 ┃  ┃  ┃  │
 ┃  ┃  ┃  ├─ 126
-┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K ~> .K
 ┃  ┃  ┃  │   pc: 148
 ┃  ┃  ┃  │   callDepth: DEPTH_CELL:Int
 ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -781,7 +781,7 @@
 </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
 ┃  ┃  ┃  │
 ┃  ┃  ┃  ├─ 148
-┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K ~> .K
 ┃  ┃  ┃  │   pc: 148
 ┃  ┃  ┃  │   callDepth: DEPTH_CELL:Int
 ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -805,7 +805,7 @@
 </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
 ┃  ┃  ┃  │
 ┃  ┃  ┃  ├─ 158
-┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K ~> .K
 ┃  ┃  ┃  │   pc: 148
 ┃  ┃  ┃  │   callDepth: DEPTH_CELL:Int
 ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -825,7 +825,7 @@
 ┃  ┃     ┃ constraint: true
 ┃  ┃     │
 ┃  ┃     ├─ 159
-┃  ┃     │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃  ┃     │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K ~> .K
 ┃  ┃     │   pc: 148
 ┃  ┃     │   callDepth: DEPTH_CELL:Int
 ┃  ┃     │   statusCode: STATUSCODE:StatusCode
@@ -844,7 +844,7 @@
 ┃  ┣━━┓
 ┃  ┃  │
 ┃  ┃  ├─ 10 (split)
-┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K ~> .K
 ┃  ┃  │   pc: 148
 ┃  ┃  │   callDepth: DEPTH_CELL:Int
 ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -860,7 +860,7 @@
 </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
 ┃  ┃  ┃  │
 ┃  ┃  ┃  ├─ 128
-┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K ~> .K
 ┃  ┃  ┃  │   pc: 148
 ┃  ┃  ┃  │   callDepth: DEPTH_CELL:Int
 ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -884,7 +884,7 @@
 </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
 ┃  ┃  ┃  │
 ┃  ┃  ┃  ├─ 150
-┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K ~> .K
 ┃  ┃  ┃  │   pc: 148
 ┃  ┃  ┃  │   callDepth: DEPTH_CELL:Int
 ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -908,7 +908,7 @@
 </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
 ┃  ┃  ┃  │
 ┃  ┃  ┃  ├─ 160
-┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K ~> .K
 ┃  ┃  ┃  │   pc: 148
 ┃  ┃  ┃  │   callDepth: DEPTH_CELL:Int
 ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -928,7 +928,7 @@
 ┃  ┃     ┃ constraint: true
 ┃  ┃     │
 ┃  ┃     ├─ 161
-┃  ┃     │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃  ┃     │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K ~> .K
 ┃  ┃     │   pc: 148
 ┃  ┃     │   callDepth: DEPTH_CELL:Int
 ┃  ┃     │   statusCode: STATUSCODE:StatusCode
@@ -947,7 +947,7 @@
 ┃  ┗━━┓
 ┃     │
 ┃     ├─ 11
-┃     │   k: #injectPrank ~> #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃     │   k: #injectPrank ~> #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K  ...
 ┃     │   pc: 148
 ┃     │   callDepth: DEPTH_CELL:Int
 ┃     │   statusCode: STATUSCODE:StatusCode
@@ -958,7 +958,7 @@
 ┃     ┣━━┓
 ┃     ┃  │
 ┃     ┃  ├─ 18 (split)
-┃     ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃     ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K ~> .K
 ┃     ┃  │   pc: 148
 ┃     ┃  │   callDepth: DEPTH_CELL:Int
 ┃     ┃  │   statusCode: STATUSCODE:StatusCode
@@ -974,7 +974,7 @@
 </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
 ┃     ┃  ┃  │
 ┃     ┃  ┃  ├─ 130
-┃     ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃     ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K ~> .K
 ┃     ┃  ┃  │   pc: 148
 ┃     ┃  ┃  │   callDepth: DEPTH_CELL:Int
 ┃     ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -998,7 +998,7 @@
 </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
 ┃     ┃  ┃  │
 ┃     ┃  ┃  ├─ 152
-┃     ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃     ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K ~> .K
 ┃     ┃  ┃  │   pc: 148
 ┃     ┃  ┃  │   callDepth: DEPTH_CELL:Int
 ┃     ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -1018,7 +1018,7 @@
 ┃     ┃     ┃ constraint: true
 ┃     ┃     │
 ┃     ┃     ├─ 153
-┃     ┃     │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃     ┃     │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K ~> .K
 ┃     ┃     │   pc: 148
 ┃     ┃     │   callDepth: DEPTH_CELL:Int
 ┃     ┃     │   statusCode: STATUSCODE:StatusCode
@@ -1037,7 +1037,7 @@
 ┃     ┗━━┓
 ┃        │
 ┃        ├─ 19
-┃        │   k: #injectPrank ~> #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃        │   k: #injectPrank ~> #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K  ...
 ┃        │   pc: 148
 ┃        │   callDepth: DEPTH_CELL:Int
 ┃        │   statusCode: STATUSCODE:StatusCode
@@ -1048,7 +1048,7 @@
 ┃        ┣━━┓
 ┃        ┃  │
 ┃        ┃  ├─ 33 (split)
-┃        ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃        ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K ~> .K
 ┃        ┃  │   pc: 148
 ┃        ┃  │   callDepth: DEPTH_CELL:Int
 ┃        ┃  │   statusCode: STATUSCODE:StatusCode
@@ -1064,7 +1064,7 @@
 </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
 ┃        ┃  ┃  │
 ┃        ┃  ┃  ├─ 138
-┃        ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃        ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K ~> .K
 ┃        ┃  ┃  │   pc: 148
 ┃        ┃  ┃  │   callDepth: DEPTH_CELL:Int
 ┃        ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -1084,7 +1084,7 @@
 ┃        ┃     ┃ constraint: true
 ┃        ┃     │
 ┃        ┃     ├─ 139
-┃        ┃     │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃        ┃     │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K ~> .K
 ┃        ┃     │   pc: 148
 ┃        ┃     │   callDepth: DEPTH_CELL:Int
 ┃        ┃     │   statusCode: STATUSCODE:StatusCode
@@ -1103,7 +1103,7 @@
 ┃        ┗━━┓
 ┃           │
 ┃           ├─ 34
-┃           │   k: #injectPrank ~> #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃           │   k: #injectPrank ~> #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K  ...
 ┃           │   pc: 148
 ┃           │   callDepth: DEPTH_CELL:Int
 ┃           │   statusCode: STATUSCODE:StatusCode
@@ -1114,7 +1114,7 @@
 ┃           ┣━━┓
 ┃           ┃  │
 ┃           ┃  ├─ 56
-┃           ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃           ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K ~> .K
 ┃           ┃  │   pc: 148
 ┃           ┃  │   callDepth: DEPTH_CELL:Int
 ┃           ┃  │   statusCode: STATUSCODE:StatusCode
@@ -1133,7 +1133,7 @@
 ┃           ┗━━┓
 ┃              │
 ┃              ├─ 57
-┃              │   k: #injectPrank ~> #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃              │   k: #injectPrank ~> #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K  ...
 ┃              │   pc: 148
 ┃              │   callDepth: DEPTH_CELL:Int
 ┃              │   statusCode: STATUSCODE:StatusCode
@@ -1144,7 +1144,7 @@
 ┃              ┣━━┓
 ┃              ┃  │
 ┃              ┃  └─ 92 (leaf, pending)
-┃              ┃      k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃              ┃      k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K ~> .K
 ┃              ┃      pc: 148
 ┃              ┃      callDepth: DEPTH_CELL:Int
 ┃              ┃      statusCode: STATUSCODE:StatusCode
@@ -1154,7 +1154,7 @@
 ┃              ┗━━┓
 ┃                 │
 ┃                 └─ 93 (leaf, pending)
-┃                     k: #injectPrank ~> #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃                     k: #injectPrank ~> #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K  ...
 ┃                     pc: 148
 ┃                     callDepth: DEPTH_CELL:Int
 ┃                     statusCode: STATUSCODE:StatusCode
@@ -1259,7 +1259,7 @@
       ┃  │
       ┃  │  (348 steps)
       ┃  └─ 96 (leaf, pending)
-      ┃      k: #halt ~> CONTINUATION:K
+      ┃      k: #halt ~> CONTINUATION:K ~> .K
       ┃      pc: 87
       ┃      callDepth: CALLDEPTH_CELL:Int
       ┃      statusCode: EVMC_SUCCESS
@@ -1280,7 +1280,7 @@
          │
          │  (79 steps)
          └─ 97 (leaf, pending)
-             k: #halt ~> CONTINUATION:K
+             k: #halt ~> CONTINUATION:K ~> .K
              pc: 163
              callDepth: CALLDEPTH_CELL:Int
              statusCode: EVMC_REVERT
@@ -1289,7 +1289,7 @@
 
 
 ┌─ 2 (root, leaf, target, terminal)
-│   k: #halt ~> CONTINUATION:K
+│   k: #halt ~> CONTINUATION:K ~> .K
 │   pc: PC_CELL_5d410f2a:Int
 │   callDepth: CALLDEPTH_CELL_5d410f2a:Int
 │   statusCode: STATUSCODE_FINAL:StatusCode
@@ -1305,6 +1305,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                ( .K => #next [ STATICCALL ] ~> .K )
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -1467,10 +1468,12 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
            <kevm>
              <k>
                ( #addr [ STATICCALL ]
-               ~> #exec [ STATICCALL ] => STATICCALL 0 C_IDENTITY_ID:Int 128 36 128 32 ~> .K )
+               ~> #exec [ STATICCALL ]
+               ~> .K => STATICCALL 0 C_IDENTITY_ID:Int 128 36 128 32 ~> .K )
                ~> #pc [ STATICCALL ]
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -1660,11 +1663,13 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
              <k>
                ( #next [ STATICCALL ] ~> .K => #injectPrank
                ~> #next [ STATICCALL ]
-               ~> #endPrank )
+               ~> #endPrank
+               ~> .K )
                ~> #checkRevert
                ~> #updateRevertOutput 32 164
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -1858,11 +1863,13 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
              <k>
                ( #next [ STATICCALL ] ~> .K => #injectPrank
                ~> #next [ STATICCALL ]
-               ~> #endPrank )
+               ~> #endPrank
+               ~> .K )
                ~> #checkRevert
                ~> #updateRevertOutput 32 164
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -2056,11 +2063,13 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
              <k>
                ( #next [ STATICCALL ] ~> .K => #injectPrank
                ~> #next [ STATICCALL ]
-               ~> #endPrank )
+               ~> #endPrank
+               ~> .K )
                ~> #checkRevert
                ~> #updateRevertOutput 32 164
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -2254,11 +2263,13 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
              <k>
                ( #next [ STATICCALL ] ~> .K => #injectPrank
                ~> #next [ STATICCALL ]
-               ~> #endPrank )
+               ~> #endPrank
+               ~> .K )
                ~> #checkRevert
                ~> #updateRevertOutput 32 164
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -2451,10 +2462,12 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_IDENTITY_ID:Int 128 36 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -2653,12 +2666,14 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_IDENTITY_ID:Int 128 36 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #checkRevert
                ~> #updateRevertOutput 32 164
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -2857,12 +2872,14 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_IDENTITY_ID:Int 128 36 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #checkRevert
                ~> #updateRevertOutput 32 164
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -3060,12 +3077,14 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_IDENTITY_ID:Int 128 36 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #checkRevert
                ~> #updateRevertOutput 32 164
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -3262,12 +3281,14 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_IDENTITY_ID:Int 128 36 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #checkRevert
                ~> #updateRevertOutput 32 164
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -3465,11 +3486,13 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
              <k>
                ( #next [ STATICCALL ] ~> .K => #injectPrank
                ~> #next [ STATICCALL ]
-               ~> #endPrank )
+               ~> #endPrank
+               ~> .K )
                ~> #checkRevert
                ~> #updateRevertOutput 32 164
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -3662,10 +3685,12 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_IDENTITY_ID:Int 128 36 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -3867,10 +3892,12 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_IDENTITY_ID:Int 128 36 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -4072,10 +4099,13 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
-               ~> #pc [ STATICCALL ] => JUMPI 245 bool2Word ( ( (chop ( lengthBytes ( OUTPUT_CELL:Bytes ) )) s<Word (32) ) ==Int 0 )
-               ~> #pc [ JUMPI ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K => JUMPI 245 bool2Word ( ( (chop ( lengthBytes ( OUTPUT_CELL:Bytes ) )) s<Word (32) ) ==Int 0 )
+               ~> #pc [ JUMPI ]
+               ~> .K )
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -4267,10 +4297,13 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
-               ~> #pc [ STATICCALL ] => JUMPI 245 bool2Word ( ( (chop ( lengthBytes ( OUTPUT_CELL:Bytes ) )) s<Word (32) ) ==Int 0 )
-               ~> #pc [ JUMPI ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K => JUMPI 245 bool2Word ( ( (chop ( lengthBytes ( OUTPUT_CELL:Bytes ) )) s<Word (32) ) ==Int 0 )
+               ~> #pc [ JUMPI ]
+               ~> .K )
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -4458,12 +4491,14 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_IDENTITY_ID:Int 128 36 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #checkRevert
                ~> #updateRevertOutput 32 164
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -4665,12 +4700,14 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_IDENTITY_ID:Int 128 36 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #checkRevert
                ~> #updateRevertOutput 32 164
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -4868,12 +4905,14 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_IDENTITY_ID:Int 128 36 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #checkRevert
                ~> #updateRevertOutput 32 164
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -5074,12 +5113,14 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_IDENTITY_ID:Int 128 36 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #checkRevert
                ~> #updateRevertOutput 32 164
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -5276,12 +5317,14 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_IDENTITY_ID:Int 128 36 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #checkRevert
                ~> #updateRevertOutput 32 164
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -5482,12 +5525,14 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_IDENTITY_ID:Int 128 36 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #checkRevert
                ~> #updateRevertOutput 32 164
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -5684,10 +5729,12 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_IDENTITY_ID:Int 128 36 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -5888,10 +5935,12 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_IDENTITY_ID:Int 128 36 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -6088,12 +6137,14 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_IDENTITY_ID:Int 128 36 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #checkRevert
                ~> #updateRevertOutput 32 164
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -6294,12 +6345,14 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_IDENTITY_ID:Int 128 36 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #checkRevert
                ~> #updateRevertOutput 32 164
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -6496,12 +6549,14 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_IDENTITY_ID:Int 128 36 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #checkRevert
                ~> #updateRevertOutput 32 164
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -6702,12 +6757,14 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_IDENTITY_ID:Int 128 36 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #checkRevert
                ~> #updateRevertOutput 32 164
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -6904,10 +6961,12 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_IDENTITY_ID:Int 128 36 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -7107,10 +7166,12 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_IDENTITY_ID:Int 128 36 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -7306,10 +7367,12 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_IDENTITY_ID:Int 128 36 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -7509,10 +7572,12 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_IDENTITY_ID:Int 128 36 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -7711,10 +7776,12 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -7918,10 +7985,12 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -8126,10 +8195,12 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -8334,10 +8405,12 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -8542,10 +8615,12 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -8751,8 +8826,10 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                ~> #call C_IDENTITY_ID:Int C_IDENTITY_ID:Int C_IDENTITY_ID:Int 0 0 b"\xac7\xee\xbb" +Bytes #buf ( 32 , KV0_x:Int ) true
                ~> #return 128 32
                ~> #pc [ STATICCALL ]
-               ~> #execute => #halt ~> .K )
+               ~> #execute
+               ~> .K => #halt ~> .K )
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -8961,8 +9038,10 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                ~> #call C_IDENTITY_ID:Int C_IDENTITY_ID:Int C_IDENTITY_ID:Int 0 0 b"\xac7\xee\xbb" +Bytes #buf ( 32 , KV0_x:Int ) true
                ~> #return 128 32
                ~> #pc [ STATICCALL ]
-               ~> #execute => #halt ~> .K )
+               ~> #execute
+               ~> .K => #halt ~> .K )
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -9168,12 +9247,14 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #checkRevert
                ~> #updateRevertOutput 32 164
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -9379,12 +9460,14 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #checkRevert
                ~> #updateRevertOutput 32 164
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL

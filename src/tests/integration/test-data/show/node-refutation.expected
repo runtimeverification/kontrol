@@ -1,6 +1,6 @@
 
 ┌─ 1 (root, init)
-│   k: #execute ~> CONTINUATION:K
+│   k: #execute ~> CONTINUATION:K ~> .K
 │   pc: 0
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
@@ -9,7 +9,7 @@
 │
 │  (182 steps)
 ├─ 5 (terminal)
-│   k: #halt ~> CONTINUATION:K
+│   k: #halt ~> CONTINUATION:K ~> .K
 │   pc: 328
 │   callDepth: 0
 │   statusCode: EVMC_SUCCESS
@@ -18,7 +18,7 @@
 │
 │  (1 step)
 ├─ 6
-│   k: #execute ~> CONTINUATION:K
+│   k: #execute ~> CONTINUATION:K ~> .K
 │   pc: 0
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
@@ -58,7 +58,7 @@
    │
    │  (100 steps)
    ├─ 17
-   │   k: #end EVMC_SUCCESS ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
+   │   k: #end EVMC_SUCCESS ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K ~> .K
    │   pc: 328
    │   callDepth: 0
    │   statusCode: STATUSCODE:StatusCode
@@ -67,7 +67,7 @@
    │
    │  (1 step)
    ├─ 18
-   │   k: #halt ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
+   │   k: #halt ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K ~> .K
    │   pc: 328
    │   callDepth: 0
    │   statusCode: EVMC_SUCCESS
@@ -76,7 +76,7 @@
    │
    │  (2 steps)
    ├─ 19 (terminal)
-   │   k: #halt ~> CONTINUATION:K
+   │   k: #halt ~> CONTINUATION:K ~> .K
    │   pc: 328
    │   callDepth: 0
    │   statusCode: EVMC_SUCCESS
@@ -86,7 +86,7 @@
    ┊  constraint: true
    ┊  subst: ...
    └─ 7 (leaf, target, terminal)
-       k: #halt ~> CONTINUATION:K
+       k: #halt ~> CONTINUATION:K ~> .K
        pc: PC_CELL_5d410f2a:Int
        callDepth: CALLDEPTH_CELL_5d410f2a:Int
        statusCode: STATUSCODE_FINAL:StatusCode
@@ -102,6 +102,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE-BRANCH(UINT256):0
              <k>
                ( #execute => #halt )
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -323,6 +324,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE-BRANCH(UINT256):0
              <k>
                ( #halt => #execute )
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -546,9 +548,11 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE-BRANCH(UINT256):0
            <kevm>
              <k>
                ( .K => JUMPI 2364 bool2Word ( 3 <=Int KV0_x:Int )
-               ~> #pc [ JUMPI ] )
+               ~> #pc [ JUMPI ]
+               ~> .K )
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -768,10 +772,13 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE-BRANCH(UINT256):0
            <kevm>
              <k>
                ( JUMPI 2364 bool2Word ( 3 <=Int KV0_x:Int )
-               ~> #pc [ JUMPI ] => #end EVMC_SUCCESS
-               ~> #pc [ STOP ] )
+               ~> #pc [ JUMPI ]
+               ~> .K => #end EVMC_SUCCESS
+               ~> #pc [ STOP ]
+               ~> .K )
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -995,6 +1002,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE-BRANCH(UINT256):0
                ~> #pc [ STOP ]
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -1219,8 +1227,10 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE-BRANCH(UINT256):0
              <k>
                #halt
                ~> ( #pc [ STOP ]
-               ~> #execute => .K )
+               ~> #execute
+               ~> .K => .K )
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL

@@ -1,6 +1,6 @@
 
 ┌─ 1 (root, init)
-│   k: #execute ~> CONTINUATION:K
+│   k: #execute ~> CONTINUATION:K ~> .K
 │   pc: 0
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
@@ -9,7 +9,7 @@
 │
 │  (182 steps)
 ├─ 5 (terminal)
-│   k: #halt ~> CONTINUATION:K
+│   k: #halt ~> CONTINUATION:K ~> .K
 │   pc: 328
 │   callDepth: 0
 │   statusCode: EVMC_SUCCESS
@@ -18,7 +18,7 @@
 │
 │  (1 step)
 ├─ 6
-│   k: #execute ~> CONTINUATION:K
+│   k: #execute ~> CONTINUATION:K ~> .K
 │   pc: 0
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
@@ -113,7 +113,7 @@
 │
 │  (95 steps)
 ├─ 18
-│   k: #end EVMC_SUCCESS ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
+│   k: #end EVMC_SUCCESS ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K ~> .K
 │   pc: 328
 │   callDepth: 0
 │   statusCode: EVMC_SUCCESS
@@ -122,7 +122,7 @@
 │
 │  (1 step)
 ├─ 19
-│   k: #halt ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
+│   k: #halt ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K ~> .K
 │   pc: 328
 │   callDepth: 0
 │   statusCode: EVMC_SUCCESS
@@ -131,7 +131,7 @@
 │
 │  (2 steps)
 └─ 20 (leaf, terminal)
-    k: #halt ~> CONTINUATION:K
+    k: #halt ~> CONTINUATION:K ~> .K
     pc: 328
     callDepth: 0
     statusCode: EVMC_SUCCESS
@@ -140,7 +140,7 @@
 
 
 ┌─ 7 (root, leaf, target, terminal)
-│   k: #halt ~> CONTINUATION:K
+│   k: #halt ~> CONTINUATION:K ~> .K
 │   pc: PC_CELL_5d410f2a:Int
 │   callDepth: CALLDEPTH_CELL_5d410f2a:Int
 │   statusCode: STATUSCODE_FINAL:StatusCode
@@ -154,6 +154,7 @@ Node 20:
       <k>
         #halt
         ~> CONTINUATION:K
+        ~> .K
       </k>
       <mode>
         NORMAL
@@ -385,6 +386,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
              <k>
                ( #execute => #halt )
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -606,6 +608,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
              <k>
                ( #halt => #execute )
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -826,9 +829,11 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
            <kevm>
              <k>
                ( .K => CALL 0 #address ( FoundryCheat ) 0 128 4 128 0
-               ~> #pc [ CALL ] )
+               ~> #pc [ CALL ]
+               ~> .K )
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -1048,10 +1053,12 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                ( CALL 0 #address ( FoundryCheat ) 0 128 4 128 0 ~> .K => #accessAccounts #address ( FoundryCheat )
                ~> #checkCall #address ( FoundryTest ) 0
                ~> #call #address ( FoundryTest ) #address ( FoundryCheat ) #address ( FoundryCheat ) 0 0 b"\xf4\x84H\x14" false
-               ~> #return 128 0 )
+               ~> #return 128 0
+               ~> .K )
                ~> #pc [ CALL ]
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -1272,12 +1279,15 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                ~> #checkCall #address ( FoundryTest ) 0
                ~> #call #address ( FoundryTest ) #address ( FoundryCheat ) #address ( FoundryCheat ) 0 0 b"\xf4\x84H\x14" false
                ~> #return 128 0
-               ~> #pc [ CALL ] => STATICCALL 0 #address ( FoundryTest ) 128 4 128 0
+               ~> #pc [ CALL ]
+               ~> .K => STATICCALL 0 #address ( FoundryTest ) 128 4 128 0
                ~> #pc [ STATICCALL ]
                ~> #checkRevert
-               ~> #updateRevertOutput 0 132 )
+               ~> #updateRevertOutput 0 132
+               ~> .K )
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -1502,12 +1512,14 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                ( STATICCALL 0 #address ( FoundryTest ) 128 4 128 0 ~> .K => #accessAccounts #address ( FoundryTest )
                ~> #checkCall #address ( FoundryTest ) 0
                ~> #call #address ( FoundryTest ) #address ( FoundryTest ) #address ( FoundryTest ) 0 0 b"\xf3\xad0#" true
-               ~> #return 128 0 )
+               ~> #return 128 0
+               ~> .K )
                ~> #pc [ STATICCALL ]
                ~> #checkRevert
                ~> #updateRevertOutput 0 132
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -1731,14 +1743,17 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
              <k>
                ( #accessAccounts #address ( FoundryTest )
                ~> #checkCall #address ( FoundryTest ) 0
-               ~> #call #address ( FoundryTest ) #address ( FoundryTest ) #address ( FoundryTest ) 0 0 b"\xf3\xad0#" true => #precompiled? ( #address ( FoundryTest ) , CANCUN )
-               ~> #execute )
+               ~> #call #address ( FoundryTest ) #address ( FoundryTest ) #address ( FoundryTest ) 0 0 b"\xf3\xad0#" true
+               ~> .K => #precompiled? ( #address ( FoundryTest ) , CANCUN )
+               ~> #execute
+               ~> .K )
                ~> #return 128 0
                ~> #pc [ STATICCALL ]
                ~> #checkRevert
                ~> #updateRevertOutput 0 132
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -2067,6 +2082,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                ~> #updateRevertOutput 0 132
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -2388,7 +2404,8 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
            <kevm>
              <k>
                ( .K => #end EVMC_REVERT
-               ~> #pc [ REVERT ] )
+               ~> #pc [ REVERT ]
+               ~> .K )
                ~> #execute
                ~> #return 128 0
                ~> #pc [ STATICCALL ]
@@ -2396,6 +2413,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                ~> #updateRevertOutput 0 132
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -2725,6 +2743,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                ~> #updateRevertOutput 0 132
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -3050,13 +3069,15 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
              <k>
                #halt
                ~> ( #pc [ REVERT ]
-               ~> #execute => .K )
+               ~> #execute
+               ~> .K => .K )
                ~> #return 128 0
                ~> #pc [ STATICCALL ]
                ~> #checkRevert
                ~> #updateRevertOutput 0 132
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -3381,17 +3402,20 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
            <kevm>
              <k>
                ( #halt
-               ~> #return 128 0 => #popCallStack
+               ~> #return 128 0
+               ~> .K => #popCallStack
                ~> #popWorldState
                ~> 0
                ~> #push
                ~> #refund 0
-               ~> #setLocalMem 128 0 b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01" )
+               ~> #setLocalMem 128 0 b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01"
+               ~> .K )
                ~> #pc [ STATICCALL ]
                ~> #checkRevert
                ~> #updateRevertOutput 0 132
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -3723,10 +3747,13 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                ~> #setLocalMem 128 0 b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01"
                ~> #pc [ STATICCALL ]
                ~> #checkRevert
-               ~> #updateRevertOutput 0 132 => #end EVMC_SUCCESS
-               ~> #pc [ STOP ] )
+               ~> #updateRevertOutput 0 132
+               ~> .K => #end EVMC_SUCCESS
+               ~> #pc [ STOP ]
+               ~> .K )
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -4054,6 +4081,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                ~> #pc [ STOP ]
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -4280,8 +4308,10 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
              <k>
                #halt
                ~> ( #pc [ STOP ]
-               ~> #execute => .K )
+               ~> #execute
+               ~> .K => .K )
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
