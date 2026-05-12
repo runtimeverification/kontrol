@@ -1,6 +1,6 @@
 ARG Z3_VERSION
 ARG K_VERSION
-FROM runtimeverificationinc/z3:ubuntu-jammy-${Z3_VERSION} as Z3
+FROM runtimeverificationinc/z3:ubuntu-jammy-${Z3_VERSION} AS z3
 
 ARG K_VERSION
 FROM runtimeverificationinc/kframework-k:ubuntu-jammy-${K_VERSION}
@@ -8,7 +8,7 @@ FROM runtimeverificationinc/kframework-k:ubuntu-jammy-${K_VERSION}
 ARG PYTHON_VERSION=3.10
 
 # Upgrade z3 to match the version Kontrol was built with not minimum version used in K.
-COPY --from=Z3 /usr/bin/z3 /usr/bin/z3
+COPY --from=z3 /usr/bin/z3 /usr/bin/z3
 
 RUN    apt-get -y update             \
     && apt-get -y install            \
