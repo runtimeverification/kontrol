@@ -1,6 +1,6 @@
 
 ┌─ 1 (root, init)
-│   k: #execute ~> CONTINUATION:K
+│   k: #execute ~> CONTINUATION:K ~> .K
 │   pc: 0
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
@@ -9,7 +9,7 @@
 │
 │  (1045 steps)
 ├─ 7 (split)
-│   k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
+│   k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K ~ ...
 │   pc: 0
 │   callDepth: 1
 │   statusCode: STATUSCODE:StatusCode
@@ -22,7 +22,7 @@
 ┃  ┃     ( maxUInt256 -Int KV1_y:Int ) <Int KV0_x:Int
 ┃  │
 ┃  ├─ 9
-┃  │   k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
+┃  │   k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K ~ ...
 ┃  │   pc: 0
 ┃  │   callDepth: 1
 ┃  │   statusCode: STATUSCODE:StatusCode
@@ -31,7 +31,7 @@
 ┃  │
 ┃  │  (73 steps)
 ┃  └─ 11 (leaf, terminal)
-┃      k: #halt ~> CONTINUATION:K
+┃      k: #halt ~> CONTINUATION:K ~> .K
 ┃      pc: 2613
 ┃      callDepth: 0
 ┃      statusCode: EVMC_REVERT
@@ -43,7 +43,7 @@
 ┃  ┃     ( maxUInt256 -Int KV1_y:Int ) <Int ( KV0_x:Int +Int KV1_y:Int )
 ┃  │
 ┃  ├─ 29
-┃  │   k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
+┃  │   k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K ~ ...
 ┃  │   pc: 0
 ┃  │   callDepth: 1
 ┃  │   statusCode: STATUSCODE:StatusCode
@@ -52,7 +52,7 @@
 ┃  │
 ┃  │  (486 steps)
 ┃  └─ 15 (leaf, terminal)
-┃      k: #halt ~> CONTINUATION:K
+┃      k: #halt ~> CONTINUATION:K ~> .K
 ┃      pc: 2730
 ┃      callDepth: 0
 ┃      statusCode: EVMC_REVERT
@@ -65,7 +65,7 @@
 ┃  ┃     ( KV0_x:Int +Int KV1_y:Int ) <=Int ( maxUInt256 -Int KV1_y:Int )
 ┃  │
 ┃  ├─ 37
-┃  │   k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
+┃  │   k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K ~ ...
 ┃  │   pc: 0
 ┃  │   callDepth: 1
 ┃  │   statusCode: STATUSCODE:StatusCode
@@ -74,7 +74,7 @@
 ┃  │
 ┃  │  (907 steps)
 ┃  └─ 19 (leaf, terminal)
-┃      k: #halt ~> CONTINUATION:K
+┃      k: #halt ~> CONTINUATION:K ~> .K
 ┃      pc: 2852
 ┃      callDepth: 0
 ┃      statusCode: EVMC_REVERT
@@ -88,7 +88,7 @@
 ┃  ┃     ( KV0_x:Int +Int KV1_y:Int ) <=Int ( maxUInt256 -Int KV1_y:Int )
 ┃  │
 ┃  ├─ 43
-┃  │   k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
+┃  │   k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K ~ ...
 ┃  │   pc: 0
 ┃  │   callDepth: 1
 ┃  │   statusCode: STATUSCODE:StatusCode
@@ -97,7 +97,7 @@
 ┃  │
 ┃  │  (1320 steps)
 ┃  └─ 23 (leaf, terminal)
-┃      k: #halt ~> CONTINUATION:K
+┃      k: #halt ~> CONTINUATION:K ~> .K
 ┃      pc: 2969
 ┃      callDepth: 0
 ┃      statusCode: EVMC_REVERT
@@ -112,7 +112,7 @@
 ┃  ┃     ( notBool ( ( ( KV0_x:Int +Int KV1_y:Int ) +Int KV1_y:Int ) -Int ( ( KV0_x:Int -Int KV1_y:Int ) -Int KV1_y:Int ) ) ==Int 0 )
 ┃  │
 ┃  ├─ 46
-┃  │   k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
+┃  │   k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K ~ ...
 ┃  │   pc: 0
 ┃  │   callDepth: 1
 ┃  │   statusCode: STATUSCODE:StatusCode
@@ -121,7 +121,7 @@
 ┃  │
 ┃  │  (1576 steps)
 ┃  ├─ 26 (terminal)
-┃  │   k: #halt ~> CONTINUATION:K
+┃  │   k: #halt ~> CONTINUATION:K ~> .K
 ┃  │   pc: 248
 ┃  │   callDepth: 0
 ┃  │   statusCode: EVMC_SUCCESS
@@ -131,7 +131,7 @@
 ┃  ┊  constraint: true
 ┃  ┊  subst: ...
 ┃  └─ 6 (leaf, target, terminal)
-┃      k: #halt ~> CONTINUATION:K
+┃      k: #halt ~> CONTINUATION:K ~> .K
 ┃      pc: PC_CELL_5d410f2a:Int
 ┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
 ┃      statusCode: STATUSCODE_FINAL:StatusCode
@@ -145,7 +145,7 @@
    ┃     0 ==Int ( ( ( KV0_x:Int +Int KV1_y:Int ) +Int KV1_y:Int ) -Int ( ( KV0_x:Int -Int KV1_y:Int ) -Int KV1_y:Int ) )
    │
    ├─ 47
-   │   k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
+   │   k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K ~ ...
    │   pc: 0
    │   callDepth: 1
    │   statusCode: STATUSCODE:StatusCode
@@ -154,7 +154,7 @@
    │
    │  (1579 steps)
    └─ 27 (leaf, terminal)
-       k: #halt ~> CONTINUATION:K
+       k: #halt ~> CONTINUATION:K ~> .K
        pc: 3736
        callDepth: 0
        statusCode: EVMC_REVERT
@@ -172,8 +172,10 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                ( #execute
                ~> #return 128 32
                ~> #pc [ STATICCALL ]
-               ~> #execute => #halt ~> .K )
+               ~> #execute
+               ~> .K => #halt ~> .K )
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -546,8 +548,10 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                #execute
                ~> ( .K => #return 128 32
                ~> #pc [ STATICCALL ]
-               ~> #execute )
+               ~> #execute
+               ~> .K )
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -938,8 +942,10 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                ( #execute
                ~> #return 128 32
                ~> #pc [ STATICCALL ]
-               ~> #execute => #halt ~> .K )
+               ~> #execute
+               ~> .K => #halt ~> .K )
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -1314,8 +1320,10 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                ( #execute
                ~> #return 128 32
                ~> #pc [ STATICCALL ]
-               ~> #execute => #halt ~> .K )
+               ~> #execute
+               ~> .K => #halt ~> .K )
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -1691,8 +1699,10 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                ( #execute
                ~> #return 128 32
                ~> #pc [ STATICCALL ]
-               ~> #execute => #halt ~> .K )
+               ~> #execute
+               ~> .K => #halt ~> .K )
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -2071,8 +2081,10 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                ( #execute
                ~> #return 128 32
                ~> #pc [ STATICCALL ]
-               ~> #execute => #halt ~> .K )
+               ~> #execute
+               ~> .K => #halt ~> .K )
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -2453,8 +2465,10 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                ( #execute
                ~> #return 128 32
                ~> #pc [ STATICCALL ]
-               ~> #execute => #halt ~> .K )
+               ~> #execute
+               ~> .K => #halt ~> .K )
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL

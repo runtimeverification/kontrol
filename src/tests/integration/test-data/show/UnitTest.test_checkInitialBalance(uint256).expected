@@ -1,6 +1,6 @@
 
 ┌─ 1 (root, init)
-│   k: #execute ~> CONTINUATION:K
+│   k: #execute ~> CONTINUATION:K ~> .K
 │   pc: 0
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
@@ -45,7 +45,7 @@
 │
 │  (205 steps)
 ├─ 7 (terminal)
-│   k: #halt ~> CONTINUATION:K
+│   k: #halt ~> CONTINUATION:K ~> .K
 │   pc: 1049
 │   callDepth: 0
 │   statusCode: EVMC_SUCCESS
@@ -55,7 +55,7 @@
 ┊  constraint: true
 ┊  subst: ...
 └─ 2 (leaf, target, terminal)
-    k: #halt ~> CONTINUATION:K
+    k: #halt ~> CONTINUATION:K ~> .K
     pc: PC_CELL_5d410f2a:Int
     callDepth: CALLDEPTH_CELL_5d410f2a:Int
     statusCode: STATUSCODE_FINAL:StatusCode
@@ -74,9 +74,11 @@ module SUMMARY-TEST%UNITTEST.TEST-CHECKINITIALBALANCE(UINT256):0
                ~> 1
                ~> #push
                ~> #setLocalMem 0 0 b""
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -303,6 +305,7 @@ module SUMMARY-TEST%UNITTEST.TEST-CHECKINITIALBALANCE(UINT256):0
                ~> #pc [ STATICCALL ]
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -529,6 +532,7 @@ module SUMMARY-TEST%UNITTEST.TEST-CHECKINITIALBALANCE(UINT256):0
                ~> #pc [ STATICCALL ]
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -755,6 +759,7 @@ module SUMMARY-TEST%UNITTEST.TEST-CHECKINITIALBALANCE(UINT256):0
                ~> #pc [ STATICCALL ]
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -978,8 +983,10 @@ module SUMMARY-TEST%UNITTEST.TEST-CHECKINITIALBALANCE(UINT256):0
                ~> #push
                ~> #setLocalMem 0 0 b""
                ~> #pc [ STATICCALL ]
-               ~> #execute => #halt ~> .K )
+               ~> #execute
+               ~> .K => #halt ~> .K )
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL

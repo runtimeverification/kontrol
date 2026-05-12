@@ -1,6 +1,6 @@
 
 ┌─ 1 (root, split, init)
-│   k: #execute ~> CONTINUATION:K
+│   k: #execute ~> CONTINUATION:K ~> .K
 │   pc: 0
 │   callDepth: CALLDEPTH_CELL:Int
 │   statusCode: STATUSCODE:StatusCode
@@ -13,7 +13,7 @@
 ┃  ┃     C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ==Int 0
 ┃  │
 ┃  ├─ 8
-┃  │   k: #execute ~> CONTINUATION:K
+┃  │   k: #execute ~> CONTINUATION:K ~> .K
 ┃  │   pc: 0
 ┃  │   callDepth: CALLDEPTH_CELL:Int
 ┃  │   statusCode: STATUSCODE:StatusCode
@@ -22,7 +22,7 @@
 ┃  │
 ┃  │  (867 steps)
 ┃  ├─ 6 (terminal)
-┃  │   k: #halt ~> CONTINUATION:K
+┃  │   k: #halt ~> CONTINUATION:K ~> .K
 ┃  │   pc: 86
 ┃  │   callDepth: CALLDEPTH_CELL:Int
 ┃  │   statusCode: EVMC_SUCCESS
@@ -36,7 +36,7 @@
 </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
 ┃  ┊  subst: ...
 ┃  └─ 2 (leaf, target, terminal)
-┃      k: #halt ~> CONTINUATION:K
+┃      k: #halt ~> CONTINUATION:K ~> .K
 ┃      pc: PC_CELL_5d410f2a:Int
 ┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
 ┃      statusCode: STATUSCODE_FINAL:StatusCode
@@ -46,7 +46,7 @@
    ┃     ( notBool C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ==Int 0 )
    │
    ├─ 9
-   │   k: #execute ~> CONTINUATION:K
+   │   k: #execute ~> CONTINUATION:K ~> .K
    │   pc: 0
    │   callDepth: CALLDEPTH_CELL:Int
    │   statusCode: STATUSCODE:StatusCode
@@ -55,7 +55,7 @@
    │
    │  (1033 steps)
    ├─ 7 (terminal)
-   │   k: #halt ~> CONTINUATION:K
+   │   k: #halt ~> CONTINUATION:K ~> .K
    │   pc: 86
    │   callDepth: CALLDEPTH_CELL:Int
    │   statusCode: EVMC_SUCCESS
@@ -69,7 +69,7 @@
 </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
    ┊  subst: ...
    └─ 2 (leaf, target, terminal)
-       k: #halt ~> CONTINUATION:K
+       k: #halt ~> CONTINUATION:K ~> .K
        pc: PC_CELL_5d410f2a:Int
        callDepth: CALLDEPTH_CELL_5d410f2a:Int
        statusCode: STATUSCODE_FINAL:StatusCode
@@ -85,6 +85,7 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
              <k>
                ( #execute => #halt )
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -221,11 +222,11 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int MIXHASH_CELL:Int
+       andBool ( maxUInt5 ==Int lengthBytes ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes )
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( maxUInt5 ==Int lengthBytes ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes )
        andBool ( 0 <=Int C_CALLABLESTORAGECONTRACT_ID:Int
        andBool ( 0 <=Int C_CALLABLESTORAGECONTRACT_BAL:Int
        andBool ( 0 <=Int C_CALLABLESTORAGECONTRACT_NONCE:Int
@@ -261,6 +262,7 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
              <k>
                ( #execute => #halt )
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -396,12 +398,12 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int MIXHASH_CELL:Int
+       andBool ( maxUInt5 ==Int lengthBytes ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes )
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int =/=Int 0
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( maxUInt5 ==Int lengthBytes ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes )
        andBool ( 0 <=Int C_CALLABLESTORAGECONTRACT_ID:Int
        andBool ( 0 <=Int C_CALLABLESTORAGECONTRACT_BAL:Int
        andBool ( 0 <=Int C_CALLABLESTORAGECONTRACT_NONCE:Int

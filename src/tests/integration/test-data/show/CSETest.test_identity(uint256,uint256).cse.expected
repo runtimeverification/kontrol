@@ -1,6 +1,6 @@
 
 ┌─ 1 (root, init)
-│   k: #execute ~> CONTINUATION:K
+│   k: #execute ~> CONTINUATION:K ~> .K
 │   pc: 0
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
@@ -48,7 +48,7 @@
    │
    │  (1949 steps)
    ├─ 13 (terminal)
-   │   k: #halt ~> CONTINUATION:K
+   │   k: #halt ~> CONTINUATION:K ~> .K
    │   pc: 221
    │   callDepth: 0
    │   statusCode: EVMC_SUCCESS
@@ -58,7 +58,7 @@
    ┊  constraint: true
    ┊  subst: ...
    └─ 8 (leaf, target, terminal)
-       k: #halt ~> CONTINUATION:K
+       k: #halt ~> CONTINUATION:K ~> .K
        pc: PC_CELL_5d410f2a:Int
        callDepth: CALLDEPTH_CELL_5d410f2a:Int
        statusCode: STATUSCODE_FINAL:StatusCode
@@ -73,11 +73,14 @@ module SUMMARY-TEST%CSETEST.TEST-IDENTITY(UINT256,UINT256):0
            <kevm>
              <k>
                ( JUMPI 2519 bool2Word ( pow64 <=Int KV0_x:Int )
-               ~> #pc [ JUMPI ] => #assume ( KV0_x:Int <Int pow64 )
+               ~> #pc [ JUMPI ]
+               ~> .K => #assume ( KV0_x:Int <Int pow64 )
                ~> #cheatcode_return 128 0
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -368,8 +371,10 @@ module SUMMARY-TEST%CSETEST.TEST-IDENTITY(UINT256,UINT256):0
              <k>
                ( JUMPI 2519 bool2Word ( pow64 <=Int KV0_x:Int )
                ~> #pc [ JUMPI ]
-               ~> #execute => #halt ~> .K )
+               ~> #execute
+               ~> .K => #halt ~> .K )
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -663,9 +668,11 @@ module SUMMARY-TEST%CSETEST.TEST-IDENTITY(UINT256,UINT256):0
            <kevm>
              <k>
                ( .K => JUMPI 2519 bool2Word ( pow64 <=Int ?KV0_x:Int )
-               ~> #pc [ JUMPI ] )
+               ~> #pc [ JUMPI ]
+               ~> .K )
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
