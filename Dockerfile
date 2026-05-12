@@ -31,9 +31,10 @@ RUN    groupadd -g ${GROUP_ID} user \
 USER user
 WORKDIR /home/user
 
+ARG FOUNDRY_VERSION=v1.5.1
 ENV PATH=/home/user/.foundry/bin:${PATH}
 RUN    curl -L https://foundry.paradigm.xyz | bash \
-    && foundryup
+    && foundryup --install ${FOUNDRY_VERSION}
 
 ADD . kontrol
 USER root
