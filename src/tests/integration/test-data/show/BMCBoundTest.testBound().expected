@@ -1,6 +1,6 @@
 
 ┌─ 1 (root, init)
-│   k: #execute ~> CONTINUATION:K
+│   k: #execute ~> CONTINUATION:K ~> .K
 │   pc: 0
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
@@ -29,7 +29,7 @@
 ┃  │
 ┃  │  (49 steps)
 ┃  ├─ 6 (terminal)
-┃  │   k: #halt ~> CONTINUATION:K
+┃  │   k: #halt ~> CONTINUATION:K ~> .K
 ┃  │   pc: 221
 ┃  │   callDepth: 0
 ┃  │   statusCode: EVMC_SUCCESS
@@ -38,7 +38,7 @@
 ┃  │
 ┃  │  (1 step)
 ┃  ├─ 32
-┃  │   k: #execute ~> CONTINUATION:K
+┃  │   k: #execute ~> CONTINUATION:K ~> .K
 ┃  │   pc: 0
 ┃  │   callDepth: 0
 ┃  │   statusCode: STATUSCODE:StatusCode
@@ -47,7 +47,7 @@
 ┃  │
 ┃  │  (353 steps)
 ┃  ├─ 37 (terminal)
-┃  │   k: #halt ~> CONTINUATION:K
+┃  │   k: #halt ~> CONTINUATION:K ~> .K
 ┃  │   pc: 221
 ┃  │   callDepth: 0
 ┃  │   statusCode: EVMC_SUCCESS
@@ -57,7 +57,7 @@
 ┃  ┊  constraint: true
 ┃  ┊  subst: ...
 ┃  └─ 36 (leaf, target, terminal)
-┃      k: #halt ~> CONTINUATION:K
+┃      k: #halt ~> CONTINUATION:K ~> .K
 ┃      pc: PC_CELL_5d410f2a:Int
 ┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
 ┃      statusCode: STATUSCODE_FINAL:StatusCode
@@ -76,7 +76,7 @@
 ┃  │
 ┃  │  (318 steps)
 ┃  ├─ 10 (terminal)
-┃  │   k: #halt ~> CONTINUATION:K
+┃  │   k: #halt ~> CONTINUATION:K ~> .K
 ┃  │   pc: 221
 ┃  │   callDepth: 0
 ┃  │   statusCode: EVMC_SUCCESS
@@ -85,7 +85,7 @@
 ┃  │
 ┃  │  (1 step)
 ┃  ├─ 33
-┃  │   k: #execute ~> CONTINUATION:K
+┃  │   k: #execute ~> CONTINUATION:K ~> .K
 ┃  │   pc: 0
 ┃  │   callDepth: 0
 ┃  │   statusCode: STATUSCODE:StatusCode
@@ -94,7 +94,7 @@
 ┃  │
 ┃  │  (353 steps)
 ┃  ├─ 38 (terminal)
-┃  │   k: #halt ~> CONTINUATION:K
+┃  │   k: #halt ~> CONTINUATION:K ~> .K
 ┃  │   pc: 221
 ┃  │   callDepth: 0
 ┃  │   statusCode: EVMC_SUCCESS
@@ -104,7 +104,7 @@
 ┃  ┊  constraint: true
 ┃  ┊  subst: ...
 ┃  └─ 36 (leaf, target, terminal)
-┃      k: #halt ~> CONTINUATION:K
+┃      k: #halt ~> CONTINUATION:K ~> .K
 ┃      pc: PC_CELL_5d410f2a:Int
 ┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
 ┃      statusCode: STATUSCODE_FINAL:StatusCode
@@ -124,7 +124,7 @@
 ┃  │
 ┃  │  (587 steps)
 ┃  ├─ 14 (terminal)
-┃  │   k: #halt ~> CONTINUATION:K
+┃  │   k: #halt ~> CONTINUATION:K ~> .K
 ┃  │   pc: 221
 ┃  │   callDepth: 0
 ┃  │   statusCode: EVMC_SUCCESS
@@ -133,7 +133,7 @@
 ┃  │
 ┃  │  (1 step)
 ┃  ├─ 34
-┃  │   k: #execute ~> CONTINUATION:K
+┃  │   k: #execute ~> CONTINUATION:K ~> .K
 ┃  │   pc: 0
 ┃  │   callDepth: 0
 ┃  │   statusCode: STATUSCODE:StatusCode
@@ -142,7 +142,7 @@
 ┃  │
 ┃  │  (353 steps)
 ┃  ├─ 39 (terminal)
-┃  │   k: #halt ~> CONTINUATION:K
+┃  │   k: #halt ~> CONTINUATION:K ~> .K
 ┃  │   pc: 221
 ┃  │   callDepth: 0
 ┃  │   statusCode: EVMC_SUCCESS
@@ -152,7 +152,7 @@
 ┃  ┊  constraint: true
 ┃  ┊  subst: ...
 ┃  └─ 36 (leaf, target, terminal)
-┃      k: #halt ~> CONTINUATION:K
+┃      k: #halt ~> CONTINUATION:K ~> .K
 ┃      pc: PC_CELL_5d410f2a:Int
 ┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
 ┃      statusCode: STATUSCODE_FINAL:StatusCode
@@ -173,7 +173,7 @@
 ┃  │
 ┃  │  (856 steps)
 ┃  ├─ 18 (terminal)
-┃  │   k: #halt ~> CONTINUATION:K
+┃  │   k: #halt ~> CONTINUATION:K ~> .K
 ┃  │   pc: 221
 ┃  │   callDepth: 0
 ┃  │   statusCode: EVMC_SUCCESS
@@ -182,7 +182,7 @@
 ┃  │
 ┃  │  (1 step)
 ┃  ├─ 35
-┃  │   k: #execute ~> CONTINUATION:K
+┃  │   k: #execute ~> CONTINUATION:K ~> .K
 ┃  │   pc: 0
 ┃  │   callDepth: 0
 ┃  │   statusCode: STATUSCODE:StatusCode
@@ -191,7 +191,7 @@
 ┃  │
 ┃  │  (353 steps)
 ┃  ├─ 40 (terminal)
-┃  │   k: #halt ~> CONTINUATION:K
+┃  │   k: #halt ~> CONTINUATION:K ~> .K
 ┃  │   pc: 221
 ┃  │   callDepth: 0
 ┃  │   statusCode: EVMC_SUCCESS
@@ -201,7 +201,7 @@
 ┃  ┊  constraint: true
 ┃  ┊  subst: ...
 ┃  └─ 36 (leaf, target, terminal)
-┃      k: #halt ~> CONTINUATION:K
+┃      k: #halt ~> CONTINUATION:K ~> .K
 ┃      pc: PC_CELL_5d410f2a:Int
 ┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
 ┃      statusCode: STATUSCODE_FINAL:StatusCode
@@ -238,9 +238,11 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
            <kevm>
              <k>
                ( .K => JUMPI 508 bool2Word ( ??WORD:Int <=Int 0 )
-               ~> #pc [ JUMPI ] )
+               ~> #pc [ JUMPI ]
+               ~> .K )
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -462,8 +464,10 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
              <k>
                ( JUMPI 508 bool2Word ( ?WORD:Int <=Int 0 )
                ~> #pc [ JUMPI ]
-               ~> #execute => #halt ~> .K )
+               ~> #execute
+               ~> .K => #halt ~> .K )
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -688,8 +692,10 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
              <k>
                ( JUMPI 508 bool2Word ( ?WORD:Int <=Int 0 )
                ~> #pc [ JUMPI ]
-               ~> #execute => #halt ~> .K )
+               ~> #execute
+               ~> .K => #halt ~> .K )
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -915,8 +921,10 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
              <k>
                ( JUMPI 508 bool2Word ( ?WORD:Int <=Int 0 )
                ~> #pc [ JUMPI ]
-               ~> #execute => #halt ~> .K )
+               ~> #execute
+               ~> .K => #halt ~> .K )
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -1143,8 +1151,10 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
              <k>
                ( JUMPI 508 bool2Word ( ?WORD:Int <=Int 0 )
                ~> #pc [ JUMPI ]
-               ~> #execute => #halt ~> .K )
+               ~> #execute
+               ~> .K => #halt ~> .K )
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -1374,6 +1384,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                ~> #pc [ JUMPI ]
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -1598,6 +1609,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
              <k>
                ( #halt => #execute )
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -1822,6 +1834,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
              <k>
                ( #halt => #execute )
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -2047,6 +2060,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
              <k>
                ( #halt => #execute )
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -2272,6 +2286,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
              <k>
                ( #halt => #execute )
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -2498,6 +2513,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
              <k>
                ( #execute => #halt )
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -2722,6 +2738,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
              <k>
                ( #execute => #halt )
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -2947,6 +2964,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
              <k>
                ( #execute => #halt )
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -3172,6 +3190,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
              <k>
                ( #execute => #halt )
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
