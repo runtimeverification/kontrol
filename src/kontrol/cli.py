@@ -554,6 +554,18 @@ def _create_argument_parser() -> ArgumentParser:
         action='store_true',
         help='Generate a Solidity test contract with concrete counterexample values when proofs fail.',
     )
+    prove_args.add_argument(
+        '--per-depth-timeout',
+        type=float,
+        default=None,
+        dest='per_depth_timeout',
+        help=(
+            'Per-depth stall window in seconds. When > 0, each prove attempt has '
+            '`max_depth * per_depth_timeout` seconds without on-disk progress before being killed; '
+            '`max_depth` is then halved and the proof resumes from saved KCFG state. '
+            'Repeats down to depth=1. Default 0 disables progressive halving.'
+        ),
+    )
 
     show_args = command_parser.add_parser(
         'show',

@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import logging
+import os
+import signal
 import sys
 import time
 from abc import abstractmethod
@@ -10,6 +12,7 @@ from functools import partial
 from subprocess import CalledProcessError
 from typing import TYPE_CHECKING, Any, ContextManager, NamedTuple
 
+import multiprocess as mp  # type: ignore
 from kevm_pyk.cli import EVMChainOptions
 from kevm_pyk.kevm import KEVM, _process_jumpdests
 from kevm_pyk.utils import KDefinition__expand_macros, abstract_cell_vars, run_prover
@@ -311,7 +314,11 @@ def _run_cfg_group(
     summary_ids: Iterable[str],
     init_accounts: Iterable[KInner] = (),
 ) -> list[APRProof]:
+    _attempt_timeout: Any = object()
+
     def init_and_run_proof(test: FoundryTest, progress: Progress | None = None) -> APRFailureInfo | Exception | None:
+        if options.per_depth_timeout > 0:
+            return _init_and_run_proof_progressive(test, progress)
 
         task: TaskID | None = None
         if progress is not None:
@@ -478,6 +485,121 @@ def _run_cfg_group(
                 return proof.error_info
             else:
                 return proof.failure_info
+
+    def _init_and_run_proof_progressive(
+        test: FoundryTest, progress: Progress | None
+    ) -> APRFailureInfo | Exception | None:
+        current_depth = max(1, options.max_depth)
+        while True:
+            budget_s = current_depth * options.per_depth_timeout
+            outcome = _run_attempt_under_timeout(test, current_depth, budget_s)
+            if outcome is _attempt_timeout:
+                _LOGGER.warning(
+                    f'Proof {test.id}: depth={current_depth} attempt exhausted {budget_s}s budget; halving.'
+                )
+                if current_depth <= 1:
+                    break
+                current_depth = max(1, current_depth // 2)
+                continue
+            return outcome  # type: ignore[no-any-return]
+        # All attempts exhausted; load whatever state was persisted to disk.
+        if Proof.proof_data_exists(test.id, foundry.proofs_dir):
+            persisted = foundry.get_apr_proof(test.id)
+            if persisted.error_info is not None:
+                return persisted.error_info
+            if persisted.failure_info is not None and not isinstance(persisted.failure_info, APRFailureInfo):
+                raise RuntimeError('Generated failure info for APRProof is not APRFailureInfo.')
+            return persisted.failure_info
+        return None
+
+    def _run_attempt_under_timeout(test: FoundryTest, attempt_max_depth: int, budget_s: float) -> Any:
+        """Run one prove attempt for `test` at `attempt_max_depth` in a forked subprocess, returning `_attempt_timeout` if `proof_subdir` goes a full `budget_s` window without any file write."""
+        proof_subdir = foundry.proofs_dir / test.id
+
+        def progress_marker() -> float:
+            # Max mtime across proof_subdir; advances each time pyk commits a step (proof.json + KCFG rewritten).
+            marker = 0.0
+            try:
+                for root, _, files in os.walk(proof_subdir):
+                    for fname in files:
+                        try:
+                            marker = max(marker, os.path.getmtime(os.path.join(root, fname)))
+                        except OSError:
+                            continue
+            except OSError:
+                pass
+            return marker
+
+        def _child_entry() -> None:
+            # setsid so the parent's killpg reaps the whole tree (Python + KoreServer + workers).
+            try:
+                os.setsid()
+            except OSError:
+                pass
+            try:
+                options.max_depth = attempt_max_depth
+                options.per_depth_timeout = 0  # prevent re-entering the progressive path
+                result = init_and_run_proof(test, progress=None)
+                try:
+                    child_conn.send(('ok', result))
+                except Exception:
+                    pass
+            except Exception as e:
+                try:
+                    child_conn.send(('err', e))
+                except Exception:
+                    pass
+            finally:
+                try:
+                    child_conn.close()
+                except Exception:
+                    pass
+
+        ctx = mp.get_context('fork')
+        parent_conn, child_conn = ctx.Pipe(duplex=False)
+        proc = ctx.Process(target=_child_entry)
+        proc.start()
+        try:
+            child_conn.close()
+        except Exception:
+            pass
+
+        last_marker = progress_marker()
+        while True:
+            proc.join(timeout=budget_s)
+            if not proc.is_alive():
+                break
+            current_marker = progress_marker()
+            if current_marker != last_marker:
+                last_marker = current_marker
+                continue  # progress observed; grant another budget_s window
+            try:
+                os.killpg(os.getpgid(proc.pid), signal.SIGKILL)
+            except OSError:
+                pass
+            proc.join()
+            try:
+                parent_conn.close()
+            except Exception:
+                pass
+            return _attempt_timeout
+
+        try:
+            if parent_conn.poll():
+                tag, payload = parent_conn.recv()
+            else:
+                tag, payload = 'ok', None
+        except (EOFError, OSError):
+            tag, payload = 'ok', None
+        finally:
+            try:
+                parent_conn.close()
+            except Exception:
+                pass
+
+        if tag == 'err':
+            _LOGGER.error(f'Proof {test.id} subprocess raised: {payload}')
+        return payload
 
     with Progress(
         SpinnerColumn(),

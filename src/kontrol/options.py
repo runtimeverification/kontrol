@@ -343,6 +343,7 @@ class ProveOptions(
     extra_module: str | None
     symbolic_caller: bool
     generate_counterexample: bool
+    per_depth_timeout: float
 
     def __init__(self, args: dict[str, Any]) -> None:
         super().__init__(args)
@@ -376,6 +377,7 @@ class ProveOptions(
             'extra_module': None,
             'symbolic_caller': False,
             'generate_counterexample': False,
+            'per_depth_timeout': 0.0,
         }
 
     @staticmethod
