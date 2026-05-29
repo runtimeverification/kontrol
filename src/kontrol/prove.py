@@ -318,7 +318,28 @@ def _run_cfg_group(
 
     def init_and_run_proof(test: FoundryTest, progress: Progress | None = None) -> APRFailureInfo | Exception | None:
         if options.per_depth_timeout > 0:
-            return _init_and_run_proof_progressive(test, progress)
+            current_depth = max(1, options.max_depth)
+            while True:
+                budget_s = current_depth * options.per_depth_timeout
+                outcome = _run_attempt_under_timeout(test, current_depth, budget_s)
+                if outcome is _attempt_timeout:
+                    _LOGGER.warning(
+                        f'Proof {test.id}: depth={current_depth} attempt exhausted {budget_s}s budget; halving.'
+                    )
+                    if current_depth <= 1:
+                        break
+                    current_depth = max(1, current_depth // 2)
+                    continue
+                return outcome  # type: ignore[no-any-return]
+            # All attempts exhausted; load whatever state was persisted to disk.
+            if Proof.proof_data_exists(test.id, foundry.proofs_dir):
+                persisted = foundry.get_apr_proof(test.id)
+                if persisted.error_info is not None:
+                    return persisted.error_info
+                if persisted.failure_info is not None and not isinstance(persisted.failure_info, APRFailureInfo):
+                    raise RuntimeError('Generated failure info for APRProof is not APRFailureInfo.')
+                return persisted.failure_info
+            return None
 
         task: TaskID | None = None
         if progress is not None:
@@ -485,32 +506,6 @@ def _run_cfg_group(
                 return proof.error_info
             else:
                 return proof.failure_info
-
-    def _init_and_run_proof_progressive(
-        test: FoundryTest, progress: Progress | None
-    ) -> APRFailureInfo | Exception | None:
-        current_depth = max(1, options.max_depth)
-        while True:
-            budget_s = current_depth * options.per_depth_timeout
-            outcome = _run_attempt_under_timeout(test, current_depth, budget_s)
-            if outcome is _attempt_timeout:
-                _LOGGER.warning(
-                    f'Proof {test.id}: depth={current_depth} attempt exhausted {budget_s}s budget; halving.'
-                )
-                if current_depth <= 1:
-                    break
-                current_depth = max(1, current_depth // 2)
-                continue
-            return outcome  # type: ignore[no-any-return]
-        # All attempts exhausted; load whatever state was persisted to disk.
-        if Proof.proof_data_exists(test.id, foundry.proofs_dir):
-            persisted = foundry.get_apr_proof(test.id)
-            if persisted.error_info is not None:
-                return persisted.error_info
-            if persisted.failure_info is not None and not isinstance(persisted.failure_info, APRFailureInfo):
-                raise RuntimeError('Generated failure info for APRProof is not APRFailureInfo.')
-            return persisted.failure_info
-        return None
 
     def _run_attempt_under_timeout(test: FoundryTest, attempt_max_depth: int, budget_s: float) -> Any:
         """Run one prove attempt for `test` at `attempt_max_depth` in a forked subprocess, returning `_attempt_timeout` if `proof_subdir` goes a full `budget_s` window without any file write."""
