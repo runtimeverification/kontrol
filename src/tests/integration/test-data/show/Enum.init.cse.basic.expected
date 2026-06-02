@@ -1,0 +1,589 @@
+
+┌─ 1 (root, init)
+│   k: #execute ~> CONTINUATION:K
+│   pc: 0
+│   callDepth: CALLDEPTH_CELL:Int
+│   statusCode: STATUSCODE:StatusCode
+│
+│  (420 steps)
+├─ 3
+│   k: #end EVMC_SUCCESS ~> #pc [ RETURN ] ~> #execute ~> CONTINUATION:K
+│   pc: 218
+│   callDepth: CALLDEPTH_CELL:Int
+│   statusCode: STATUSCODE:StatusCode
+│
+│  (1 step)
+├─ 4
+│   k: #halt ~> #pc [ RETURN ] ~> #execute ~> CONTINUATION:K
+│   pc: 218
+│   callDepth: CALLDEPTH_CELL:Int
+│   statusCode: EVMC_SUCCESS
+│
+│  (2 steps)
+├─ 5 (terminal)
+│   k: #halt ~> CONTINUATION:K
+│   pc: 218
+│   callDepth: CALLDEPTH_CELL:Int
+│   statusCode: EVMC_SUCCESS
+│
+┊  constraint:
+┊      ( notBool <acctID>
+  C_ENUM_ID:Int
+</acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+┊  subst: ...
+└─ 2 (leaf, target, terminal)
+    k: #halt ~> CONTINUATION:K
+    pc: PC_CELL_5d410f2a:Int
+    callDepth: CALLDEPTH_CELL_5d410f2a:Int
+    statusCode: STATUSCODE_FINAL:StatusCode
+
+
+
+
+module SUMMARY-TEST%ENUM.INIT:0
+    
+    
+    rule [BASIC-BLOCK-1-TO-3]: <foundry>
+           <kevm>
+             <k>
+               ( .K => #end EVMC_SUCCESS
+               ~> #pc [ RETURN ] )
+               ~> #execute
+               ~> _CONTINUATION
+             </k>
+             <mode>
+               NORMAL
+             </mode>
+             <schedule>
+               SHANGHAI
+             </schedule>
+             <useGas>
+               false
+             </useGas>
+             <ethereum>
+               <evm>
+                 <output>
+                   ( _OUTPUT_CELL => b"`\x80`@R4\x80\x15a\x00\x10W`\x00\x80\xfd[P`\x046\x10a\x006W`\x005`\xe0\x1c\x80cc6\xf6\x1e\x14a\x00;W\x80c\x84|7\xfb\x14a\x00EW[`\x00\x80\xfd[a\x00Ca\x00XV[\x00[a\x00Ca\x00S6`\x04a\x01\xd2V[a\x01~V[`\x00T`@\x80Qch\xaf7\xdf`\xe0\x1b\x81R\x90Q`\x05\x92`\x01`\x01`\xa0\x1b\x03\x16\x91ch\xaf7\xdf\x91`\x04\x80\x83\x01\x92` \x92\x91\x90\x82\x90\x03\x01\x81\x86Z\xfa\x15\x80\x15a\x00\xa2W=`\x00\x80>=`\x00\xfd[PPPP`@Q=`\x1f\x19`\x1f\x82\x01\x16\x82\x01\x80`@RP\x81\x01\x90a\x00\xc6\x91\x90a\x01\xf6V[`\x05\x81\x11\x15a\x00\xd7Wa\x00\xd7a\x02\x13V[\x11\x15a\x00\xe5Wa\x00\xe5a\x02)V[`\x00\x80`\x00\x90T\x90a\x01\x00\n\x90\x04`\x01`\x01`\xa0\x1b\x03\x16`\x01`\x01`\xa0\x1b\x03\x16ch\xaf7\xdf`@Q\x81c\xff\xff\xff\xff\x16`\xe0\x1b\x81R`\x04\x01` `@Q\x80\x83\x03\x81\x86Z\xfa\x15\x80\x15a\x019W=`\x00\x80>=`\x00\xfd[PPPP`@Q=`\x1f\x19`\x1f\x82\x01\x16\x82\x01\x80`@RP\x81\x01\x90a\x01]\x91\x90a\x01\xf6V[`\x05\x81\x11\x15a\x01nWa\x01na\x02\x13V[\x10\x15a\x01|Wa\x01|a\x02)V[V[`\x05\x81`\x05\x81\x11\x15a\x01\x92Wa\x01\x92a\x02\x13V[\x11\x15a\x01\xa0Wa\x01\xa0a\x02)V[`\x00\x81`\x05\x81\x11\x15a\x01\xb4Wa\x01\xb4a\x02\x13V[\x10\x15a\x01\xc2Wa\x01\xc2a\x02)V[PV[`\x06\x81\x10a\x01\xc2W`\x00\x80\xfd[`\x00` \x82\x84\x03\x12\x15a\x01\xe4W`\x00\x80\xfd[\x815a\x01\xef\x81a\x01\xc5V[\x93\x92PPPV[`\x00` \x82\x84\x03\x12\x15a\x02\x08W`\x00\x80\xfd[\x81Qa\x01\xef\x81a\x01\xc5V[cNH{q`\xe0\x1b`\x00R`!`\x04R`$`\x00\xfd[cNH{q`\xe0\x1b`\x00R`\x01`\x04R`$`\x00\xfd\xfe\xa1dsolcC\x00\x08\r\x00\n" )
+                 </output>
+                 <callState>
+                   <id>
+                     C_ENUM_ID:Int
+                   </id>
+                   <caller>
+                     CALLER_ID:Int
+                   </caller>
+                   <callData>
+                     CALLDATA_CELL:Bytes
+                   </callData>
+                   <callValue>
+                     0
+                   </callValue>
+                   <wordStack>
+                     .WordStack
+                   </wordStack>
+                   <localMem>
+                     ( b"" => b"`\x80`@R4\x80\x15a\x00\x10W`\x00\x80\xfd[P`\x046\x10a\x006W`\x005`\xe0\x1c\x80cc6\xf6\x1e\x14a\x00;W\x80c\x84|7\xfb\x14a\x00EW[`\x00\x80\xfd[a\x00Ca\x00XV[\x00[a\x00Ca\x00S6`\x04a\x01\xd2V[a\x01~V[`\x00T`@\x80Qch\xaf7\xdf`\xe0\x1b\x81R\x90Q`\x05\x92`\x01`\x01`\xa0\x1b\x03\x16\x91ch\xaf7\xdf\x91`\x04\x80\x83\x01\x92` \x92\x91\x90\x82\x90\x03\x01\x81\x86Z\xfa\x15\x80\x15a\x00\xa2W=`\x00\x80>=`\x00\xfd[PPPP`@Q=`\x1f\x19`\x1f\x82\x01\x16\x82\x01\x80`@RP\x81\x01\x90a\x00\xc6\x91\x90a\x01\xf6V[`\x05\x81\x11\x15a\x00\xd7Wa\x00\xd7a\x02\x13V[\x11\x15a\x00\xe5Wa\x00\xe5a\x02)V[`\x00\x80`\x00\x90T\x90a\x01\x00\n\x90\x04`\x01`\x01`\xa0\x1b\x03\x16`\x01`\x01`\xa0\x1b\x03\x16ch\xaf7\xdf`@Q\x81c\xff\xff\xff\xff\x16`\xe0\x1b\x81R`\x04\x01` `@Q\x80\x83\x03\x81\x86Z\xfa\x15\x80\x15a\x019W=`\x00\x80>=`\x00\xfd[PPPP`@Q=`\x1f\x19`\x1f\x82\x01\x16\x82\x01\x80`@RP\x81\x01\x90a\x01]\x91\x90a\x01\xf6V[`\x05\x81\x11\x15a\x01nWa\x01na\x02\x13V[\x10\x15a\x01|Wa\x01|a\x02)V[V[`\x05\x81`\x05\x81\x11\x15a\x01\x92Wa\x01\x92a\x02\x13V[\x11\x15a\x01\xa0Wa\x01\xa0a\x02)V[`\x00\x81`\x05\x81\x11\x15a\x01\xb4Wa\x01\xb4a\x02\x13V[\x10\x15a\x01\xc2Wa\x01\xc2a\x02)V[PV[`\x06\x81\x10a\x01\xc2W`\x00\x80\xfd[`\x00` \x82\x84\x03\x12\x15a\x01\xe4W`\x00\x80\xfd[\x815a\x01\xef\x81a\x01\xc5V[\x93\x92PPPV[`\x00` \x82\x84\x03\x12\x15a\x02\x08W`\x00\x80\xfd[\x81Qa\x01\xef\x81a\x01\xc5V[cNH{q`\xe0\x1b`\x00R`!`\x04R`$`\x00\xfd[cNH{q`\xe0\x1b`\x00R`\x01`\x04R`$`\x00\xfd\xfe\xa1dsolcC\x00\x08\r\x00\n" )
+                   </localMem>
+                   <memoryUsed>
+                     0
+                   </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
+                   <static>
+                     false
+                   </static>
+                   ...
+                 </callState>
+                 <substate>
+                   <refund>
+                     0
+                   </refund>
+                   ...
+                 </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
+                   ...
+                 </block>
+                 ...
+               </evm>
+               <network>
+                 <chainID>
+                   1
+                 </chainID>
+                 <accounts>
+                   ( <account>
+                     <acctID>
+                       C_ENUM_ID:Int
+                     </acctID>
+                     <balance>
+                       C_ENUM_BAL:Int
+                     </balance>
+                     <nonce>
+                       C_ENUM_NONCE:Int
+                     </nonce>
+                     ...
+                   </account>
+                   ACCOUNTS_REST:AccountCellMap )
+                 </accounts>
+                 ...
+               </network>
+             </ethereum>
+             ...
+           </kevm>
+           <stackChecks>
+             true
+           </stackChecks>
+           <cheatcodes>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 false
+               </isOpcodeExpected>
+               ...
+             </expectedOpcode>
+             <whitelist>
+               <isCallWhitelistActive>
+                 false
+               </isCallWhitelistActive>
+               <isStorageWhitelistActive>
+                 false
+               </isStorageWhitelistActive>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
+             </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
+             ...
+           </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
+         </foundry>
+      requires ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int C_ENUM_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( KV0_letter:Int <Int 6
+       andBool ( 0 <=Int C_ENUM_BAL:Int
+       andBool ( 0 <=Int KV0_letter:Int
+       andBool ( KV0_letter:Int <Int 256
+       andBool ( 0 <=Int C_ENUM_NONCE:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( C_ENUM_NONCE:Int <Int maxUInt64
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_ENUM_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( C_ENUM_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( C_ENUM_BAL:Int <Int pow256
+       andBool ( ( notBool <acctID>
+          C_ENUM_ID:Int
+        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+       andBool ( lengthBytes ( CALLDATA_CELL:Bytes ) <Int pow128
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < C_ENUM_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+               )))))))))))))))))))))))))
+      [priority(20), label(BASIC-BLOCK-1-TO-3)]
+    
+    rule [BASIC-BLOCK-3-TO-4]: <foundry>
+           <kevm>
+             <k>
+               ( #end EVMC_SUCCESS => #halt )
+               ~> #pc [ RETURN ]
+               ~> #execute
+               ~> _CONTINUATION
+             </k>
+             <mode>
+               NORMAL
+             </mode>
+             <schedule>
+               SHANGHAI
+             </schedule>
+             <useGas>
+               false
+             </useGas>
+             <ethereum>
+               <evm>
+                 <output>
+                   b"`\x80`@R4\x80\x15a\x00\x10W`\x00\x80\xfd[P`\x046\x10a\x006W`\x005`\xe0\x1c\x80cc6\xf6\x1e\x14a\x00;W\x80c\x84|7\xfb\x14a\x00EW[`\x00\x80\xfd[a\x00Ca\x00XV[\x00[a\x00Ca\x00S6`\x04a\x01\xd2V[a\x01~V[`\x00T`@\x80Qch\xaf7\xdf`\xe0\x1b\x81R\x90Q`\x05\x92`\x01`\x01`\xa0\x1b\x03\x16\x91ch\xaf7\xdf\x91`\x04\x80\x83\x01\x92` \x92\x91\x90\x82\x90\x03\x01\x81\x86Z\xfa\x15\x80\x15a\x00\xa2W=`\x00\x80>=`\x00\xfd[PPPP`@Q=`\x1f\x19`\x1f\x82\x01\x16\x82\x01\x80`@RP\x81\x01\x90a\x00\xc6\x91\x90a\x01\xf6V[`\x05\x81\x11\x15a\x00\xd7Wa\x00\xd7a\x02\x13V[\x11\x15a\x00\xe5Wa\x00\xe5a\x02)V[`\x00\x80`\x00\x90T\x90a\x01\x00\n\x90\x04`\x01`\x01`\xa0\x1b\x03\x16`\x01`\x01`\xa0\x1b\x03\x16ch\xaf7\xdf`@Q\x81c\xff\xff\xff\xff\x16`\xe0\x1b\x81R`\x04\x01` `@Q\x80\x83\x03\x81\x86Z\xfa\x15\x80\x15a\x019W=`\x00\x80>=`\x00\xfd[PPPP`@Q=`\x1f\x19`\x1f\x82\x01\x16\x82\x01\x80`@RP\x81\x01\x90a\x01]\x91\x90a\x01\xf6V[`\x05\x81\x11\x15a\x01nWa\x01na\x02\x13V[\x10\x15a\x01|Wa\x01|a\x02)V[V[`\x05\x81`\x05\x81\x11\x15a\x01\x92Wa\x01\x92a\x02\x13V[\x11\x15a\x01\xa0Wa\x01\xa0a\x02)V[`\x00\x81`\x05\x81\x11\x15a\x01\xb4Wa\x01\xb4a\x02\x13V[\x10\x15a\x01\xc2Wa\x01\xc2a\x02)V[PV[`\x06\x81\x10a\x01\xc2W`\x00\x80\xfd[`\x00` \x82\x84\x03\x12\x15a\x01\xe4W`\x00\x80\xfd[\x815a\x01\xef\x81a\x01\xc5V[\x93\x92PPPV[`\x00` \x82\x84\x03\x12\x15a\x02\x08W`\x00\x80\xfd[\x81Qa\x01\xef\x81a\x01\xc5V[cNH{q`\xe0\x1b`\x00R`!`\x04R`$`\x00\xfd[cNH{q`\xe0\x1b`\x00R`\x01`\x04R`$`\x00\xfd\xfe\xa1dsolcC\x00\x08\r\x00\n"
+                 </output>
+                 <statusCode>
+                   ( _STATUSCODE => EVMC_SUCCESS )
+                 </statusCode>
+                 <callState>
+                   <id>
+                     C_ENUM_ID:Int
+                   </id>
+                   <caller>
+                     CALLER_ID:Int
+                   </caller>
+                   <callData>
+                     CALLDATA_CELL:Bytes
+                   </callData>
+                   <callValue>
+                     0
+                   </callValue>
+                   <wordStack>
+                     .WordStack
+                   </wordStack>
+                   <localMem>
+                     b"`\x80`@R4\x80\x15a\x00\x10W`\x00\x80\xfd[P`\x046\x10a\x006W`\x005`\xe0\x1c\x80cc6\xf6\x1e\x14a\x00;W\x80c\x84|7\xfb\x14a\x00EW[`\x00\x80\xfd[a\x00Ca\x00XV[\x00[a\x00Ca\x00S6`\x04a\x01\xd2V[a\x01~V[`\x00T`@\x80Qch\xaf7\xdf`\xe0\x1b\x81R\x90Q`\x05\x92`\x01`\x01`\xa0\x1b\x03\x16\x91ch\xaf7\xdf\x91`\x04\x80\x83\x01\x92` \x92\x91\x90\x82\x90\x03\x01\x81\x86Z\xfa\x15\x80\x15a\x00\xa2W=`\x00\x80>=`\x00\xfd[PPPP`@Q=`\x1f\x19`\x1f\x82\x01\x16\x82\x01\x80`@RP\x81\x01\x90a\x00\xc6\x91\x90a\x01\xf6V[`\x05\x81\x11\x15a\x00\xd7Wa\x00\xd7a\x02\x13V[\x11\x15a\x00\xe5Wa\x00\xe5a\x02)V[`\x00\x80`\x00\x90T\x90a\x01\x00\n\x90\x04`\x01`\x01`\xa0\x1b\x03\x16`\x01`\x01`\xa0\x1b\x03\x16ch\xaf7\xdf`@Q\x81c\xff\xff\xff\xff\x16`\xe0\x1b\x81R`\x04\x01` `@Q\x80\x83\x03\x81\x86Z\xfa\x15\x80\x15a\x019W=`\x00\x80>=`\x00\xfd[PPPP`@Q=`\x1f\x19`\x1f\x82\x01\x16\x82\x01\x80`@RP\x81\x01\x90a\x01]\x91\x90a\x01\xf6V[`\x05\x81\x11\x15a\x01nWa\x01na\x02\x13V[\x10\x15a\x01|Wa\x01|a\x02)V[V[`\x05\x81`\x05\x81\x11\x15a\x01\x92Wa\x01\x92a\x02\x13V[\x11\x15a\x01\xa0Wa\x01\xa0a\x02)V[`\x00\x81`\x05\x81\x11\x15a\x01\xb4Wa\x01\xb4a\x02\x13V[\x10\x15a\x01\xc2Wa\x01\xc2a\x02)V[PV[`\x06\x81\x10a\x01\xc2W`\x00\x80\xfd[`\x00` \x82\x84\x03\x12\x15a\x01\xe4W`\x00\x80\xfd[\x815a\x01\xef\x81a\x01\xc5V[\x93\x92PPPV[`\x00` \x82\x84\x03\x12\x15a\x02\x08W`\x00\x80\xfd[\x81Qa\x01\xef\x81a\x01\xc5V[cNH{q`\xe0\x1b`\x00R`!`\x04R`$`\x00\xfd[cNH{q`\xe0\x1b`\x00R`\x01`\x04R`$`\x00\xfd\xfe\xa1dsolcC\x00\x08\r\x00\n"
+                   </localMem>
+                   <memoryUsed>
+                     0
+                   </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
+                   <static>
+                     false
+                   </static>
+                   ...
+                 </callState>
+                 <substate>
+                   <refund>
+                     0
+                   </refund>
+                   ...
+                 </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
+                   ...
+                 </block>
+                 ...
+               </evm>
+               <network>
+                 <chainID>
+                   1
+                 </chainID>
+                 <accounts>
+                   ( <account>
+                     <acctID>
+                       C_ENUM_ID:Int
+                     </acctID>
+                     <balance>
+                       C_ENUM_BAL:Int
+                     </balance>
+                     <nonce>
+                       C_ENUM_NONCE:Int
+                     </nonce>
+                     ...
+                   </account>
+                   ACCOUNTS_REST:AccountCellMap )
+                 </accounts>
+                 ...
+               </network>
+             </ethereum>
+             ...
+           </kevm>
+           <stackChecks>
+             true
+           </stackChecks>
+           <cheatcodes>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 false
+               </isOpcodeExpected>
+               ...
+             </expectedOpcode>
+             <whitelist>
+               <isCallWhitelistActive>
+                 false
+               </isCallWhitelistActive>
+               <isStorageWhitelistActive>
+                 false
+               </isStorageWhitelistActive>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
+             </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
+             ...
+           </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
+         </foundry>
+      requires ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int C_ENUM_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( KV0_letter:Int <Int 6
+       andBool ( 0 <=Int C_ENUM_BAL:Int
+       andBool ( 0 <=Int KV0_letter:Int
+       andBool ( KV0_letter:Int <Int 256
+       andBool ( 0 <=Int C_ENUM_NONCE:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( C_ENUM_NONCE:Int <Int maxUInt64
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( C_ENUM_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( C_ENUM_BAL:Int <Int pow256
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_ENUM_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( lengthBytes ( CALLDATA_CELL:Bytes ) <Int pow128
+       andBool ( ( notBool <acctID>
+          C_ENUM_ID:Int
+        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < C_ENUM_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+               )))))))))))))))))))))))))
+      [priority(20), label(BASIC-BLOCK-3-TO-4)]
+    
+    rule [BASIC-BLOCK-4-TO-5]: <foundry>
+           <kevm>
+             <k>
+               #halt
+               ~> ( #pc [ RETURN ]
+               ~> #execute => .K )
+               ~> _CONTINUATION
+             </k>
+             <mode>
+               NORMAL
+             </mode>
+             <schedule>
+               SHANGHAI
+             </schedule>
+             <useGas>
+               false
+             </useGas>
+             <ethereum>
+               <evm>
+                 <output>
+                   b"`\x80`@R4\x80\x15a\x00\x10W`\x00\x80\xfd[P`\x046\x10a\x006W`\x005`\xe0\x1c\x80cc6\xf6\x1e\x14a\x00;W\x80c\x84|7\xfb\x14a\x00EW[`\x00\x80\xfd[a\x00Ca\x00XV[\x00[a\x00Ca\x00S6`\x04a\x01\xd2V[a\x01~V[`\x00T`@\x80Qch\xaf7\xdf`\xe0\x1b\x81R\x90Q`\x05\x92`\x01`\x01`\xa0\x1b\x03\x16\x91ch\xaf7\xdf\x91`\x04\x80\x83\x01\x92` \x92\x91\x90\x82\x90\x03\x01\x81\x86Z\xfa\x15\x80\x15a\x00\xa2W=`\x00\x80>=`\x00\xfd[PPPP`@Q=`\x1f\x19`\x1f\x82\x01\x16\x82\x01\x80`@RP\x81\x01\x90a\x00\xc6\x91\x90a\x01\xf6V[`\x05\x81\x11\x15a\x00\xd7Wa\x00\xd7a\x02\x13V[\x11\x15a\x00\xe5Wa\x00\xe5a\x02)V[`\x00\x80`\x00\x90T\x90a\x01\x00\n\x90\x04`\x01`\x01`\xa0\x1b\x03\x16`\x01`\x01`\xa0\x1b\x03\x16ch\xaf7\xdf`@Q\x81c\xff\xff\xff\xff\x16`\xe0\x1b\x81R`\x04\x01` `@Q\x80\x83\x03\x81\x86Z\xfa\x15\x80\x15a\x019W=`\x00\x80>=`\x00\xfd[PPPP`@Q=`\x1f\x19`\x1f\x82\x01\x16\x82\x01\x80`@RP\x81\x01\x90a\x01]\x91\x90a\x01\xf6V[`\x05\x81\x11\x15a\x01nWa\x01na\x02\x13V[\x10\x15a\x01|Wa\x01|a\x02)V[V[`\x05\x81`\x05\x81\x11\x15a\x01\x92Wa\x01\x92a\x02\x13V[\x11\x15a\x01\xa0Wa\x01\xa0a\x02)V[`\x00\x81`\x05\x81\x11\x15a\x01\xb4Wa\x01\xb4a\x02\x13V[\x10\x15a\x01\xc2Wa\x01\xc2a\x02)V[PV[`\x06\x81\x10a\x01\xc2W`\x00\x80\xfd[`\x00` \x82\x84\x03\x12\x15a\x01\xe4W`\x00\x80\xfd[\x815a\x01\xef\x81a\x01\xc5V[\x93\x92PPPV[`\x00` \x82\x84\x03\x12\x15a\x02\x08W`\x00\x80\xfd[\x81Qa\x01\xef\x81a\x01\xc5V[cNH{q`\xe0\x1b`\x00R`!`\x04R`$`\x00\xfd[cNH{q`\xe0\x1b`\x00R`\x01`\x04R`$`\x00\xfd\xfe\xa1dsolcC\x00\x08\r\x00\n"
+                 </output>
+                 <statusCode>
+                   EVMC_SUCCESS
+                 </statusCode>
+                 <callState>
+                   <id>
+                     C_ENUM_ID:Int
+                   </id>
+                   <caller>
+                     CALLER_ID:Int
+                   </caller>
+                   <callData>
+                     CALLDATA_CELL:Bytes
+                   </callData>
+                   <callValue>
+                     0
+                   </callValue>
+                   <wordStack>
+                     .WordStack
+                   </wordStack>
+                   <localMem>
+                     b"`\x80`@R4\x80\x15a\x00\x10W`\x00\x80\xfd[P`\x046\x10a\x006W`\x005`\xe0\x1c\x80cc6\xf6\x1e\x14a\x00;W\x80c\x84|7\xfb\x14a\x00EW[`\x00\x80\xfd[a\x00Ca\x00XV[\x00[a\x00Ca\x00S6`\x04a\x01\xd2V[a\x01~V[`\x00T`@\x80Qch\xaf7\xdf`\xe0\x1b\x81R\x90Q`\x05\x92`\x01`\x01`\xa0\x1b\x03\x16\x91ch\xaf7\xdf\x91`\x04\x80\x83\x01\x92` \x92\x91\x90\x82\x90\x03\x01\x81\x86Z\xfa\x15\x80\x15a\x00\xa2W=`\x00\x80>=`\x00\xfd[PPPP`@Q=`\x1f\x19`\x1f\x82\x01\x16\x82\x01\x80`@RP\x81\x01\x90a\x00\xc6\x91\x90a\x01\xf6V[`\x05\x81\x11\x15a\x00\xd7Wa\x00\xd7a\x02\x13V[\x11\x15a\x00\xe5Wa\x00\xe5a\x02)V[`\x00\x80`\x00\x90T\x90a\x01\x00\n\x90\x04`\x01`\x01`\xa0\x1b\x03\x16`\x01`\x01`\xa0\x1b\x03\x16ch\xaf7\xdf`@Q\x81c\xff\xff\xff\xff\x16`\xe0\x1b\x81R`\x04\x01` `@Q\x80\x83\x03\x81\x86Z\xfa\x15\x80\x15a\x019W=`\x00\x80>=`\x00\xfd[PPPP`@Q=`\x1f\x19`\x1f\x82\x01\x16\x82\x01\x80`@RP\x81\x01\x90a\x01]\x91\x90a\x01\xf6V[`\x05\x81\x11\x15a\x01nWa\x01na\x02\x13V[\x10\x15a\x01|Wa\x01|a\x02)V[V[`\x05\x81`\x05\x81\x11\x15a\x01\x92Wa\x01\x92a\x02\x13V[\x11\x15a\x01\xa0Wa\x01\xa0a\x02)V[`\x00\x81`\x05\x81\x11\x15a\x01\xb4Wa\x01\xb4a\x02\x13V[\x10\x15a\x01\xc2Wa\x01\xc2a\x02)V[PV[`\x06\x81\x10a\x01\xc2W`\x00\x80\xfd[`\x00` \x82\x84\x03\x12\x15a\x01\xe4W`\x00\x80\xfd[\x815a\x01\xef\x81a\x01\xc5V[\x93\x92PPPV[`\x00` \x82\x84\x03\x12\x15a\x02\x08W`\x00\x80\xfd[\x81Qa\x01\xef\x81a\x01\xc5V[cNH{q`\xe0\x1b`\x00R`!`\x04R`$`\x00\xfd[cNH{q`\xe0\x1b`\x00R`\x01`\x04R`$`\x00\xfd\xfe\xa1dsolcC\x00\x08\r\x00\n"
+                   </localMem>
+                   <memoryUsed>
+                     0
+                   </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
+                   <static>
+                     false
+                   </static>
+                   ...
+                 </callState>
+                 <substate>
+                   <refund>
+                     0
+                   </refund>
+                   ...
+                 </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
+                   ...
+                 </block>
+                 ...
+               </evm>
+               <network>
+                 <chainID>
+                   1
+                 </chainID>
+                 <accounts>
+                   ( <account>
+                     <acctID>
+                       C_ENUM_ID:Int
+                     </acctID>
+                     <balance>
+                       C_ENUM_BAL:Int
+                     </balance>
+                     <nonce>
+                       C_ENUM_NONCE:Int
+                     </nonce>
+                     ...
+                   </account>
+                   ACCOUNTS_REST:AccountCellMap )
+                 </accounts>
+                 ...
+               </network>
+             </ethereum>
+             ...
+           </kevm>
+           <stackChecks>
+             true
+           </stackChecks>
+           <cheatcodes>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 false
+               </isOpcodeExpected>
+               ...
+             </expectedOpcode>
+             <whitelist>
+               <isCallWhitelistActive>
+                 false
+               </isCallWhitelistActive>
+               <isStorageWhitelistActive>
+                 false
+               </isStorageWhitelistActive>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
+             </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
+             ...
+           </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
+         </foundry>
+      requires ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int C_ENUM_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( KV0_letter:Int <Int 6
+       andBool ( 0 <=Int C_ENUM_BAL:Int
+       andBool ( 0 <=Int KV0_letter:Int
+       andBool ( KV0_letter:Int <Int 256
+       andBool ( 0 <=Int C_ENUM_NONCE:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( C_ENUM_NONCE:Int <Int maxUInt64
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( C_ENUM_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( C_ENUM_BAL:Int <Int pow256
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_ENUM_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( lengthBytes ( CALLDATA_CELL:Bytes ) <Int pow128
+       andBool ( ( notBool <acctID>
+          C_ENUM_ID:Int
+        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < C_ENUM_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+               )))))))))))))))))))))))))
+      [priority(20), label(BASIC-BLOCK-4-TO-5)]
+
+endmodule
