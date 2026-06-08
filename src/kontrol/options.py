@@ -64,6 +64,9 @@ class RpcOptions(Options):
     use_booster: bool
     port: int | None
     lemmas: str | None
+    haskell_log_entries: list[str]
+    haskell_log_dir: Path | None
+    booster_only_simplify: bool
 
     @staticmethod
     def default() -> dict[str, Any]:
@@ -74,6 +77,9 @@ class RpcOptions(Options):
             'use_booster': True,
             'port': None,
             'lemmas': None,
+            'haskell_log_entries': [],
+            'haskell_log_dir': None,
+            'booster_only_simplify': False,
         }
 
     @staticmethod

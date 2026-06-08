@@ -6,7 +6,13 @@ from typing import TYPE_CHECKING
 
 from pyk.cli.pyk import parse_toml_args
 
-from kontrol.cli import _create_argument_parser, get_argument_type_setter, get_option_string_destination
+from kontrol.cli import (
+    _create_argument_parser,
+    generate_options,
+    get_argument_type_setter,
+    get_option_string_destination,
+)
+from kontrol.options import ProveOptions
 
 from .utils import TEST_DATA_DIR
 
@@ -101,3 +107,36 @@ def test_toml_profiles() -> None:
     assert args_dict['workers'] == 5
     assert 'smt_timeout' in args_dict
     assert args_dict['smt_timeout'] == 1000
+
+
+def _prove_options(cmd_args: list[str]) -> ProveOptions:
+    parser = _create_argument_parser()
+    args = parser.parse_args(['prove', *cmd_args])
+    stripped_args = {
+        key: val for (key, val) in vars(args).items() if val is not None and not (isinstance(val, Iterable) and not val)
+    }
+    options = generate_options(stripped_args)
+    assert isinstance(options, ProveOptions)
+    return options
+
+
+def test_haskell_logging_options() -> None:
+    options = _prove_options(
+        [
+            '--haskell-log-dir',
+            '/tmp/hlog',
+            '--haskell-log-entries',
+            'Abort,Simplify,Rewrite',
+            '--booster-only-simplify',
+        ]
+    )
+    assert options.haskell_log_dir == Path('/tmp/hlog')
+    assert options.haskell_log_entries == ['Abort', 'Simplify', 'Rewrite']
+    assert options.booster_only_simplify is True
+
+
+def test_haskell_logging_option_defaults() -> None:
+    options = _prove_options([])
+    assert options.haskell_log_dir is None
+    assert options.haskell_log_entries == []
+    assert options.booster_only_simplify is False
