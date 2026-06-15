@@ -618,11 +618,11 @@ wheels = [
 
 [[package]]
 name = "filelock"
-version = "3.29.1"
+version = "3.29.4"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/1f/f9/f38573ed5844586db374d085911740a501ccfa373b455fc9413f09f85237/filelock-3.29.1.tar.gz", hash = "sha256:d97e6b1b9757569626c58caa07dc4beb1613f4a2938b1e8cc81afca398906c9e", size = 59335, upload-time = "2026-06-03T15:19:04.053Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/e6/dc/be6cbe99670cd6e4ad387123647cb08e0c32975e223f82551e914c5568a6/filelock-3.29.4.tar.gz", hash = "sha256:10cdb3656fc44541cdf30652a93fb10ec6b05325620eb316bd26893e4201538a", size = 63028, upload-time = "2026-06-13T16:12:00.744Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/4c/a0/614c5fe402fd88951df45f4dda2fa3b4e17a99ecd92340771929169b3b95/filelock-3.29.1-py3-none-any.whl", hash = "sha256:85199dfd706869641b72b2e8955d5416a4b2b7dc4b0e8e6d97b4cc1299a6983b", size = 40750, upload-time = "2026-06-03T15:19:02.959Z" },
+    { url = "https://files.pythonhosted.org/packages/13/37/a065dc3bd6e49423a6532c642ca7378d3f467b1ef44c2800c937af7f9739/filelock-3.29.4-py3-none-any.whl", hash = "sha256:dac1648087d5115554850d113e7dd8c83ab2d38e3435dde2d4f163847e57b767", size = 42757, upload-time = "2026-06-13T16:11:59.582Z" },
 ]
 
 [[package]]
@@ -800,8 +800,8 @@ wheels = [
 
 [[package]]
 name = "kevm-pyk"
-version = "1.0.912"
-source = { git = "https://github.com/runtimeverification/evm-semantics.git?subdirectory=kevm-pyk&rev=v1.0.912#c8ec904f64f251eb90e0bf05ccbe90fdb733319b" }
+version = "1.0.916"
+source = { git = "https://github.com/runtimeverification/evm-semantics.git?subdirectory=kevm-pyk&rev=v1.0.916#160a4c840b2902674220e7a7db1ab2a9f05ac04b" }
 dependencies = [
     { name = "frozendict" },
     { name = "kframework" },
@@ -811,7 +811,7 @@ dependencies = [
 
 [[package]]
 name = "kframework"
-version = "7.1.333"
+version = "7.1.334"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "coloredlogs" },
@@ -830,9 +830,9 @@ dependencies = [
     { name = "tomli-w" },
     { name = "xdg-base-dirs" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/cb/cc/84becdbfc25485424a4693e68821d5a9d7ebc5d2b767c239f6839f5566f4/kframework-7.1.333.tar.gz", hash = "sha256:38ea0e9789d8635b7bbc705018c2ba686418f289be9016938d5779c8d9ceea49", size = 250649, upload-time = "2026-06-05T16:56:39.019Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/d5/68/fd56d6057195ec2f3b9e473e763d9f19db01435204579aa46075d599e14c/kframework-7.1.334.tar.gz", hash = "sha256:a7e4ab8d3bf904546dd3802135fd6604615c217d959b92b07ac94f6bc3a01cdb", size = 250659, upload-time = "2026-06-11T20:11:55.755Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/74/9e/00474f5a0c3c472b7d650ea4f592adae1bd5894303d3736139e2411322da/kframework-7.1.333-py3-none-any.whl", hash = "sha256:10b55ef7a52e3302fb857ea3adde376d65902701883bf6d788dfa6288fdccd03", size = 302347, upload-time = "2026-06-05T16:56:37.755Z" },
+    { url = "https://files.pythonhosted.org/packages/d0/ef/242649f50145fe03272a1ec786a93935affc66a5a763a662908bded59478/kframework-7.1.334-py3-none-any.whl", hash = "sha256:39db9699d272edfca95d6d7046b7f2e813f09e62be6158609b4b45e16bef951e", size = 302347, upload-time = "2026-06-11T20:11:54.459Z" },
 ]
 
 [[package]]
@@ -875,7 +875,7 @@ dev = [
 requires-dist = [
     { name = "eth-abi", specifier = ">=5.2.0" },
     { name = "eth-utils", specifier = ">=5,<6" },
-    { name = "kevm-pyk", git = "https://github.com/runtimeverification/evm-semantics.git?subdirectory=kevm-pyk&rev=v1.0.912" },
+    { name = "kevm-pyk", git = "https://github.com/runtimeverification/evm-semantics.git?subdirectory=kevm-pyk&rev=v1.0.916" },
     { name = "openzeppelin-solidity-grammar-parser", specifier = ">=0.0.5" },
     { name = "pycryptodome", specifier = ">=3.20.0,<4" },
     { name = "pyevmasm", specifier = ">=0.2.3,<0.3" },
@@ -1597,7 +1597,7 @@ wheels = [
 
 [[package]]
 name = "pytest"
-version = "9.0.3"
+version = "9.1.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "colorama", marker = "sys_platform == 'win32'" },
@@ -1608,9 +1608,9 @@ dependencies = [
     { name = "pygments" },
     { name = "tomli", marker = "python_full_version < '3.11'" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/7d/0d/549bd94f1a0a402dc8cf64563a117c0f3765662e2e668477624baeec44d5/pytest-9.0.3.tar.gz", hash = "sha256:b86ada508af81d19edeb213c681b1d48246c1a91d304c6c81a427674c17eb91c", size = 1572165, upload-time = "2026-04-07T17:16:18.027Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/84/0e/b5858858d74958632c49b72cb25a3976ff9f632397626715be71c89d3971/pytest-9.1.0.tar.gz", hash = "sha256:41dd9148c08072446394cefd3d79701701335a9f4cae69ba92e39f6c7f5c061c", size = 1634181, upload-time = "2026-06-13T18:52:45.983Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/d4/24/a372aaf5c9b7208e7112038812994107bc65a84cd00e0354a88c2c77a617/pytest-9.0.3-py3-none-any.whl", hash = "sha256:2c5efc453d45394fdd706ade797c0a81091eccd1d6e4bccfcd476e2b8e0ab5d9", size = 375249, upload-time = "2026-04-07T17:16:16.13Z" },
+    { url = "https://files.pythonhosted.org/packages/8b/5a/ba30a81239b909821b3153e303e7def45178bf353da4f72380e6c5e8793b/pytest-9.1.0-py3-none-any.whl", hash = "sha256:8ebb0e7888bdf2bdfc602ec51f8f62d50200af37356c74e503c79a94f5c81f32", size = 386453, upload-time = "2026-06-13T18:52:44.045Z" },
 ]
 
 [[package]]
