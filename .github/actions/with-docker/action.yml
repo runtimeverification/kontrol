@@ -38,6 +38,18 @@ inputs:
 runs:
   using: 'composite'
   steps:
+  # The Dockerfile's first stage is `FROM ghcr.io/foundry-rs/foundry`, a
+  # third-party org's public image. Self-hosted runners can carry a stale
+  # ghcr.io credential in their docker config; BuildKit then sends it when
+  # fetching the pull token and ghcr.io rejects it ("denied: denied") instead
+  # of falling back to anonymous. Log in with a fresh token so the credential
+  # is always valid (a valid GITHUB_TOKEN can pull public images from any org).
+  - name: 'Log in to ghcr.io'
+    uses: docker/login-action@v3
+    with:
+      registry: ghcr.io
+      username: ${{ github.actor }}
+      password: ${{ github.token }}
   - name: 'Set up Docker'
     shell: bash {0}
     run: |
