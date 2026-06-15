@@ -5,6 +5,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING
 
 from pyk.cli.pyk import parse_toml_args
+from pyk.cterm.symbolic import HASKELL_LOGGING_ENTRIES
 
 from kontrol.cli import (
     _create_argument_parser,
@@ -138,5 +139,5 @@ def test_haskell_logging_options() -> None:
 def test_haskell_logging_option_defaults() -> None:
     options = _prove_options([])
     assert options.haskell_log_dir is None
-    assert options.haskell_log_entries == []
+    assert options.haskell_log_entries == list(HASKELL_LOGGING_ENTRIES)
     assert options.booster_only_simplify is False

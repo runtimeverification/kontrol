@@ -18,6 +18,7 @@ from kevm_pyk.kompile import KompileTarget
 from kevm_pyk.utils import arg_pair_of
 from pyk.cli.args import BugReportOptions, KompileOptions, LoggingOptions, Options, ParallelOptions, SMTOptions
 from pyk.cli.utils import dir_path, file_path
+from pyk.cterm.symbolic import HASKELL_LOGGING_ENTRIES
 from pyk.utils import ensure_dir_path
 
 from .utils import parse_test_version_tuple
@@ -77,7 +78,7 @@ class RpcOptions(Options):
             'use_booster': True,
             'port': None,
             'lemmas': None,
-            'haskell_log_entries': [],
+            'haskell_log_entries': list(HASKELL_LOGGING_ENTRIES),
             'haskell_log_dir': None,
             'booster_only_simplify': False,
         }

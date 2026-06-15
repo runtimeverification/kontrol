@@ -15,7 +15,6 @@ from kevm_pyk.kevm import KEVM, _process_jumpdests
 from kevm_pyk.utils import KDefinition__expand_macros, abstract_cell_vars, run_prover
 from multiprocess.pool import Pool  # type: ignore
 from pyk.cterm import CTerm, CTermSymbolic
-from pyk.cterm.symbolic import HASKELL_LOGGING_ENTRIES
 from pyk.kast.inner import KApply, KSequence, KSort, KVariable, Subst
 from pyk.kast.manip import flatten_label, free_vars, set_cell
 from pyk.kast.prelude.bytes import bytesToken
@@ -377,7 +376,7 @@ def _run_cfg_group(
                     log_succ_rewrites=options.log_succ_rewrites,
                     log_fail_rewrites=options.log_fail_rewrites,
                     booster_only_simplify=options.booster_only_simplify,
-                    haskell_log_entries=options.haskell_log_entries or HASKELL_LOGGING_ENTRIES,
+                    haskell_log_entries=options.haskell_log_entries,
                     haskell_log_dir=options.haskell_log_dir,
                 )
                 return KCFGExplore(
