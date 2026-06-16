@@ -375,6 +375,9 @@ def _run_cfg_group(
                     foundry.kevm.definition,
                     log_succ_rewrites=options.log_succ_rewrites,
                     log_fail_rewrites=options.log_fail_rewrites,
+                    booster_only_simplify=options.booster_only_simplify,
+                    haskell_log_entries=options.haskell_log_entries,
+                    haskell_log_dir=options.haskell_log_dir,
                 )
                 return KCFGExplore(
                     cterm_symbolic,
