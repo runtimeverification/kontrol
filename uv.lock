@@ -748,15 +748,15 @@ wheels = [
 
 [[package]]
 name = "hypothesis"
-version = "6.155.2"
+version = "6.155.3"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "exceptiongroup", marker = "python_full_version < '3.11'" },
     { name = "sortedcontainers" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/f5/04/64032a1dccd2233615c8a3f701bbb563558575ed017496a24b6d81762c91/hypothesis-6.155.2.tar.gz", hash = "sha256:ae36880287c9c5defe9f199d3d2b67d9947a4da2a46e6c57373cbdf2345b20e1", size = 477765, upload-time = "2026-06-05T16:32:23.63Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/36/77/13ec9b6390bce44f5badab39837dd6789bbfe6342a2ac611a71537a7756f/hypothesis-6.155.3.tar.gz", hash = "sha256:1e34b17ae9873515384312cb7640abd773eb096c7eef8c0d9c614fa2c306e9bb", size = 477961, upload-time = "2026-06-16T00:33:23.273Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/ec/6e/e735f27ac1a530a4cd0a31cd970ec495a3a11830fdc5d281cc292593b330/hypothesis-6.155.2-py3-none-any.whl", hash = "sha256:c85ce6dcd630a90ce501f1d1dd1bc84b97f5649ca8a27e134c8cbf5aa480b1a5", size = 544213, upload-time = "2026-06-05T16:32:21.15Z" },
+    { url = "https://files.pythonhosted.org/packages/a2/23/ce3a543935a01e478349e82f6c1440776f92d4cb346662c4d81574878fed/hypothesis-6.155.3-py3-none-any.whl", hash = "sha256:ede5a3d142d9c5c9f70cb3075541905b228d6c3a682bcec3d4fe0722e9eda127", size = 544401, upload-time = "2026-06-16T00:33:20.497Z" },
 ]
 
 [[package]]
@@ -800,8 +800,8 @@ wheels = [
 
 [[package]]
 name = "kevm-pyk"
-version = "1.0.916"
-source = { git = "https://github.com/runtimeverification/evm-semantics.git?subdirectory=kevm-pyk&rev=v1.0.916#160a4c840b2902674220e7a7db1ab2a9f05ac04b" }
+version = "1.0.917"
+source = { git = "https://github.com/runtimeverification/evm-semantics.git?subdirectory=kevm-pyk&rev=v1.0.917#c64abe2267df49930c20851b3a7414d676af8ecc" }
 dependencies = [
     { name = "frozendict" },
     { name = "kframework" },
@@ -811,7 +811,7 @@ dependencies = [
 
 [[package]]
 name = "kframework"
-version = "7.1.334"
+version = "7.1.335"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "coloredlogs" },
@@ -830,9 +830,9 @@ dependencies = [
     { name = "tomli-w" },
     { name = "xdg-base-dirs" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/d5/68/fd56d6057195ec2f3b9e473e763d9f19db01435204579aa46075d599e14c/kframework-7.1.334.tar.gz", hash = "sha256:a7e4ab8d3bf904546dd3802135fd6604615c217d959b92b07ac94f6bc3a01cdb", size = 250659, upload-time = "2026-06-11T20:11:55.755Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/89/5e/42e2e26fd1899edf61a643fdb0b296f0d40037e3fdec090c322d953217b3/kframework-7.1.335.tar.gz", hash = "sha256:00184e4a1dc80e33bba899a38f7669a8a90d1a4bdba64d4eb3851a87d289ee37", size = 250674, upload-time = "2026-06-17T02:27:28.494Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/d0/ef/242649f50145fe03272a1ec786a93935affc66a5a763a662908bded59478/kframework-7.1.334-py3-none-any.whl", hash = "sha256:39db9699d272edfca95d6d7046b7f2e813f09e62be6158609b4b45e16bef951e", size = 302347, upload-time = "2026-06-11T20:11:54.459Z" },
+    { url = "https://files.pythonhosted.org/packages/35/30/62b3b029e75413244332d64365154ddb80f237a1bd615c9a4aaa252e34ee/kframework-7.1.335-py3-none-any.whl", hash = "sha256:4c10779b24c69260cabd28336fefa52f5cc2073a55c530cde421659f3310d4e4", size = 302365, upload-time = "2026-06-17T02:27:26.924Z" },
 ]
 
 [[package]]
@@ -875,7 +875,7 @@ dev = [
 requires-dist = [
     { name = "eth-abi", specifier = ">=5.2.0" },
     { name = "eth-utils", specifier = ">=5,<6" },
-    { name = "kevm-pyk", git = "https://github.com/runtimeverification/evm-semantics.git?subdirectory=kevm-pyk&rev=v1.0.916" },
+    { name = "kevm-pyk", git = "https://github.com/runtimeverification/evm-semantics.git?subdirectory=kevm-pyk&rev=v1.0.917" },
     { name = "openzeppelin-solidity-grammar-parser", specifier = ">=0.0.5" },
     { name = "pycryptodome", specifier = ">=3.20.0,<4" },
     { name = "pyevmasm", specifier = ">=0.2.3,<0.3" },
