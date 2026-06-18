@@ -800,8 +800,8 @@ wheels = [
 
 [[package]]
 name = "kevm-pyk"
-version = "1.0.918"
-source = { git = "https://github.com/runtimeverification/evm-semantics.git?subdirectory=kevm-pyk&rev=v1.0.918#17751055dec9135194eb77cac714be187b8a5a4a" }
+version = "1.0.919"
+source = { git = "https://github.com/runtimeverification/evm-semantics.git?subdirectory=kevm-pyk&rev=v1.0.919#3c32697145839689c0431989dcb25c23ddac54d2" }
 dependencies = [
     { name = "frozendict" },
     { name = "kframework" },
@@ -811,7 +811,7 @@ dependencies = [
 
 [[package]]
 name = "kframework"
-version = "7.1.336"
+version = "7.1.337"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "coloredlogs" },
@@ -830,9 +830,9 @@ dependencies = [
     { name = "tomli-w" },
     { name = "xdg-base-dirs" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/1b/4f/e576be8548dc82e071511a1fffa6e93f61694b31881d61c2b94459383a39/kframework-7.1.336.tar.gz", hash = "sha256:460f4baf2b1954694aeb2fee2e8acded1f203edf5e6c7582664018e5aabe7040", size = 253448, upload-time = "2026-06-17T07:38:53.725Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/82/14/b5e751e5be5c591cedfc8814a3e77ae729c145d89886fc9a18cf50b22938/kframework-7.1.337.tar.gz", hash = "sha256:9fdd05f228988757c9daee58564b45af424f0bc205912b0dd24b3d35a066b287", size = 253667, upload-time = "2026-06-18T13:51:13.311Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/38/42/9b94fe1676b4711c01986993811ad81b2d588430898db0a39a1e9b14a5b2/kframework-7.1.336-py3-none-any.whl", hash = "sha256:025e1318f73e9f134adbe64fd79efe6b9b1a8c3038c0bae38b87a6c88c03869b", size = 305000, upload-time = "2026-06-17T07:38:52.107Z" },
+    { url = "https://files.pythonhosted.org/packages/57/0e/e9a214527eb818915e6820c353d7b6078eb7611a34ebc285bdbf8ff7316b/kframework-7.1.337-py3-none-any.whl", hash = "sha256:f8e0ba4effda64c1f10fbc306518e7485e1b24ddef9706021b2bbfc04ab5cb7d", size = 305216, upload-time = "2026-06-18T13:51:11.807Z" },
 ]
 
 [[package]]
@@ -875,7 +875,7 @@ dev = [
 requires-dist = [
     { name = "eth-abi", specifier = ">=5.2.0" },
     { name = "eth-utils", specifier = ">=5,<6" },
-    { name = "kevm-pyk", git = "https://github.com/runtimeverification/evm-semantics.git?subdirectory=kevm-pyk&rev=v1.0.918" },
+    { name = "kevm-pyk", git = "https://github.com/runtimeverification/evm-semantics.git?subdirectory=kevm-pyk&rev=v1.0.919" },
     { name = "openzeppelin-solidity-grammar-parser", specifier = ">=0.0.5" },
     { name = "pycryptodome", specifier = ">=3.20.0,<4" },
     { name = "pyevmasm", specifier = ">=0.2.3,<0.3" },
