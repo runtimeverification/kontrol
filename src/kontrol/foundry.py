@@ -1045,8 +1045,9 @@ def foundry_list(foundry: Foundry) -> list[str]:
     ]
 
     lines: list[str] = []
+    proof_ids = listdir(foundry.proofs_dir) if foundry.proofs_dir.exists() else []
     for method in sorted(all_methods):
-        for test_id in listdir(foundry.proofs_dir):
+        for test_id in proof_ids:
             test, *_ = test_id.split(':')
             if test == method:
                 proof = foundry.get_optional_proof(test_id)
