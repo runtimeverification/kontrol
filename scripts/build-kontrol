@@ -4,13 +4,12 @@ set -euo pipefail
 
 goto_repo_root() {
     local root
-    root=$(git rev-parse --show-toplevel)
-    if [ $? -eq 0 ]; then
-        echo "Building KONTROL at $root"
-        cd "$root" || return
-    else
-        echo "You're not inside a Git repository."
+    if ! root=$(git rev-parse --show-toplevel); then
+        echo "You're not inside a Git repository." >&2
+        exit 1
     fi
+    echo "Building KONTROL at $root"
+    cd "$root"
 }
 
 install_k() {
