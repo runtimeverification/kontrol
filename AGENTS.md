@@ -102,7 +102,7 @@ src/tests/
 | ------------------ | ------------------------------------------------------------------------------------------------------------------------- |
 | `build-kontrol`    | Full build: K version check/install, `uv sync`, `kdist clean+build`. |
 | `selector "<sig>"` | Compute the ABI function selector for `<sig>` as a decimal integer (uses `cast sig`).                                     |
-| `update-expected-output [--foundry] [--cse] [--end-to-end] [-k <filter>]` | Wrapper script over the make recipes to egenerate expected-output snapshots. Pass a suite flag to target one suite; `-k` scopes to a single test. Runs all suites if no flag given. |
+| `update-expected-output [--foundry] [--cse] [--end-to-end] [-k <filter>]` | Wrapper script over the make recipes to generate expected-output snapshots. Pass a suite flag to target one suite; `-k` scopes to a single test. Runs all suites if no flag given. |
 
 ---
 
