@@ -1,6 +1,6 @@
 
 ┌─ 1 (root, init)
-│   k: #execute ~> CONTINUATION:K
+│   k: #execute ~> CONTINUATION:K ~> .K
 │   pc: 0
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
@@ -9,7 +9,7 @@
 │
 │  (601 steps)
 ├─ 8 (terminal)
-│   k: #halt ~> CONTINUATION:K
+│   k: #halt ~> CONTINUATION:K ~> .K
 │   pc: 292
 │   callDepth: 0
 │   statusCode: EVMC_SUCCESS
@@ -18,7 +18,7 @@
 │
 │  (1 step)
 ├─ 9
-│   k: #execute ~> CONTINUATION:K
+│   k: #execute ~> CONTINUATION:K ~> .K
 │   pc: 0
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
@@ -155,7 +155,7 @@
          ┃  │
          ┃  │  (1 step)
          ┃  ├─ 93
-         ┃  │   k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
+         ┃  │   k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K ~ ...
          ┃  │   pc: 0
          ┃  │   callDepth: 1
          ┃  │   statusCode: STATUSCODE:StatusCode
@@ -182,7 +182,7 @@
          ┃  │
          ┃  │  (2 steps)
          ┃  ├─ 105
-         ┃  │   k: #halt ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
+         ┃  │   k: #halt ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K ~> . ...
          ┃  │   pc: 130
          ┃  │   callDepth: 1
          ┃  │   statusCode: EVMC_SUCCESS
@@ -218,7 +218,7 @@
          ┃  │
          ┃  │  (102 steps)
          ┃  ├─ 121
-         ┃  │   k: #end EVMC_SUCCESS ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
+         ┃  │   k: #end EVMC_SUCCESS ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K ~> .K
          ┃  │   pc: 292
          ┃  │   callDepth: 0
          ┃  │   statusCode: EVMC_SUCCESS
@@ -227,7 +227,7 @@
          ┃  │
          ┃  │  (1 step)
          ┃  ├─ 125
-         ┃  │   k: #halt ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
+         ┃  │   k: #halt ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K ~> .K
          ┃  │   pc: 292
          ┃  │   callDepth: 0
          ┃  │   statusCode: EVMC_SUCCESS
@@ -236,7 +236,7 @@
          ┃  │
          ┃  │  (2 steps)
          ┃  ├─ 129 (terminal)
-         ┃  │   k: #halt ~> CONTINUATION:K
+         ┃  │   k: #halt ~> CONTINUATION:K ~> .K
          ┃  │   pc: 292
          ┃  │   callDepth: 0
          ┃  │   statusCode: EVMC_SUCCESS
@@ -246,7 +246,7 @@
          ┃  ┊  constraint: true
          ┃  ┊  subst: ...
          ┃  └─ 10 (leaf, target, terminal)
-         ┃      k: #halt ~> CONTINUATION:K
+         ┃      k: #halt ~> CONTINUATION:K ~> .K
          ┃      pc: PC_CELL_5d410f2a:Int
          ┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
          ┃      statusCode: STATUSCODE_FINAL:StatusCode
@@ -350,7 +350,7 @@
          ┃  │
          ┃  │  (102 steps)
          ┃  ├─ 122
-         ┃  │   k: #end EVMC_SUCCESS ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
+         ┃  │   k: #end EVMC_SUCCESS ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K ~> .K
          ┃  │   pc: 292
          ┃  │   callDepth: 0
          ┃  │   statusCode: EVMC_SUCCESS
@@ -359,7 +359,7 @@
          ┃  │
          ┃  │  (1 step)
          ┃  ├─ 126
-         ┃  │   k: #halt ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
+         ┃  │   k: #halt ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K ~> .K
          ┃  │   pc: 292
          ┃  │   callDepth: 0
          ┃  │   statusCode: EVMC_SUCCESS
@@ -368,7 +368,7 @@
          ┃  │
          ┃  │  (2 steps)
          ┃  ├─ 130 (terminal)
-         ┃  │   k: #halt ~> CONTINUATION:K
+         ┃  │   k: #halt ~> CONTINUATION:K ~> .K
          ┃  │   pc: 292
          ┃  │   callDepth: 0
          ┃  │   statusCode: EVMC_SUCCESS
@@ -378,7 +378,7 @@
          ┃  ┊  constraint: true
          ┃  ┊  subst: ...
          ┃  └─ 10 (leaf, target, terminal)
-         ┃      k: #halt ~> CONTINUATION:K
+         ┃      k: #halt ~> CONTINUATION:K ~> .K
          ┃      pc: PC_CELL_5d410f2a:Int
          ┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
          ┃      statusCode: STATUSCODE_FINAL:StatusCode
@@ -482,7 +482,7 @@
          ┃  │
          ┃  │  (102 steps)
          ┃  ├─ 123
-         ┃  │   k: #end EVMC_SUCCESS ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
+         ┃  │   k: #end EVMC_SUCCESS ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K ~> .K
          ┃  │   pc: 292
          ┃  │   callDepth: 0
          ┃  │   statusCode: EVMC_SUCCESS
@@ -491,7 +491,7 @@
          ┃  │
          ┃  │  (1 step)
          ┃  ├─ 127
-         ┃  │   k: #halt ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
+         ┃  │   k: #halt ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K ~> .K
          ┃  │   pc: 292
          ┃  │   callDepth: 0
          ┃  │   statusCode: EVMC_SUCCESS
@@ -500,7 +500,7 @@
          ┃  │
          ┃  │  (2 steps)
          ┃  ├─ 131 (terminal)
-         ┃  │   k: #halt ~> CONTINUATION:K
+         ┃  │   k: #halt ~> CONTINUATION:K ~> .K
          ┃  │   pc: 292
          ┃  │   callDepth: 0
          ┃  │   statusCode: EVMC_SUCCESS
@@ -510,7 +510,7 @@
          ┃  ┊  constraint: true
          ┃  ┊  subst: ...
          ┃  └─ 10 (leaf, target, terminal)
-         ┃      k: #halt ~> CONTINUATION:K
+         ┃      k: #halt ~> CONTINUATION:K ~> .K
          ┃      pc: PC_CELL_5d410f2a:Int
          ┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
          ┃      statusCode: STATUSCODE_FINAL:StatusCode
@@ -614,7 +614,7 @@
             │
             │  (102 steps)
             ├─ 124
-            │   k: #end EVMC_SUCCESS ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
+            │   k: #end EVMC_SUCCESS ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K ~> .K
             │   pc: 292
             │   callDepth: 0
             │   statusCode: EVMC_SUCCESS
@@ -623,7 +623,7 @@
             │
             │  (1 step)
             ├─ 128
-            │   k: #halt ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
+            │   k: #halt ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K ~> .K
             │   pc: 292
             │   callDepth: 0
             │   statusCode: EVMC_SUCCESS
@@ -632,7 +632,7 @@
             │
             │  (2 steps)
             ├─ 132 (terminal)
-            │   k: #halt ~> CONTINUATION:K
+            │   k: #halt ~> CONTINUATION:K ~> .K
             │   pc: 292
             │   callDepth: 0
             │   statusCode: EVMC_SUCCESS
@@ -645,7 +645,7 @@
             ┊      ( notBool KV0_addr:Int ==Int #address ( FoundryTest ) )
             ┊  subst: ...
             └─ 10 (leaf, target, terminal)
-                k: #halt ~> CONTINUATION:K
+                k: #halt ~> CONTINUATION:K ~> .K
                 pc: PC_CELL_5d410f2a:Int
                 callDepth: CALLDEPTH_CELL_5d410f2a:Int
                 statusCode: STATUSCODE_FINAL:StatusCode
@@ -661,6 +661,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              <k>
                ( #execute => #halt )
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -923,6 +924,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              <k>
                ( #halt => #execute )
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -1167,9 +1169,11 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            <kevm>
              <k>
                ( .K => CALL 0 #address ( FoundryCheat ) 0 128 36 128 0
-               ~> #pc [ CALL ] )
+               ~> #pc [ CALL ]
+               ~> .K )
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -1412,10 +1416,12 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ( CALL 0 #address ( FoundryCheat ) 0 128 36 128 0 ~> .K => #accessAccounts #address ( FoundryCheat )
                ~> #checkCall #address ( FoundryTest ) 0
                ~> #call #address ( FoundryTest ) #address ( FoundryCheat ) #address ( FoundryCheat ) 0 0 b"\x06D}V" +Bytes #buf ( 32 , KV0_addr:Int ) false
-               ~> #return 128 0 )
+               ~> #return 128 0
+               ~> .K )
                ~> #pc [ CALL ]
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -1658,12 +1664,15 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ( #accessAccounts #address ( FoundryCheat )
                ~> #checkCall #address ( FoundryTest ) 0
                ~> #call #address ( FoundryTest ) #address ( FoundryCheat ) #address ( FoundryCheat ) 0 0 b"\x06D}V" +Bytes #buf ( 32 , KV0_addr:Int ) false
-               ~> #return 128 0 => #loadAccount KV0_addr:Int
+               ~> #return 128 0
+               ~> .K => #loadAccount KV0_addr:Int
                ~> #setPrank KV0_addr:Int .Account false
-               ~> #cheatcode_return 128 0 )
+               ~> #cheatcode_return 128 0
+               ~> .K )
                ~> #pc [ CALL ]
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -1909,10 +1918,13 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ( #accessAccounts #address ( FoundryTest )
                ~> #setPrank #address ( FoundryTest ) .Account false
                ~> #cheatcode_return 128 0
-               ~> #pc [ CALL ] => STATICCALL 0 491460923342184218035706888008750043977755113263 128 4 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ CALL ]
+               ~> .K => STATICCALL 0 491460923342184218035706888008750043977755113263 128 4 128 32
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -2171,11 +2183,14 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ( #accessAccounts #address ( FoundryCheat )
                ~> #setPrank #address ( FoundryCheat ) .Account false
                ~> #cheatcode_return 128 0
-               ~> #pc [ CALL ] => STATICCALL 0 491460923342184218035706888008750043977755113263 128 4 128 32
+               ~> #pc [ CALL ]
+               ~> .K => STATICCALL 0 491460923342184218035706888008750043977755113263 128 4 128 32
                ~> #pc [ STATICCALL ]
-               ~> #endPrank )
+               ~> #endPrank
+               ~> .K )
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -2434,11 +2449,14 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ( #accessAccounts 491460923342184218035706888008750043977755113263
                ~> #setPrank 491460923342184218035706888008750043977755113263 .Account false
                ~> #cheatcode_return 128 0
-               ~> #pc [ CALL ] => STATICCALL 0 491460923342184218035706888008750043977755113263 128 4 128 32
+               ~> #pc [ CALL ]
+               ~> .K => STATICCALL 0 491460923342184218035706888008750043977755113263 128 4 128 32
                ~> #pc [ STATICCALL ]
-               ~> #endPrank )
+               ~> #endPrank
+               ~> .K )
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -2698,11 +2716,14 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> #accessAccounts KV0_addr:Int
                ~> #setPrank KV0_addr:Int .Account false
                ~> #cheatcode_return 128 0
-               ~> #pc [ CALL ] => STATICCALL 0 491460923342184218035706888008750043977755113263 128 4 128 32
+               ~> #pc [ CALL ]
+               ~> .K => STATICCALL 0 491460923342184218035706888008750043977755113263 128 4 128 32
                ~> #pc [ STATICCALL ]
-               ~> #endPrank )
+               ~> #endPrank
+               ~> .K )
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -3006,10 +3027,12 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ( STATICCALL 0 491460923342184218035706888008750043977755113263 128 4 128 32 ~> .K => #accessAccounts 491460923342184218035706888008750043977755113263
                ~> #checkCall #address ( FoundryTest ) 0
                ~> #call #address ( FoundryTest ) 491460923342184218035706888008750043977755113263 491460923342184218035706888008750043977755113263 0 0 b"\xd77\xd0\xc7" true
-               ~> #return 128 32 )
+               ~> #return 128 32
+               ~> .K )
                ~> #pc [ STATICCALL ]
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -3268,11 +3291,13 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ( STATICCALL 0 491460923342184218035706888008750043977755113263 128 4 128 32 ~> .K => #accessAccounts 491460923342184218035706888008750043977755113263
                ~> #checkCall #address ( FoundryCheat ) 0
                ~> #call #address ( FoundryCheat ) 491460923342184218035706888008750043977755113263 491460923342184218035706888008750043977755113263 0 0 b"\xd77\xd0\xc7" true
-               ~> #return 128 32 )
+               ~> #return 128 32
+               ~> .K )
                ~> #pc [ STATICCALL ]
                ~> #endPrank
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -3531,11 +3556,13 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ( STATICCALL 0 491460923342184218035706888008750043977755113263 128 4 128 32 ~> .K => #accessAccounts 491460923342184218035706888008750043977755113263
                ~> #checkCall 491460923342184218035706888008750043977755113263 0
                ~> #call 491460923342184218035706888008750043977755113263 491460923342184218035706888008750043977755113263 491460923342184218035706888008750043977755113263 0 0 b"\xd77\xd0\xc7" true
-               ~> #return 128 32 )
+               ~> #return 128 32
+               ~> .K )
                ~> #pc [ STATICCALL ]
                ~> #endPrank
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -3794,11 +3821,13 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ( STATICCALL 0 491460923342184218035706888008750043977755113263 128 4 128 32 ~> .K => #accessAccounts 491460923342184218035706888008750043977755113263
                ~> #checkCall KV0_addr:Int 0
                ~> #call KV0_addr:Int 491460923342184218035706888008750043977755113263 491460923342184218035706888008750043977755113263 0 0 b"\xd77\xd0\xc7" true
-               ~> #return 128 32 )
+               ~> #return 128 32
+               ~> .K )
                ~> #pc [ STATICCALL ]
                ~> #endPrank
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -4081,12 +4110,15 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              <k>
                ( #accessAccounts 491460923342184218035706888008750043977755113263
                ~> #checkCall #address ( FoundryTest ) 0
-               ~> #call #address ( FoundryTest ) 491460923342184218035706888008750043977755113263 491460923342184218035706888008750043977755113263 0 0 b"\xd77\xd0\xc7" true => #precompiled? ( 491460923342184218035706888008750043977755113263 , CANCUN )
-               ~> #execute )
+               ~> #call #address ( FoundryTest ) 491460923342184218035706888008750043977755113263 491460923342184218035706888008750043977755113263 0 0 b"\xd77\xd0\xc7" true
+               ~> .K => #precompiled? ( 491460923342184218035706888008750043977755113263 , CANCUN )
+               ~> #execute
+               ~> .K )
                ~> #return 128 32
                ~> #pc [ STATICCALL ]
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -4464,13 +4496,16 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              <k>
                ( #accessAccounts 491460923342184218035706888008750043977755113263
                ~> #checkCall #address ( FoundryCheat ) 0
-               ~> #call #address ( FoundryCheat ) 491460923342184218035706888008750043977755113263 491460923342184218035706888008750043977755113263 0 0 b"\xd77\xd0\xc7" true => #precompiled? ( 491460923342184218035706888008750043977755113263 , CANCUN )
-               ~> #execute )
+               ~> #call #address ( FoundryCheat ) 491460923342184218035706888008750043977755113263 491460923342184218035706888008750043977755113263 0 0 b"\xd77\xd0\xc7" true
+               ~> .K => #precompiled? ( 491460923342184218035706888008750043977755113263 , CANCUN )
+               ~> #execute
+               ~> .K )
                ~> #return 128 32
                ~> #pc [ STATICCALL ]
                ~> #endPrank
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -4848,13 +4883,16 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              <k>
                ( #accessAccounts 491460923342184218035706888008750043977755113263
                ~> #checkCall 491460923342184218035706888008750043977755113263 0
-               ~> #call 491460923342184218035706888008750043977755113263 491460923342184218035706888008750043977755113263 491460923342184218035706888008750043977755113263 0 0 b"\xd77\xd0\xc7" true => #precompiled? ( 491460923342184218035706888008750043977755113263 , CANCUN )
-               ~> #execute )
+               ~> #call 491460923342184218035706888008750043977755113263 491460923342184218035706888008750043977755113263 491460923342184218035706888008750043977755113263 0 0 b"\xd77\xd0\xc7" true
+               ~> .K => #precompiled? ( 491460923342184218035706888008750043977755113263 , CANCUN )
+               ~> #execute
+               ~> .K )
                ~> #return 128 32
                ~> #pc [ STATICCALL ]
                ~> #endPrank
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -5232,13 +5270,16 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              <k>
                ( #accessAccounts 491460923342184218035706888008750043977755113263
                ~> #checkCall KV0_addr:Int 0
-               ~> #call KV0_addr:Int 491460923342184218035706888008750043977755113263 491460923342184218035706888008750043977755113263 0 0 b"\xd77\xd0\xc7" true => #precompiled? ( 491460923342184218035706888008750043977755113263 , CANCUN )
-               ~> #execute )
+               ~> #call KV0_addr:Int 491460923342184218035706888008750043977755113263 491460923342184218035706888008750043977755113263 0 0 b"\xd77\xd0\xc7" true
+               ~> .K => #precompiled? ( 491460923342184218035706888008750043977755113263 , CANCUN )
+               ~> #execute
+               ~> .K )
                ~> #return 128 32
                ~> #pc [ STATICCALL ]
                ~> #endPrank
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -5666,6 +5707,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> #pc [ STATICCALL ]
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -6048,6 +6090,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> #endPrank
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -6430,6 +6473,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> #endPrank
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -6812,6 +6856,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> #endPrank
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -7234,12 +7279,14 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            <kevm>
              <k>
                ( .K => #end EVMC_SUCCESS
-               ~> #pc [ RETURN ] )
+               ~> #pc [ RETURN ]
+               ~> .K )
                ~> #execute
                ~> #return 128 32
                ~> #pc [ STATICCALL ]
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -7616,13 +7663,15 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            <kevm>
              <k>
                ( .K => #end EVMC_SUCCESS
-               ~> #pc [ RETURN ] )
+               ~> #pc [ RETURN ]
+               ~> .K )
                ~> #execute
                ~> #return 128 32
                ~> #pc [ STATICCALL ]
                ~> #endPrank
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -7999,13 +8048,15 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            <kevm>
              <k>
                ( .K => #end EVMC_SUCCESS
-               ~> #pc [ RETURN ] )
+               ~> #pc [ RETURN ]
+               ~> .K )
                ~> #execute
                ~> #return 128 32
                ~> #pc [ STATICCALL ]
                ~> #endPrank
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -8382,13 +8433,15 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            <kevm>
              <k>
                ( .K => #end EVMC_SUCCESS
-               ~> #pc [ RETURN ] )
+               ~> #pc [ RETURN ]
+               ~> .K )
                ~> #execute
                ~> #return 128 32
                ~> #pc [ STATICCALL ]
                ~> #endPrank
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -8817,6 +8870,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> #pc [ STATICCALL ]
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -9203,6 +9257,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> #endPrank
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -9589,6 +9644,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> #endPrank
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -9975,6 +10031,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> #endPrank
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -10401,11 +10458,13 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              <k>
                #halt
                ~> ( #pc [ RETURN ]
-               ~> #execute => .K )
+               ~> #execute
+               ~> .K => .K )
                ~> #return 128 32
                ~> #pc [ STATICCALL ]
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -10786,12 +10845,14 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              <k>
                #halt
                ~> ( #pc [ RETURN ]
-               ~> #execute => .K )
+               ~> #execute
+               ~> .K => .K )
                ~> #return 128 32
                ~> #pc [ STATICCALL ]
                ~> #endPrank
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -11172,12 +11233,14 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              <k>
                #halt
                ~> ( #pc [ RETURN ]
-               ~> #execute => .K )
+               ~> #execute
+               ~> .K => .K )
                ~> #return 128 32
                ~> #pc [ STATICCALL ]
                ~> #endPrank
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -11558,12 +11621,14 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              <k>
                #halt
                ~> ( #pc [ RETURN ]
-               ~> #execute => .K )
+               ~> #execute
+               ~> .K => .K )
                ~> #return 128 32
                ~> #pc [ STATICCALL ]
                ~> #endPrank
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -11989,15 +12054,18 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            <kevm>
              <k>
                ( #halt
-               ~> #return 128 32 => #popCallStack
+               ~> #return 128 32
+               ~> .K => #popCallStack
                ~> #dropWorldState
                ~> 1
                ~> #push
                ~> #refund 0
-               ~> #setLocalMem 128 32 b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x7f\xa98[\xe1\x02\xac>\xac)t\x83\xddb3\xd6+>\x14\x96" )
+               ~> #setLocalMem 128 32 b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x7f\xa98[\xe1\x02\xac>\xac)t\x83\xddb3\xd6+>\x14\x96"
+               ~> .K )
                ~> #pc [ STATICCALL ]
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -12377,16 +12445,19 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            <kevm>
              <k>
                ( #halt
-               ~> #return 128 32 => #popCallStack
+               ~> #return 128 32
+               ~> .K => #popCallStack
                ~> #dropWorldState
                ~> 1
                ~> #push
                ~> #refund 0
-               ~> #setLocalMem 128 32 b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00q\tp\x9e\xcf\xa9\x1a\x80bo\xf3\x98\x9dh\xf6\x7f[\x1d\xd1-" )
+               ~> #setLocalMem 128 32 b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00q\tp\x9e\xcf\xa9\x1a\x80bo\xf3\x98\x9dh\xf6\x7f[\x1d\xd1-"
+               ~> .K )
                ~> #pc [ STATICCALL ]
                ~> #endPrank
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -12766,16 +12837,19 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            <kevm>
              <k>
                ( #halt
-               ~> #return 128 32 => #popCallStack
+               ~> #return 128 32
+               ~> .K => #popCallStack
                ~> #dropWorldState
                ~> 1
                ~> #push
                ~> #refund 0
-               ~> #setLocalMem 128 32 b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00V\x15\xde\xb7\x98\xbb>M\xfa\x019\xdf\xa1\xb3\xd43\xcc#\xb7/" )
+               ~> #setLocalMem 128 32 b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00V\x15\xde\xb7\x98\xbb>M\xfa\x019\xdf\xa1\xb3\xd43\xcc#\xb7/"
+               ~> .K )
                ~> #pc [ STATICCALL ]
                ~> #endPrank
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -13155,16 +13229,19 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            <kevm>
              <k>
                ( #halt
-               ~> #return 128 32 => #popCallStack
+               ~> #return 128 32
+               ~> .K => #popCallStack
                ~> #dropWorldState
                ~> 1
                ~> #push
                ~> #refund 0
-               ~> #setLocalMem 128 32 #buf ( 32 , KV0_addr:Int ) )
+               ~> #setLocalMem 128 32 #buf ( 32 , KV0_addr:Int )
+               ~> .K )
                ~> #pc [ STATICCALL ]
                ~> #endPrank
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -13595,10 +13672,13 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> #push
                ~> #refund 0
                ~> #setLocalMem 128 32 b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x7f\xa98[\xe1\x02\xac>\xac)t\x83\xddb3\xd6+>\x14\x96"
-               ~> #pc [ STATICCALL ] => CALL 0 #address ( FoundryCheat ) 0 160 4 160 0
-               ~> #pc [ CALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K => CALL 0 #address ( FoundryCheat ) 0 160 4 160 0
+               ~> #pc [ CALL ]
+               ~> .K )
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -13984,10 +14064,13 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> #refund 0
                ~> #setLocalMem 128 32 b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00q\tp\x9e\xcf\xa9\x1a\x80bo\xf3\x98\x9dh\xf6\x7f[\x1d\xd1-"
                ~> #pc [ STATICCALL ]
-               ~> #endPrank => CALL 0 #address ( FoundryCheat ) 0 160 4 160 0
-               ~> #pc [ CALL ] )
+               ~> #endPrank
+               ~> .K => CALL 0 #address ( FoundryCheat ) 0 160 4 160 0
+               ~> #pc [ CALL ]
+               ~> .K )
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -14373,10 +14456,13 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> #refund 0
                ~> #setLocalMem 128 32 b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00V\x15\xde\xb7\x98\xbb>M\xfa\x019\xdf\xa1\xb3\xd43\xcc#\xb7/"
                ~> #pc [ STATICCALL ]
-               ~> #endPrank => CALL 0 #address ( FoundryCheat ) 0 160 4 160 0
-               ~> #pc [ CALL ] )
+               ~> #endPrank
+               ~> .K => CALL 0 #address ( FoundryCheat ) 0 160 4 160 0
+               ~> #pc [ CALL ]
+               ~> .K )
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -14762,10 +14848,13 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> #refund 0
                ~> #setLocalMem 128 32 #buf ( 32 , KV0_addr:Int )
                ~> #pc [ STATICCALL ]
-               ~> #endPrank => CALL 0 #address ( FoundryCheat ) 0 160 4 160 0
-               ~> #pc [ CALL ] )
+               ~> #endPrank
+               ~> .K => CALL 0 #address ( FoundryCheat ) 0 160 4 160 0
+               ~> #pc [ CALL ]
+               ~> .K )
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -15193,10 +15282,12 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ( CALL 0 #address ( FoundryCheat ) 0 160 4 160 0 ~> .K => #accessAccounts #address ( FoundryCheat )
                ~> #checkCall #address ( FoundryTest ) 0
                ~> #call #address ( FoundryTest ) #address ( FoundryCheat ) #address ( FoundryCheat ) 0 0 b"\x90\xc5\x01;" false
-               ~> #return 160 0 )
+               ~> #return 160 0
+               ~> .K )
                ~> #pc [ CALL ]
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -15458,10 +15549,12 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ( CALL 0 #address ( FoundryCheat ) 0 160 4 160 0 ~> .K => #accessAccounts #address ( FoundryCheat )
                ~> #checkCall #address ( FoundryTest ) 0
                ~> #call #address ( FoundryTest ) #address ( FoundryCheat ) #address ( FoundryCheat ) 0 0 b"\x90\xc5\x01;" false
-               ~> #return 160 0 )
+               ~> #return 160 0
+               ~> .K )
                ~> #pc [ CALL ]
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -15723,10 +15816,12 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ( CALL 0 #address ( FoundryCheat ) 0 160 4 160 0 ~> .K => #accessAccounts #address ( FoundryCheat )
                ~> #checkCall #address ( FoundryTest ) 0
                ~> #call #address ( FoundryTest ) #address ( FoundryCheat ) #address ( FoundryCheat ) 0 0 b"\x90\xc5\x01;" false
-               ~> #return 160 0 )
+               ~> #return 160 0
+               ~> .K )
                ~> #pc [ CALL ]
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -15988,10 +16083,12 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ( CALL 0 #address ( FoundryCheat ) 0 160 4 160 0 ~> .K => #accessAccounts #address ( FoundryCheat )
                ~> #checkCall #address ( FoundryTest ) 0
                ~> #call #address ( FoundryTest ) #address ( FoundryCheat ) #address ( FoundryCheat ) 0 0 b"\x90\xc5\x01;" false
-               ~> #return 160 0 )
+               ~> #return 160 0
+               ~> .K )
                ~> #pc [ CALL ]
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -16279,10 +16376,13 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> #checkCall #address ( FoundryTest ) 0
                ~> #call #address ( FoundryTest ) #address ( FoundryCheat ) #address ( FoundryCheat ) 0 0 b"\x90\xc5\x01;" false
                ~> #return 160 0
-               ~> #pc [ CALL ] => #end EVMC_SUCCESS
-               ~> #pc [ STOP ] )
+               ~> #pc [ CALL ]
+               ~> .K => #end EVMC_SUCCESS
+               ~> #pc [ STOP ]
+               ~> .K )
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -16545,10 +16645,13 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> #checkCall #address ( FoundryTest ) 0
                ~> #call #address ( FoundryTest ) #address ( FoundryCheat ) #address ( FoundryCheat ) 0 0 b"\x90\xc5\x01;" false
                ~> #return 160 0
-               ~> #pc [ CALL ] => #end EVMC_SUCCESS
-               ~> #pc [ STOP ] )
+               ~> #pc [ CALL ]
+               ~> .K => #end EVMC_SUCCESS
+               ~> #pc [ STOP ]
+               ~> .K )
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -16811,10 +16914,13 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> #checkCall #address ( FoundryTest ) 0
                ~> #call #address ( FoundryTest ) #address ( FoundryCheat ) #address ( FoundryCheat ) 0 0 b"\x90\xc5\x01;" false
                ~> #return 160 0
-               ~> #pc [ CALL ] => #end EVMC_SUCCESS
-               ~> #pc [ STOP ] )
+               ~> #pc [ CALL ]
+               ~> .K => #end EVMC_SUCCESS
+               ~> #pc [ STOP ]
+               ~> .K )
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -17077,10 +17183,13 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> #checkCall #address ( FoundryTest ) 0
                ~> #call #address ( FoundryTest ) #address ( FoundryCheat ) #address ( FoundryCheat ) 0 0 b"\x90\xc5\x01;" false
                ~> #return 160 0
-               ~> #pc [ CALL ] => #end EVMC_SUCCESS
-               ~> #pc [ STOP ] )
+               ~> #pc [ CALL ]
+               ~> .K => #end EVMC_SUCCESS
+               ~> #pc [ STOP ]
+               ~> .K )
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -17368,6 +17477,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> #pc [ STOP ]
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -17630,6 +17740,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> #pc [ STOP ]
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -17892,6 +18003,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> #pc [ STOP ]
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -18154,6 +18266,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> #pc [ STOP ]
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -18439,8 +18552,10 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              <k>
                #halt
                ~> ( #pc [ STOP ]
-               ~> #execute => .K )
+               ~> #execute
+               ~> .K => .K )
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -18701,8 +18816,10 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              <k>
                #halt
                ~> ( #pc [ STOP ]
-               ~> #execute => .K )
+               ~> #execute
+               ~> .K => .K )
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -18963,8 +19080,10 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              <k>
                #halt
                ~> ( #pc [ STOP ]
-               ~> #execute => .K )
+               ~> #execute
+               ~> .K => .K )
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -19225,8 +19344,10 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              <k>
                #halt
                ~> ( #pc [ STOP ]
-               ~> #execute => .K )
+               ~> #execute
+               ~> .K => .K )
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL

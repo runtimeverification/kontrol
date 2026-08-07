@@ -1,6 +1,6 @@
 
 ┌─ 1 (root, init)
-│   k: #execute ~> CONTINUATION:K
+│   k: #execute ~> CONTINUATION:K ~> .K
 │   pc: 0
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
@@ -18,7 +18,7 @@
 │
 │  (668|741|460 steps)
 ├─ 46 (split)
-│   k: #halt ~> CONTINUATION:K
+│   k: #halt ~> CONTINUATION:K ~> .K
 │   pc: 194
 │   callDepth: 0
 │   statusCode: EVMC_SUCCESS
@@ -33,7 +33,7 @@
 ┃  ┃     ( notBool KV2_z:Int ==Int 0 )
 ┃  │
 ┃  ├─ 39 (terminal)
-┃  │   k: #halt ~> CONTINUATION:K
+┃  │   k: #halt ~> CONTINUATION:K ~> .K
 ┃  │   pc: 194
 ┃  │   callDepth: 0
 ┃  │   statusCode: EVMC_SUCCESS
@@ -43,7 +43,7 @@
 ┃  ┊  constraint: true
 ┃  ┊  subst: ...
 ┃  └─ 10 (leaf, target, terminal)
-┃      k: #halt ~> CONTINUATION:K
+┃      k: #halt ~> CONTINUATION:K ~> .K
 ┃      pc: PC_CELL_5d410f2a:Int
 ┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
 ┃      statusCode: STATUSCODE_FINAL:StatusCode
@@ -54,7 +54,7 @@
 ┃  ┃     ( KV0_x:Int ==Int 0 orBool KV1_y:Int <=Int maxUInt256 /Word KV0_x:Int )
 ┃  │
 ┃  ├─ 42 (terminal)
-┃  │   k: #halt ~> CONTINUATION:K
+┃  │   k: #halt ~> CONTINUATION:K ~> .K
 ┃  │   pc: 194
 ┃  │   callDepth: 0
 ┃  │   statusCode: EVMC_SUCCESS
@@ -64,7 +64,7 @@
 ┃  ┊  constraint: true
 ┃  ┊  subst: ...
 ┃  └─ 10 (leaf, target, terminal)
-┃      k: #halt ~> CONTINUATION:K
+┃      k: #halt ~> CONTINUATION:K ~> .K
 ┃      pc: PC_CELL_5d410f2a:Int
 ┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
 ┃      statusCode: STATUSCODE_FINAL:StatusCode
@@ -76,7 +76,7 @@
    ┃     ( maxUInt256 /Int KV0_x:Int ) <Int KV1_y:Int
    │
    ├─ 43 (terminal)
-   │   k: #halt ~> CONTINUATION:K
+   │   k: #halt ~> CONTINUATION:K ~> .K
    │   pc: 194
    │   callDepth: 0
    │   statusCode: EVMC_SUCCESS
@@ -86,7 +86,7 @@
    ┊  constraint: true
    ┊  subst: ...
    └─ 10 (leaf, target, terminal)
-       k: #halt ~> CONTINUATION:K
+       k: #halt ~> CONTINUATION:K ~> .K
        pc: PC_CELL_5d410f2a:Int
        callDepth: CALLDEPTH_CELL_5d410f2a:Int
        statusCode: STATUSCODE_FINAL:StatusCode
@@ -130,6 +130,7 @@ Node 19:
         ~> #pc [ CALL ]
         ~> #execute
         ~> CONTINUATION:K
+        ~> .K
       </k>
       <mode>
         NORMAL
@@ -507,6 +508,7 @@ Node 44:
         ~> #pc [ CALL ]
         ~> #execute
         ~> CONTINUATION:K
+        ~> .K
       </k>
       <mode>
         NORMAL
@@ -885,6 +887,7 @@ Node 45:
         ~> #pc [ CALL ]
         ~> #execute
         ~> CONTINUATION:K
+        ~> .K
       </k>
       <mode>
         NORMAL
@@ -1261,9 +1264,11 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                ~> #pc [ JUMPI ]
                ~> #execute
                ~> #return 128 32
-               ~> #pc [ CALL ] )
+               ~> #pc [ CALL ]
+               ~> .K )
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -1654,8 +1659,10 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                ~> #execute
                ~> #return 128 32
                ~> #pc [ CALL ]
-               ~> #execute => #halt ~> .K )
+               ~> #execute
+               ~> .K => #halt ~> .K )
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -1809,7 +1816,7 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                      ( #address ( FoundryTest ) => 137122462167341575662000267002353578582749290296 )
                    </caller>
                    <callData>
-                     ( b"\xe0~\\\x97" => b"\x15T\xa2\xa4" ) +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes ( #buf ( 32 , KV2_z:Int ) => ?V_52662f80 )
+                     ( b"\xe0~\\\x97" => b"\x15T\xa2\xa4" ) +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes ( #buf ( 32 , KV2_z:Int ) => ?V_5b702ca4 )
                    </callData>
                    <callValue>
                      0
@@ -1818,7 +1825,7 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                      ( ( 0 => 357868196 ) : ( ( KV2_z:Int : ( KV1_y:Int : ( KV0_x:Int : ( 60 : ( 3766377623 : .WordStack ) ) ) ) ) => .WordStack ) )
                    </wordStack>
                    <localMem>
-                     ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" => ?V_4c4917e5 +Bytes ?V_70719e1c +Bytes ?V_681e5d28 +Bytes ?V_d315c49d )
+                     ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" => ?V_45e5007b +Bytes ?V_54fa2348 +Bytes ?V_e03839a1 +Bytes ?V_78ad0719 )
                    </localMem>
                    <memoryUsed>
                      0
@@ -1848,7 +1855,7 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                      0
                    </refund>
                    <accessedAccounts>
-                     ( SetItem ( ( 491460923342184218035706888008750043977755113263 => ?V_762160e3 ) ) ( ( SetItem ( #address ( FoundryCheat ) ) SetItem ( #address ( FoundryTest ) ) ) => ?V_78461641 ) )
+                     ( SetItem ( ( 491460923342184218035706888008750043977755113263 => ?V_78739775 ) ) ( ( SetItem ( #address ( FoundryCheat ) ) SetItem ( #address ( FoundryTest ) ) ) => ?V_7a91c049 ) )
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
@@ -2018,21 +2025,21 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
        andBool ( MIXHASH_CELL:Int <Int pow256
        andBool ( KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int )
                )))))))))))))
-       ensures ( ( ?V_52662f80 ==K ?V_8d5dd32b
-         andBool ( ?V_4c4917e5 ==K b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
-         andBool ( ?V_70719e1c ==K #buf ( 32 , ?V_30bef23e )
-         andBool ( ?V_681e5d28 ==K #range ( #buf ( 32 , KV0_x:Int ) , 28 , 4 )
-         andBool ( ?V_d315c49d ==K #buf ( 32 , KV1_y:Int ) +Bytes ?V_8d5dd32b
-         andBool ( ?V_762160e3 ==K #address ( FoundryTest )
-         andBool ( ?V_78461641 ==K ( SetItem ( #address ( FoundryCheat ) ) SetItem ( 491460923342184218035706888008750043977755113263 ) )
-         andBool ( ( ( ?V_8d5dd32b ==K #buf ( 32 , KV2_z:Int )
-             andBool ( ?V_30bef23e ==K ( KV0_x:Int +Int KV1_y:Int )
+       ensures ( ( ?V_5b702ca4 ==K ?V_4bdc86a8
+         andBool ( ?V_45e5007b ==K b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+         andBool ( ?V_54fa2348 ==K #buf ( 32 , ?V_529b4403 )
+         andBool ( ?V_e03839a1 ==K #range ( #buf ( 32 , KV0_x:Int ) , 28 , 4 )
+         andBool ( ?V_78ad0719 ==K #buf ( 32 , KV1_y:Int ) +Bytes ?V_4bdc86a8
+         andBool ( ?V_78739775 ==K #address ( FoundryTest )
+         andBool ( ?V_7a91c049 ==K ( SetItem ( #address ( FoundryCheat ) ) SetItem ( 491460923342184218035706888008750043977755113263 ) )
+         andBool ( ( ( ?V_4bdc86a8 ==K #buf ( 32 , KV2_z:Int )
+             andBool ( ?V_529b4403 ==K ( KV0_x:Int +Int KV1_y:Int )
              andBool ( KV2_z:Int <Int 2
              andBool ( 0 <=Int KV2_z:Int
              andBool ( KV2_z:Int =/=Int 0
                      )))))
-            orBool ( ( ?V_8d5dd32b ==K b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
-             andBool ( ?V_30bef23e ==K chop ( ( KV0_x:Int *Int KV1_y:Int ) )
+            orBool ( ( ?V_4bdc86a8 ==K b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+             andBool ( ?V_529b4403 ==K chop ( ( KV0_x:Int *Int KV1_y:Int ) )
              andBool ( KV2_z:Int ==Int 0
              andBool ( ( KV0_x:Int ==Int 0
                 orBool ( KV1_y:Int <=Int maxUInt256 /Word KV0_x:Int
@@ -2040,13 +2047,13 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                      ))))
                    ))
                  ))))))))
-        orBool ( ( ?V_52662f80 ==K b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
-         andBool ( ?V_4c4917e5 ==K b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
-         andBool ( ?V_70719e1c ==K #range ( #buf ( 32 , KV0_x:Int ) , 28 , 4 )
-         andBool ( ?V_681e5d28 ==K #buf ( 32 , KV1_y:Int )
-         andBool ( ?V_d315c49d ==K b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
-         andBool ( ?V_762160e3 ==K 491460923342184218035706888008750043977755113263
-         andBool ( ?V_78461641 ==K SetItem ( #address ( FoundryCheat ) )
+        orBool ( ( ?V_5b702ca4 ==K b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+         andBool ( ?V_45e5007b ==K b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+         andBool ( ?V_54fa2348 ==K #range ( #buf ( 32 , KV0_x:Int ) , 28 , 4 )
+         andBool ( ?V_e03839a1 ==K #buf ( 32 , KV1_y:Int )
+         andBool ( ?V_78ad0719 ==K b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+         andBool ( ?V_78739775 ==K 491460923342184218035706888008750043977755113263
+         andBool ( ?V_7a91c049 ==K SetItem ( #address ( FoundryCheat ) )
          andBool ( KV2_z:Int ==Int 0
          andBool ( KV0_x:Int =/=Int 0
          andBool ( ( maxUInt256 /Int KV0_x:Int ) <Int KV1_y:Int

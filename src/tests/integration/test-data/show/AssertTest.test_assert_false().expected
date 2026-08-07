@@ -1,6 +1,6 @@
 
 ┌─ 1 (root, init)
-│   k: #execute ~> CONTINUATION:K
+│   k: #execute ~> CONTINUATION:K ~> .K
 │   pc: 0
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
@@ -9,7 +9,7 @@
 │
 │  (182 steps)
 ├─ 5 (terminal)
-│   k: #halt ~> CONTINUATION:K
+│   k: #halt ~> CONTINUATION:K ~> .K
 │   pc: 328
 │   callDepth: 0
 │   statusCode: EVMC_SUCCESS
@@ -18,7 +18,7 @@
 │
 │  (1 step)
 ├─ 6
-│   k: #execute ~> CONTINUATION:K
+│   k: #execute ~> CONTINUATION:K ~> .K
 │   pc: 0
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
@@ -27,7 +27,7 @@
 │
 │  (307 steps)
 ├─ 8
-│   k: #end EVMC_REVERT ~> #pc [ REVERT ] ~> #execute ~> CONTINUATION:K
+│   k: #end EVMC_REVERT ~> #pc [ REVERT ] ~> #execute ~> CONTINUATION:K ~> .K
 │   pc: 2995
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
@@ -35,7 +35,7 @@
 │
 │  (1 step)
 ├─ 9
-│   k: #halt ~> #pc [ REVERT ] ~> #execute ~> CONTINUATION:K
+│   k: #halt ~> #pc [ REVERT ] ~> #execute ~> CONTINUATION:K ~> .K
 │   pc: 2995
 │   callDepth: 0
 │   statusCode: EVMC_REVERT
@@ -43,7 +43,7 @@
 │
 │  (2 steps)
 └─ 10 (leaf, terminal)
-    k: #halt ~> CONTINUATION:K
+    k: #halt ~> CONTINUATION:K ~> .K
     pc: 2995
     callDepth: 0
     statusCode: EVMC_REVERT
@@ -51,7 +51,7 @@
 
 
 ┌─ 7 (root, leaf, target, terminal)
-│   k: #halt ~> CONTINUATION:K
+│   k: #halt ~> CONTINUATION:K ~> .K
 │   pc: PC_CELL_5d410f2a:Int
 │   callDepth: CALLDEPTH_CELL_5d410f2a:Int
 │   statusCode: STATUSCODE_FINAL:StatusCode
@@ -65,6 +65,7 @@ Node 10:
       <k>
         #halt
         ~> CONTINUATION:K
+        ~> .K
       </k>
       <mode>
         NORMAL
@@ -291,6 +292,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-FALSE():0
              <k>
                ( #execute => #halt )
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -512,6 +514,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-FALSE():0
              <k>
                ( #halt => #execute )
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -732,9 +735,11 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-FALSE():0
            <kevm>
              <k>
                ( .K => #end EVMC_REVERT
-               ~> #pc [ REVERT ] )
+               ~> #pc [ REVERT ]
+               ~> .K )
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -955,6 +960,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-FALSE():0
                ~> #pc [ REVERT ]
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -1176,8 +1182,10 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-FALSE():0
              <k>
                #halt
                ~> ( #pc [ REVERT ]
-               ~> #execute => .K )
+               ~> #execute
+               ~> .K => .K )
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL

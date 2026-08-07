@@ -1,6 +1,6 @@
 
 ┌─ 1 (root, init)
-│   k: #execute ~> CONTINUATION:K
+│   k: #execute ~> CONTINUATION:K ~> .K
 │   pc: 0
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
@@ -18,7 +18,7 @@
 │
 │  (1 step)
 ├─ 4
-│   k: #cheatcode_return 128 0 ~> #pc [ CALL ] ~> #execute ~> CONTINUATION:K
+│   k: #cheatcode_return 128 0 ~> #pc [ CALL ] ~> #execute ~> CONTINUATION:K ~> .K
 │   pc: 1294
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
@@ -49,7 +49,7 @@
 ┃  │
 ┃  │  (49 steps)
 ┃  ├─ 8 (terminal)
-┃  │   k: #halt ~> CONTINUATION:K
+┃  │   k: #halt ~> CONTINUATION:K ~> .K
 ┃  │   pc: 320
 ┃  │   callDepth: 0
 ┃  │   statusCode: EVMC_SUCCESS
@@ -59,7 +59,7 @@
 ┃  ┊  constraint: true
 ┃  ┊  subst: ...
 ┃  └─ 2 (leaf, target, terminal)
-┃      k: #halt ~> CONTINUATION:K
+┃      k: #halt ~> CONTINUATION:K ~> .K
 ┃      pc: PC_CELL_5d410f2a:Int
 ┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
 ┃      statusCode: STATUSCODE_FINAL:StatusCode
@@ -78,7 +78,7 @@
    │
    │  (40 steps)
    ├─ 9 (terminal)
-   │   k: #halt ~> CONTINUATION:K
+   │   k: #halt ~> CONTINUATION:K ~> .K
    │   pc: 320
    │   callDepth: 0
    │   statusCode: EVMC_SUCCESS
@@ -88,7 +88,7 @@
    ┊  constraint: true
    ┊  subst: ...
    └─ 2 (leaf, target, terminal)
-       k: #halt ~> CONTINUATION:K
+       k: #halt ~> CONTINUATION:K ~> .K
        pc: PC_CELL_5d410f2a:Int
        callDepth: CALLDEPTH_CELL_5d410f2a:Int
        statusCode: STATUSCODE_FINAL:StatusCode
@@ -104,9 +104,11 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
              <k>
                ( .K => #forget ( KV0_x:Int , 5 , 200 )
                ~> #cheatcode_return 128 0
-               ~> #pc [ CALL ] )
+               ~> #pc [ CALL ]
+               ~> .K )
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -331,6 +333,7 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
                ~> #pc [ CALL ]
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -551,10 +554,13 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
            <kevm>
              <k>
                ( #cheatcode_return 128 0
-               ~> #pc [ CALL ] => JUMPI 1326 bool2Word ( KV0_x:Int <=Int 200 )
-               ~> #pc [ JUMPI ] )
+               ~> #pc [ CALL ]
+               ~> .K => JUMPI 1326 bool2Word ( KV0_x:Int <=Int 200 )
+               ~> #pc [ JUMPI ]
+               ~> .K )
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -775,8 +781,10 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
              <k>
                ( JUMPI 1326 bool2Word ( KV0_x:Int <=Int 200 )
                ~> #pc [ JUMPI ]
-               ~> #execute => #halt ~> .K )
+               ~> #execute
+               ~> .K => #halt ~> .K )
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -1001,8 +1009,10 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
              <k>
                ( JUMPI 1326 bool2Word ( KV0_x:Int <=Int 200 )
                ~> #pc [ JUMPI ]
-               ~> #execute => #halt ~> .K )
+               ~> #execute
+               ~> .K => #halt ~> .K )
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL

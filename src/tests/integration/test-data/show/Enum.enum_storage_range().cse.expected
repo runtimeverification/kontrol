@@ -1,6 +1,6 @@
 
 ┌─ 1 (root, init)
-│   k: #execute ~> CONTINUATION:K
+│   k: #execute ~> CONTINUATION:K ~> .K
 │   pc: 0
 │   callDepth: CALLDEPTH_CELL:Int
 │   statusCode: STATUSCODE:StatusCode
@@ -9,7 +9,7 @@
 │
 │  (264 steps)
 ├─ 3
-│   k: #next [ STATICCALL ] ~> #execute ~> CONTINUATION:K
+│   k: #next [ STATICCALL ] ~> #execute ~> CONTINUATION:K ~> .K
 │   pc: 145
 │   callDepth: CALLDEPTH_CELL:Int
 │   statusCode: STATUSCODE:StatusCode
@@ -750,7 +750,7 @@
 ┣━━┓
 ┃  │
 ┃  ├─ 5
-┃  │   k: #injectPrank ~> #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃  │   k: #injectPrank ~> #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K  ...
 ┃  │   pc: 145
 ┃  │   callDepth: DEPTH_CELL:Int
 ┃  │   statusCode: STATUSCODE:StatusCode
@@ -761,7 +761,7 @@
 ┃  ┣━━┓
 ┃  ┃  │
 ┃  ┃  ├─ 9 (split)
-┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K ~> .K
 ┃  ┃  │   pc: 145
 ┃  ┃  │   callDepth: DEPTH_CELL:Int
 ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -778,7 +778,7 @@
 </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
 ┃  ┃  ┃  │
 ┃  ┃  ┃  ├─ 126
-┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K ~> .K
 ┃  ┃  ┃  │   pc: 145
 ┃  ┃  ┃  │   callDepth: DEPTH_CELL:Int
 ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -804,7 +804,7 @@
 </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
 ┃  ┃  ┃  │
 ┃  ┃  ┃  ├─ 148
-┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K ~> .K
 ┃  ┃  ┃  │   pc: 145
 ┃  ┃  ┃  │   callDepth: DEPTH_CELL:Int
 ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -830,7 +830,7 @@
 </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
 ┃  ┃  ┃  │
 ┃  ┃  ┃  ├─ 158
-┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K ~> .K
 ┃  ┃  ┃  │   pc: 145
 ┃  ┃  ┃  │   callDepth: DEPTH_CELL:Int
 ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -851,7 +851,7 @@
 ┃  ┃     ┃     ( notBool C_ENUM_ID:Int ==Int C_ENUM_MEMBER_CONTRACT_ID:Int )
 ┃  ┃     │
 ┃  ┃     ├─ 159
-┃  ┃     │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃  ┃     │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K ~> .K
 ┃  ┃     │   pc: 145
 ┃  ┃     │   callDepth: DEPTH_CELL:Int
 ┃  ┃     │   statusCode: STATUSCODE:StatusCode
@@ -870,7 +870,7 @@
 ┃  ┣━━┓
 ┃  ┃  │
 ┃  ┃  ├─ 10 (split)
-┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K ~> .K
 ┃  ┃  │   pc: 145
 ┃  ┃  │   callDepth: DEPTH_CELL:Int
 ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -887,7 +887,7 @@
 </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
 ┃  ┃  ┃  │
 ┃  ┃  ┃  ├─ 128
-┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K ~> .K
 ┃  ┃  ┃  │   pc: 145
 ┃  ┃  ┃  │   callDepth: DEPTH_CELL:Int
 ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -913,7 +913,7 @@
 </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
 ┃  ┃  ┃  │
 ┃  ┃  ┃  ├─ 150
-┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K ~> .K
 ┃  ┃  ┃  │   pc: 145
 ┃  ┃  ┃  │   callDepth: DEPTH_CELL:Int
 ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -939,7 +939,7 @@
 </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
 ┃  ┃  ┃  │
 ┃  ┃  ┃  ├─ 160
-┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K ~> .K
 ┃  ┃  ┃  │   pc: 145
 ┃  ┃  ┃  │   callDepth: DEPTH_CELL:Int
 ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -960,7 +960,7 @@
 ┃  ┃     ┃     ( notBool C_ENUM_ID:Int ==Int C_ENUM_MEMBER_CONTRACT_ID:Int )
 ┃  ┃     │
 ┃  ┃     ├─ 161
-┃  ┃     │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃  ┃     │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K ~> .K
 ┃  ┃     │   pc: 145
 ┃  ┃     │   callDepth: DEPTH_CELL:Int
 ┃  ┃     │   statusCode: STATUSCODE:StatusCode
@@ -979,7 +979,7 @@
 ┃  ┗━━┓
 ┃     │
 ┃     ├─ 11
-┃     │   k: #injectPrank ~> #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃     │   k: #injectPrank ~> #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K  ...
 ┃     │   pc: 145
 ┃     │   callDepth: DEPTH_CELL:Int
 ┃     │   statusCode: STATUSCODE:StatusCode
@@ -990,7 +990,7 @@
 ┃     ┣━━┓
 ┃     ┃  │
 ┃     ┃  ├─ 18 (split)
-┃     ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃     ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K ~> .K
 ┃     ┃  │   pc: 145
 ┃     ┃  │   callDepth: DEPTH_CELL:Int
 ┃     ┃  │   statusCode: STATUSCODE:StatusCode
@@ -1007,7 +1007,7 @@
 </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
 ┃     ┃  ┃  │
 ┃     ┃  ┃  ├─ 130
-┃     ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃     ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K ~> .K
 ┃     ┃  ┃  │   pc: 145
 ┃     ┃  ┃  │   callDepth: DEPTH_CELL:Int
 ┃     ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -1033,7 +1033,7 @@
 </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
 ┃     ┃  ┃  │
 ┃     ┃  ┃  ├─ 152
-┃     ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃     ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K ~> .K
 ┃     ┃  ┃  │   pc: 145
 ┃     ┃  ┃  │   callDepth: DEPTH_CELL:Int
 ┃     ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -1054,7 +1054,7 @@
 ┃     ┃     ┃     ( notBool C_ENUM_ID:Int ==Int C_ENUM_MEMBER_CONTRACT_ID:Int )
 ┃     ┃     │
 ┃     ┃     ├─ 153
-┃     ┃     │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃     ┃     │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K ~> .K
 ┃     ┃     │   pc: 145
 ┃     ┃     │   callDepth: DEPTH_CELL:Int
 ┃     ┃     │   statusCode: STATUSCODE:StatusCode
@@ -1073,7 +1073,7 @@
 ┃     ┗━━┓
 ┃        │
 ┃        ├─ 19
-┃        │   k: #injectPrank ~> #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃        │   k: #injectPrank ~> #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K  ...
 ┃        │   pc: 145
 ┃        │   callDepth: DEPTH_CELL:Int
 ┃        │   statusCode: STATUSCODE:StatusCode
@@ -1084,7 +1084,7 @@
 ┃        ┣━━┓
 ┃        ┃  │
 ┃        ┃  ├─ 33 (split)
-┃        ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃        ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K ~> .K
 ┃        ┃  │   pc: 145
 ┃        ┃  │   callDepth: DEPTH_CELL:Int
 ┃        ┃  │   statusCode: STATUSCODE:StatusCode
@@ -1101,7 +1101,7 @@
 </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
 ┃        ┃  ┃  │
 ┃        ┃  ┃  ├─ 138
-┃        ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃        ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K ~> .K
 ┃        ┃  ┃  │   pc: 145
 ┃        ┃  ┃  │   callDepth: DEPTH_CELL:Int
 ┃        ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -1122,7 +1122,7 @@
 ┃        ┃     ┃     ( notBool C_ENUM_ID:Int ==Int C_ENUM_MEMBER_CONTRACT_ID:Int )
 ┃        ┃     │
 ┃        ┃     ├─ 139
-┃        ┃     │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃        ┃     │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K ~> .K
 ┃        ┃     │   pc: 145
 ┃        ┃     │   callDepth: DEPTH_CELL:Int
 ┃        ┃     │   statusCode: STATUSCODE:StatusCode
@@ -1141,7 +1141,7 @@
 ┃        ┗━━┓
 ┃           │
 ┃           ├─ 34
-┃           │   k: #injectPrank ~> #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃           │   k: #injectPrank ~> #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K  ...
 ┃           │   pc: 145
 ┃           │   callDepth: DEPTH_CELL:Int
 ┃           │   statusCode: STATUSCODE:StatusCode
@@ -1152,7 +1152,7 @@
 ┃           ┣━━┓
 ┃           ┃  │
 ┃           ┃  ├─ 56
-┃           ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃           ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K ~> .K
 ┃           ┃  │   pc: 145
 ┃           ┃  │   callDepth: DEPTH_CELL:Int
 ┃           ┃  │   statusCode: STATUSCODE:StatusCode
@@ -1171,7 +1171,7 @@
 ┃           ┗━━┓
 ┃              │
 ┃              ├─ 57
-┃              │   k: #injectPrank ~> #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃              │   k: #injectPrank ~> #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K  ...
 ┃              │   pc: 145
 ┃              │   callDepth: DEPTH_CELL:Int
 ┃              │   statusCode: STATUSCODE:StatusCode
@@ -1182,7 +1182,7 @@
 ┃              ┣━━┓
 ┃              ┃  │
 ┃              ┃  └─ 92 (leaf, pending)
-┃              ┃      k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃              ┃      k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K ~> .K
 ┃              ┃      pc: 145
 ┃              ┃      callDepth: DEPTH_CELL:Int
 ┃              ┃      statusCode: STATUSCODE:StatusCode
@@ -1192,7 +1192,7 @@
 ┃              ┗━━┓
 ┃                 │
 ┃                 └─ 93 (leaf, pending)
-┃                     k: #injectPrank ~> #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃                     k: #injectPrank ~> #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K  ...
 ┃                     pc: 145
 ┃                     callDepth: DEPTH_CELL:Int
 ┃                     statusCode: STATUSCODE:StatusCode
@@ -1297,7 +1297,7 @@
       ┃  │
       ┃  │  (973 steps)
       ┃  └─ 96 (leaf, pending)
-      ┃      k: #halt ~> CONTINUATION:K
+      ┃      k: #halt ~> CONTINUATION:K ~> .K
       ┃      pc: 68
       ┃      callDepth: CALLDEPTH_CELL:Int
       ┃      statusCode: EVMC_SUCCESS
@@ -1318,7 +1318,7 @@
          │
          │  (79 steps)
          └─ 97 (leaf, pending)
-             k: #halt ~> CONTINUATION:K
+             k: #halt ~> CONTINUATION:K ~> .K
              pc: 161
              callDepth: CALLDEPTH_CELL:Int
              statusCode: EVMC_REVERT
@@ -1327,7 +1327,7 @@
 
 
 ┌─ 2 (root, leaf, target, terminal)
-│   k: #halt ~> CONTINUATION:K
+│   k: #halt ~> CONTINUATION:K ~> .K
 │   pc: PC_CELL_5d410f2a:Int
 │   callDepth: CALLDEPTH_CELL_5d410f2a:Int
 │   statusCode: STATUSCODE_FINAL:StatusCode
@@ -1343,6 +1343,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                ( .K => #next [ STATICCALL ] ~> .K )
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -1538,10 +1539,12 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
            <kevm>
              <k>
                ( #addr [ STATICCALL ]
-               ~> #exec [ STATICCALL ] => STATICCALL 0 C_ENUM_MEMBER_CONTRACT_ID:Int 128 4 128 32 ~> .K )
+               ~> #exec [ STATICCALL ]
+               ~> .K => STATICCALL 0 C_ENUM_MEMBER_CONTRACT_ID:Int 128 4 128 32 ~> .K )
                ~> #pc [ STATICCALL ]
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -1734,8 +1737,8 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( C_ENUM_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
-       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( ( notBool <acctID>
           C_ENUM_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
@@ -1764,11 +1767,13 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
              <k>
                ( #next [ STATICCALL ] ~> .K => #injectPrank
                ~> #next [ STATICCALL ]
-               ~> #endPrank )
+               ~> #endPrank
+               ~> .K )
                ~> #checkRevert
                ~> #updateRevertOutput 32 132
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -1966,8 +1971,8 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( C_ENUM_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
-       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( ( notBool <acctID>
           C_ENUM_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
@@ -1995,11 +2000,13 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
              <k>
                ( #next [ STATICCALL ] ~> .K => #injectPrank
                ~> #next [ STATICCALL ]
-               ~> #endPrank )
+               ~> #endPrank
+               ~> .K )
                ~> #checkRevert
                ~> #updateRevertOutput 32 132
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -2197,8 +2204,8 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( C_ENUM_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
-       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( ( notBool <acctID>
           C_ENUM_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
@@ -2226,11 +2233,13 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
              <k>
                ( #next [ STATICCALL ] ~> .K => #injectPrank
                ~> #next [ STATICCALL ]
-               ~> #endPrank )
+               ~> #endPrank
+               ~> .K )
                ~> #checkRevert
                ~> #updateRevertOutput 32 132
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -2428,8 +2437,8 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( C_ENUM_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
-       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( ( notBool <acctID>
           C_ENUM_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
@@ -2457,11 +2466,13 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
              <k>
                ( #next [ STATICCALL ] ~> .K => #injectPrank
                ~> #next [ STATICCALL ]
-               ~> #endPrank )
+               ~> #endPrank
+               ~> .K )
                ~> #checkRevert
                ~> #updateRevertOutput 32 132
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -2659,8 +2670,8 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( C_ENUM_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
-       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( ( notBool <acctID>
           C_ENUM_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
@@ -2687,10 +2698,12 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_ENUM_MEMBER_CONTRACT_ID:Int 128 4 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -2894,8 +2907,8 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( C_ENUM_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
-       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( ( notBool <acctID>
           C_ENUM_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
@@ -2922,12 +2935,14 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_ENUM_MEMBER_CONTRACT_ID:Int 128 4 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #checkRevert
                ~> #updateRevertOutput 32 132
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -3132,8 +3147,8 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( C_ENUM_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
-       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( ( notBool <acctID>
           C_ENUM_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
@@ -3159,12 +3174,14 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_ENUM_MEMBER_CONTRACT_ID:Int 128 4 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #checkRevert
                ~> #updateRevertOutput 32 132
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -3368,8 +3385,8 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( C_ENUM_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
-       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( ( notBool <acctID>
           C_ENUM_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
@@ -3395,12 +3412,14 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_ENUM_MEMBER_CONTRACT_ID:Int 128 4 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #checkRevert
                ~> #updateRevertOutput 32 132
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -3603,8 +3622,8 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( C_ENUM_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
-       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( ( notBool <acctID>
           C_ENUM_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
@@ -3630,12 +3649,14 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_ENUM_MEMBER_CONTRACT_ID:Int 128 4 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #checkRevert
                ~> #updateRevertOutput 32 132
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -3838,8 +3859,8 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( C_ENUM_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
-       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( ( notBool <acctID>
           C_ENUM_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
@@ -3866,11 +3887,13 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
              <k>
                ( #next [ STATICCALL ] ~> .K => #injectPrank
                ~> #next [ STATICCALL ]
-               ~> #endPrank )
+               ~> #endPrank
+               ~> .K )
                ~> #checkRevert
                ~> #updateRevertOutput 32 132
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -4068,8 +4091,8 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( C_ENUM_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
-       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( ( notBool <acctID>
           C_ENUM_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
@@ -4096,10 +4119,12 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_ENUM_MEMBER_CONTRACT_ID:Int 128 4 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -4307,8 +4332,8 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ( notBool <acctID>
           #address ( FoundryConsole )
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( ( notBool <acctID>
           C_ENUM_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
@@ -4335,10 +4360,12 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_ENUM_MEMBER_CONTRACT_ID:Int 128 4 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -4541,8 +4568,8 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( C_ENUM_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
-       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( ( notBool <acctID>
           C_ENUM_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
@@ -4573,10 +4600,13 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
-               ~> #pc [ STATICCALL ] => JUMPI 520 bool2Word ( ( (chop ( lengthBytes ( OUTPUT_CELL:Bytes ) )) s<Word (32) ) ==Int 0 )
-               ~> #pc [ JUMPI ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K => JUMPI 520 bool2Word ( ( (chop ( lengthBytes ( OUTPUT_CELL:Bytes ) )) s<Word (32) ) ==Int 0 )
+               ~> #pc [ JUMPI ]
+               ~> .K )
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -4801,10 +4831,13 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
-               ~> #pc [ STATICCALL ] => JUMPI 520 bool2Word ( ( (chop ( lengthBytes ( OUTPUT_CELL:Bytes ) )) s<Word (32) ) ==Int 0 )
-               ~> #pc [ JUMPI ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K => JUMPI 520 bool2Word ( ( (chop ( lengthBytes ( OUTPUT_CELL:Bytes ) )) s<Word (32) ) ==Int 0 )
+               ~> #pc [ JUMPI ]
+               ~> .K )
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -5025,12 +5058,14 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_ENUM_MEMBER_CONTRACT_ID:Int 128 4 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #checkRevert
                ~> #updateRevertOutput 32 132
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -5239,8 +5274,8 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ( notBool <acctID>
           #address ( FoundryConsole )
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( ( notBool <acctID>
           C_ENUM_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
@@ -5266,12 +5301,14 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_ENUM_MEMBER_CONTRACT_ID:Int 128 4 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #checkRevert
                ~> #updateRevertOutput 32 132
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -5475,8 +5512,8 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( C_ENUM_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
-       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( ( notBool <acctID>
           C_ENUM_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
@@ -5502,12 +5539,14 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_ENUM_MEMBER_CONTRACT_ID:Int 128 4 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #checkRevert
                ~> #updateRevertOutput 32 132
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -5715,8 +5754,8 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ( notBool <acctID>
           #address ( FoundryConsole )
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( ( notBool <acctID>
           C_ENUM_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
@@ -5742,12 +5781,14 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_ENUM_MEMBER_CONTRACT_ID:Int 128 4 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #checkRevert
                ~> #updateRevertOutput 32 132
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -5950,8 +5991,8 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( C_ENUM_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
-       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( ( notBool <acctID>
           C_ENUM_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
@@ -5977,12 +6018,14 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_ENUM_MEMBER_CONTRACT_ID:Int 128 4 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #checkRevert
                ~> #updateRevertOutput 32 132
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -6156,8 +6199,8 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( _ISREVERTEXPECTED_CELL:Bool
        andBool ( _DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int
        andBool ( _CALLDEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int
-       andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int ==Int #address ( FoundryConsole )
        andBool ( _NEWORIGIN_CELL:Account ==K .Account
+       andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int ==Int #address ( FoundryConsole )
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int C_ENUM_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
@@ -6190,8 +6233,8 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ( notBool <acctID>
           #address ( FoundryConsole )
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( ( notBool <acctID>
           C_ENUM_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
@@ -6217,12 +6260,14 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_ENUM_MEMBER_CONTRACT_ID:Int 128 4 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #checkRevert
                ~> #updateRevertOutput 32 132
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -6425,8 +6470,8 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( C_ENUM_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
-       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( ( notBool <acctID>
           C_ENUM_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
@@ -6452,10 +6497,12 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_ENUM_MEMBER_CONTRACT_ID:Int 128 4 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -6662,8 +6709,8 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ( notBool <acctID>
           #address ( FoundryConsole )
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( ( notBool <acctID>
           C_ENUM_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
@@ -6690,10 +6737,12 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_ENUM_MEMBER_CONTRACT_ID:Int 128 4 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -6895,8 +6944,8 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( C_ENUM_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
-       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( ( notBool <acctID>
           C_ENUM_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
@@ -6923,12 +6972,14 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_ENUM_MEMBER_CONTRACT_ID:Int 128 4 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #checkRevert
                ~> #updateRevertOutput 32 132
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -7136,8 +7187,8 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ( notBool <acctID>
           #address ( FoundryConsole )
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( ( notBool <acctID>
           C_ENUM_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
@@ -7163,12 +7214,14 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_ENUM_MEMBER_CONTRACT_ID:Int 128 4 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #checkRevert
                ~> #updateRevertOutput 32 132
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -7371,8 +7424,8 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( C_ENUM_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
-       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( ( notBool <acctID>
           C_ENUM_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
@@ -7398,12 +7451,14 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_ENUM_MEMBER_CONTRACT_ID:Int 128 4 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #checkRevert
                ~> #updateRevertOutput 32 132
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -7577,8 +7632,8 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( _ISREVERTEXPECTED_CELL:Bool
        andBool ( _DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int
        andBool ( _CALLDEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int
-       andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int ==Int #address ( FoundryConsole )
        andBool ( _NEWORIGIN_CELL:Account ==K .Account
+       andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int ==Int #address ( FoundryConsole )
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int C_ENUM_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
@@ -7611,8 +7666,8 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ( notBool <acctID>
           #address ( FoundryConsole )
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( ( notBool <acctID>
           C_ENUM_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
@@ -7638,12 +7693,14 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_ENUM_MEMBER_CONTRACT_ID:Int 128 4 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #checkRevert
                ~> #updateRevertOutput 32 132
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -7846,8 +7903,8 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( C_ENUM_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
-       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( ( notBool <acctID>
           C_ENUM_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
@@ -7873,10 +7930,12 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_ENUM_MEMBER_CONTRACT_ID:Int 128 4 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -8082,8 +8141,8 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ( notBool <acctID>
           #address ( FoundryConsole )
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( ( notBool <acctID>
           C_ENUM_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
@@ -8110,10 +8169,12 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_ENUM_MEMBER_CONTRACT_ID:Int 128 4 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -8314,8 +8375,8 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( C_ENUM_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
-       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( ( notBool <acctID>
           C_ENUM_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
@@ -8342,10 +8403,12 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_ENUM_MEMBER_CONTRACT_ID:Int 128 4 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -8517,8 +8580,8 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
       requires ( _ACTIVE_CELL:Bool
        andBool ( _CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int
        andBool ( _NEWCALLER_CELL:Account ==K NCL:Int
-       andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int ==Int #address ( FoundryConsole )
        andBool ( _NEWORIGIN_CELL:Account ==K .Account
+       andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int ==Int #address ( FoundryConsole )
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int C_ENUM_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
@@ -8551,8 +8614,8 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ( notBool <acctID>
           #address ( FoundryConsole )
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( ( notBool <acctID>
           C_ENUM_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
@@ -8579,10 +8642,12 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_ENUM_MEMBER_CONTRACT_ID:Int 128 4 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -8783,8 +8848,8 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( C_ENUM_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
-       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( ( notBool <acctID>
           C_ENUM_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
@@ -8814,10 +8879,12 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -9036,8 +9103,8 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ( notBool <acctID>
           #address ( FoundryConsole )
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( ( notBool <acctID>
           C_ENUM_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
@@ -9067,10 +9134,12 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -9255,8 +9324,8 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
       requires ( _ACTIVE_CELL:Bool
        andBool ( _CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int
        andBool ( _NEWCALLER_CELL:Account ==K NCL:Int
-       andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int ==Int #address ( FoundryConsole )
        andBool ( _NEWORIGIN_CELL:Account ==K .Account
+       andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int ==Int #address ( FoundryConsole )
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int C_ENUM_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
@@ -9289,8 +9358,8 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ( notBool <acctID>
           #address ( FoundryConsole )
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( ( notBool <acctID>
           C_ENUM_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
@@ -9321,10 +9390,12 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -9543,8 +9614,8 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ( notBool <acctID>
           #address ( FoundryConsole )
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( ( notBool <acctID>
           C_ENUM_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
@@ -9575,10 +9646,12 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -9763,8 +9836,8 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
       requires ( _ACTIVE_CELL:Bool
        andBool ( _CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int
        andBool ( _NEWCALLER_CELL:Account ==K NCL:Int
-       andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int ==Int #address ( FoundryConsole )
        andBool ( _NEWORIGIN_CELL:Account ==K .Account
+       andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int ==Int #address ( FoundryConsole )
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int C_ENUM_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
@@ -9797,8 +9870,8 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ( notBool <acctID>
           #address ( FoundryConsole )
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( ( notBool <acctID>
           C_ENUM_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
@@ -9829,10 +9902,12 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -10052,8 +10127,8 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ( notBool <acctID>
           #address ( FoundryConsole )
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( ( notBool <acctID>
           C_ENUM_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
@@ -10084,8 +10159,10 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                ~> #call C_ENUM_ID:Int C_ENUM_MEMBER_CONTRACT_ID:Int C_ENUM_MEMBER_CONTRACT_ID:Int 0 0 b"h\xaf7\xdf" true
                ~> #return 128 32
                ~> #pc [ STATICCALL ]
-               ~> #execute => #halt ~> .K )
+               ~> #execute
+               ~> .K => #halt ~> .K )
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -10291,8 +10368,8 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( C_ENUM_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
-       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( ( notBool <acctID>
           C_ENUM_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
@@ -10327,8 +10404,10 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                ~> #call C_ENUM_ID:Int C_ENUM_MEMBER_CONTRACT_ID:Int C_ENUM_MEMBER_CONTRACT_ID:Int 0 0 b"h\xaf7\xdf" true
                ~> #return 128 32
                ~> #pc [ STATICCALL ]
-               ~> #execute => #halt ~> .K )
+               ~> #execute
+               ~> .K => #halt ~> .K )
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -10531,8 +10610,8 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( C_ENUM_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
-       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( ( notBool <acctID>
           C_ENUM_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
@@ -10567,12 +10646,14 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #checkRevert
                ~> #updateRevertOutput 32 132
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -10793,8 +10874,8 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ( notBool <acctID>
           #address ( FoundryConsole )
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( ( notBool <acctID>
           C_ENUM_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
@@ -10824,12 +10905,14 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #checkRevert
                ~> #updateRevertOutput 32 132
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -11016,8 +11099,8 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( _ISREVERTEXPECTED_CELL:Bool
        andBool ( _DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int
        andBool ( _CALLDEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int
-       andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int ==Int #address ( FoundryConsole )
        andBool ( _NEWORIGIN_CELL:Account ==K .Account
+       andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int ==Int #address ( FoundryConsole )
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int C_ENUM_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
@@ -11050,8 +11133,8 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ( notBool <acctID>
           #address ( FoundryConsole )
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( ( notBool <acctID>
           C_ENUM_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )

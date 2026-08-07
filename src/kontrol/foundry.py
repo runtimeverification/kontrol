@@ -158,7 +158,13 @@ class KontrolSemantics(KEVMSemantics):
     def _ffi_pattern(self) -> KSequence:
         return KSequence([KApply('ffi_shell', KVariable('###CMD')), KVariable('###CONTINUATION')])
 
-    def _exec_rename_custom_step(self, subst: Subst, cterm: CTerm, _c: CTermSymbolic) -> KCFGExtendResult | None:
+    def _exec_rename_custom_step(
+        self,
+        subst: Subst,
+        cterm: CTerm,
+        _c: CTermSymbolic,
+        _node_id: int,
+    ) -> KCFGExtendResult | None:
         # Extract the target var and new name from the substitution
         target_var = subst['###RENAME_TARGET']
         name_token = subst['###NEW_NAME']
@@ -182,12 +188,17 @@ class KontrolSemantics(KEVMSemantics):
         return Step(CTerm(new_cterm.config, constraints), 1, (), ['foundry_rename'], cut=True)
 
     def _exec_forget_custom_step(
-        self, subst: Subst, cterm: CTerm, cterm_symbolic: CTermSymbolic
+        self,
+        subst: Subst,
+        cterm: CTerm,
+        cterm_symbolic: CTermSymbolic,
+        _node_id: int,
     ) -> KCFGExtendResult | None:
         """Remove the constraint at the top of K_CELL of a given CTerm from its path constraints,
            as part of the 'FOUNDRY-ACCOUNTS.forget' cut-rule.
         :param cterm: CTerm representing a proof node
         :param cterm_symbolic: CTermSymbolic instance
+        :param _node_id: Current node id (unused)
         :return: A Step of depth 1 carrying a new configuration in which the constraint is consumed from the top
                  of the K cell and is removed from the initial path constraints if it existed, together with
                  information that the `cheatcode_forget` rule has been applied.
@@ -293,7 +304,13 @@ class KontrolSemantics(KEVMSemantics):
         new_cterm = CTerm.from_kast(set_cell(cterm.kast, 'K_CELL', KSequence(subst['###CONTINUATION'])))
         return Step(CTerm(new_cterm.config, new_constraints), 1, (), ['cheatcode_forget'], cut=True)
 
-    def _exec_console_log_custom_step(self, subst: Subst, cterm: CTerm, _c: CTermSymbolic) -> KCFGExtendResult | None:
+    def _exec_console_log_custom_step(
+        self,
+        subst: Subst,
+        cterm: CTerm,
+        _c: CTermSymbolic,
+        _node_id: int,
+    ) -> KCFGExtendResult | None:
         selector_token = subst['###SELECTOR']
         data = subst['###DATA']
         assert type(selector_token) is KToken
@@ -314,7 +331,13 @@ class KontrolSemantics(KEVMSemantics):
         new_cterm = CTerm.from_kast(set_cell(cterm.kast, 'K_CELL', KSequence(subst['###CONTINUATION'])))
         return Step(CTerm(new_cterm.config, cterm.constraints), 1, (), ['console.log'], cut=True)
 
-    def _exec_ffi_custom_step(self, subst: Subst, cterm: CTerm, _c: CTermSymbolic) -> KCFGExtendResult | None:
+    def _exec_ffi_custom_step(
+        self,
+        subst: Subst,
+        cterm: CTerm,
+        _c: CTermSymbolic,
+        _node_id: int,
+    ) -> KCFGExtendResult | None:
         """Execute vm.ffi() cheatcode by running external commands and encoding their output as ABI bytes.
 
         This function decodes the command from the ABI-encoded string array, executes it as a subprocess, and processes
@@ -325,6 +348,7 @@ class KontrolSemantics(KEVMSemantics):
         :param subst: Substitution containing the values obtained by matching the `self._ffi_pattern`.
         :param cterm: Current configuration term representing the EVM state.
         :param _c: Symbolic configuration term (unused).
+        :param _node_id: Current node id (unused).
         :return: None if FFI is disabled. Otherwise, Step with OUTPUT_CELL set to ABI-encoded result and updated K_CELL
                 continuation, tagged with 'kontrol.ffi.success'.
         """
@@ -1021,8 +1045,9 @@ def foundry_list(foundry: Foundry) -> list[str]:
     ]
 
     lines: list[str] = []
+    proof_ids = listdir(foundry.proofs_dir) if foundry.proofs_dir.exists() else []
     for method in sorted(all_methods):
-        for test_id in listdir(foundry.proofs_dir):
+        for test_id in proof_ids:
             test, *_ = test_id.split(':')
             if test == method:
                 proof = foundry.get_optional_proof(test_id)
@@ -1179,6 +1204,9 @@ def foundry_simplify_node(
         smt_tactic=options.smt_tactic,
         log_succ_rewrites=options.log_succ_rewrites,
         log_fail_rewrites=options.log_fail_rewrites,
+        haskell_log_entries=options.haskell_log_entries,
+        haskell_log_dir=options.haskell_log_dir,
+        booster_only_simplify=options.booster_only_simplify,
         start_server=start_server,
         port=options.port,
         extra_module=foundry.load_lemmas(options.lemmas),
@@ -1268,6 +1296,9 @@ def foundry_step_node(
         smt_tactic=options.smt_tactic,
         log_succ_rewrites=options.log_succ_rewrites,
         log_fail_rewrites=options.log_fail_rewrites,
+        haskell_log_entries=options.haskell_log_entries,
+        haskell_log_dir=options.haskell_log_dir,
+        booster_only_simplify=options.booster_only_simplify,
         start_server=start_server,
         port=options.port,
         extra_module=foundry.load_lemmas(options.lemmas),
@@ -1303,6 +1334,9 @@ def foundry_section_edge(
         smt_tactic=options.smt_tactic,
         log_succ_rewrites=options.log_succ_rewrites,
         log_fail_rewrites=options.log_fail_rewrites,
+        haskell_log_entries=options.haskell_log_entries,
+        haskell_log_dir=options.haskell_log_dir,
+        booster_only_simplify=options.booster_only_simplify,
         start_server=start_server,
         port=options.port,
         extra_module=foundry.load_lemmas(options.lemmas),
@@ -1350,6 +1384,9 @@ def foundry_get_model(
         smt_tactic=options.smt_tactic,
         log_succ_rewrites=options.log_succ_rewrites,
         log_fail_rewrites=options.log_fail_rewrites,
+        haskell_log_entries=options.haskell_log_entries,
+        haskell_log_dir=options.haskell_log_dir,
+        booster_only_simplify=options.booster_only_simplify,
         start_server=start_server,
         port=options.port,
         extra_module=foundry.load_lemmas(options.lemmas),

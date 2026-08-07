@@ -29,7 +29,7 @@ jobs:
           echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
 
   nix-cache:
-    name: 'Populate Nix Cache'
+    name: 'Populate Nix Caches'
     strategy:
       matrix:
         runner: [normal, ARM64]
@@ -42,51 +42,33 @@ jobs:
           ref: ${{ github.event.push.head.sha }}
           fetch-depth: 0
 
-      - name: 'Build and cache Kontrol'
+      # Build the Kontrol derivation once, then push it to both the public
+      # k-framework cache (full build closure, via `cachix push`) and the
+      # private k-framework-binary cache (the kup-installable binary, via
+      # `kup publish`). Both pushes reuse the build output already present in
+      # this runner's Nix store, so the derivation is never built twice.
+      - name: 'Build and publish Kontrol to both Nix caches'
         uses: workflow/nix-shell-action@v3
         env:
-          GC_DONT_GC: 1
-          CACHIX_AUTH_TOKEN: ${{ secrets.CACHIX_PUBLIC_TOKEN }}
-        with:
-          packages: jq
-          script: |
-            KONTROL=$(nix build --extra-experimental-features 'nix-command flakes' .#kontrol --json | jq -r '.[].outputs | to_entries[].value')
-            DRV=$(nix-store --query --deriver ${KONTROL})
-            nix-store --query --requisites --include-outputs ${DRV} | cachix push k-framework
-
-      - name: 'On failure, delete drafted release'
-        if: failure()
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          set -x
-          VERSION=v$(cat package/version)
-          gh release delete ${VERSION}                  \
-            --repo runtimeverification/kontrol  \
-            --yes                                       \
-            --cleanup-tag
-
-  nix-binary-cache:
-    name: 'Populate Nix Binary Cache'
-    strategy:
-      matrix:
-        runner: [normal, ARM64]
-    runs-on: ${{ matrix.runner }}
-    needs: draft-release
-    steps:
-      - name: 'Check out code'
-        uses: actions/checkout@v4
-
-      - name: 'Publish Kontrol to k-framework-binary cache'
-        uses: workflow/nix-shell-action@v3
-        env:
-          CACHIX_AUTH_TOKEN: '${{ secrets.CACHIX_PRIVATE_KFB_TOKEN }}'
           GC_DONT_GC: '1'
+          CACHIX_PUBLIC_TOKEN: '${{ secrets.CACHIX_PUBLIC_TOKEN }}'
+          CACHIX_PRIVATE_KFB_TOKEN: '${{ secrets.CACHIX_PRIVATE_KFB_TOKEN }}'
           OWNER_REPO: '${{ github.repository }}'
           REV: '${{ github.sha }}'
         with:
           packages: jq
           script: |
+            KONTROL=$(nix build --extra-experimental-features 'nix-command flakes' .#kontrol --json | jq -r '.[].outputs | to_entries[].value')
+            DRV=$(nix-store --query --deriver ${KONTROL})
+
+            # Push the full build closure to the public k-framework cache.
+            export CACHIX_AUTH_TOKEN="${CACHIX_PUBLIC_TOKEN}"
+            nix-store --query --requisites --include-outputs ${DRV} | cachix push k-framework
+
+            # Publish the binaries to the private k-framework-binary cache. kup
+            # reuses the store paths built above and only builds the additional
+            # solc variants.
+            export CACHIX_AUTH_TOKEN="${CACHIX_PRIVATE_KFB_TOKEN}"
             export PATH="$(nix build github:runtimeverification/kup --no-link --json | jq -r '.[].outputs | to_entries[].value')/bin:$PATH"
             kup publish k-framework-binary .#kontrol --keep-days 180
             kup publish k-framework-binary .#kontrol.solc_0_8_13 --keep-days 180
@@ -152,7 +134,7 @@ jobs:
   cut-release:
     name: 'Cut Release'
     runs-on: ubuntu-latest
-    needs: [dockerhub, nix-cache, nix-binary-cache]
+    needs: [dockerhub, nix-cache]
     steps:
       - name: 'Check out code'
         uses: actions/checkout@v4

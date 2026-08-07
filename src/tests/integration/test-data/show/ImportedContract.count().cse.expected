@@ -1,6 +1,6 @@
 
 ┌─ 1 (root, init)
-│   k: #execute ~> CONTINUATION:K
+│   k: #execute ~> CONTINUATION:K ~> .K
 │   pc: 0
 │   callDepth: CALLDEPTH_CELL:Int
 │   statusCode: STATUSCODE:StatusCode
@@ -9,7 +9,7 @@
 │
 │  (206 steps)
 ├─ 3 (terminal)
-│   k: #halt ~> CONTINUATION:K
+│   k: #halt ~> CONTINUATION:K ~> .K
 │   pc: 90
 │   callDepth: CALLDEPTH_CELL:Int
 │   statusCode: EVMC_SUCCESS
@@ -22,7 +22,7 @@
 </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
 ┊  subst: ...
 └─ 2 (leaf, target, terminal)
-    k: #halt ~> CONTINUATION:K
+    k: #halt ~> CONTINUATION:K ~> .K
     pc: PC_CELL_5d410f2a:Int
     callDepth: CALLDEPTH_CELL_5d410f2a:Int
     statusCode: STATUSCODE_FINAL:StatusCode
@@ -38,6 +38,7 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.COUNT():0
              <k>
                ( #execute => #halt )
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL

@@ -1,6 +1,6 @@
 
 ┌─ 1 (root, init)
-│   k: #execute ~> CONTINUATION:K
+│   k: #execute ~> CONTINUATION:K ~> .K
 │   pc: 0
 │   callDepth: CALLDEPTH_CELL:Int
 │   statusCode: STATUSCODE:StatusCode
@@ -9,7 +9,7 @@
 │
 │  (455 steps)
 ├─ 3
-│   k: #next [ STATICCALL ] ~> #execute ~> CONTINUATION:K
+│   k: #next [ STATICCALL ] ~> #execute ~> CONTINUATION:K ~> .K
 │   pc: 279
 │   callDepth: CALLDEPTH_CELL:Int
 │   statusCode: STATUSCODE:StatusCode
@@ -730,7 +730,7 @@
 ┣━━┓
 ┃  │
 ┃  ├─ 5
-┃  │   k: #injectPrank ~> #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃  │   k: #injectPrank ~> #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K  ...
 ┃  │   pc: 279
 ┃  │   callDepth: DEPTH_CELL:Int
 ┃  │   statusCode: STATUSCODE:StatusCode
@@ -741,7 +741,7 @@
 ┃  ┣━━┓
 ┃  ┃  │
 ┃  ┃  ├─ 9 (split)
-┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K ~> .K
 ┃  ┃  │   pc: 279
 ┃  ┃  │   callDepth: DEPTH_CELL:Int
 ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -757,7 +757,7 @@
 </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
 ┃  ┃  ┃  │
 ┃  ┃  ┃  ├─ 126
-┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K ~> .K
 ┃  ┃  ┃  │   pc: 279
 ┃  ┃  ┃  │   callDepth: DEPTH_CELL:Int
 ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -781,7 +781,7 @@
 </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
 ┃  ┃  ┃  │
 ┃  ┃  ┃  ├─ 148
-┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K ~> .K
 ┃  ┃  ┃  │   pc: 279
 ┃  ┃  ┃  │   callDepth: DEPTH_CELL:Int
 ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -805,7 +805,7 @@
 </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
 ┃  ┃  ┃  │
 ┃  ┃  ┃  ├─ 158
-┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K ~> .K
 ┃  ┃  ┃  │   pc: 279
 ┃  ┃  ┃  │   callDepth: DEPTH_CELL:Int
 ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -825,7 +825,7 @@
 ┃  ┃     ┃ constraint: true
 ┃  ┃     │
 ┃  ┃     ├─ 159
-┃  ┃     │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃  ┃     │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K ~> .K
 ┃  ┃     │   pc: 279
 ┃  ┃     │   callDepth: DEPTH_CELL:Int
 ┃  ┃     │   statusCode: STATUSCODE:StatusCode
@@ -844,7 +844,7 @@
 ┃  ┣━━┓
 ┃  ┃  │
 ┃  ┃  ├─ 10 (split)
-┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K ~> .K
 ┃  ┃  │   pc: 279
 ┃  ┃  │   callDepth: DEPTH_CELL:Int
 ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -860,7 +860,7 @@
 </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
 ┃  ┃  ┃  │
 ┃  ┃  ┃  ├─ 128
-┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K ~> .K
 ┃  ┃  ┃  │   pc: 279
 ┃  ┃  ┃  │   callDepth: DEPTH_CELL:Int
 ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -884,7 +884,7 @@
 </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
 ┃  ┃  ┃  │
 ┃  ┃  ┃  ├─ 150
-┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K ~> .K
 ┃  ┃  ┃  │   pc: 279
 ┃  ┃  ┃  │   callDepth: DEPTH_CELL:Int
 ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -908,7 +908,7 @@
 </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
 ┃  ┃  ┃  │
 ┃  ┃  ┃  ├─ 160
-┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K ~> .K
 ┃  ┃  ┃  │   pc: 279
 ┃  ┃  ┃  │   callDepth: DEPTH_CELL:Int
 ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -928,7 +928,7 @@
 ┃  ┃     ┃ constraint: true
 ┃  ┃     │
 ┃  ┃     ├─ 161
-┃  ┃     │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃  ┃     │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K ~> .K
 ┃  ┃     │   pc: 279
 ┃  ┃     │   callDepth: DEPTH_CELL:Int
 ┃  ┃     │   statusCode: STATUSCODE:StatusCode
@@ -947,7 +947,7 @@
 ┃  ┗━━┓
 ┃     │
 ┃     ├─ 11
-┃     │   k: #injectPrank ~> #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃     │   k: #injectPrank ~> #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K  ...
 ┃     │   pc: 279
 ┃     │   callDepth: DEPTH_CELL:Int
 ┃     │   statusCode: STATUSCODE:StatusCode
@@ -958,7 +958,7 @@
 ┃     ┣━━┓
 ┃     ┃  │
 ┃     ┃  ├─ 18 (split)
-┃     ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃     ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K ~> .K
 ┃     ┃  │   pc: 279
 ┃     ┃  │   callDepth: DEPTH_CELL:Int
 ┃     ┃  │   statusCode: STATUSCODE:StatusCode
@@ -974,7 +974,7 @@
 </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
 ┃     ┃  ┃  │
 ┃     ┃  ┃  ├─ 130
-┃     ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃     ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K ~> .K
 ┃     ┃  ┃  │   pc: 279
 ┃     ┃  ┃  │   callDepth: DEPTH_CELL:Int
 ┃     ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -998,7 +998,7 @@
 </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
 ┃     ┃  ┃  │
 ┃     ┃  ┃  ├─ 152
-┃     ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃     ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K ~> .K
 ┃     ┃  ┃  │   pc: 279
 ┃     ┃  ┃  │   callDepth: DEPTH_CELL:Int
 ┃     ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -1018,7 +1018,7 @@
 ┃     ┃     ┃ constraint: true
 ┃     ┃     │
 ┃     ┃     ├─ 153
-┃     ┃     │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃     ┃     │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K ~> .K
 ┃     ┃     │   pc: 279
 ┃     ┃     │   callDepth: DEPTH_CELL:Int
 ┃     ┃     │   statusCode: STATUSCODE:StatusCode
@@ -1037,7 +1037,7 @@
 ┃     ┗━━┓
 ┃        │
 ┃        ├─ 19
-┃        │   k: #injectPrank ~> #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃        │   k: #injectPrank ~> #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K  ...
 ┃        │   pc: 279
 ┃        │   callDepth: DEPTH_CELL:Int
 ┃        │   statusCode: STATUSCODE:StatusCode
@@ -1048,7 +1048,7 @@
 ┃        ┣━━┓
 ┃        ┃  │
 ┃        ┃  ├─ 33 (split)
-┃        ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃        ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K ~> .K
 ┃        ┃  │   pc: 279
 ┃        ┃  │   callDepth: DEPTH_CELL:Int
 ┃        ┃  │   statusCode: STATUSCODE:StatusCode
@@ -1064,7 +1064,7 @@
 </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
 ┃        ┃  ┃  │
 ┃        ┃  ┃  ├─ 138
-┃        ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃        ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K ~> .K
 ┃        ┃  ┃  │   pc: 279
 ┃        ┃  ┃  │   callDepth: DEPTH_CELL:Int
 ┃        ┃  ┃  │   statusCode: STATUSCODE:StatusCode
@@ -1084,7 +1084,7 @@
 ┃        ┃     ┃ constraint: true
 ┃        ┃     │
 ┃        ┃     ├─ 139
-┃        ┃     │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃        ┃     │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K ~> .K
 ┃        ┃     │   pc: 279
 ┃        ┃     │   callDepth: DEPTH_CELL:Int
 ┃        ┃     │   statusCode: STATUSCODE:StatusCode
@@ -1103,7 +1103,7 @@
 ┃        ┗━━┓
 ┃           │
 ┃           ├─ 34
-┃           │   k: #injectPrank ~> #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃           │   k: #injectPrank ~> #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K  ...
 ┃           │   pc: 279
 ┃           │   callDepth: DEPTH_CELL:Int
 ┃           │   statusCode: STATUSCODE:StatusCode
@@ -1114,7 +1114,7 @@
 ┃           ┣━━┓
 ┃           ┃  │
 ┃           ┃  ├─ 56
-┃           ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃           ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K ~> .K
 ┃           ┃  │   pc: 279
 ┃           ┃  │   callDepth: DEPTH_CELL:Int
 ┃           ┃  │   statusCode: STATUSCODE:StatusCode
@@ -1133,7 +1133,7 @@
 ┃           ┗━━┓
 ┃              │
 ┃              ├─ 57
-┃              │   k: #injectPrank ~> #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃              │   k: #injectPrank ~> #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K  ...
 ┃              │   pc: 279
 ┃              │   callDepth: DEPTH_CELL:Int
 ┃              │   statusCode: STATUSCODE:StatusCode
@@ -1144,7 +1144,7 @@
 ┃              ┣━━┓
 ┃              ┃  │
 ┃              ┃  └─ 92 (leaf, pending)
-┃              ┃      k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃              ┃      k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K ~> .K
 ┃              ┃      pc: 279
 ┃              ┃      callDepth: DEPTH_CELL:Int
 ┃              ┃      statusCode: STATUSCODE:StatusCode
@@ -1154,7 +1154,7 @@
 ┃              ┗━━┓
 ┃                 │
 ┃                 └─ 93 (leaf, pending)
-┃                     k: #injectPrank ~> #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃                     k: #injectPrank ~> #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K  ...
 ┃                     pc: 279
 ┃                     callDepth: DEPTH_CELL:Int
 ┃                     statusCode: STATUSCODE:StatusCode
@@ -1259,7 +1259,7 @@
       ┃  │
       ┃  │  (19 steps)
       ┃  └─ 96 (leaf, pending)
-      ┃      k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
+      ┃      k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K ~ ...
       ┃      pc: 0
       ┃      callDepth: ( CALLDEPTH_CELL:Int +Int 1 )
       ┃      statusCode: STATUSCODE:StatusCode
@@ -1280,7 +1280,7 @@
          │
          │  (79 steps)
          └─ 97 (leaf, pending)
-             k: #halt ~> CONTINUATION:K
+             k: #halt ~> CONTINUATION:K ~> .K
              pc: 295
              callDepth: CALLDEPTH_CELL:Int
              statusCode: EVMC_REVERT
@@ -1289,7 +1289,7 @@
 
 
 ┌─ 2 (root, leaf, target, terminal)
-│   k: #halt ~> CONTINUATION:K
+│   k: #halt ~> CONTINUATION:K ~> .K
 │   pc: PC_CELL_5d410f2a:Int
 │   callDepth: CALLDEPTH_CELL_5d410f2a:Int
 │   statusCode: STATUSCODE_FINAL:StatusCode
@@ -1305,6 +1305,7 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
                ( .K => #next [ STATICCALL ] ~> .K )
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -1471,10 +1472,12 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
            <kevm>
              <k>
                ( #addr [ STATICCALL ]
-               ~> #exec [ STATICCALL ] => STATICCALL 0 C_ARITHMETICCONTRACT_ID:Int 128 68 128 32 ~> .K )
+               ~> #exec [ STATICCALL ]
+               ~> .K => STATICCALL 0 C_ARITHMETICCONTRACT_ID:Int 128 68 128 32 ~> .K )
                ~> #pc [ STATICCALL ]
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -1668,11 +1671,13 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
              <k>
                ( #next [ STATICCALL ] ~> .K => #injectPrank
                ~> #next [ STATICCALL ]
-               ~> #endPrank )
+               ~> #endPrank
+               ~> .K )
                ~> #checkRevert
                ~> #updateRevertOutput 32 196
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -1870,11 +1875,13 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
              <k>
                ( #next [ STATICCALL ] ~> .K => #injectPrank
                ~> #next [ STATICCALL ]
-               ~> #endPrank )
+               ~> #endPrank
+               ~> .K )
                ~> #checkRevert
                ~> #updateRevertOutput 32 196
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -2072,11 +2079,13 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
              <k>
                ( #next [ STATICCALL ] ~> .K => #injectPrank
                ~> #next [ STATICCALL ]
-               ~> #endPrank )
+               ~> #endPrank
+               ~> .K )
                ~> #checkRevert
                ~> #updateRevertOutput 32 196
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -2274,11 +2283,13 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
              <k>
                ( #next [ STATICCALL ] ~> .K => #injectPrank
                ~> #next [ STATICCALL ]
-               ~> #endPrank )
+               ~> #endPrank
+               ~> .K )
                ~> #checkRevert
                ~> #updateRevertOutput 32 196
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -2475,10 +2486,12 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_ARITHMETICCONTRACT_ID:Int 128 68 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -2681,12 +2694,14 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_ARITHMETICCONTRACT_ID:Int 128 68 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #checkRevert
                ~> #updateRevertOutput 32 196
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -2889,12 +2904,14 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_ARITHMETICCONTRACT_ID:Int 128 68 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #checkRevert
                ~> #updateRevertOutput 32 196
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -3096,12 +3113,14 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_ARITHMETICCONTRACT_ID:Int 128 68 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #checkRevert
                ~> #updateRevertOutput 32 196
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -3302,12 +3321,14 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_ARITHMETICCONTRACT_ID:Int 128 68 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #checkRevert
                ~> #updateRevertOutput 32 196
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -3509,11 +3530,13 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
              <k>
                ( #next [ STATICCALL ] ~> .K => #injectPrank
                ~> #next [ STATICCALL ]
-               ~> #endPrank )
+               ~> #endPrank
+               ~> .K )
                ~> #checkRevert
                ~> #updateRevertOutput 32 196
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -3710,10 +3733,12 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_ARITHMETICCONTRACT_ID:Int 128 68 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -3919,10 +3944,12 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_ARITHMETICCONTRACT_ID:Int 128 68 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -4128,10 +4155,13 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
                ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
-               ~> #pc [ STATICCALL ] => JUMPI 593 bool2Word ( ( (chop ( lengthBytes ( OUTPUT_CELL:Bytes ) )) s<Word (32) ) ==Int 0 )
-               ~> #pc [ JUMPI ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K => JUMPI 593 bool2Word ( ( (chop ( lengthBytes ( OUTPUT_CELL:Bytes ) )) s<Word (32) ) ==Int 0 )
+               ~> #pc [ JUMPI ]
+               ~> .K )
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -4327,10 +4357,13 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
                ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
-               ~> #pc [ STATICCALL ] => JUMPI 593 bool2Word ( ( (chop ( lengthBytes ( OUTPUT_CELL:Bytes ) )) s<Word (32) ) ==Int 0 )
-               ~> #pc [ JUMPI ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K => JUMPI 593 bool2Word ( ( (chop ( lengthBytes ( OUTPUT_CELL:Bytes ) )) s<Word (32) ) ==Int 0 )
+               ~> #pc [ JUMPI ]
+               ~> .K )
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -4522,12 +4555,14 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_ARITHMETICCONTRACT_ID:Int 128 68 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #checkRevert
                ~> #updateRevertOutput 32 196
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -4733,12 +4768,14 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_ARITHMETICCONTRACT_ID:Int 128 68 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #checkRevert
                ~> #updateRevertOutput 32 196
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -4940,12 +4977,14 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_ARITHMETICCONTRACT_ID:Int 128 68 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #checkRevert
                ~> #updateRevertOutput 32 196
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -5150,12 +5189,14 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_ARITHMETICCONTRACT_ID:Int 128 68 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #checkRevert
                ~> #updateRevertOutput 32 196
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -5356,12 +5397,14 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_ARITHMETICCONTRACT_ID:Int 128 68 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #checkRevert
                ~> #updateRevertOutput 32 196
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -5516,8 +5559,8 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
        andBool ( _ISREVERTEXPECTED_CELL:Bool
        andBool ( _DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int
        andBool ( _CALLDEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int
-       andBool ( C_ARITHMETICCONTRACT_ID:Int ==Int #address ( FoundryConsole )
        andBool ( _NEWORIGIN_CELL:Account ==K .Account
+       andBool ( C_ARITHMETICCONTRACT_ID:Int ==Int #address ( FoundryConsole )
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int KV1_y:Int
        andBool ( 0 <=Int KV2_z:Int
@@ -5566,12 +5609,14 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_ARITHMETICCONTRACT_ID:Int 128 68 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #checkRevert
                ~> #updateRevertOutput 32 196
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -5772,10 +5817,12 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_ARITHMETICCONTRACT_ID:Int 128 68 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -5980,10 +6027,12 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_ARITHMETICCONTRACT_ID:Int 128 68 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -6184,12 +6233,14 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_ARITHMETICCONTRACT_ID:Int 128 68 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #checkRevert
                ~> #updateRevertOutput 32 196
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -6394,12 +6445,14 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_ARITHMETICCONTRACT_ID:Int 128 68 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #checkRevert
                ~> #updateRevertOutput 32 196
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -6600,12 +6653,14 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_ARITHMETICCONTRACT_ID:Int 128 68 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #checkRevert
                ~> #updateRevertOutput 32 196
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -6760,8 +6815,8 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
        andBool ( _ISREVERTEXPECTED_CELL:Bool
        andBool ( _DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int
        andBool ( _CALLDEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int
-       andBool ( C_ARITHMETICCONTRACT_ID:Int ==Int #address ( FoundryConsole )
        andBool ( _NEWORIGIN_CELL:Account ==K .Account
+       andBool ( C_ARITHMETICCONTRACT_ID:Int ==Int #address ( FoundryConsole )
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int KV1_y:Int
        andBool ( 0 <=Int KV2_z:Int
@@ -6810,12 +6865,14 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_ARITHMETICCONTRACT_ID:Int 128 68 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #checkRevert
                ~> #updateRevertOutput 32 196
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -7016,10 +7073,12 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_ARITHMETICCONTRACT_ID:Int 128 68 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -7223,10 +7282,12 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_ARITHMETICCONTRACT_ID:Int 128 68 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -7426,10 +7487,12 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_ARITHMETICCONTRACT_ID:Int 128 68 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -7582,8 +7645,8 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
       requires ( _ACTIVE_CELL:Bool
        andBool ( _CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int
        andBool ( _NEWCALLER_CELL:Account ==K NCL:Int
-       andBool ( C_ARITHMETICCONTRACT_ID:Int ==Int #address ( FoundryConsole )
        andBool ( _NEWORIGIN_CELL:Account ==K .Account
+       andBool ( C_ARITHMETICCONTRACT_ID:Int ==Int #address ( FoundryConsole )
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int KV1_y:Int
        andBool ( 0 <=Int KV2_z:Int
@@ -7633,10 +7696,12 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
            <kevm>
              <k>
                ( #next [ STATICCALL ] ~> .K => STATICCALL 0 C_ARITHMETICCONTRACT_ID:Int 128 68 128 32
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -7839,10 +7904,12 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
                ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -8050,10 +8117,12 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
                ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -8206,8 +8275,8 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
       requires ( _ACTIVE_CELL:Bool
        andBool ( _CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int
        andBool ( _NEWCALLER_CELL:Account ==K NCL:Int
-       andBool ( C_ARITHMETICCONTRACT_ID:Int ==Int #address ( FoundryConsole )
        andBool ( _NEWORIGIN_CELL:Account ==K .Account
+       andBool ( C_ARITHMETICCONTRACT_ID:Int ==Int #address ( FoundryConsole )
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int KV1_y:Int
        andBool ( 0 <=Int KV2_z:Int
@@ -8262,10 +8331,12 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
                ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -8474,10 +8545,12 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
                ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -8630,8 +8703,8 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
       requires ( _ACTIVE_CELL:Bool
        andBool ( _CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int
        andBool ( _NEWCALLER_CELL:Account ==K NCL:Int
-       andBool ( C_ARITHMETICCONTRACT_ID:Int ==Int #address ( FoundryConsole )
        andBool ( _NEWORIGIN_CELL:Account ==K .Account
+       andBool ( C_ARITHMETICCONTRACT_ID:Int ==Int #address ( FoundryConsole )
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int KV1_y:Int
        andBool ( 0 <=Int KV2_z:Int
@@ -8686,10 +8759,12 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
                ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -8896,11 +8971,13 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
              <k>
                ( #accessAccounts C_ARITHMETICCONTRACT_ID:Int
                ~> #checkCall C_ARITHMETICCONTRACT_ID:Int 0
-               ~> #call C_ARITHMETICCONTRACT_ID:Int C_ARITHMETICCONTRACT_ID:Int C_ARITHMETICCONTRACT_ID:Int 0 0 b"w\x16\x02\xf7" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) true => #execute ~> .K )
+               ~> #call C_ARITHMETICCONTRACT_ID:Int C_ARITHMETICCONTRACT_ID:Int C_ARITHMETICCONTRACT_ID:Int 0 0 b"w\x16\x02\xf7" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) true
+               ~> .K => #execute ~> .K )
                ~> #return 128 32
                ~> #pc [ STATICCALL ]
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -9216,8 +9293,10 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
                ~> #call C_ARITHMETICCONTRACT_ID:Int C_ARITHMETICCONTRACT_ID:Int C_ARITHMETICCONTRACT_ID:Int 0 0 b"w\x16\x02\xf7" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) true
                ~> #return 128 32
                ~> #pc [ STATICCALL ]
-               ~> #execute => #halt ~> .K )
+               ~> #execute
+               ~> .K => #halt ~> .K )
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -9427,12 +9506,14 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
                ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #checkRevert
                ~> #updateRevertOutput 32 196
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -9642,12 +9723,14 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
                ~> 1
                ~> #push
                ~> #setLocalMem 128 32 b""
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #endPrank
                ~> #checkRevert
                ~> #updateRevertOutput 32 196
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -9802,8 +9885,8 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
        andBool ( _ISREVERTEXPECTED_CELL:Bool
        andBool ( _DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int
        andBool ( _CALLDEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int
-       andBool ( C_ARITHMETICCONTRACT_ID:Int ==Int #address ( FoundryConsole )
        andBool ( _NEWORIGIN_CELL:Account ==K .Account
+       andBool ( C_ARITHMETICCONTRACT_ID:Int ==Int #address ( FoundryConsole )
        andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int KV1_y:Int
        andBool ( 0 <=Int KV2_z:Int

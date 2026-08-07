@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING, Any
 
 from kevm_pyk.cli import KEVMCLIArgs, node_id_like
 from kevm_pyk.utils import arg_pair_of
-from pyk.cli.utils import dir_path, file_path
+from pyk.cli.utils import dir_path, file_path, list_of
 from pyk.utils import ensure_dir_path
 
 from .options import (
@@ -227,6 +227,28 @@ class KontrolCLIArgs(KEVMCLIArgs):
                 'File and extra module to include for verification (which must import the KONTROL-MAIN module).'
                 'Format is <file>:<module name>.'
             ),
+        )
+        args.add_argument(
+            '--haskell-log-entries',
+            dest='haskell_log_entries',
+            type=list_of(str, delim=','),
+            help=(
+                'Comma-separated Haskell-backend log entries to capture per request '
+                '(e.g. Abort,Simplify,Rewrite); defaults to the curated pyk set when omitted.'
+            ),
+        )
+        args.add_argument(
+            '--haskell-log-dir',
+            dest='haskell_log_dir',
+            type=Path,
+            help='Capture per-request Haskell-backend log bundles, one <request-id>.jsonl file per RPC, under this directory.',
+        )
+        args.add_argument(
+            '--booster-only-simplify',
+            dest='booster_only_simplify',
+            default=None,
+            action='store_true',
+            help='Skip the Kore simplification pass after Booster; assume_defined still uses Kore for #Ceil evaluation.',
         )
         return args
 
@@ -553,6 +575,13 @@ def _create_argument_parser() -> ArgumentParser:
         default=None,
         action='store_true',
         help='Generate a Solidity test contract with concrete counterexample values when proofs fail.',
+    )
+    prove_args.add_argument(
+        '--step-timeout',
+        type=int,
+        default=None,
+        dest='step_timeout',
+        help='Per-step wall-clock budget in whole seconds; on timeout the backend request is interrupted and the execution depth is halved before retrying. Disabled by default.',
     )
 
     show_args = command_parser.add_parser(

@@ -1,6 +1,6 @@
 
 ┌─ 1 (root, init)
-│   k: #execute ~> CONTINUATION:K
+│   k: #execute ~> CONTINUATION:K ~> .K
 │   pc: 0
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
@@ -25,7 +25,7 @@
 │
 │  (190 steps)
 ├─ 5
-│   k: #end EVMC_SUCCESS ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
+│   k: #end EVMC_SUCCESS ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K ~> .K
 │   pc: 281
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
@@ -34,7 +34,7 @@
 │
 │  (1 step)
 ├─ 6
-│   k: #halt ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
+│   k: #halt ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K ~> .K
 │   pc: 281
 │   callDepth: 0
 │   statusCode: EVMC_SUCCESS
@@ -43,7 +43,7 @@
 │
 │  (2 steps)
 └─ 7 (leaf, terminal)
-    k: #halt ~> CONTINUATION:K
+    k: #halt ~> CONTINUATION:K ~> .K
     pc: 281
     callDepth: 0
     statusCode: EVMC_SUCCESS
@@ -52,7 +52,7 @@
 
 
 ┌─ 2 (root, leaf, target, terminal)
-│   k: #halt ~> CONTINUATION:K
+│   k: #halt ~> CONTINUATION:K ~> .K
 │   pc: PC_CELL_5d410f2a:Int
 │   callDepth: CALLDEPTH_CELL_5d410f2a:Int
 │   statusCode: STATUSCODE_FINAL:StatusCode
@@ -66,6 +66,7 @@ Node 7:
       <k>
         #halt
         ~> CONTINUATION:K
+        ~> .K
       </k>
       <mode>
         NORMAL
@@ -294,9 +295,11 @@ module SUMMARY-TEST%ASSUMETEST.TESTFAIL-ASSUME-FALSE(UINT256,UINT256):0
            <kevm>
              <k>
                ( .K => STATICCALL 0 #address ( FoundryCheat ) 128 36 128 0
-               ~> #pc [ STATICCALL ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K )
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -520,10 +523,12 @@ module SUMMARY-TEST%ASSUMETEST.TESTFAIL-ASSUME-FALSE(UINT256,UINT256):0
                ( STATICCALL 0 #address ( FoundryCheat ) 128 36 128 0 ~> .K => #accessAccounts #address ( FoundryCheat )
                ~> #checkCall #address ( FoundryTest ) 0
                ~> #call #address ( FoundryTest ) #address ( FoundryCheat ) #address ( FoundryCheat ) 0 0 b"Lc\xe5b" +Bytes #buf ( 32 , bool2Word ( KV0_a:Int ==Int KV1_b:Int ) ) true
-               ~> #return 128 0 )
+               ~> #return 128 0
+               ~> .K )
                ~> #pc [ STATICCALL ]
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -748,10 +753,13 @@ module SUMMARY-TEST%ASSUMETEST.TESTFAIL-ASSUME-FALSE(UINT256,UINT256):0
                ~> #checkCall #address ( FoundryTest ) 0
                ~> #call #address ( FoundryTest ) #address ( FoundryCheat ) #address ( FoundryCheat ) 0 0 b"Lc\xe5b" +Bytes #buf ( 32 , bool2Word ( KV0_a:Int ==Int KV1_b:Int ) ) true
                ~> #return 128 0
-               ~> #pc [ STATICCALL ] => #end EVMC_SUCCESS
-               ~> #pc [ STOP ] )
+               ~> #pc [ STATICCALL ]
+               ~> .K => #end EVMC_SUCCESS
+               ~> #pc [ STOP ]
+               ~> .K )
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -977,6 +985,7 @@ module SUMMARY-TEST%ASSUMETEST.TESTFAIL-ASSUME-FALSE(UINT256,UINT256):0
                ~> #pc [ STOP ]
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -1201,8 +1210,10 @@ module SUMMARY-TEST%ASSUMETEST.TESTFAIL-ASSUME-FALSE(UINT256,UINT256):0
              <k>
                #halt
                ~> ( #pc [ STOP ]
-               ~> #execute => .K )
+               ~> #execute
+               ~> .K => .K )
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL

@@ -1,6 +1,6 @@
 
 ┌─ 1 (root, init)
-│   k: #execute ~> CONTINUATION:K
+│   k: #execute ~> CONTINUATION:K ~> .K
 │   pc: 0
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
@@ -31,7 +31,7 @@
 ┃  │
 ┃  │  (42 steps)
 ┃  ├─ 15 (terminal)
-┃  │   k: #halt ~> CONTINUATION:K
+┃  │   k: #halt ~> CONTINUATION:K ~> .K
 ┃  │   pc: 328
 ┃  │   callDepth: 0
 ┃  │   statusCode: EVMC_SUCCESS
@@ -41,7 +41,7 @@
 ┃  ┊  constraint: true
 ┃  ┊  subst: ...
 ┃  └─ 7 (leaf, target, terminal)
-┃      k: #halt ~> CONTINUATION:K
+┃      k: #halt ~> CONTINUATION:K ~> .K
 ┃      pc: PC_CELL_5d410f2a:Int
 ┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
 ┃      statusCode: STATUSCODE_FINAL:StatusCode
@@ -60,7 +60,7 @@
    │
    │  (66 steps)
    └─ 16 (leaf, terminal)
-       k: #halt ~> CONTINUATION:K
+       k: #halt ~> CONTINUATION:K ~> .K
        pc: 2995
        callDepth: 0
        statusCode: EVMC_REVERT
@@ -76,6 +76,7 @@ Node 16:
       <k>
         #halt
         ~> CONTINUATION:K
+        ~> .K
       </k>
       <mode>
         NORMAL
@@ -304,9 +305,11 @@ module SUMMARY-TEST%ASSERTTEST.TEST-FAILING-BRANCH(UINT256):0
            <kevm>
              <k>
                ( .K => JUMPI 1124 bool2Word ( 100 <=Int ?KV0_x:Int )
-               ~> #pc [ JUMPI ] )
+               ~> #pc [ JUMPI ]
+               ~> .K )
                ~> #execute
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -528,8 +531,10 @@ module SUMMARY-TEST%ASSERTTEST.TEST-FAILING-BRANCH(UINT256):0
              <k>
                ( JUMPI 1124 bool2Word ( 100 <=Int KV0_x:Int )
                ~> #pc [ JUMPI ]
-               ~> #execute => #halt ~> .K )
+               ~> #execute
+               ~> .K => #halt ~> .K )
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -754,8 +759,10 @@ module SUMMARY-TEST%ASSERTTEST.TEST-FAILING-BRANCH(UINT256):0
              <k>
                ( JUMPI 1124 bool2Word ( 100 <=Int KV0_x:Int )
                ~> #pc [ JUMPI ]
-               ~> #execute => #halt ~> .K )
+               ~> #execute
+               ~> .K => #halt ~> .K )
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL

@@ -1,6 +1,6 @@
 
 ┌─ 1 (root, init)
-│   k: #execute ~> CONTINUATION:K
+│   k: #execute ~> CONTINUATION:K ~> .K
 │   pc: 0
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
@@ -9,7 +9,7 @@
 │
 │  (536 steps)
 ├─ 3 (terminal)
-│   k: #halt ~> CONTINUATION:K
+│   k: #halt ~> CONTINUATION:K ~> .K
 │   pc: 275
 │   callDepth: 0
 │   statusCode: EVMC_SUCCESS
@@ -18,7 +18,7 @@
 │
 │  (1 step)
 ├─ 4
-│   k: #execute ~> CONTINUATION:K
+│   k: #execute ~> CONTINUATION:K ~> .K
 │   pc: 0
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
@@ -27,7 +27,7 @@
 │
 │  (233 steps)
 ├─ 6 (terminal)
-│   k: #halt ~> CONTINUATION:K
+│   k: #halt ~> CONTINUATION:K ~> .K
 │   pc: 275
 │   callDepth: 0
 │   statusCode: EVMC_SUCCESS
@@ -37,7 +37,7 @@
 ┊  constraint: true
 ┊  subst: ...
 └─ 5 (leaf, target, terminal)
-    k: #halt ~> CONTINUATION:K
+    k: #halt ~> CONTINUATION:K ~> .K
     pc: PC_CELL_5d410f2a:Int
     callDepth: CALLDEPTH_CELL_5d410f2a:Int
     statusCode: STATUSCODE_FINAL:StatusCode
@@ -53,6 +53,7 @@ module SUMMARY-TEST%PRECONDITIONTEST.TESTPRECONDITION-STORAGE():0
              <k>
                ( #execute => #halt )
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -277,6 +278,7 @@ module SUMMARY-TEST%PRECONDITIONTEST.TESTPRECONDITION-STORAGE():0
              <k>
                ( #halt => #execute )
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL
@@ -501,6 +503,7 @@ module SUMMARY-TEST%PRECONDITIONTEST.TESTPRECONDITION-STORAGE():0
              <k>
                ( #execute => #halt )
                ~> _CONTINUATION:K
+               ~> .K
              </k>
              <mode>
                NORMAL

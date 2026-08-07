@@ -89,6 +89,7 @@ def test_foundry_prove(
     bug_report: BugReport | None,
     server: KoreServer,
     force_sequential: bool,
+    haskell_log_dir: Path | None,
 ) -> None:
     if test_id in SKIPPED_PROVE_TESTS or (update_expected_output and not test_id in SHOW_TESTS):
         pytest.skip()
@@ -107,6 +108,7 @@ def test_foundry_prove(
                 'usegas': test_id in GAS_TESTS,
                 'port': server.port,
                 'force_sequential': force_sequential,
+                'haskell_log_dir': haskell_log_dir,
             }
         ),
     )
