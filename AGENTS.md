@@ -156,7 +156,7 @@ src/tests/
 
 # 2. After any Python change: format then run all checkers + unit tests
 make format   # auto-format (autoflake + isort + black)
-make          # check (flake8, mypy, autoflake, isort, black) + unit tests
+make check    # check (flake8, mypy, autoflake, isort, black) + unit tests
 
 # 3. Tests
 make test-unit          # Fast, no kdist required
