@@ -112,7 +112,7 @@ jobs:
       - name: 'Run integration tests'
         run: |
           TEST_ARGS='-vv --force-sequential -k "not (test_kontrol_cse or test_foundry_minimize_proof or test_kontrol_end_to_end or test_kontrol_setup_storage or test_kontrol_counterexample_generation)" --numprocesses=3'
-          docker exec --user github-user "kontrol-ci-integration-${GITHUB_SHA}" makecov-integration TEST_ARGS="${TEST_ARGS}"
+          docker exec --user github-user "kontrol-ci-integration-${GITHUB_SHA}" make cov-integration TEST_ARGS="${TEST_ARGS}"
       - name: 'Tear down Docker'
         if: always()
         run: |
@@ -144,7 +144,7 @@ jobs:
       - name: 'Run CSE and Minimize tests'
         run: |
           TEST_ARGS='--numprocesses=5 --force-sequential -vv -k "test_kontrol_cse or test_foundry_minimize_proof"'
-          docker exec --user github-user "kontrol-ci-integration-${GITHUB_SHA}" makecov-integration TEST_ARGS="${TEST_ARGS}"
+          docker exec --user github-user "kontrol-ci-integration-${GITHUB_SHA}" make cov-integration TEST_ARGS="${TEST_ARGS}"
       - name: 'Tear down Docker'
         if: always()
         run: |
@@ -176,7 +176,7 @@ jobs:
       - name: 'Run end-to-end tests'
         run: |
           TEST_ARGS='--numprocesses=6 -vv --force-sequential -k "test_kontrol_end_to_end or test_kontrol_setup_storage or test_kontrol_counterexample_generation"'
-          docker exec --user github-user "kontrol-ci-integration-${GITHUB_SHA}" makecov-integration TEST_ARGS="${TEST_ARGS}"
+          docker exec --user github-user "kontrol-ci-integration-${GITHUB_SHA}" make cov-integration TEST_ARGS="${TEST_ARGS}"
       - name: 'Tear down Docker'
         if: always()
         run: |
