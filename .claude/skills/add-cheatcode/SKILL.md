@@ -1,4 +1,5 @@
 ---
+name: add-cheatcode
 description: Add a new Foundry cheatcode to Kontrol (K rules, selector, Solidity test, CI registration). Use when implementing a new vm.* or Kontrol-proprietary cheatcode.
 argument-hint: <cheatcode_signature>
 ---
@@ -55,7 +56,7 @@ Follow these steps:
 
 7. **If this is a Kontrol-proprietary cheatcode** (not a standard Foundry `vm.*` cheatcode): notify the user that the cheatcode interface must also be added to the [runtimeverification/kontrol-cheatcodes](https://github.com/runtimeverification/kontrol-cheatcodes) repository, and that this must be done as a separate PR there.
 
-8. **Update `AGENTS.md`**: add a row for the new cheatcode in the appropriate table (Foundry cheatcodes or Kontrol-proprietary cheatcodes) under the `## Cheatcodes` section.
+8. **Update `CLAUDE.md`**: add a row for the new cheatcode in the appropriate table (Foundry cheatcodes or Kontrol-proprietary cheatcodes) under the `## Cheatcodes: Foundry vs Kontrol-proprietary` section.
    Follow the format of existing rows: `| \`signature\` | purpose |`.
 
 After all steps, summarise what was added and which files were changed.

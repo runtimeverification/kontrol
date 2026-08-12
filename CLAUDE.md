@@ -96,7 +96,7 @@ Kontrol implements them to make existing Foundry test suites runnable under symb
 | `expectCall` variants                | Assert a specific call type occurs (`CALL`, `STATICCALL`, `DELEGATECALL`, `CREATE`, `CREATE2`)                                                                                                         |
 | `mockCall`                           | Return fixed data for calls to a given address/calldata                                                                                                                                                |
 | `mockFunction`                       | Replace a function implementation with a mock                                                                                                                                                          |
-| `ffi(string[])`                      | Execute a shell command — in symbolic mode returns a fresh symbolic variable unless `--ffi` is passed                                                                                                  |
+| `ffi(string[])`                      | Execute a shell command — returns a fresh symbolic variable unless FFI is enabled via `ffi = true` in `foundry.toml` or `FOUNDRY_FFI`/`DAPP_FFI=true`                                                  |
 | `setArbitraryStorage(address)`       | Make an account's storage fully symbolic (Foundry's name for what Kontrol originally called `symbolicStorage`)                                                                                         |
 | `toString(...)`                      | Convert various types to their hex string representation                                                                                                                                               |
 | `assert*` family                     | `assertEq`, `assertNotEq`, `assertTrue`, `assertFalse`, `assertGe`, `assertGt`, `assertLe`, `assertLt`, `assertApproxEqAbs`, `assertApproxEqRel` — implemented in `assert.md`                          |
@@ -126,7 +126,8 @@ They exist to expose symbolic execution primitives directly to Solidity test cod
 - **`assume`**: In Foundry fuzz testing, `vm.assume(cond)` causes the fuzzer to skip that input if `cond` is false.
   In Kontrol, it injects `cond` as a hard path constraint — it restricts the symbolic state space rather than filtering inputs.
 - **`ffi`**: In Foundry, always executes the shell command.
-  In Kontrol without `--ffi`, returns a fresh symbolic variable instead of running the command, allowing proofs to proceed over unknown external outputs.
+  In Kontrol, execution is gated on the Foundry profile: `Foundry.ffi` (`foundry.py`) is true only when `FOUNDRY_FFI=true`, `DAPP_FFI=true`, or `ffi = true` in `foundry.toml`.
+  When it is off, `vm.ffi` returns a fresh symbolic variable instead of running the command, allowing proofs to proceed over unknown external outputs.
 
 ## The `kontrol` commands
 

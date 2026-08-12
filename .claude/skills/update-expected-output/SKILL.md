@@ -1,4 +1,5 @@
 ---
+name: update-expected-output
 description: Update expected output golden files for integration test suites. Use after changes to K semantics or proof strategies that legitimately alter KCFG output.
 ---
 

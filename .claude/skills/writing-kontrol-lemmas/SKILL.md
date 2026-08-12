@@ -201,18 +201,17 @@ ladder and wastes one kompile cycle per attempt.
    `VERIFICATION` re-exports the project's lemmas via `run-lemma.k`'s
    `imports KONTROL-LEMMAS`, so whatever is already in `lemmas.k`
    (plus `auxiliary-lemmas` if enabled in `kontrol.toml`) is in scope.
-6. **Run the wrapper on the probe spec — in the background, with a
-   Monitor.** Kompile alone is ~60 s per invocation, so synchronous
-   foreground runs freeze the conversation:
+6. **Run the wrapper on the probe spec — in the background.** Kompile
+   alone is ~60 s per invocation, so synchronous foreground runs freeze
+   the conversation:
    ```
    Bash(run_in_background: true, command: "scripts/kontrol-lemma-test.sh <spec-stem>")
-   Monitor(<shell id>)                  # stream stdout until the shell exits
+   BashOutput(<shell id>)               # poll until the shell exits
    ```
    Never invoke the wrapper with `run_in_background: false` — the
    same rule applies to `minimize-lemmas.py`, which internally calls
    the wrapper once per rule and takes N × one kompile cycle.
-   After the Monitor signals the shell exited, read the tail of the
-   log to conclude:
+   Once the shell has exited, read the tail of the output to conclude:
    - `PROOF PASSED` → the existing theory already simplifies this
      shape. The proof's pending leaf is NOT an algebra problem —
      return to the gating checklist (step 2) and look at iteration
@@ -391,8 +390,8 @@ Full list: `lessons-learned.md`.
       `lemma-testing.md`). The identity claim `runLemma(E) =>
       doneLemma(E)` alone is NOT a soundness test.
 - [ ] `scripts/kontrol-lemma-test.sh <stem>` reports `PROOF PASSED` for
-      every claim in the spec module (run in the background and
-      monitored — never synchronous; kompile alone is ~60 s).
+      every claim in the spec module (run in the background and polled
+      with `BashOutput` — never synchronous; kompile alone is ~60 s).
 - [ ] Each new rule satisfies the "Four requirements" (operator nesting
       depth < 2, sound, generic/algebraic, readable with an identity-
       based name).
