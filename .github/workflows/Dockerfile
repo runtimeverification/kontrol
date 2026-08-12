@@ -1,6 +1,5 @@
 ARG Z3_VERSION
 ARG K_VERSION
-ARG BASE_DISTRO
 ARG LLVM_VERSION
 
 FROM ghcr.io/foundry-rs/foundry:rc-1 as FOUNDRY

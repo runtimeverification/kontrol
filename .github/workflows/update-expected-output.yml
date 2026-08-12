@@ -6,44 +6,56 @@ on:
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
+
+permissions:
+  contents: read
+
 jobs:
   update-output:
-    if: github.ref != 'refs/heads/master'
     name: 'Update Kontrol expected output'
     runs-on: [self-hosted, linux, normal, fast]
+    permissions:
+      contents: read
+      packages: read
     timeout-minutes: 180
     steps:
       - name: 'Check out code'
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           fetch-depth: 0
-          token: ${{ secrets.JENKINS_GITHUB_PAT }}
+          persist-credentials: false
       - name: 'Set up Docker'
         uses: ./.github/actions/with-docker
         with:
           container-name: kontrol-ci-integration-${{ github.sha }}
       - name: 'Build Kontrol'
         run: |
-            docker exec -u github-user kontrol-ci-integration-${GITHUB_SHA} /bin/bash -c 'CXX=clang++-14 uv run kdist --verbose build -j`nproc` kontrol.*'
+            docker exec -u github-user "kontrol-ci-integration-${GITHUB_SHA}" /bin/bash -c 'CXX=clang++-14 uv run kdist --verbose build -j`nproc` kontrol.*'
       - name: 'Run integration tests'
         run: |
           TEST_ARGS="--maxfail=1000 --numprocesses=2 --update-expected-output --force-sequential -vv"
-          docker exec --user github-user kontrol-ci-integration-${GITHUB_SHA} bash -c "make cov-integration TEST_ARGS='${TEST_ARGS} -k \"not (test_kontrol_cse or test_foundry_minimize_proof or test_kontrol_end_to_end or test_kontrol_setup_storage or test_kontrol_counterexample_generation)\"' || true"
-          docker exec --user github-user kontrol-ci-integration-${GITHUB_SHA} bash -c "make cov-integration TEST_ARGS='${TEST_ARGS} -k \"test_kontrol_cse or test_foundry_minimize_proof\"' || true"
-          docker exec --user github-user kontrol-ci-integration-${GITHUB_SHA} bash -c "make cov-integration TEST_ARGS='${TEST_ARGS} -k \"test_kontrol_end_to_end or test_kontrol_setup_storage or test_kontrol_counterexample_generation\"' || true"
+          docker exec --user github-user "kontrol-ci-integration-${GITHUB_SHA}" bash -c "make cov-integration TEST_ARGS='${TEST_ARGS} -k \"not (test_kontrol_cse or test_foundry_minimize_proof or test_kontrol_end_to_end or test_kontrol_setup_storage or test_kontrol_counterexample_generation)\"' || true"
+          docker exec --user github-user "kontrol-ci-integration-${GITHUB_SHA}" bash -c "make cov-integration TEST_ARGS='${TEST_ARGS} -k \"test_kontrol_cse or test_foundry_minimize_proof\"' || true"
+          docker exec --user github-user "kontrol-ci-integration-${GITHUB_SHA}" bash -c "make cov-integration TEST_ARGS='${TEST_ARGS} -k \"test_kontrol_end_to_end or test_kontrol_setup_storage or test_kontrol_counterexample_generation\"' || true"
       - name: 'Copy updated files to host'
         run: |
-          docker cp kontrol-ci-integration-${GITHUB_SHA}:/home/github-user/workspace/src/tests/integration/test-data/show ./src/tests/integration/test-data/
-      - name: 'Configure GitHub user'
-        run: |
-          git config user.name devops
-          git config user.email devops@runtimeverification.com
-      - name: 'Push golden files to branch'
-        run: |
-          git add ./src/tests/integration/test-data/show
-          git commit -m "Update expected output files"
-          git push
+          docker cp "kontrol-ci-integration-${GITHUB_SHA}":/home/github-user/workspace/src/tests/integration/test-data/show ./src/tests/integration/test-data/
+      # The regenerated files are published as an artifact rather than pushed back to
+      # the branch, so this workflow needs no write credential. Download it and commit
+      # the contents over src/tests/integration/test-data/show; see the README.
+      - name: 'Upload golden files'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
+        with:
+          name: expected-output
+          path: src/tests/integration/test-data/show
+          # Every test step above ends in `|| true`, so a run that produced nothing at
+          # all would otherwise upload an empty artifact and look like a success.
+          if-no-files-found: error
+          # Long enough for whoever dispatched the run to download and commit it.
+          retention-days: 7
       - name: 'Tear down Docker'
         if: always()
         run: |
-          docker stop --time=0 kontrol-ci-integration-${GITHUB_SHA}
+          # Best effort: the container does not exist if 'Set up Docker' failed, and a
+          # non-zero exit here would mask the step that actually failed.
+          docker stop --timeout=0 "kontrol-ci-integration-${GITHUB_SHA}" || true
