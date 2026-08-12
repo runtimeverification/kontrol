@@ -257,21 +257,18 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
+      # k-framework is a public cache, so it is declared as a substituter directly
+      # rather than through cachix-action. The `cachix` CLI validates whatever auth
+      # token is left in the runner's own config before it will register a cache, and
+      # a revoked token there fails the step even for a cache that needs no auth.
       - name: 'Install Nix'
         if: ${{ matrix.runner != 'MacM1' }}
         uses: cachix/install-nix-action@754537aaedb35f72ab11a60cc162c49ef3016495  # v31.2.0
         with:
           install_url: https://releases.nixos.org/nix/nix-2.31.0/install
           extra_nix_config: |
-            substituters = http://cache.nixos.org https://cache.iog.io
-            trusted-public-keys = cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=
-
-      # Read-only use of the public k-framework cache; no auth token, so no secret.
-      - name: 'Install Cachix'
-        if: ${{ matrix.runner != 'MacM1' }}
-        uses: cachix/cachix-action@3ba601ff5bbb07c7220846facfa2cd81eeee15a1  # v16
-        with:
-          name: k-framework
+            substituters = https://cache.nixos.org https://k-framework.cachix.org
+            trusted-public-keys = cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= k-framework.cachix.org-1:jeyMXB2h28gpNRjuVkehg+zLj62ma1RnyyopA/20yFE=
 
       - name: 'Build Kontrol'
         env:
