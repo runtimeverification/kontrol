@@ -8,19 +8,27 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+# No job here writes to the repository, so the token stays read-only regardless of
+# the repository default. Jobs that build the CI image additionally need
+# `packages: read` to pull `ghcr.io/foundry-rs/foundry`.
+permissions:
+  contents: read
+
 jobs:
   code-quality-checks:
     name: 'Code Quality Checks'
     runs-on: ubuntu-latest
     steps:
       - name: 'Check out code'
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false
       - name: 'Get uv release'
         id: uv_release
         run: |
-          echo uv_version=$(cat deps/uv_release) >> "${GITHUB_OUTPUT}"
+          echo "uv_version=$(cat deps/uv_release)" >> "${GITHUB_OUTPUT}"
       - name: 'Install uv'
-        uses: astral-sh/setup-uv@v6
+        uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9  # v9.0.0
         with:
           version: ${{ steps.uv_release.outputs.uv_version }}
       - name: 'Run code quality checks'
@@ -34,13 +42,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 'Check out code'
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false
       - name: 'Get uv release'
         id: uv_release
         run: |
-          echo uv_version=$(cat deps/uv_release) >> "${GITHUB_OUTPUT}"
+          echo "uv_version=$(cat deps/uv_release)" >> "${GITHUB_OUTPUT}"
       - name: 'Install uv'
-        uses: astral-sh/setup-uv@v6
+        uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9  # v9.0.0
         with:
           version: ${{ steps.uv_release.outputs.uv_version }}
       - name: 'Run unit tests'
@@ -50,105 +60,129 @@ jobs:
     needs: code-quality-checks
     name: 'Profiling'
     runs-on: [self-hosted, linux, normal]
+    permissions:
+      contents: read
+      packages: read
     timeout-minutes: 30
     steps:
       - name: 'Check out code'
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           fetch-depth: 0
+          persist-credentials: false
       - name: 'Set up Docker'
         uses: ./.github/actions/with-docker
         with:
           container-name: kontrol-ci-profile-${{ github.sha }}
       - name: 'Build Kontrol'
         run: |
-            docker exec -u github-user kontrol-ci-profile-${GITHUB_SHA} /bin/bash -c 'CXX=clang++-14 uv run kdist --verbose build -j`nproc` kontrol.*'
+            docker exec -u github-user "kontrol-ci-profile-${GITHUB_SHA}" /bin/bash -c 'CXX=clang++-14 uv run kdist --verbose build -j`nproc` kontrol.*'
       - name: 'Run profiling'
         run: |
           PROF_ARGS='--numprocesses=8'
-          docker exec -u github-user kontrol-ci-profile-${GITHUB_SHA} make profile PROF_ARGS="${PROF_ARGS}"
+          docker exec -u github-user "kontrol-ci-profile-${GITHUB_SHA}" makeprofile PROF_ARGS="${PROF_ARGS}"
       - name: 'Tear down Docker'
         if: always()
         run: |
-          docker stop --time=0 kontrol-ci-profile-${GITHUB_SHA}
+          # Best effort: the container does not exist if 'Set up Docker' failed, and a
+          # non-zero exit here would mask the step that actually failed.
+          docker stop --timeout=0 "kontrol-ci-profile-${GITHUB_SHA}" || true
 
   integration-tests:
     needs: code-quality-checks
     name: 'Integration Tests'
     runs-on: [self-hosted, linux, normal, fast]
+    permissions:
+      contents: read
+      packages: read
     timeout-minutes: 120
     steps:
       - name: 'Check out code'
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           fetch-depth: 0
+          persist-credentials: false
       - name: 'Set up Docker'
         uses: ./.github/actions/with-docker
         with:
           container-name: kontrol-ci-integration-${{ github.sha }}
       - name: 'Build Kontrol'
         run: |
-            docker exec -u github-user kontrol-ci-integration-${GITHUB_SHA} /bin/bash -c 'CXX=clang++-14 uv run kdist --verbose build -j`nproc` kontrol.*'
+            docker exec -u github-user "kontrol-ci-integration-${GITHUB_SHA}" /bin/bash -c 'CXX=clang++-14 uv run kdist --verbose build -j`nproc` kontrol.*'
       - name: 'Run integration tests'
         run: |
           TEST_ARGS='-vv --force-sequential -k "not (test_kontrol_cse or test_foundry_minimize_proof or test_kontrol_end_to_end or test_kontrol_setup_storage or test_kontrol_counterexample_generation)" --numprocesses=3'
-          docker exec --user github-user kontrol-ci-integration-${GITHUB_SHA} make cov-integration TEST_ARGS="${TEST_ARGS}"
+          docker exec --user github-user "kontrol-ci-integration-${GITHUB_SHA}" makecov-integration TEST_ARGS="${TEST_ARGS}"
       - name: 'Tear down Docker'
         if: always()
         run: |
-          docker stop --time=0 kontrol-ci-integration-${GITHUB_SHA}
+          # Best effort: the container does not exist if 'Set up Docker' failed, and a
+          # non-zero exit here would mask the step that actually failed.
+          docker stop --timeout=0 "kontrol-ci-integration-${GITHUB_SHA}" || true
 
   cse-tests:
     needs: code-quality-checks
     name: 'CSE Tests'
     runs-on: [self-hosted, linux, normal, fast]
+    permissions:
+      contents: read
+      packages: read
     timeout-minutes: 120
     steps:
       - name: 'Check out code'
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           fetch-depth: 0
+          persist-credentials: false
       - name: 'Set up Docker'
         uses: ./.github/actions/with-docker
         with:
           container-name: kontrol-ci-integration-${{ github.sha }}
       - name: 'Build Kontrol'
         run: |
-            docker exec -u github-user kontrol-ci-integration-${GITHUB_SHA} /bin/bash -c 'CXX=clang++-14 uv run kdist --verbose build -j`nproc` kontrol.*'
+            docker exec -u github-user "kontrol-ci-integration-${GITHUB_SHA}" /bin/bash -c 'CXX=clang++-14 uv run kdist --verbose build -j`nproc` kontrol.*'
       - name: 'Run CSE and Minimize tests'
         run: |
           TEST_ARGS='--numprocesses=5 --force-sequential -vv -k "test_kontrol_cse or test_foundry_minimize_proof"'
-          docker exec --user github-user kontrol-ci-integration-${GITHUB_SHA} make cov-integration TEST_ARGS="${TEST_ARGS}"
+          docker exec --user github-user "kontrol-ci-integration-${GITHUB_SHA}" makecov-integration TEST_ARGS="${TEST_ARGS}"
       - name: 'Tear down Docker'
         if: always()
         run: |
-          docker stop --time=0 kontrol-ci-integration-${GITHUB_SHA}
+          # Best effort: the container does not exist if 'Set up Docker' failed, and a
+          # non-zero exit here would mask the step that actually failed.
+          docker stop --timeout=0 "kontrol-ci-integration-${GITHUB_SHA}" || true
 
   end-to-end-tests:
     needs: code-quality-checks
     name: 'End to End Sanity Tests'
     runs-on: [self-hosted, linux, normal, fast]
+    permissions:
+      contents: read
+      packages: read
     timeout-minutes: 35
     steps:
       - name: 'Check out code'
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           fetch-depth: 0
+          persist-credentials: false
       - name: 'Set up Docker'
         uses: ./.github/actions/with-docker
         with:
           container-name: kontrol-ci-integration-${{ github.sha }}
       - name: 'Build Kontrol'
         run: |
-            docker exec -u github-user kontrol-ci-integration-${GITHUB_SHA} /bin/bash -c 'CXX=clang++-14 uv run kdist --verbose build -j`nproc` kontrol.*'
+            docker exec -u github-user "kontrol-ci-integration-${GITHUB_SHA}" /bin/bash -c 'CXX=clang++-14 uv run kdist --verbose build -j`nproc` kontrol.*'
       - name: 'Run end-to-end tests'
         run: |
           TEST_ARGS='--numprocesses=6 -vv --force-sequential -k "test_kontrol_end_to_end or test_kontrol_setup_storage or test_kontrol_counterexample_generation"'
-          docker exec --user github-user kontrol-ci-integration-${GITHUB_SHA} make cov-integration TEST_ARGS="${TEST_ARGS}"
+          docker exec --user github-user "kontrol-ci-integration-${GITHUB_SHA}" makecov-integration TEST_ARGS="${TEST_ARGS}"
       - name: 'Tear down Docker'
         if: always()
         run: |
-          docker stop --time=0 kontrol-ci-integration-${GITHUB_SHA}
+          # Best effort: the container does not exist if 'Set up Docker' failed, and a
+          # non-zero exit here would mask the step that actually failed.
+          docker stop --timeout=0 "kontrol-ci-integration-${GITHUB_SHA}" || true
 
   docker:
     needs: code-quality-checks
@@ -157,50 +191,55 @@ jobs:
     timeout-minutes: 30
     steps:
       - name: 'Check out code'
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       - name: 'Set environment'
         run: |
-          echo "IMAGE_TAG=runtimeverificationinc/kontrol-${GITHUB_SHA}" >> ${GITHUB_ENV}
-          echo "CONTAINER_NAME=kontrol-ci-docker-${GITHUB_SHA}" >> ${GITHUB_ENV}
-          echo "DOCKER_USER=user" >> ${GITHUB_ENV}
-          echo "DOCKER_GROUP=user" >> ${GITHUB_ENV}
-          echo "FOUNDRY_ROOT=/home/user/foundry" >> ${GITHUB_ENV}
+          {
+            echo "IMAGE_TAG=runtimeverificationinc/kontrol-${GITHUB_SHA}"
+            echo "CONTAINER_NAME=kontrol-ci-docker-${GITHUB_SHA}"
+            echo "DOCKER_USER=user"
+            echo "DOCKER_GROUP=user"
+            echo "FOUNDRY_ROOT=/home/user/foundry"
+          } >> "${GITHUB_ENV}"
       - name: 'Build Docker image'
         run: |
           K_VERSION=$(cat deps/k_release)
           Z3_VERSION=$(cat deps/z3)
-          docker build . --tag ${IMAGE_TAG} --build-arg K_VERSION=${K_VERSION} --build-arg Z3_VERSION=${Z3_VERSION}
+          docker build . --tag "${IMAGE_TAG}" --build-arg K_VERSION="${K_VERSION}" --build-arg Z3_VERSION="${Z3_VERSION}"
       - name: 'Start Docker container'
         run: |
-          docker run                          \
-            --name ${CONTAINER_NAME}          \
-            --rm                              \
-            --interactive                     \
-            --tty                             \
-            --detach                          \
-            --user root                       \
-            ${IMAGE_TAG}
+          docker run                            \
+            --name "${CONTAINER_NAME}"          \
+            --rm                                \
+            --interactive                       \
+            --tty                               \
+            --detach                            \
+            --user root                         \
+            "${IMAGE_TAG}"
 
-          docker cp src/tests/integration/test-data/foundry ${CONTAINER_NAME}:${FOUNDRY_ROOT}
-          docker exec ${CONTAINER_NAME} chown -R ${DOCKER_USER}:${DOCKER_GROUP} ${FOUNDRY_ROOT}
+          docker cp src/tests/integration/test-data/foundry "${CONTAINER_NAME}":"${FOUNDRY_ROOT}"
+          docker exec "${CONTAINER_NAME}" chown -R "${DOCKER_USER}:${DOCKER_GROUP}" "${FOUNDRY_ROOT}"
       - name: 'Run forge build'
         run: |
-          docker exec --user ${DOCKER_USER} --workdir ${FOUNDRY_ROOT} ${CONTAINER_NAME} forge install --no-git foundry-rs/forge-std@75f1746
-          docker exec --user ${DOCKER_USER} --workdir ${FOUNDRY_ROOT} ${CONTAINER_NAME} forge install --no-git runtimeverification/kontrol-cheatcodes@a5dd4b0
-          docker exec --user ${DOCKER_USER} --workdir ${FOUNDRY_ROOT} ${CONTAINER_NAME} forge build
+          docker exec --user "${DOCKER_USER}" --workdir "${FOUNDRY_ROOT}" "${CONTAINER_NAME}" forge install --no-git foundry-rs/forge-std@75f1746
+          docker exec --user "${DOCKER_USER}" --workdir "${FOUNDRY_ROOT}" "${CONTAINER_NAME}" forge install --no-git runtimeverification/kontrol-cheatcodes@a5dd4b0
+          docker exec --user "${DOCKER_USER}" --workdir "${FOUNDRY_ROOT}" "${CONTAINER_NAME}" forge build
       - name: 'Run kontrol build'
-        run: docker exec --user ${DOCKER_USER} --workdir ${FOUNDRY_ROOT} ${CONTAINER_NAME} kontrol build -O2
+        run: docker exec --user "${DOCKER_USER}" --workdir "${FOUNDRY_ROOT}" "${CONTAINER_NAME}" kontrol build -O2
       - name: 'Run kontrol prove'
-        run: docker exec --user ${DOCKER_USER} --workdir ${FOUNDRY_ROOT} ${CONTAINER_NAME} kontrol prove --match-test 'AssertTest.test_assert_true()'
+        run: docker exec --user "${DOCKER_USER}" --workdir "${FOUNDRY_ROOT}" "${CONTAINER_NAME}" kontrol prove --match-test 'AssertTest.test_assert_true()'
       - name: 'Run kontrol show'
-        run: docker exec --user ${DOCKER_USER} --workdir ${FOUNDRY_ROOT} ${CONTAINER_NAME} kontrol show 'AssertTest.test_assert_true()'
+        run: docker exec --user "${DOCKER_USER}" --workdir "${FOUNDRY_ROOT}" "${CONTAINER_NAME}" kontrol show 'AssertTest.test_assert_true()'
       - name: 'Tear down Docker'
         if: always()
         run: |
-          docker stop --time=0 ${CONTAINER_NAME}
+          # Best effort: the container does not exist if 'Start Docker container' failed,
+          # and a non-zero exit here would mask the step that actually failed.
+          docker stop --timeout=0 "${CONTAINER_NAME}" || true
 
   nix:
     needs: code-quality-checks
@@ -208,27 +247,29 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        runner: [normal, MacM1]  # MacM1 / normal are self-hosted, 
+        runner: [normal, MacM1]  # MacM1 / normal are self-hosted
     runs-on: ${{ matrix.runner }}
     timeout-minutes: 60
     steps:
       - name: 'Check out code'
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       - name: 'Install Nix'
         if: ${{ matrix.runner != 'MacM1' }}
-        uses: cachix/install-nix-action@v31.2.0
+        uses: cachix/install-nix-action@754537aaedb35f72ab11a60cc162c49ef3016495  # v31.2.0
         with:
           install_url: https://releases.nixos.org/nix/nix-2.31.0/install
           extra_nix_config: |
             substituters = http://cache.nixos.org https://cache.iog.io
-            trusted-public-keys = cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= 
+            trusted-public-keys = cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=
 
+      # Read-only use of the public k-framework cache; no auth token, so no secret.
       - name: 'Install Cachix'
         if: ${{ matrix.runner != 'MacM1' }}
-        uses: cachix/cachix-action@v16
+        uses: cachix/cachix-action@3ba601ff5bbb07c7220846facfa2cd81eeee15a1  # v16
         with:
           name: k-framework
 
@@ -240,8 +281,8 @@ jobs:
           set -euxo pipefail
           nix --version
           JQ=$(nix-build '<nixpkgs>' -A jq --no-link)/bin/jq
-          KONTROL_BIN=$(nix build .#kontrol.solc_0_8_13 --print-build-logs --json | $JQ -r '.[].outputs | to_entries[].value')/bin
-          echo $KONTROL_BIN >> $GITHUB_PATH
+          KONTROL_BIN=$(nix build .#kontrol.solc_0_8_13 --print-build-logs --json | "${JQ}" -r '.[].outputs | to_entries[].value')/bin
+          echo "${KONTROL_BIN}" >> "${GITHUB_PATH}"
 
       - name: 'Run smoke test'
         run: cd package && ./test-package.sh
