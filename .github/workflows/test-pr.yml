@@ -80,7 +80,7 @@ jobs:
       - name: 'Run profiling'
         run: |
           PROF_ARGS='--numprocesses=8'
-          docker exec -u github-user "kontrol-ci-profile-${GITHUB_SHA}" makeprofile PROF_ARGS="${PROF_ARGS}"
+          docker exec -u github-user "kontrol-ci-profile-${GITHUB_SHA}" make profile PROF_ARGS="${PROF_ARGS}"
       - name: 'Tear down Docker'
         if: always()
         run: |
