@@ -107,6 +107,9 @@ uv run pytest src/tests/integration/test_foundry_prove.py -v \
 ```
 
 CI (`.github/workflows/test-pr.yml`) partitions integration tests into four self-hosted jobs by `-k` filter to balance load — **Integration** (everything except the named groups), **CSE** (`test_kontrol_cse or test_foundry_minimize_proof`), **End-to-End** (`test_kontrol_end_to_end or test_kontrol_setup_storage or test_kontrol_counterexample_generation`), and **Profiling** — so adding a test to one of those named groups changes which job runs it.
+`.github/workflows/lint-workflows.yml` runs `actionlint` and `zizmor` over `.github/` on every PR; run both locally before touching a workflow.
+`.github/actionlint.yaml` declares the self-hosted runner labels (`normal`, `fast`, `MacM1`) that actionlint cannot discover on its own.
+
 ## Dependencies, versioning, and packaging
 
 `deps/` pins exact upstream versions, each file consumed by the build/CI:
