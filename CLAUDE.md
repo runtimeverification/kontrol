@@ -41,6 +41,15 @@ Code-quality workflow before any PR — `make format` then `make check`:
 
 Note: `black --check` prints a Python-3.10-vs-target-version parse warning on this machine; it is harmless and the files still pass.
 
+## Claude Code skills
+
+`.claude/skills/` ships repo-specific skills that automate the workflows described in this guide; invoke them by name in Claude Code:
+
+- **`/build`** — full K build. Wraps `scripts/build-kontrol` (K version check/install, `uv sync`, `kdist clean`, `kdist build`). Use whenever `src/kontrol/kdist/` changed, on first setup, or after a K version bump.
+- **`/add-cheatcode <signature>`** — add a Foundry or Kontrol-proprietary cheatcode end to end (K rule in `cheatcodes.md`, selector, subconfig, Solidity test, CI-list registration, rebuild).
+- **`/update-expected-output`** — regenerate `show` golden files for the integration suites. Wraps `scripts/update-expected-output`; scope it to a suite or a single `-k` test and run it in the background (it is slow).
+- **`/writing-kontrol-lemmas`** — author and validate K simplification lemmas when `kontrol prove` leaves pending/stuck KCFG leaves, using a stand-alone `runLemma`/`doneLemma` harness rather than the full Solidity build.
+
 ## Building the K definition (kdist)
 
 Kontrol's K semantics are compiled through pyk's kdist system; targets are declared in `src/kontrol/kdist/plugin.py` (registered via the `[project.entry-points.kdist] kontrol = "kontrol.kdist.plugin"` entry point).
@@ -54,6 +63,71 @@ Four Haskell-backend targets, all rooted at `kontrol.md`, differ only by which l
 Build them with `uv run kdist --verbose build -jN 'kontrol.*'`; on Linux prefix `CXX=clang++-14` (LLVM 14).
 `kdist clean` wipes the build if it gets into a bad state.
 `kontrol build` (the user-facing command) selects which of these definitions to use based on `--keccak-lemmas`/`--auxiliary-lemmas`.
+
+## Cheatcodes: Foundry vs Kontrol-proprietary
+
+All cheatcodes (both Foundry and Kontrol-proprietary) are implemented in `src/kontrol/kdist/cheatcodes.md` (module `FOUNDRY-CHEAT-CODES`) and `src/kontrol/kdist/assert.md` (module `KONTROL-ASSERTIONS`).
+They are all dispatched via the same Foundry cheatcode address (`0x7109709ecfa91a80626ff3989d68f67f5b1dd12d`), using ABI function selectors.
+
+### Foundry cheatcodes (standard `vm.*`)
+
+These match Foundry's `Vm` interface.
+Kontrol implements them to make existing Foundry test suites runnable under symbolic execution without changes.
+
+| Cheatcode                            | Purpose                                                                                                                                                                                                |
+| ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `assume(bool)`                       | Inject a path constraint — **semantics differ from Foundry**: in Foundry fuzz testing it discards the fuzz input; in Kontrol it adds the condition as a hard constraint on the symbolic execution path |
+| `deal(address, uint256)`             | Set an account's ETH balance                                                                                                                                                                           |
+| `etch(address, bytes)`               | Set an account's bytecode                                                                                                                                                                              |
+| `warp(uint256)`                      | Set block timestamp                                                                                                                                                                                    |
+| `roll(uint256)`                      | Set block number                                                                                                                                                                                       |
+| `fee(uint256)`                       | Set block base fee                                                                                                                                                                                     |
+| `chainId(uint256)`                   | Set chain ID                                                                                                                                                                                           |
+| `coinbase(address)`                  | Set block coinbase                                                                                                                                                                                     |
+| `load` / `store`                     | Read/write storage slots directly                                                                                                                                                                      |
+| `getNonce` / `setNonce`              | Get/set account nonce                                                                                                                                                                                  |
+| `computeCreateAddress(address,uint256)` | Predict the address a contract will be deployed to via CREATE, given deployer address and nonce                                                                                                     |
+| `addr(uint256)`                      | Derive address from private key                                                                                                                                                                        |
+| `label(address, string)`             | Attach a human-readable label to an address                                                                                                                                                            |
+| `sign(uint256, bytes32)`             | Sign a digest with a private key                                                                                                                                                                       |
+| `prank` / `startPrank` / `stopPrank` | Impersonate `msg.sender` and `tx.origin` for calls                                                                                                                                                     |
+| `expectRevert`                       | Assert the next call reverts (with optional reason)                                                                                                                                                    |
+| `expectEmit`                         | Assert a specific event is emitted                                                                                                                                                                     |
+| `expectCall` variants                | Assert a specific call type occurs (`CALL`, `STATICCALL`, `DELEGATECALL`, `CREATE`, `CREATE2`)                                                                                                         |
+| `mockCall`                           | Return fixed data for calls to a given address/calldata                                                                                                                                                |
+| `mockFunction`                       | Replace a function implementation with a mock                                                                                                                                                          |
+| `ffi(string[])`                      | Execute a shell command — returns a fresh symbolic variable unless FFI is enabled via `ffi = true` in `foundry.toml` or `FOUNDRY_FFI`/`DAPP_FFI=true`                                                  |
+| `setArbitraryStorage(address)`       | Make an account's storage fully symbolic (Foundry's name for what Kontrol originally called `symbolicStorage`)                                                                                         |
+| `toString(...)`                      | Convert various types to their hex string representation                                                                                                                                               |
+| `assert*` family                     | `assertEq`, `assertNotEq`, `assertTrue`, `assertFalse`, `assertGe`, `assertGt`, `assertLe`, `assertLt`, `assertApproxEqAbs`, `assertApproxEqRel` — implemented in `assert.md`                          |
+
+### Kontrol-proprietary cheatcodes
+
+These have no equivalent in standard Foundry.
+They exist to expose symbolic execution primitives directly to Solidity test code.
+
+| Cheatcode                                                       | Purpose                                                                                                                                                                     |
+| --------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `freshUInt(uint8)` / `freshUInt(uint8, string)`                 | Return a fresh symbolic `uint` of the given bit width (1–256 bits). The `string` variant names the symbolic variable for readable counterexamples.                          |
+| `freshBool()` / `freshBool(string)`                             | Return a fresh symbolic `bool` (unconstrained 0 or 1)                                                                                                                       |
+| `freshBytes(uint256)` / `freshBytes(uint256, string)`           | Return a fresh symbolic `bytes` of the given length                                                                                                                         |
+| `freshAddress()` / `freshAddress(string)`                       | Return a fresh symbolic `address` (guaranteed ≠ test/cheat addresses)                                                                                                       |
+| `symbolicStorage(address)` / `symbolicStorage(address, string)` | Make an account's storage fully symbolic — Kontrol's original name, kept as an alias for `setArbitraryStorage`. The `string` variant names the storage for counterexamples. |
+| `copyStorage(address, address)`                                 | Copy the storage of one account into another — useful for setting up proof state                                                                                            |
+| `forgetBranch(uint256, uint8, uint256)`                         | Remove a path constraint from the current branch — allows collapsing proof branches that diverge on a condition you want to abstract away                                   |
+| `setGas(uint256)`                                               | Set the gas counter to a concrete value — used when a test depends on specific gas amounts                                                                                  |
+| `infiniteGas()`                                                 | Reset gas to a fresh symbolic value — effectively infinite gas, the default during proving                                                                                  |
+
+### Key semantic distinctions
+
+- **`random*` vs `fresh*`**: Foundry added `randomUint()`, `randomBool()`, `randomBytes()`, `randomAddress()` as pseudo-random runtime values.
+  Kontrol treats them identically to the `fresh*` variants — both produce unconstrained symbolic variables.
+  There is no randomness at the prover level.
+- **`assume`**: In Foundry fuzz testing, `vm.assume(cond)` causes the fuzzer to skip that input if `cond` is false.
+  In Kontrol, it injects `cond` as a hard path constraint — it restricts the symbolic state space rather than filtering inputs.
+- **`ffi`**: In Foundry, always executes the shell command.
+  In Kontrol, execution is gated on the Foundry profile: `Foundry.ffi` (`foundry.py`) is true only when `FOUNDRY_FFI=true`, `DAPP_FFI=true`, or `ffi = true` in `foundry.toml`.
+  When it is off, `vm.ffi` returns a fresh symbolic variable instead of running the command, allowing proofs to proceed over unknown external outputs.
 
 ## The `kontrol` commands
 
@@ -109,6 +183,20 @@ uv run pytest src/tests/integration/test_foundry_prove.py -v \
 CI (`.github/workflows/test-pr.yml`) partitions integration tests into four self-hosted jobs by `-k` filter to balance load — **Integration** (everything except the named groups), **CSE** (`test_kontrol_cse or test_foundry_minimize_proof`), **End-to-End** (`test_kontrol_end_to_end or test_kontrol_setup_storage or test_kontrol_counterexample_generation`), and **Profiling** — so adding a test to one of those named groups changes which job runs it.
 `.github/workflows/lint-workflows.yml` runs `actionlint` and `zizmor` over `.github/` on every PR; run both locally before touching a workflow.
 `.github/actionlint.yaml` declares the self-hosted runner labels (`normal`, `fast`, `MacM1`) that actionlint cannot discover on its own.
+
+### Two fixture worlds (do not mix)
+
+The integration suites split across two Foundry-project fixtures; a test must stay in the world its fixtures belong to:
+
+| Suite (`-k` filter)                   | Test file               | Fixtures / Foundry project       | CI lists                                                                     |
+| ------------------------------------- | ----------------------- | -------------------------------- | ---------------------------------------------------------------------------- |
+| `test_foundry_prove`                  | `test_foundry_prove.py` | `test-data/foundry/`             | `foundry-prove-all`, `foundry-prove-skip`, `foundry-fail`, `foundry-bmc-all` |
+| `test_foundry_minimize_proof`         | `test_foundry_prove.py` | `test-data/foundry/`             | `foundry-minimize`                                                           |
+| `test_kontrol_cse` (file-level match) | `test_kontrol_cse.py`   | `test-data/foundry/`             | `foundry-dependency-all`                                                     |
+| `test_kontrol_end_to_end`             | `test_kontrol.py`       | fresh project via `kontrol init` | `end-to-end-prove-all`, `end-to-end-prove-skip`                              |
+
+`test_kontrol_end_to_end` builds a real project from scratch — it runs `kontrol init`, copies `test-data/src/` and `test-data/test/` in, then `kontrol build`s it, and proves against that compiled project.
+**New cheatcode tests** therefore go in `test-data/test/` and are registered in `end-to-end-prove-all` — they run under `test_kontrol_end_to_end`, not `test_foundry_prove`.
 
 ## Dependencies, versioning, and packaging
 
@@ -219,3 +307,13 @@ The two questions this answers:
 
 The logging path is implemented entirely client-side in pyk's `CTermSymbolic`: `--haskell-log-entries` is sent as the per-request `haskell-logging` field, and the entries returned on the response are written to `<haskell-log-dir>/<request-id>.jsonl`.
 The flags require pyk's `HASKELL_LOGGING_ENTRIES`/`booster_only_simplify` support (`kframework>=7.1.333`) and the matching `kevm_pyk.utils.legacy_explore` forwarding; they are threaded through `kontrol prove` (direct `CTermSymbolic` construction) and through the `legacy_explore`-based commands (`simplify-node`, `step-node`, `section-edge`, `get-model`, `show --failure-info`).
+
+For authoring and validating new K simplification lemmas against stuck proofs, use the `/writing-kontrol-lemmas` skill.
+
+## Gotchas
+
+- **Any change to `src/kontrol/kdist/` requires a full rebuild** (use the `/build` skill); there is no incremental build within a target.
+- **Integration tests require a pre-built kdist.** `make test-integration` without one fails with a missing-artifact error, not a helpful message.
+- **`prove.py` uses `multiprocess`, not the stdlib `multiprocessing`.** They have different APIs; don't swap one for the other.
+- **`foundry.py` uses `tomlkit` to preserve TOML formatting on round-trip.** This is intentional; don't replace it with a plain TOML parser.
+- **`kore-rpc-booster` processes can be left hanging after integration/snapshot-update runs.** Run `pkill -9 -f kore-rpc-booster` afterward, or a stray process interferes with subsequent runs.

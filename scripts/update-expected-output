@@ -1,0 +1,71 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+# Update expected output snapshots for integration test suites.
+# Run from the repo root.
+#
+# Usage: update-expected-output [--foundry] [--cse] [--end-to-end] [-k <filter>]
+#
+# Flags:
+#   --foundry      Run the main foundry suite (test_foundry_prove, excludes cse/minimize/end-to-end)
+#   --cse          Run the CSE and minimize suite (test_kontrol_cse, test_foundry_minimize_proof)
+#   --end-to-end   Run the end-to-end suite (test_kontrol_end_to_end)
+#   -k <filter>    Additional pytest -k filter to scope to a specific test within the selected suite
+#
+# If no suite flag is given, all three suites run in order.
+
+RUN_FOUNDRY=false
+RUN_CSE=false
+RUN_END_TO_END=false
+EXTRA_FILTER=''
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --foundry)    RUN_FOUNDRY=true ;;
+        --cse)        RUN_CSE=true ;;
+        --end-to-end) RUN_END_TO_END=true ;;
+        -k)           shift; EXTRA_FILTER="$1" ;;
+        *) echo "Unknown flag: $1" >&2; exit 1 ;;
+    esac
+    shift
+done
+
+# Default: run all suites
+if ! $RUN_FOUNDRY && ! $RUN_CSE && ! $RUN_END_TO_END; then
+    RUN_FOUNDRY=true
+    RUN_CSE=true
+    RUN_END_TO_END=true
+fi
+
+LOG_DIR=$(mktemp -d /tmp/kontrol-update-output-XXXXXX)
+echo "Log directory: $LOG_DIR"
+
+run_suite() {
+    local suite_filter="$1"
+    local log_file="$LOG_DIR/$2"
+    local numprocesses="$3"
+    local combined_filter="$suite_filter"
+
+    if [[ -n "$EXTRA_FILTER" ]]; then
+        combined_filter="($suite_filter) and $EXTRA_FILTER"
+    fi
+
+    pkill -9 -f "kore-rpc-booster" || true
+    make cov-integration TEST_ARGS="--numprocesses=$numprocesses --maxfail=100 --update-expected-output --force-sequential -vv -k \"$combined_filter\"" | tee "$log_file" || true
+}
+
+if $RUN_FOUNDRY; then
+    run_suite "not (test_kontrol_cse or test_foundry_minimize_proof or test_kontrol_end_to_end)" "running-foundry-tests.log" 6
+fi
+
+if $RUN_CSE; then
+    run_suite "test_kontrol_cse or test_foundry_minimize_proof" "running-cse-tests.log" 4
+fi
+
+if $RUN_END_TO_END; then
+    run_suite "test_kontrol_end_to_end" "running-end-to-end-tests.log" 8
+fi
+
+pkill -9 -f "kore-rpc-booster" || true
+echo "Logs written to: $LOG_DIR"
