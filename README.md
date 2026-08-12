@@ -75,6 +75,14 @@ To update the expected output of the tests, use the `--update-expected-output` f
 make cov-integration TEST_ARGS="--numprocesses=8 --update-expected-output"
 ```
 
+The full run takes hours, so the `Update Expected Output` workflow can do it on a CI runner instead.
+Dispatch it against your branch, then apply the result:
+```sh
+gh run download <run-id> --name expected-output --dir src/tests/integration/test-data/show
+git add src/tests/integration/test-data/show && git commit -m 'Update expected output files'
+```
+The artifact expires after 7 days.
+
 ### Build Kontrol with Kup and Specific Dependency Overrides
 --------------------------------
 > This is relevant for internal development to build a custom version of Kontrol against unreleased upstream dependencies.
