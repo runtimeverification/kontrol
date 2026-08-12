@@ -107,16 +107,18 @@ uv run pytest src/tests/integration/test_foundry_prove.py -v \
 ```
 
 CI (`.github/workflows/test-pr.yml`) partitions integration tests into four self-hosted jobs by `-k` filter to balance load — **Integration** (everything except the named groups), **CSE** (`test_kontrol_cse or test_foundry_minimize_proof`), **End-to-End** (`test_kontrol_end_to_end or test_kontrol_setup_storage or test_kontrol_counterexample_generation`), and **Profiling** — so adding a test to one of those named groups changes which job runs it.
+`.github/workflows/lint-workflows.yml` runs `actionlint` and `zizmor` over `.github/` on every PR; run both locally before touching a workflow.
+`.github/actionlint.yaml` declares the self-hosted runner labels (`normal`, `fast`, `MacM1`) that actionlint cannot discover on its own.
 
 ## Dependencies, versioning, and packaging
 
 `deps/` pins exact upstream versions, each file consumed by the build/CI:
 
 - `deps/k_release` (K framework), `deps/kevm_release` (KEVM/evm-semantics), `deps/z3`, `deps/uv_release` — version strings read by the Dockerfiles, CI workflows, and Nix inputs.
-- `deps/kevm_release` must match the `kevm-pyk@…@vX.Y.Z` git ref in `pyproject.toml`; the `_update-deps/*` automation (`.github/workflows/update-version.yml`) keeps `deps/*`, `pyproject.toml`, `flake.nix`, and `uv.lock` in sync and runs `uv lock --upgrade` + `nix flake update`.
+- `deps/kevm_release` must match the `kevm-pyk@…@vX.Y.Z` git ref in `pyproject.toml`; keeping `deps/*`, `pyproject.toml`, `flake.nix`, and `uv.lock` in sync (`uv lock --upgrade` + `nix flake update`) is currently a manual step — the `_update-deps/*` automation was removed along with the rest of the secret-using CD.
 
 The Kontrol version is `package/version` (plain text), mirrored in `src/kontrol/__init__.py` (`VERSION`) and `pyproject.toml`; `package/version.sh bump`/`sub` increments and propagates it.
-Pushing the `release` branch triggers `.github/workflows/release.yml`: draft GitHub release → build `.#kontrol` and publish to the `k-framework` (public) and `k-framework-binary` (private) Cachix caches via `kup publish` → build+push the Docker image → finalize.
+There is no release automation in this repo at the moment: version bumping, the GitHub release, the Cachix pushes, and the Docker Hub image are all done outside CI until the release workflow is reinstated.
 
 Nix: `flake.nix` exports `.#kontrol` (default) built through a uv2nix layering (`nix/kontrol-pyk-pyproject` → `nix/kontrol-pyk` → `nix/kontrol`).
 solc-pinned variants are exposed as passthru attributes — `.#kontrol.solc_0_8_13`, `.#kontrol.solc_0_8_15`, `.#kontrol.solc_0_8_22` (defined in `nix/kontrol/default.nix`); CI's Nix job builds `solc_0_8_13`.
