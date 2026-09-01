@@ -962,7 +962,7 @@ class Foundry:
 
         method_status = method.up_to_date(self.digest_file)
 
-        if user_specified_version:
+        if user_specified_version is not None:
             _LOGGER.info(f'Using user-specified version {user_specified_version} for test {test}')
             if not Proof.proof_data_exists(f'{test}:{user_specified_version}', self.proofs_dir):
                 raise ValueError(f'The specified version {user_specified_version} of proof {test} does not exist.')
