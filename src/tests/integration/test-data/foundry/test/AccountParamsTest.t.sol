@@ -21,6 +21,21 @@ contract AccountParamsTest is Test {
         assertEq(address(124).code, code);
     }
 
+    function testEtchEmptyAndZero() public {
+        address emptyAddress = address(124);
+        address zeroAddress = address(125);
+        bytes memory emptyCode = bytes("");
+        bytes memory zeroCode = hex"00";
+
+        vm.etch(emptyAddress, emptyCode);
+        vm.etch(zeroAddress, zeroCode);
+
+        assertEq(emptyAddress.code, emptyCode);
+        assertEq(emptyAddress.code.length, 0);
+        assertEq(zeroAddress.code, zeroCode);
+        assertEq(zeroAddress.code.length, 1);
+    }
+
     function testEtchSymbolic(bytes calldata code) public {
         vm.etch(address(124), code);
         assertEq(address(124).code, code);
