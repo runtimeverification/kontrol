@@ -310,8 +310,11 @@ contract UnitTest is Test {
         int256 neg_a = -2;
         int256 neg_b = -3;
         uint256 percentDelta = 2e18;
+        string memory err = "throw test";
         assertApproxEqRel(pos_a, neg_b, percentDelta);
         assertApproxEqRel(neg_a, pos_b, percentDelta);
+        assertApproxEqRel(pos_a, neg_b, percentDelta, err);
+        assertApproxEqRel(neg_a, pos_b, percentDelta, err);
     }
 
     function test_assertApproxEqRel_int_opp_sign_err() public {
