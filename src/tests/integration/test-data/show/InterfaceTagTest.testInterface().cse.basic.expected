@@ -1,0 +1,4685 @@
+
+┌─ 1 (root, init)
+│   k: #execute ~> CONTINUATION:K
+│   pc: 0
+│   callDepth: 0
+│   statusCode: STATUSCODE:StatusCode
+│   src: test/nested/SimpleNested.t.sol:7:11
+│   method: test%InterfaceTagTest.setUp()
+│
+│  (1160 steps)
+├─ 11 (terminal)
+│   k: #halt ~> CONTINUATION:K
+│   pc: 194
+│   callDepth: 0
+│   statusCode: EVMC_SUCCESS
+│   src: lib/forge-std/src/StdInvariant.sol:69:71
+│   method: test%InterfaceTagTest.setUp()
+│
+│  (1 step)
+├─ 12
+│   k: #execute ~> CONTINUATION:K
+│   pc: 0
+│   callDepth: 0
+│   statusCode: STATUSCODE:StatusCode
+│   src: test/nested/SimpleNested.t.sol:7:11
+│   method: test%InterfaceTagTest.testInterface()
+│
+│  (318 steps)
+├─ 14
+│   k: CALL 0 263400868551549723330807389252719309078400616203 0 128 4 128 32 ~> #pc [  ...
+│   pc: 420
+│   callDepth: 0
+│   statusCode: STATUSCODE:StatusCode
+│   src: lib/forge-std/src/StdInvariant.sol:70:70
+│   method: test%InterfaceTagTest.testInterface()
+│
+│  (1 step)
+├─ 15
+│   k: #accessAccounts 263400868551549723330807389252719309078400616203 ~> #checkCall 7 ...
+│   pc: 420
+│   callDepth: 0
+│   statusCode: STATUSCODE:StatusCode
+│   src: lib/forge-std/src/StdInvariant.sol:70:70
+│   method: test%InterfaceTagTest.testInterface()
+│
+│  (18 steps)
+├─ 16
+│   k: #precompiled? ( 263400868551549723330807389252719309078400616203 , SHANGHAI ) ~> ...
+│   pc: 0
+│   callDepth: 1
+│   statusCode: STATUSCODE:StatusCode
+│   src: test/nested/SimpleNested.t.sol:7:11
+│   method: test%InterfaceContract.callToken()
+│
+│  (1 step)
+├─ 17
+│   k: #execute ~> #return 128 32 ~> #pc [ CALL ] ~> #execute ~> CONTINUATION:K
+│   pc: 0
+│   callDepth: 1
+│   statusCode: STATUSCODE:StatusCode
+│   src: test/nested/SimpleNested.t.sol:7:11
+│   method: test%InterfaceContract.callToken()
+│
+│  (3 steps)
+├─ 18 (split)
+│   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+│   pc: 136
+│   callDepth: 1
+│   statusCode: STATUSCODE:StatusCode
+│   src: test/nested/SimpleNested.t.sol:7:11
+│   method: test%InterfaceContract.callToken()
+┃
+┃ (branch)
+┣━━┓ subst: .Subst
+┃  ┃ constraint: true
+┃  │
+┃  ├─ 19 (split)
+┃  │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃  │   pc: 136
+┃  │   callDepth: 1
+┃  │   statusCode: STATUSCODE:StatusCode
+┃  │   src: test/nested/SimpleNested.t.sol:7:11
+┃  │   method: test%InterfaceContract.callToken()
+┃  ┃
+┃  ┃ (branch)
+┃  ┣━━┓ subst: .Subst
+┃  ┃  ┃ constraint: true
+┃  ┃  │
+┃  ┃  ├─ 21 (split)
+┃  ┃  │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃  ┃  │   pc: 136
+┃  ┃  │   callDepth: 1
+┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃  │   method: test%InterfaceContract.callToken()
+┃  ┃  ┃
+┃  ┃  ┃ (branch)
+┃  ┃  ┣━━┓ subst: .Subst
+┃  ┃  ┃  ┃ constraint: true
+┃  ┃  ┃  │
+┃  ┃  ┃  ├─ 25 (split)
+┃  ┃  ┃  │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃  ┃  ┃  │   pc: 136
+┃  ┃  ┃  │   callDepth: 1
+┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃  ┃  │   method: test%InterfaceContract.callToken()
+┃  ┃  ┃  ┃
+┃  ┃  ┃  ┃ (branch)
+┃  ┃  ┃  ┣━━┓ subst: .Subst
+┃  ┃  ┃  ┃  ┃ constraint: true
+┃  ┃  ┃  ┃  │
+┃  ┃  ┃  ┃  ├─ 33 (split)
+┃  ┃  ┃  ┃  │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃  ┃  ┃  ┃  │   pc: 136
+┃  ┃  ┃  ┃  │   callDepth: 1
+┃  ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃  ┃  ┃  │   method: test%InterfaceContract.callToken()
+┃  ┃  ┃  ┃  ┃
+┃  ┃  ┃  ┃  ┃ (branch)
+┃  ┃  ┃  ┃  ┣━━┓ subst: .Subst
+┃  ┃  ┃  ┃  ┃  ┃ constraint: true
+┃  ┃  ┃  ┃  ┃  │
+┃  ┃  ┃  ┃  ┃  ├─ 49 (split)
+┃  ┃  ┃  ┃  ┃  │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃  ┃  ┃  ┃  ┃  │   pc: 136
+┃  ┃  ┃  ┃  ┃  │   callDepth: 1
+┃  ┃  ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃  ┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃  ┃  ┃  ┃  │   method: test%InterfaceContract.callToken()
+┃  ┃  ┃  ┃  ┃  ┃
+┃  ┃  ┃  ┃  ┃  ┃ (branch)
+┃  ┃  ┃  ┃  ┃  ┣━━┓ subst: .Subst
+┃  ┃  ┃  ┃  ┃  ┃  ┃ constraint: true
+┃  ┃  ┃  ┃  ┃  ┃  │
+┃  ┃  ┃  ┃  ┃  ┃  ├─ 81 (split)
+┃  ┃  ┃  ┃  ┃  ┃  │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃  ┃  ┃  ┃  ┃  ┃  │   pc: 136
+┃  ┃  ┃  ┃  ┃  ┃  │   callDepth: 1
+┃  ┃  ┃  ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃  ┃  ┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃  ┃  ┃  ┃  ┃  │   method: test%InterfaceContract.callToken()
+┃  ┃  ┃  ┃  ┃  ┃  ┃
+┃  ┃  ┃  ┃  ┃  ┃  ┃ (branch)
+┃  ┃  ┃  ┃  ┃  ┃  ┣━━┓ subst: .Subst
+┃  ┃  ┃  ┃  ┃  ┃  ┃  ┃ constraint: true
+┃  ┃  ┃  ┃  ┃  ┃  ┃  │
+┃  ┃  ┃  ┃  ┃  ┃  ┃  └─ 145 (leaf, pending)
+┃  ┃  ┃  ┃  ┃  ┃  ┃      k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃  ┃  ┃  ┃  ┃  ┃  ┃      pc: 136
+┃  ┃  ┃  ┃  ┃  ┃  ┃      callDepth: 1
+┃  ┃  ┃  ┃  ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃  ┃  ┃  ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃  ┃  ┃  ┃  ┃  ┃      method: test%InterfaceContract.callToken()
+┃  ┃  ┃  ┃  ┃  ┃  ┃
+┃  ┃  ┃  ┃  ┃  ┃  ┗━━┓ subst: .Subst
+┃  ┃  ┃  ┃  ┃  ┃     ┃ constraint: true
+┃  ┃  ┃  ┃  ┃  ┃     │
+┃  ┃  ┃  ┃  ┃  ┃     └─ 146 (leaf, pending)
+┃  ┃  ┃  ┃  ┃  ┃         k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃  ┃  ┃  ┃  ┃  ┃         pc: 136
+┃  ┃  ┃  ┃  ┃  ┃         callDepth: 1
+┃  ┃  ┃  ┃  ┃  ┃         statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃  ┃  ┃  ┃         src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃  ┃  ┃  ┃  ┃         method: test%InterfaceContract.callToken()
+┃  ┃  ┃  ┃  ┃  ┃
+┃  ┃  ┃  ┃  ┃  ┗━━┓ subst: .Subst
+┃  ┃  ┃  ┃  ┃     ┃ constraint: true
+┃  ┃  ┃  ┃  ┃     │
+┃  ┃  ┃  ┃  ┃     ├─ 82 (split)
+┃  ┃  ┃  ┃  ┃     │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃  ┃  ┃  ┃  ┃     │   pc: 136
+┃  ┃  ┃  ┃  ┃     │   callDepth: 1
+┃  ┃  ┃  ┃  ┃     │   statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃  ┃  ┃     │   src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃  ┃  ┃  ┃     │   method: test%InterfaceContract.callToken()
+┃  ┃  ┃  ┃  ┃     ┃
+┃  ┃  ┃  ┃  ┃     ┃ (branch)
+┃  ┃  ┃  ┃  ┃     ┣━━┓ subst: .Subst
+┃  ┃  ┃  ┃  ┃     ┃  ┃ constraint: true
+┃  ┃  ┃  ┃  ┃     ┃  │
+┃  ┃  ┃  ┃  ┃     ┃  └─ 147 (leaf, pending)
+┃  ┃  ┃  ┃  ┃     ┃      k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃  ┃  ┃  ┃  ┃     ┃      pc: 136
+┃  ┃  ┃  ┃  ┃     ┃      callDepth: 1
+┃  ┃  ┃  ┃  ┃     ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃  ┃  ┃     ┃      src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃  ┃  ┃  ┃     ┃      method: test%InterfaceContract.callToken()
+┃  ┃  ┃  ┃  ┃     ┃
+┃  ┃  ┃  ┃  ┃     ┗━━┓ subst: .Subst
+┃  ┃  ┃  ┃  ┃        ┃ constraint: true
+┃  ┃  ┃  ┃  ┃        │
+┃  ┃  ┃  ┃  ┃        └─ 148 (leaf, pending)
+┃  ┃  ┃  ┃  ┃            k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃  ┃  ┃  ┃  ┃            pc: 136
+┃  ┃  ┃  ┃  ┃            callDepth: 1
+┃  ┃  ┃  ┃  ┃            statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃  ┃  ┃            src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃  ┃  ┃  ┃            method: test%InterfaceContract.callToken()
+┃  ┃  ┃  ┃  ┃
+┃  ┃  ┃  ┃  ┗━━┓ subst: .Subst
+┃  ┃  ┃  ┃     ┃ constraint: true
+┃  ┃  ┃  ┃     │
+┃  ┃  ┃  ┃     ├─ 50 (split)
+┃  ┃  ┃  ┃     │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃  ┃  ┃  ┃     │   pc: 136
+┃  ┃  ┃  ┃     │   callDepth: 1
+┃  ┃  ┃  ┃     │   statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃  ┃     │   src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃  ┃  ┃     │   method: test%InterfaceContract.callToken()
+┃  ┃  ┃  ┃     ┃
+┃  ┃  ┃  ┃     ┃ (branch)
+┃  ┃  ┃  ┃     ┣━━┓ subst: .Subst
+┃  ┃  ┃  ┃     ┃  ┃ constraint: true
+┃  ┃  ┃  ┃     ┃  │
+┃  ┃  ┃  ┃     ┃  ├─ 83 (split)
+┃  ┃  ┃  ┃     ┃  │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃  ┃  ┃  ┃     ┃  │   pc: 136
+┃  ┃  ┃  ┃     ┃  │   callDepth: 1
+┃  ┃  ┃  ┃     ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃  ┃     ┃  │   src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃  ┃  ┃     ┃  │   method: test%InterfaceContract.callToken()
+┃  ┃  ┃  ┃     ┃  ┃
+┃  ┃  ┃  ┃     ┃  ┃ (branch)
+┃  ┃  ┃  ┃     ┃  ┣━━┓ subst: .Subst
+┃  ┃  ┃  ┃     ┃  ┃  ┃ constraint: true
+┃  ┃  ┃  ┃     ┃  ┃  │
+┃  ┃  ┃  ┃     ┃  ┃  └─ 149 (leaf, pending)
+┃  ┃  ┃  ┃     ┃  ┃      k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃  ┃  ┃  ┃     ┃  ┃      pc: 136
+┃  ┃  ┃  ┃     ┃  ┃      callDepth: 1
+┃  ┃  ┃  ┃     ┃  ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃  ┃     ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃  ┃  ┃     ┃  ┃      method: test%InterfaceContract.callToken()
+┃  ┃  ┃  ┃     ┃  ┃
+┃  ┃  ┃  ┃     ┃  ┗━━┓ subst: .Subst
+┃  ┃  ┃  ┃     ┃     ┃ constraint: true
+┃  ┃  ┃  ┃     ┃     │
+┃  ┃  ┃  ┃     ┃     └─ 150 (leaf, pending)
+┃  ┃  ┃  ┃     ┃         k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃  ┃  ┃  ┃     ┃         pc: 136
+┃  ┃  ┃  ┃     ┃         callDepth: 1
+┃  ┃  ┃  ┃     ┃         statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃  ┃     ┃         src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃  ┃  ┃     ┃         method: test%InterfaceContract.callToken()
+┃  ┃  ┃  ┃     ┃
+┃  ┃  ┃  ┃     ┗━━┓ subst: .Subst
+┃  ┃  ┃  ┃        ┃ constraint: true
+┃  ┃  ┃  ┃        │
+┃  ┃  ┃  ┃        ├─ 84 (split)
+┃  ┃  ┃  ┃        │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃  ┃  ┃  ┃        │   pc: 136
+┃  ┃  ┃  ┃        │   callDepth: 1
+┃  ┃  ┃  ┃        │   statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃  ┃        │   src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃  ┃  ┃        │   method: test%InterfaceContract.callToken()
+┃  ┃  ┃  ┃        ┃
+┃  ┃  ┃  ┃        ┃ (branch)
+┃  ┃  ┃  ┃        ┣━━┓ subst: .Subst
+┃  ┃  ┃  ┃        ┃  ┃ constraint: true
+┃  ┃  ┃  ┃        ┃  │
+┃  ┃  ┃  ┃        ┃  └─ 151 (leaf, pending)
+┃  ┃  ┃  ┃        ┃      k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃  ┃  ┃  ┃        ┃      pc: 136
+┃  ┃  ┃  ┃        ┃      callDepth: 1
+┃  ┃  ┃  ┃        ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃  ┃        ┃      src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃  ┃  ┃        ┃      method: test%InterfaceContract.callToken()
+┃  ┃  ┃  ┃        ┃
+┃  ┃  ┃  ┃        ┗━━┓ subst: .Subst
+┃  ┃  ┃  ┃           ┃ constraint: true
+┃  ┃  ┃  ┃           │
+┃  ┃  ┃  ┃           └─ 152 (leaf, pending)
+┃  ┃  ┃  ┃               k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃  ┃  ┃  ┃               pc: 136
+┃  ┃  ┃  ┃               callDepth: 1
+┃  ┃  ┃  ┃               statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃  ┃               src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃  ┃  ┃               method: test%InterfaceContract.callToken()
+┃  ┃  ┃  ┃
+┃  ┃  ┃  ┗━━┓ subst: .Subst
+┃  ┃  ┃     ┃ constraint: true
+┃  ┃  ┃     │
+┃  ┃  ┃     ├─ 34 (split)
+┃  ┃  ┃     │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃  ┃  ┃     │   pc: 136
+┃  ┃  ┃     │   callDepth: 1
+┃  ┃  ┃     │   statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃     │   src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃  ┃     │   method: test%InterfaceContract.callToken()
+┃  ┃  ┃     ┃
+┃  ┃  ┃     ┃ (branch)
+┃  ┃  ┃     ┣━━┓ subst: .Subst
+┃  ┃  ┃     ┃  ┃ constraint: true
+┃  ┃  ┃     ┃  │
+┃  ┃  ┃     ┃  ├─ 51 (split)
+┃  ┃  ┃     ┃  │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃  ┃  ┃     ┃  │   pc: 136
+┃  ┃  ┃     ┃  │   callDepth: 1
+┃  ┃  ┃     ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃     ┃  │   src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃  ┃     ┃  │   method: test%InterfaceContract.callToken()
+┃  ┃  ┃     ┃  ┃
+┃  ┃  ┃     ┃  ┃ (branch)
+┃  ┃  ┃     ┃  ┣━━┓ subst: .Subst
+┃  ┃  ┃     ┃  ┃  ┃ constraint: true
+┃  ┃  ┃     ┃  ┃  │
+┃  ┃  ┃     ┃  ┃  ├─ 85 (split)
+┃  ┃  ┃     ┃  ┃  │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃  ┃  ┃     ┃  ┃  │   pc: 136
+┃  ┃  ┃     ┃  ┃  │   callDepth: 1
+┃  ┃  ┃     ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃     ┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃  ┃     ┃  ┃  │   method: test%InterfaceContract.callToken()
+┃  ┃  ┃     ┃  ┃  ┃
+┃  ┃  ┃     ┃  ┃  ┃ (branch)
+┃  ┃  ┃     ┃  ┃  ┣━━┓ subst: .Subst
+┃  ┃  ┃     ┃  ┃  ┃  ┃ constraint: true
+┃  ┃  ┃     ┃  ┃  ┃  │
+┃  ┃  ┃     ┃  ┃  ┃  └─ 153 (leaf, pending)
+┃  ┃  ┃     ┃  ┃  ┃      k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃  ┃  ┃     ┃  ┃  ┃      pc: 136
+┃  ┃  ┃     ┃  ┃  ┃      callDepth: 1
+┃  ┃  ┃     ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃     ┃  ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃  ┃     ┃  ┃  ┃      method: test%InterfaceContract.callToken()
+┃  ┃  ┃     ┃  ┃  ┃
+┃  ┃  ┃     ┃  ┃  ┗━━┓ subst: .Subst
+┃  ┃  ┃     ┃  ┃     ┃ constraint: true
+┃  ┃  ┃     ┃  ┃     │
+┃  ┃  ┃     ┃  ┃     └─ 154 (leaf, pending)
+┃  ┃  ┃     ┃  ┃         k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃  ┃  ┃     ┃  ┃         pc: 136
+┃  ┃  ┃     ┃  ┃         callDepth: 1
+┃  ┃  ┃     ┃  ┃         statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃     ┃  ┃         src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃  ┃     ┃  ┃         method: test%InterfaceContract.callToken()
+┃  ┃  ┃     ┃  ┃
+┃  ┃  ┃     ┃  ┗━━┓ subst: .Subst
+┃  ┃  ┃     ┃     ┃ constraint: true
+┃  ┃  ┃     ┃     │
+┃  ┃  ┃     ┃     ├─ 86 (split)
+┃  ┃  ┃     ┃     │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃  ┃  ┃     ┃     │   pc: 136
+┃  ┃  ┃     ┃     │   callDepth: 1
+┃  ┃  ┃     ┃     │   statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃     ┃     │   src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃  ┃     ┃     │   method: test%InterfaceContract.callToken()
+┃  ┃  ┃     ┃     ┃
+┃  ┃  ┃     ┃     ┃ (branch)
+┃  ┃  ┃     ┃     ┣━━┓ subst: .Subst
+┃  ┃  ┃     ┃     ┃  ┃ constraint: true
+┃  ┃  ┃     ┃     ┃  │
+┃  ┃  ┃     ┃     ┃  └─ 155 (leaf, pending)
+┃  ┃  ┃     ┃     ┃      k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃  ┃  ┃     ┃     ┃      pc: 136
+┃  ┃  ┃     ┃     ┃      callDepth: 1
+┃  ┃  ┃     ┃     ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃     ┃     ┃      src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃  ┃     ┃     ┃      method: test%InterfaceContract.callToken()
+┃  ┃  ┃     ┃     ┃
+┃  ┃  ┃     ┃     ┗━━┓ subst: .Subst
+┃  ┃  ┃     ┃        ┃ constraint: true
+┃  ┃  ┃     ┃        │
+┃  ┃  ┃     ┃        └─ 156 (leaf, pending)
+┃  ┃  ┃     ┃            k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃  ┃  ┃     ┃            pc: 136
+┃  ┃  ┃     ┃            callDepth: 1
+┃  ┃  ┃     ┃            statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃     ┃            src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃  ┃     ┃            method: test%InterfaceContract.callToken()
+┃  ┃  ┃     ┃
+┃  ┃  ┃     ┗━━┓ subst: .Subst
+┃  ┃  ┃        ┃ constraint: true
+┃  ┃  ┃        │
+┃  ┃  ┃        ├─ 52 (split)
+┃  ┃  ┃        │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃  ┃  ┃        │   pc: 136
+┃  ┃  ┃        │   callDepth: 1
+┃  ┃  ┃        │   statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃        │   src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃  ┃        │   method: test%InterfaceContract.callToken()
+┃  ┃  ┃        ┃
+┃  ┃  ┃        ┃ (branch)
+┃  ┃  ┃        ┣━━┓ subst: .Subst
+┃  ┃  ┃        ┃  ┃ constraint: true
+┃  ┃  ┃        ┃  │
+┃  ┃  ┃        ┃  ├─ 87 (split)
+┃  ┃  ┃        ┃  │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃  ┃  ┃        ┃  │   pc: 136
+┃  ┃  ┃        ┃  │   callDepth: 1
+┃  ┃  ┃        ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃        ┃  │   src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃  ┃        ┃  │   method: test%InterfaceContract.callToken()
+┃  ┃  ┃        ┃  ┃
+┃  ┃  ┃        ┃  ┃ (branch)
+┃  ┃  ┃        ┃  ┣━━┓ subst: .Subst
+┃  ┃  ┃        ┃  ┃  ┃ constraint: true
+┃  ┃  ┃        ┃  ┃  │
+┃  ┃  ┃        ┃  ┃  └─ 157 (leaf, pending)
+┃  ┃  ┃        ┃  ┃      k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃  ┃  ┃        ┃  ┃      pc: 136
+┃  ┃  ┃        ┃  ┃      callDepth: 1
+┃  ┃  ┃        ┃  ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃        ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃  ┃        ┃  ┃      method: test%InterfaceContract.callToken()
+┃  ┃  ┃        ┃  ┃
+┃  ┃  ┃        ┃  ┗━━┓ subst: .Subst
+┃  ┃  ┃        ┃     ┃ constraint: true
+┃  ┃  ┃        ┃     │
+┃  ┃  ┃        ┃     └─ 158 (leaf, pending)
+┃  ┃  ┃        ┃         k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃  ┃  ┃        ┃         pc: 136
+┃  ┃  ┃        ┃         callDepth: 1
+┃  ┃  ┃        ┃         statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃        ┃         src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃  ┃        ┃         method: test%InterfaceContract.callToken()
+┃  ┃  ┃        ┃
+┃  ┃  ┃        ┗━━┓ subst: .Subst
+┃  ┃  ┃           ┃ constraint: true
+┃  ┃  ┃           │
+┃  ┃  ┃           ├─ 88 (split)
+┃  ┃  ┃           │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃  ┃  ┃           │   pc: 136
+┃  ┃  ┃           │   callDepth: 1
+┃  ┃  ┃           │   statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃           │   src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃  ┃           │   method: test%InterfaceContract.callToken()
+┃  ┃  ┃           ┃
+┃  ┃  ┃           ┃ (branch)
+┃  ┃  ┃           ┣━━┓ subst: .Subst
+┃  ┃  ┃           ┃  ┃ constraint: true
+┃  ┃  ┃           ┃  │
+┃  ┃  ┃           ┃  └─ 159 (leaf, pending)
+┃  ┃  ┃           ┃      k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃  ┃  ┃           ┃      pc: 136
+┃  ┃  ┃           ┃      callDepth: 1
+┃  ┃  ┃           ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃           ┃      src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃  ┃           ┃      method: test%InterfaceContract.callToken()
+┃  ┃  ┃           ┃
+┃  ┃  ┃           ┗━━┓ subst: .Subst
+┃  ┃  ┃              ┃ constraint: true
+┃  ┃  ┃              │
+┃  ┃  ┃              └─ 160 (leaf, pending)
+┃  ┃  ┃                  k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃  ┃  ┃                  pc: 136
+┃  ┃  ┃                  callDepth: 1
+┃  ┃  ┃                  statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃                  src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃  ┃                  method: test%InterfaceContract.callToken()
+┃  ┃  ┃
+┃  ┃  ┗━━┓ subst: .Subst
+┃  ┃     ┃ constraint: true
+┃  ┃     │
+┃  ┃     ├─ 26 (split)
+┃  ┃     │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃  ┃     │   pc: 136
+┃  ┃     │   callDepth: 1
+┃  ┃     │   statusCode: STATUSCODE:StatusCode
+┃  ┃     │   src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃     │   method: test%InterfaceContract.callToken()
+┃  ┃     ┃
+┃  ┃     ┃ (branch)
+┃  ┃     ┣━━┓ subst: .Subst
+┃  ┃     ┃  ┃ constraint: true
+┃  ┃     ┃  │
+┃  ┃     ┃  ├─ 35 (split)
+┃  ┃     ┃  │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃  ┃     ┃  │   pc: 136
+┃  ┃     ┃  │   callDepth: 1
+┃  ┃     ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃     ┃  │   src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃     ┃  │   method: test%InterfaceContract.callToken()
+┃  ┃     ┃  ┃
+┃  ┃     ┃  ┃ (branch)
+┃  ┃     ┃  ┣━━┓ subst: .Subst
+┃  ┃     ┃  ┃  ┃ constraint: true
+┃  ┃     ┃  ┃  │
+┃  ┃     ┃  ┃  ├─ 53 (split)
+┃  ┃     ┃  ┃  │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃  ┃     ┃  ┃  │   pc: 136
+┃  ┃     ┃  ┃  │   callDepth: 1
+┃  ┃     ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃     ┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃     ┃  ┃  │   method: test%InterfaceContract.callToken()
+┃  ┃     ┃  ┃  ┃
+┃  ┃     ┃  ┃  ┃ (branch)
+┃  ┃     ┃  ┃  ┣━━┓ subst: .Subst
+┃  ┃     ┃  ┃  ┃  ┃ constraint: true
+┃  ┃     ┃  ┃  ┃  │
+┃  ┃     ┃  ┃  ┃  ├─ 89 (split)
+┃  ┃     ┃  ┃  ┃  │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃  ┃     ┃  ┃  ┃  │   pc: 136
+┃  ┃     ┃  ┃  ┃  │   callDepth: 1
+┃  ┃     ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃     ┃  ┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃     ┃  ┃  ┃  │   method: test%InterfaceContract.callToken()
+┃  ┃     ┃  ┃  ┃  ┃
+┃  ┃     ┃  ┃  ┃  ┃ (branch)
+┃  ┃     ┃  ┃  ┃  ┣━━┓ subst: .Subst
+┃  ┃     ┃  ┃  ┃  ┃  ┃ constraint: true
+┃  ┃     ┃  ┃  ┃  ┃  │
+┃  ┃     ┃  ┃  ┃  ┃  └─ 161 (leaf, pending)
+┃  ┃     ┃  ┃  ┃  ┃      k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃  ┃     ┃  ┃  ┃  ┃      pc: 136
+┃  ┃     ┃  ┃  ┃  ┃      callDepth: 1
+┃  ┃     ┃  ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃     ┃  ┃  ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃     ┃  ┃  ┃  ┃      method: test%InterfaceContract.callToken()
+┃  ┃     ┃  ┃  ┃  ┃
+┃  ┃     ┃  ┃  ┃  ┗━━┓ subst: .Subst
+┃  ┃     ┃  ┃  ┃     ┃ constraint: true
+┃  ┃     ┃  ┃  ┃     │
+┃  ┃     ┃  ┃  ┃     └─ 162 (leaf, pending)
+┃  ┃     ┃  ┃  ┃         k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃  ┃     ┃  ┃  ┃         pc: 136
+┃  ┃     ┃  ┃  ┃         callDepth: 1
+┃  ┃     ┃  ┃  ┃         statusCode: STATUSCODE:StatusCode
+┃  ┃     ┃  ┃  ┃         src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃     ┃  ┃  ┃         method: test%InterfaceContract.callToken()
+┃  ┃     ┃  ┃  ┃
+┃  ┃     ┃  ┃  ┗━━┓ subst: .Subst
+┃  ┃     ┃  ┃     ┃ constraint: true
+┃  ┃     ┃  ┃     │
+┃  ┃     ┃  ┃     ├─ 90 (split)
+┃  ┃     ┃  ┃     │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃  ┃     ┃  ┃     │   pc: 136
+┃  ┃     ┃  ┃     │   callDepth: 1
+┃  ┃     ┃  ┃     │   statusCode: STATUSCODE:StatusCode
+┃  ┃     ┃  ┃     │   src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃     ┃  ┃     │   method: test%InterfaceContract.callToken()
+┃  ┃     ┃  ┃     ┃
+┃  ┃     ┃  ┃     ┃ (branch)
+┃  ┃     ┃  ┃     ┣━━┓ subst: .Subst
+┃  ┃     ┃  ┃     ┃  ┃ constraint: true
+┃  ┃     ┃  ┃     ┃  │
+┃  ┃     ┃  ┃     ┃  └─ 163 (leaf, pending)
+┃  ┃     ┃  ┃     ┃      k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃  ┃     ┃  ┃     ┃      pc: 136
+┃  ┃     ┃  ┃     ┃      callDepth: 1
+┃  ┃     ┃  ┃     ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃     ┃  ┃     ┃      src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃     ┃  ┃     ┃      method: test%InterfaceContract.callToken()
+┃  ┃     ┃  ┃     ┃
+┃  ┃     ┃  ┃     ┗━━┓ subst: .Subst
+┃  ┃     ┃  ┃        ┃ constraint: true
+┃  ┃     ┃  ┃        │
+┃  ┃     ┃  ┃        └─ 164 (leaf, pending)
+┃  ┃     ┃  ┃            k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃  ┃     ┃  ┃            pc: 136
+┃  ┃     ┃  ┃            callDepth: 1
+┃  ┃     ┃  ┃            statusCode: STATUSCODE:StatusCode
+┃  ┃     ┃  ┃            src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃     ┃  ┃            method: test%InterfaceContract.callToken()
+┃  ┃     ┃  ┃
+┃  ┃     ┃  ┗━━┓ subst: .Subst
+┃  ┃     ┃     ┃ constraint: true
+┃  ┃     ┃     │
+┃  ┃     ┃     ├─ 54 (split)
+┃  ┃     ┃     │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃  ┃     ┃     │   pc: 136
+┃  ┃     ┃     │   callDepth: 1
+┃  ┃     ┃     │   statusCode: STATUSCODE:StatusCode
+┃  ┃     ┃     │   src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃     ┃     │   method: test%InterfaceContract.callToken()
+┃  ┃     ┃     ┃
+┃  ┃     ┃     ┃ (branch)
+┃  ┃     ┃     ┣━━┓ subst: .Subst
+┃  ┃     ┃     ┃  ┃ constraint: true
+┃  ┃     ┃     ┃  │
+┃  ┃     ┃     ┃  ├─ 91 (split)
+┃  ┃     ┃     ┃  │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃  ┃     ┃     ┃  │   pc: 136
+┃  ┃     ┃     ┃  │   callDepth: 1
+┃  ┃     ┃     ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃     ┃     ┃  │   src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃     ┃     ┃  │   method: test%InterfaceContract.callToken()
+┃  ┃     ┃     ┃  ┃
+┃  ┃     ┃     ┃  ┃ (branch)
+┃  ┃     ┃     ┃  ┣━━┓ subst: .Subst
+┃  ┃     ┃     ┃  ┃  ┃ constraint: true
+┃  ┃     ┃     ┃  ┃  │
+┃  ┃     ┃     ┃  ┃  └─ 165 (leaf, pending)
+┃  ┃     ┃     ┃  ┃      k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃  ┃     ┃     ┃  ┃      pc: 136
+┃  ┃     ┃     ┃  ┃      callDepth: 1
+┃  ┃     ┃     ┃  ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃     ┃     ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃     ┃     ┃  ┃      method: test%InterfaceContract.callToken()
+┃  ┃     ┃     ┃  ┃
+┃  ┃     ┃     ┃  ┗━━┓ subst: .Subst
+┃  ┃     ┃     ┃     ┃ constraint: true
+┃  ┃     ┃     ┃     │
+┃  ┃     ┃     ┃     └─ 166 (leaf, pending)
+┃  ┃     ┃     ┃         k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃  ┃     ┃     ┃         pc: 136
+┃  ┃     ┃     ┃         callDepth: 1
+┃  ┃     ┃     ┃         statusCode: STATUSCODE:StatusCode
+┃  ┃     ┃     ┃         src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃     ┃     ┃         method: test%InterfaceContract.callToken()
+┃  ┃     ┃     ┃
+┃  ┃     ┃     ┗━━┓ subst: .Subst
+┃  ┃     ┃        ┃ constraint: true
+┃  ┃     ┃        │
+┃  ┃     ┃        ├─ 92 (split)
+┃  ┃     ┃        │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃  ┃     ┃        │   pc: 136
+┃  ┃     ┃        │   callDepth: 1
+┃  ┃     ┃        │   statusCode: STATUSCODE:StatusCode
+┃  ┃     ┃        │   src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃     ┃        │   method: test%InterfaceContract.callToken()
+┃  ┃     ┃        ┃
+┃  ┃     ┃        ┃ (branch)
+┃  ┃     ┃        ┣━━┓ subst: .Subst
+┃  ┃     ┃        ┃  ┃ constraint: true
+┃  ┃     ┃        ┃  │
+┃  ┃     ┃        ┃  └─ 167 (leaf, pending)
+┃  ┃     ┃        ┃      k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃  ┃     ┃        ┃      pc: 136
+┃  ┃     ┃        ┃      callDepth: 1
+┃  ┃     ┃        ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃     ┃        ┃      src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃     ┃        ┃      method: test%InterfaceContract.callToken()
+┃  ┃     ┃        ┃
+┃  ┃     ┃        ┗━━┓ subst: .Subst
+┃  ┃     ┃           ┃ constraint: true
+┃  ┃     ┃           │
+┃  ┃     ┃           └─ 168 (leaf, pending)
+┃  ┃     ┃               k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃  ┃     ┃               pc: 136
+┃  ┃     ┃               callDepth: 1
+┃  ┃     ┃               statusCode: STATUSCODE:StatusCode
+┃  ┃     ┃               src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃     ┃               method: test%InterfaceContract.callToken()
+┃  ┃     ┃
+┃  ┃     ┗━━┓ subst: .Subst
+┃  ┃        ┃ constraint: true
+┃  ┃        │
+┃  ┃        ├─ 36 (split)
+┃  ┃        │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃  ┃        │   pc: 136
+┃  ┃        │   callDepth: 1
+┃  ┃        │   statusCode: STATUSCODE:StatusCode
+┃  ┃        │   src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃        │   method: test%InterfaceContract.callToken()
+┃  ┃        ┃
+┃  ┃        ┃ (branch)
+┃  ┃        ┣━━┓ subst: .Subst
+┃  ┃        ┃  ┃ constraint: true
+┃  ┃        ┃  │
+┃  ┃        ┃  ├─ 55 (split)
+┃  ┃        ┃  │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃  ┃        ┃  │   pc: 136
+┃  ┃        ┃  │   callDepth: 1
+┃  ┃        ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃        ┃  │   src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃        ┃  │   method: test%InterfaceContract.callToken()
+┃  ┃        ┃  ┃
+┃  ┃        ┃  ┃ (branch)
+┃  ┃        ┃  ┣━━┓ subst: .Subst
+┃  ┃        ┃  ┃  ┃ constraint: true
+┃  ┃        ┃  ┃  │
+┃  ┃        ┃  ┃  ├─ 93 (split)
+┃  ┃        ┃  ┃  │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃  ┃        ┃  ┃  │   pc: 136
+┃  ┃        ┃  ┃  │   callDepth: 1
+┃  ┃        ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃        ┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃        ┃  ┃  │   method: test%InterfaceContract.callToken()
+┃  ┃        ┃  ┃  ┃
+┃  ┃        ┃  ┃  ┃ (branch)
+┃  ┃        ┃  ┃  ┣━━┓ subst: .Subst
+┃  ┃        ┃  ┃  ┃  ┃ constraint: true
+┃  ┃        ┃  ┃  ┃  │
+┃  ┃        ┃  ┃  ┃  └─ 169 (leaf, pending)
+┃  ┃        ┃  ┃  ┃      k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃  ┃        ┃  ┃  ┃      pc: 136
+┃  ┃        ┃  ┃  ┃      callDepth: 1
+┃  ┃        ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃        ┃  ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃        ┃  ┃  ┃      method: test%InterfaceContract.callToken()
+┃  ┃        ┃  ┃  ┃
+┃  ┃        ┃  ┃  ┗━━┓ subst: .Subst
+┃  ┃        ┃  ┃     ┃ constraint: true
+┃  ┃        ┃  ┃     │
+┃  ┃        ┃  ┃     └─ 170 (leaf, pending)
+┃  ┃        ┃  ┃         k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃  ┃        ┃  ┃         pc: 136
+┃  ┃        ┃  ┃         callDepth: 1
+┃  ┃        ┃  ┃         statusCode: STATUSCODE:StatusCode
+┃  ┃        ┃  ┃         src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃        ┃  ┃         method: test%InterfaceContract.callToken()
+┃  ┃        ┃  ┃
+┃  ┃        ┃  ┗━━┓ subst: .Subst
+┃  ┃        ┃     ┃ constraint: true
+┃  ┃        ┃     │
+┃  ┃        ┃     ├─ 94 (split)
+┃  ┃        ┃     │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃  ┃        ┃     │   pc: 136
+┃  ┃        ┃     │   callDepth: 1
+┃  ┃        ┃     │   statusCode: STATUSCODE:StatusCode
+┃  ┃        ┃     │   src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃        ┃     │   method: test%InterfaceContract.callToken()
+┃  ┃        ┃     ┃
+┃  ┃        ┃     ┃ (branch)
+┃  ┃        ┃     ┣━━┓ subst: .Subst
+┃  ┃        ┃     ┃  ┃ constraint: true
+┃  ┃        ┃     ┃  │
+┃  ┃        ┃     ┃  └─ 171 (leaf, pending)
+┃  ┃        ┃     ┃      k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃  ┃        ┃     ┃      pc: 136
+┃  ┃        ┃     ┃      callDepth: 1
+┃  ┃        ┃     ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃        ┃     ┃      src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃        ┃     ┃      method: test%InterfaceContract.callToken()
+┃  ┃        ┃     ┃
+┃  ┃        ┃     ┗━━┓ subst: .Subst
+┃  ┃        ┃        ┃ constraint: true
+┃  ┃        ┃        │
+┃  ┃        ┃        └─ 172 (leaf, pending)
+┃  ┃        ┃            k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃  ┃        ┃            pc: 136
+┃  ┃        ┃            callDepth: 1
+┃  ┃        ┃            statusCode: STATUSCODE:StatusCode
+┃  ┃        ┃            src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃        ┃            method: test%InterfaceContract.callToken()
+┃  ┃        ┃
+┃  ┃        ┗━━┓ subst: .Subst
+┃  ┃           ┃ constraint: true
+┃  ┃           │
+┃  ┃           ├─ 56 (split)
+┃  ┃           │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃  ┃           │   pc: 136
+┃  ┃           │   callDepth: 1
+┃  ┃           │   statusCode: STATUSCODE:StatusCode
+┃  ┃           │   src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃           │   method: test%InterfaceContract.callToken()
+┃  ┃           ┃
+┃  ┃           ┃ (branch)
+┃  ┃           ┣━━┓ subst: .Subst
+┃  ┃           ┃  ┃ constraint: true
+┃  ┃           ┃  │
+┃  ┃           ┃  ├─ 95 (split)
+┃  ┃           ┃  │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃  ┃           ┃  │   pc: 136
+┃  ┃           ┃  │   callDepth: 1
+┃  ┃           ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃           ┃  │   src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃           ┃  │   method: test%InterfaceContract.callToken()
+┃  ┃           ┃  ┃
+┃  ┃           ┃  ┃ (branch)
+┃  ┃           ┃  ┣━━┓ subst: .Subst
+┃  ┃           ┃  ┃  ┃ constraint: true
+┃  ┃           ┃  ┃  │
+┃  ┃           ┃  ┃  └─ 173 (leaf, pending)
+┃  ┃           ┃  ┃      k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃  ┃           ┃  ┃      pc: 136
+┃  ┃           ┃  ┃      callDepth: 1
+┃  ┃           ┃  ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃           ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃           ┃  ┃      method: test%InterfaceContract.callToken()
+┃  ┃           ┃  ┃
+┃  ┃           ┃  ┗━━┓ subst: .Subst
+┃  ┃           ┃     ┃ constraint: true
+┃  ┃           ┃     │
+┃  ┃           ┃     └─ 174 (leaf, pending)
+┃  ┃           ┃         k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃  ┃           ┃         pc: 136
+┃  ┃           ┃         callDepth: 1
+┃  ┃           ┃         statusCode: STATUSCODE:StatusCode
+┃  ┃           ┃         src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃           ┃         method: test%InterfaceContract.callToken()
+┃  ┃           ┃
+┃  ┃           ┗━━┓ subst: .Subst
+┃  ┃              ┃ constraint: true
+┃  ┃              │
+┃  ┃              ├─ 96 (split)
+┃  ┃              │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃  ┃              │   pc: 136
+┃  ┃              │   callDepth: 1
+┃  ┃              │   statusCode: STATUSCODE:StatusCode
+┃  ┃              │   src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃              │   method: test%InterfaceContract.callToken()
+┃  ┃              ┃
+┃  ┃              ┃ (branch)
+┃  ┃              ┣━━┓ subst: .Subst
+┃  ┃              ┃  ┃ constraint: true
+┃  ┃              ┃  │
+┃  ┃              ┃  └─ 175 (leaf, pending)
+┃  ┃              ┃      k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃  ┃              ┃      pc: 136
+┃  ┃              ┃      callDepth: 1
+┃  ┃              ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃              ┃      src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃              ┃      method: test%InterfaceContract.callToken()
+┃  ┃              ┃
+┃  ┃              ┗━━┓ subst: .Subst
+┃  ┃                 ┃ constraint: true
+┃  ┃                 │
+┃  ┃                 └─ 176 (leaf, pending)
+┃  ┃                     k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃  ┃                     pc: 136
+┃  ┃                     callDepth: 1
+┃  ┃                     statusCode: STATUSCODE:StatusCode
+┃  ┃                     src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃                     method: test%InterfaceContract.callToken()
+┃  ┃
+┃  ┗━━┓ subst: .Subst
+┃     ┃ constraint: true
+┃     │
+┃     ├─ 22 (split)
+┃     │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃     │   pc: 136
+┃     │   callDepth: 1
+┃     │   statusCode: STATUSCODE:StatusCode
+┃     │   src: test/nested/SimpleNested.t.sol:7:11
+┃     │   method: test%InterfaceContract.callToken()
+┃     ┃
+┃     ┃ (branch)
+┃     ┣━━┓ subst: .Subst
+┃     ┃  ┃ constraint: true
+┃     ┃  │
+┃     ┃  ├─ 27 (split)
+┃     ┃  │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃     ┃  │   pc: 136
+┃     ┃  │   callDepth: 1
+┃     ┃  │   statusCode: STATUSCODE:StatusCode
+┃     ┃  │   src: test/nested/SimpleNested.t.sol:7:11
+┃     ┃  │   method: test%InterfaceContract.callToken()
+┃     ┃  ┃
+┃     ┃  ┃ (branch)
+┃     ┃  ┣━━┓ subst: .Subst
+┃     ┃  ┃  ┃ constraint: true
+┃     ┃  ┃  │
+┃     ┃  ┃  ├─ 37 (split)
+┃     ┃  ┃  │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃     ┃  ┃  │   pc: 136
+┃     ┃  ┃  │   callDepth: 1
+┃     ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃     ┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
+┃     ┃  ┃  │   method: test%InterfaceContract.callToken()
+┃     ┃  ┃  ┃
+┃     ┃  ┃  ┃ (branch)
+┃     ┃  ┃  ┣━━┓ subst: .Subst
+┃     ┃  ┃  ┃  ┃ constraint: true
+┃     ┃  ┃  ┃  │
+┃     ┃  ┃  ┃  ├─ 57 (split)
+┃     ┃  ┃  ┃  │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃     ┃  ┃  ┃  │   pc: 136
+┃     ┃  ┃  ┃  │   callDepth: 1
+┃     ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃     ┃  ┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
+┃     ┃  ┃  ┃  │   method: test%InterfaceContract.callToken()
+┃     ┃  ┃  ┃  ┃
+┃     ┃  ┃  ┃  ┃ (branch)
+┃     ┃  ┃  ┃  ┣━━┓ subst: .Subst
+┃     ┃  ┃  ┃  ┃  ┃ constraint: true
+┃     ┃  ┃  ┃  ┃  │
+┃     ┃  ┃  ┃  ┃  ├─ 97 (split)
+┃     ┃  ┃  ┃  ┃  │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃     ┃  ┃  ┃  ┃  │   pc: 136
+┃     ┃  ┃  ┃  ┃  │   callDepth: 1
+┃     ┃  ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃     ┃  ┃  ┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
+┃     ┃  ┃  ┃  ┃  │   method: test%InterfaceContract.callToken()
+┃     ┃  ┃  ┃  ┃  ┃
+┃     ┃  ┃  ┃  ┃  ┃ (branch)
+┃     ┃  ┃  ┃  ┃  ┣━━┓ subst: .Subst
+┃     ┃  ┃  ┃  ┃  ┃  ┃ constraint: true
+┃     ┃  ┃  ┃  ┃  ┃  │
+┃     ┃  ┃  ┃  ┃  ┃  └─ 177 (leaf, pending)
+┃     ┃  ┃  ┃  ┃  ┃      k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃     ┃  ┃  ┃  ┃  ┃      pc: 136
+┃     ┃  ┃  ┃  ┃  ┃      callDepth: 1
+┃     ┃  ┃  ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
+┃     ┃  ┃  ┃  ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
+┃     ┃  ┃  ┃  ┃  ┃      method: test%InterfaceContract.callToken()
+┃     ┃  ┃  ┃  ┃  ┃
+┃     ┃  ┃  ┃  ┃  ┗━━┓ subst: .Subst
+┃     ┃  ┃  ┃  ┃     ┃ constraint: true
+┃     ┃  ┃  ┃  ┃     │
+┃     ┃  ┃  ┃  ┃     └─ 178 (leaf, pending)
+┃     ┃  ┃  ┃  ┃         k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃     ┃  ┃  ┃  ┃         pc: 136
+┃     ┃  ┃  ┃  ┃         callDepth: 1
+┃     ┃  ┃  ┃  ┃         statusCode: STATUSCODE:StatusCode
+┃     ┃  ┃  ┃  ┃         src: test/nested/SimpleNested.t.sol:7:11
+┃     ┃  ┃  ┃  ┃         method: test%InterfaceContract.callToken()
+┃     ┃  ┃  ┃  ┃
+┃     ┃  ┃  ┃  ┗━━┓ subst: .Subst
+┃     ┃  ┃  ┃     ┃ constraint: true
+┃     ┃  ┃  ┃     │
+┃     ┃  ┃  ┃     ├─ 98 (split)
+┃     ┃  ┃  ┃     │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃     ┃  ┃  ┃     │   pc: 136
+┃     ┃  ┃  ┃     │   callDepth: 1
+┃     ┃  ┃  ┃     │   statusCode: STATUSCODE:StatusCode
+┃     ┃  ┃  ┃     │   src: test/nested/SimpleNested.t.sol:7:11
+┃     ┃  ┃  ┃     │   method: test%InterfaceContract.callToken()
+┃     ┃  ┃  ┃     ┃
+┃     ┃  ┃  ┃     ┃ (branch)
+┃     ┃  ┃  ┃     ┣━━┓ subst: .Subst
+┃     ┃  ┃  ┃     ┃  ┃ constraint: true
+┃     ┃  ┃  ┃     ┃  │
+┃     ┃  ┃  ┃     ┃  └─ 179 (leaf, pending)
+┃     ┃  ┃  ┃     ┃      k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃     ┃  ┃  ┃     ┃      pc: 136
+┃     ┃  ┃  ┃     ┃      callDepth: 1
+┃     ┃  ┃  ┃     ┃      statusCode: STATUSCODE:StatusCode
+┃     ┃  ┃  ┃     ┃      src: test/nested/SimpleNested.t.sol:7:11
+┃     ┃  ┃  ┃     ┃      method: test%InterfaceContract.callToken()
+┃     ┃  ┃  ┃     ┃
+┃     ┃  ┃  ┃     ┗━━┓ subst: .Subst
+┃     ┃  ┃  ┃        ┃ constraint: true
+┃     ┃  ┃  ┃        │
+┃     ┃  ┃  ┃        └─ 180 (leaf, pending)
+┃     ┃  ┃  ┃            k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃     ┃  ┃  ┃            pc: 136
+┃     ┃  ┃  ┃            callDepth: 1
+┃     ┃  ┃  ┃            statusCode: STATUSCODE:StatusCode
+┃     ┃  ┃  ┃            src: test/nested/SimpleNested.t.sol:7:11
+┃     ┃  ┃  ┃            method: test%InterfaceContract.callToken()
+┃     ┃  ┃  ┃
+┃     ┃  ┃  ┗━━┓ subst: .Subst
+┃     ┃  ┃     ┃ constraint: true
+┃     ┃  ┃     │
+┃     ┃  ┃     ├─ 58 (split)
+┃     ┃  ┃     │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃     ┃  ┃     │   pc: 136
+┃     ┃  ┃     │   callDepth: 1
+┃     ┃  ┃     │   statusCode: STATUSCODE:StatusCode
+┃     ┃  ┃     │   src: test/nested/SimpleNested.t.sol:7:11
+┃     ┃  ┃     │   method: test%InterfaceContract.callToken()
+┃     ┃  ┃     ┃
+┃     ┃  ┃     ┃ (branch)
+┃     ┃  ┃     ┣━━┓ subst: .Subst
+┃     ┃  ┃     ┃  ┃ constraint: true
+┃     ┃  ┃     ┃  │
+┃     ┃  ┃     ┃  ├─ 99 (split)
+┃     ┃  ┃     ┃  │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃     ┃  ┃     ┃  │   pc: 136
+┃     ┃  ┃     ┃  │   callDepth: 1
+┃     ┃  ┃     ┃  │   statusCode: STATUSCODE:StatusCode
+┃     ┃  ┃     ┃  │   src: test/nested/SimpleNested.t.sol:7:11
+┃     ┃  ┃     ┃  │   method: test%InterfaceContract.callToken()
+┃     ┃  ┃     ┃  ┃
+┃     ┃  ┃     ┃  ┃ (branch)
+┃     ┃  ┃     ┃  ┣━━┓ subst: .Subst
+┃     ┃  ┃     ┃  ┃  ┃ constraint: true
+┃     ┃  ┃     ┃  ┃  │
+┃     ┃  ┃     ┃  ┃  └─ 181 (leaf, pending)
+┃     ┃  ┃     ┃  ┃      k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃     ┃  ┃     ┃  ┃      pc: 136
+┃     ┃  ┃     ┃  ┃      callDepth: 1
+┃     ┃  ┃     ┃  ┃      statusCode: STATUSCODE:StatusCode
+┃     ┃  ┃     ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
+┃     ┃  ┃     ┃  ┃      method: test%InterfaceContract.callToken()
+┃     ┃  ┃     ┃  ┃
+┃     ┃  ┃     ┃  ┗━━┓ subst: .Subst
+┃     ┃  ┃     ┃     ┃ constraint: true
+┃     ┃  ┃     ┃     │
+┃     ┃  ┃     ┃     └─ 182 (leaf, pending)
+┃     ┃  ┃     ┃         k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃     ┃  ┃     ┃         pc: 136
+┃     ┃  ┃     ┃         callDepth: 1
+┃     ┃  ┃     ┃         statusCode: STATUSCODE:StatusCode
+┃     ┃  ┃     ┃         src: test/nested/SimpleNested.t.sol:7:11
+┃     ┃  ┃     ┃         method: test%InterfaceContract.callToken()
+┃     ┃  ┃     ┃
+┃     ┃  ┃     ┗━━┓ subst: .Subst
+┃     ┃  ┃        ┃ constraint: true
+┃     ┃  ┃        │
+┃     ┃  ┃        ├─ 100 (split)
+┃     ┃  ┃        │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃     ┃  ┃        │   pc: 136
+┃     ┃  ┃        │   callDepth: 1
+┃     ┃  ┃        │   statusCode: STATUSCODE:StatusCode
+┃     ┃  ┃        │   src: test/nested/SimpleNested.t.sol:7:11
+┃     ┃  ┃        │   method: test%InterfaceContract.callToken()
+┃     ┃  ┃        ┃
+┃     ┃  ┃        ┃ (branch)
+┃     ┃  ┃        ┣━━┓ subst: .Subst
+┃     ┃  ┃        ┃  ┃ constraint: true
+┃     ┃  ┃        ┃  │
+┃     ┃  ┃        ┃  └─ 183 (leaf, pending)
+┃     ┃  ┃        ┃      k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃     ┃  ┃        ┃      pc: 136
+┃     ┃  ┃        ┃      callDepth: 1
+┃     ┃  ┃        ┃      statusCode: STATUSCODE:StatusCode
+┃     ┃  ┃        ┃      src: test/nested/SimpleNested.t.sol:7:11
+┃     ┃  ┃        ┃      method: test%InterfaceContract.callToken()
+┃     ┃  ┃        ┃
+┃     ┃  ┃        ┗━━┓ subst: .Subst
+┃     ┃  ┃           ┃ constraint: true
+┃     ┃  ┃           │
+┃     ┃  ┃           └─ 184 (leaf, pending)
+┃     ┃  ┃               k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃     ┃  ┃               pc: 136
+┃     ┃  ┃               callDepth: 1
+┃     ┃  ┃               statusCode: STATUSCODE:StatusCode
+┃     ┃  ┃               src: test/nested/SimpleNested.t.sol:7:11
+┃     ┃  ┃               method: test%InterfaceContract.callToken()
+┃     ┃  ┃
+┃     ┃  ┗━━┓ subst: .Subst
+┃     ┃     ┃ constraint: true
+┃     ┃     │
+┃     ┃     ├─ 38 (split)
+┃     ┃     │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃     ┃     │   pc: 136
+┃     ┃     │   callDepth: 1
+┃     ┃     │   statusCode: STATUSCODE:StatusCode
+┃     ┃     │   src: test/nested/SimpleNested.t.sol:7:11
+┃     ┃     │   method: test%InterfaceContract.callToken()
+┃     ┃     ┃
+┃     ┃     ┃ (branch)
+┃     ┃     ┣━━┓ subst: .Subst
+┃     ┃     ┃  ┃ constraint: true
+┃     ┃     ┃  │
+┃     ┃     ┃  ├─ 59 (split)
+┃     ┃     ┃  │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃     ┃     ┃  │   pc: 136
+┃     ┃     ┃  │   callDepth: 1
+┃     ┃     ┃  │   statusCode: STATUSCODE:StatusCode
+┃     ┃     ┃  │   src: test/nested/SimpleNested.t.sol:7:11
+┃     ┃     ┃  │   method: test%InterfaceContract.callToken()
+┃     ┃     ┃  ┃
+┃     ┃     ┃  ┃ (branch)
+┃     ┃     ┃  ┣━━┓ subst: .Subst
+┃     ┃     ┃  ┃  ┃ constraint: true
+┃     ┃     ┃  ┃  │
+┃     ┃     ┃  ┃  ├─ 101 (split)
+┃     ┃     ┃  ┃  │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃     ┃     ┃  ┃  │   pc: 136
+┃     ┃     ┃  ┃  │   callDepth: 1
+┃     ┃     ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃     ┃     ┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
+┃     ┃     ┃  ┃  │   method: test%InterfaceContract.callToken()
+┃     ┃     ┃  ┃  ┃
+┃     ┃     ┃  ┃  ┃ (branch)
+┃     ┃     ┃  ┃  ┣━━┓ subst: .Subst
+┃     ┃     ┃  ┃  ┃  ┃ constraint: true
+┃     ┃     ┃  ┃  ┃  │
+┃     ┃     ┃  ┃  ┃  └─ 185 (leaf, pending)
+┃     ┃     ┃  ┃  ┃      k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃     ┃     ┃  ┃  ┃      pc: 136
+┃     ┃     ┃  ┃  ┃      callDepth: 1
+┃     ┃     ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
+┃     ┃     ┃  ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
+┃     ┃     ┃  ┃  ┃      method: test%InterfaceContract.callToken()
+┃     ┃     ┃  ┃  ┃
+┃     ┃     ┃  ┃  ┗━━┓ subst: .Subst
+┃     ┃     ┃  ┃     ┃ constraint: true
+┃     ┃     ┃  ┃     │
+┃     ┃     ┃  ┃     └─ 186 (leaf, pending)
+┃     ┃     ┃  ┃         k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃     ┃     ┃  ┃         pc: 136
+┃     ┃     ┃  ┃         callDepth: 1
+┃     ┃     ┃  ┃         statusCode: STATUSCODE:StatusCode
+┃     ┃     ┃  ┃         src: test/nested/SimpleNested.t.sol:7:11
+┃     ┃     ┃  ┃         method: test%InterfaceContract.callToken()
+┃     ┃     ┃  ┃
+┃     ┃     ┃  ┗━━┓ subst: .Subst
+┃     ┃     ┃     ┃ constraint: true
+┃     ┃     ┃     │
+┃     ┃     ┃     ├─ 102 (split)
+┃     ┃     ┃     │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃     ┃     ┃     │   pc: 136
+┃     ┃     ┃     │   callDepth: 1
+┃     ┃     ┃     │   statusCode: STATUSCODE:StatusCode
+┃     ┃     ┃     │   src: test/nested/SimpleNested.t.sol:7:11
+┃     ┃     ┃     │   method: test%InterfaceContract.callToken()
+┃     ┃     ┃     ┃
+┃     ┃     ┃     ┃ (branch)
+┃     ┃     ┃     ┣━━┓ subst: .Subst
+┃     ┃     ┃     ┃  ┃ constraint: true
+┃     ┃     ┃     ┃  │
+┃     ┃     ┃     ┃  └─ 187 (leaf, pending)
+┃     ┃     ┃     ┃      k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃     ┃     ┃     ┃      pc: 136
+┃     ┃     ┃     ┃      callDepth: 1
+┃     ┃     ┃     ┃      statusCode: STATUSCODE:StatusCode
+┃     ┃     ┃     ┃      src: test/nested/SimpleNested.t.sol:7:11
+┃     ┃     ┃     ┃      method: test%InterfaceContract.callToken()
+┃     ┃     ┃     ┃
+┃     ┃     ┃     ┗━━┓ subst: .Subst
+┃     ┃     ┃        ┃ constraint: true
+┃     ┃     ┃        │
+┃     ┃     ┃        └─ 188 (leaf, pending)
+┃     ┃     ┃            k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃     ┃     ┃            pc: 136
+┃     ┃     ┃            callDepth: 1
+┃     ┃     ┃            statusCode: STATUSCODE:StatusCode
+┃     ┃     ┃            src: test/nested/SimpleNested.t.sol:7:11
+┃     ┃     ┃            method: test%InterfaceContract.callToken()
+┃     ┃     ┃
+┃     ┃     ┗━━┓ subst: .Subst
+┃     ┃        ┃ constraint: true
+┃     ┃        │
+┃     ┃        ├─ 60 (split)
+┃     ┃        │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃     ┃        │   pc: 136
+┃     ┃        │   callDepth: 1
+┃     ┃        │   statusCode: STATUSCODE:StatusCode
+┃     ┃        │   src: test/nested/SimpleNested.t.sol:7:11
+┃     ┃        │   method: test%InterfaceContract.callToken()
+┃     ┃        ┃
+┃     ┃        ┃ (branch)
+┃     ┃        ┣━━┓ subst: .Subst
+┃     ┃        ┃  ┃ constraint: true
+┃     ┃        ┃  │
+┃     ┃        ┃  ├─ 103 (split)
+┃     ┃        ┃  │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃     ┃        ┃  │   pc: 136
+┃     ┃        ┃  │   callDepth: 1
+┃     ┃        ┃  │   statusCode: STATUSCODE:StatusCode
+┃     ┃        ┃  │   src: test/nested/SimpleNested.t.sol:7:11
+┃     ┃        ┃  │   method: test%InterfaceContract.callToken()
+┃     ┃        ┃  ┃
+┃     ┃        ┃  ┃ (branch)
+┃     ┃        ┃  ┣━━┓ subst: .Subst
+┃     ┃        ┃  ┃  ┃ constraint: true
+┃     ┃        ┃  ┃  │
+┃     ┃        ┃  ┃  └─ 189 (leaf, pending)
+┃     ┃        ┃  ┃      k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃     ┃        ┃  ┃      pc: 136
+┃     ┃        ┃  ┃      callDepth: 1
+┃     ┃        ┃  ┃      statusCode: STATUSCODE:StatusCode
+┃     ┃        ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
+┃     ┃        ┃  ┃      method: test%InterfaceContract.callToken()
+┃     ┃        ┃  ┃
+┃     ┃        ┃  ┗━━┓ subst: .Subst
+┃     ┃        ┃     ┃ constraint: true
+┃     ┃        ┃     │
+┃     ┃        ┃     └─ 190 (leaf, pending)
+┃     ┃        ┃         k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃     ┃        ┃         pc: 136
+┃     ┃        ┃         callDepth: 1
+┃     ┃        ┃         statusCode: STATUSCODE:StatusCode
+┃     ┃        ┃         src: test/nested/SimpleNested.t.sol:7:11
+┃     ┃        ┃         method: test%InterfaceContract.callToken()
+┃     ┃        ┃
+┃     ┃        ┗━━┓ subst: .Subst
+┃     ┃           ┃ constraint: true
+┃     ┃           │
+┃     ┃           ├─ 104 (split)
+┃     ┃           │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃     ┃           │   pc: 136
+┃     ┃           │   callDepth: 1
+┃     ┃           │   statusCode: STATUSCODE:StatusCode
+┃     ┃           │   src: test/nested/SimpleNested.t.sol:7:11
+┃     ┃           │   method: test%InterfaceContract.callToken()
+┃     ┃           ┃
+┃     ┃           ┃ (branch)
+┃     ┃           ┣━━┓ subst: .Subst
+┃     ┃           ┃  ┃ constraint: true
+┃     ┃           ┃  │
+┃     ┃           ┃  └─ 191 (leaf, pending)
+┃     ┃           ┃      k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃     ┃           ┃      pc: 136
+┃     ┃           ┃      callDepth: 1
+┃     ┃           ┃      statusCode: STATUSCODE:StatusCode
+┃     ┃           ┃      src: test/nested/SimpleNested.t.sol:7:11
+┃     ┃           ┃      method: test%InterfaceContract.callToken()
+┃     ┃           ┃
+┃     ┃           ┗━━┓ subst: .Subst
+┃     ┃              ┃ constraint: true
+┃     ┃              │
+┃     ┃              └─ 192 (leaf, pending)
+┃     ┃                  k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃     ┃                  pc: 136
+┃     ┃                  callDepth: 1
+┃     ┃                  statusCode: STATUSCODE:StatusCode
+┃     ┃                  src: test/nested/SimpleNested.t.sol:7:11
+┃     ┃                  method: test%InterfaceContract.callToken()
+┃     ┃
+┃     ┗━━┓ subst: .Subst
+┃        ┃ constraint: true
+┃        │
+┃        ├─ 28 (split)
+┃        │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃        │   pc: 136
+┃        │   callDepth: 1
+┃        │   statusCode: STATUSCODE:StatusCode
+┃        │   src: test/nested/SimpleNested.t.sol:7:11
+┃        │   method: test%InterfaceContract.callToken()
+┃        ┃
+┃        ┃ (branch)
+┃        ┣━━┓ subst: .Subst
+┃        ┃  ┃ constraint: true
+┃        ┃  │
+┃        ┃  ├─ 39 (split)
+┃        ┃  │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃        ┃  │   pc: 136
+┃        ┃  │   callDepth: 1
+┃        ┃  │   statusCode: STATUSCODE:StatusCode
+┃        ┃  │   src: test/nested/SimpleNested.t.sol:7:11
+┃        ┃  │   method: test%InterfaceContract.callToken()
+┃        ┃  ┃
+┃        ┃  ┃ (branch)
+┃        ┃  ┣━━┓ subst: .Subst
+┃        ┃  ┃  ┃ constraint: true
+┃        ┃  ┃  │
+┃        ┃  ┃  ├─ 61 (split)
+┃        ┃  ┃  │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃        ┃  ┃  │   pc: 136
+┃        ┃  ┃  │   callDepth: 1
+┃        ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃        ┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
+┃        ┃  ┃  │   method: test%InterfaceContract.callToken()
+┃        ┃  ┃  ┃
+┃        ┃  ┃  ┃ (branch)
+┃        ┃  ┃  ┣━━┓ subst: .Subst
+┃        ┃  ┃  ┃  ┃ constraint: true
+┃        ┃  ┃  ┃  │
+┃        ┃  ┃  ┃  ├─ 105 (split)
+┃        ┃  ┃  ┃  │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃        ┃  ┃  ┃  │   pc: 136
+┃        ┃  ┃  ┃  │   callDepth: 1
+┃        ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃        ┃  ┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
+┃        ┃  ┃  ┃  │   method: test%InterfaceContract.callToken()
+┃        ┃  ┃  ┃  ┃
+┃        ┃  ┃  ┃  ┃ (branch)
+┃        ┃  ┃  ┃  ┣━━┓ subst: .Subst
+┃        ┃  ┃  ┃  ┃  ┃ constraint: true
+┃        ┃  ┃  ┃  ┃  │
+┃        ┃  ┃  ┃  ┃  └─ 193 (leaf, pending)
+┃        ┃  ┃  ┃  ┃      k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃        ┃  ┃  ┃  ┃      pc: 136
+┃        ┃  ┃  ┃  ┃      callDepth: 1
+┃        ┃  ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
+┃        ┃  ┃  ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
+┃        ┃  ┃  ┃  ┃      method: test%InterfaceContract.callToken()
+┃        ┃  ┃  ┃  ┃
+┃        ┃  ┃  ┃  ┗━━┓ subst: .Subst
+┃        ┃  ┃  ┃     ┃ constraint: true
+┃        ┃  ┃  ┃     │
+┃        ┃  ┃  ┃     └─ 194 (leaf, pending)
+┃        ┃  ┃  ┃         k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃        ┃  ┃  ┃         pc: 136
+┃        ┃  ┃  ┃         callDepth: 1
+┃        ┃  ┃  ┃         statusCode: STATUSCODE:StatusCode
+┃        ┃  ┃  ┃         src: test/nested/SimpleNested.t.sol:7:11
+┃        ┃  ┃  ┃         method: test%InterfaceContract.callToken()
+┃        ┃  ┃  ┃
+┃        ┃  ┃  ┗━━┓ subst: .Subst
+┃        ┃  ┃     ┃ constraint: true
+┃        ┃  ┃     │
+┃        ┃  ┃     ├─ 106 (split)
+┃        ┃  ┃     │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃        ┃  ┃     │   pc: 136
+┃        ┃  ┃     │   callDepth: 1
+┃        ┃  ┃     │   statusCode: STATUSCODE:StatusCode
+┃        ┃  ┃     │   src: test/nested/SimpleNested.t.sol:7:11
+┃        ┃  ┃     │   method: test%InterfaceContract.callToken()
+┃        ┃  ┃     ┃
+┃        ┃  ┃     ┃ (branch)
+┃        ┃  ┃     ┣━━┓ subst: .Subst
+┃        ┃  ┃     ┃  ┃ constraint: true
+┃        ┃  ┃     ┃  │
+┃        ┃  ┃     ┃  └─ 195 (leaf, pending)
+┃        ┃  ┃     ┃      k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃        ┃  ┃     ┃      pc: 136
+┃        ┃  ┃     ┃      callDepth: 1
+┃        ┃  ┃     ┃      statusCode: STATUSCODE:StatusCode
+┃        ┃  ┃     ┃      src: test/nested/SimpleNested.t.sol:7:11
+┃        ┃  ┃     ┃      method: test%InterfaceContract.callToken()
+┃        ┃  ┃     ┃
+┃        ┃  ┃     ┗━━┓ subst: .Subst
+┃        ┃  ┃        ┃ constraint: true
+┃        ┃  ┃        │
+┃        ┃  ┃        └─ 196 (leaf, pending)
+┃        ┃  ┃            k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃        ┃  ┃            pc: 136
+┃        ┃  ┃            callDepth: 1
+┃        ┃  ┃            statusCode: STATUSCODE:StatusCode
+┃        ┃  ┃            src: test/nested/SimpleNested.t.sol:7:11
+┃        ┃  ┃            method: test%InterfaceContract.callToken()
+┃        ┃  ┃
+┃        ┃  ┗━━┓ subst: .Subst
+┃        ┃     ┃ constraint: true
+┃        ┃     │
+┃        ┃     ├─ 62 (split)
+┃        ┃     │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃        ┃     │   pc: 136
+┃        ┃     │   callDepth: 1
+┃        ┃     │   statusCode: STATUSCODE:StatusCode
+┃        ┃     │   src: test/nested/SimpleNested.t.sol:7:11
+┃        ┃     │   method: test%InterfaceContract.callToken()
+┃        ┃     ┃
+┃        ┃     ┃ (branch)
+┃        ┃     ┣━━┓ subst: .Subst
+┃        ┃     ┃  ┃ constraint: true
+┃        ┃     ┃  │
+┃        ┃     ┃  ├─ 107 (split)
+┃        ┃     ┃  │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃        ┃     ┃  │   pc: 136
+┃        ┃     ┃  │   callDepth: 1
+┃        ┃     ┃  │   statusCode: STATUSCODE:StatusCode
+┃        ┃     ┃  │   src: test/nested/SimpleNested.t.sol:7:11
+┃        ┃     ┃  │   method: test%InterfaceContract.callToken()
+┃        ┃     ┃  ┃
+┃        ┃     ┃  ┃ (branch)
+┃        ┃     ┃  ┣━━┓ subst: .Subst
+┃        ┃     ┃  ┃  ┃ constraint: true
+┃        ┃     ┃  ┃  │
+┃        ┃     ┃  ┃  └─ 197 (leaf, pending)
+┃        ┃     ┃  ┃      k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃        ┃     ┃  ┃      pc: 136
+┃        ┃     ┃  ┃      callDepth: 1
+┃        ┃     ┃  ┃      statusCode: STATUSCODE:StatusCode
+┃        ┃     ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
+┃        ┃     ┃  ┃      method: test%InterfaceContract.callToken()
+┃        ┃     ┃  ┃
+┃        ┃     ┃  ┗━━┓ subst: .Subst
+┃        ┃     ┃     ┃ constraint: true
+┃        ┃     ┃     │
+┃        ┃     ┃     └─ 198 (leaf, pending)
+┃        ┃     ┃         k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃        ┃     ┃         pc: 136
+┃        ┃     ┃         callDepth: 1
+┃        ┃     ┃         statusCode: STATUSCODE:StatusCode
+┃        ┃     ┃         src: test/nested/SimpleNested.t.sol:7:11
+┃        ┃     ┃         method: test%InterfaceContract.callToken()
+┃        ┃     ┃
+┃        ┃     ┗━━┓ subst: .Subst
+┃        ┃        ┃ constraint: true
+┃        ┃        │
+┃        ┃        ├─ 108 (split)
+┃        ┃        │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃        ┃        │   pc: 136
+┃        ┃        │   callDepth: 1
+┃        ┃        │   statusCode: STATUSCODE:StatusCode
+┃        ┃        │   src: test/nested/SimpleNested.t.sol:7:11
+┃        ┃        │   method: test%InterfaceContract.callToken()
+┃        ┃        ┃
+┃        ┃        ┃ (branch)
+┃        ┃        ┣━━┓ subst: .Subst
+┃        ┃        ┃  ┃ constraint: true
+┃        ┃        ┃  │
+┃        ┃        ┃  └─ 199 (leaf, pending)
+┃        ┃        ┃      k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃        ┃        ┃      pc: 136
+┃        ┃        ┃      callDepth: 1
+┃        ┃        ┃      statusCode: STATUSCODE:StatusCode
+┃        ┃        ┃      src: test/nested/SimpleNested.t.sol:7:11
+┃        ┃        ┃      method: test%InterfaceContract.callToken()
+┃        ┃        ┃
+┃        ┃        ┗━━┓ subst: .Subst
+┃        ┃           ┃ constraint: true
+┃        ┃           │
+┃        ┃           └─ 200 (leaf, pending)
+┃        ┃               k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃        ┃               pc: 136
+┃        ┃               callDepth: 1
+┃        ┃               statusCode: STATUSCODE:StatusCode
+┃        ┃               src: test/nested/SimpleNested.t.sol:7:11
+┃        ┃               method: test%InterfaceContract.callToken()
+┃        ┃
+┃        ┗━━┓ subst: .Subst
+┃           ┃ constraint: true
+┃           │
+┃           ├─ 40 (split)
+┃           │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃           │   pc: 136
+┃           │   callDepth: 1
+┃           │   statusCode: STATUSCODE:StatusCode
+┃           │   src: test/nested/SimpleNested.t.sol:7:11
+┃           │   method: test%InterfaceContract.callToken()
+┃           ┃
+┃           ┃ (branch)
+┃           ┣━━┓ subst: .Subst
+┃           ┃  ┃ constraint: true
+┃           ┃  │
+┃           ┃  ├─ 63 (split)
+┃           ┃  │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃           ┃  │   pc: 136
+┃           ┃  │   callDepth: 1
+┃           ┃  │   statusCode: STATUSCODE:StatusCode
+┃           ┃  │   src: test/nested/SimpleNested.t.sol:7:11
+┃           ┃  │   method: test%InterfaceContract.callToken()
+┃           ┃  ┃
+┃           ┃  ┃ (branch)
+┃           ┃  ┣━━┓ subst: .Subst
+┃           ┃  ┃  ┃ constraint: true
+┃           ┃  ┃  │
+┃           ┃  ┃  ├─ 109 (split)
+┃           ┃  ┃  │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃           ┃  ┃  │   pc: 136
+┃           ┃  ┃  │   callDepth: 1
+┃           ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃           ┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
+┃           ┃  ┃  │   method: test%InterfaceContract.callToken()
+┃           ┃  ┃  ┃
+┃           ┃  ┃  ┃ (branch)
+┃           ┃  ┃  ┣━━┓ subst: .Subst
+┃           ┃  ┃  ┃  ┃ constraint: true
+┃           ┃  ┃  ┃  │
+┃           ┃  ┃  ┃  └─ 201 (leaf, pending)
+┃           ┃  ┃  ┃      k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃           ┃  ┃  ┃      pc: 136
+┃           ┃  ┃  ┃      callDepth: 1
+┃           ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
+┃           ┃  ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
+┃           ┃  ┃  ┃      method: test%InterfaceContract.callToken()
+┃           ┃  ┃  ┃
+┃           ┃  ┃  ┗━━┓ subst: .Subst
+┃           ┃  ┃     ┃ constraint: true
+┃           ┃  ┃     │
+┃           ┃  ┃     └─ 202 (leaf, pending)
+┃           ┃  ┃         k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃           ┃  ┃         pc: 136
+┃           ┃  ┃         callDepth: 1
+┃           ┃  ┃         statusCode: STATUSCODE:StatusCode
+┃           ┃  ┃         src: test/nested/SimpleNested.t.sol:7:11
+┃           ┃  ┃         method: test%InterfaceContract.callToken()
+┃           ┃  ┃
+┃           ┃  ┗━━┓ subst: .Subst
+┃           ┃     ┃ constraint: true
+┃           ┃     │
+┃           ┃     ├─ 110 (split)
+┃           ┃     │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃           ┃     │   pc: 136
+┃           ┃     │   callDepth: 1
+┃           ┃     │   statusCode: STATUSCODE:StatusCode
+┃           ┃     │   src: test/nested/SimpleNested.t.sol:7:11
+┃           ┃     │   method: test%InterfaceContract.callToken()
+┃           ┃     ┃
+┃           ┃     ┃ (branch)
+┃           ┃     ┣━━┓ subst: .Subst
+┃           ┃     ┃  ┃ constraint: true
+┃           ┃     ┃  │
+┃           ┃     ┃  └─ 203 (leaf, pending)
+┃           ┃     ┃      k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃           ┃     ┃      pc: 136
+┃           ┃     ┃      callDepth: 1
+┃           ┃     ┃      statusCode: STATUSCODE:StatusCode
+┃           ┃     ┃      src: test/nested/SimpleNested.t.sol:7:11
+┃           ┃     ┃      method: test%InterfaceContract.callToken()
+┃           ┃     ┃
+┃           ┃     ┗━━┓ subst: .Subst
+┃           ┃        ┃ constraint: true
+┃           ┃        │
+┃           ┃        └─ 204 (leaf, pending)
+┃           ┃            k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃           ┃            pc: 136
+┃           ┃            callDepth: 1
+┃           ┃            statusCode: STATUSCODE:StatusCode
+┃           ┃            src: test/nested/SimpleNested.t.sol:7:11
+┃           ┃            method: test%InterfaceContract.callToken()
+┃           ┃
+┃           ┗━━┓ subst: .Subst
+┃              ┃ constraint: true
+┃              │
+┃              ├─ 64 (split)
+┃              │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃              │   pc: 136
+┃              │   callDepth: 1
+┃              │   statusCode: STATUSCODE:StatusCode
+┃              │   src: test/nested/SimpleNested.t.sol:7:11
+┃              │   method: test%InterfaceContract.callToken()
+┃              ┃
+┃              ┃ (branch)
+┃              ┣━━┓ subst: .Subst
+┃              ┃  ┃ constraint: true
+┃              ┃  │
+┃              ┃  ├─ 111 (split)
+┃              ┃  │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃              ┃  │   pc: 136
+┃              ┃  │   callDepth: 1
+┃              ┃  │   statusCode: STATUSCODE:StatusCode
+┃              ┃  │   src: test/nested/SimpleNested.t.sol:7:11
+┃              ┃  │   method: test%InterfaceContract.callToken()
+┃              ┃  ┃
+┃              ┃  ┃ (branch)
+┃              ┃  ┣━━┓ subst: .Subst
+┃              ┃  ┃  ┃ constraint: true
+┃              ┃  ┃  │
+┃              ┃  ┃  └─ 205 (leaf, pending)
+┃              ┃  ┃      k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃              ┃  ┃      pc: 136
+┃              ┃  ┃      callDepth: 1
+┃              ┃  ┃      statusCode: STATUSCODE:StatusCode
+┃              ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
+┃              ┃  ┃      method: test%InterfaceContract.callToken()
+┃              ┃  ┃
+┃              ┃  ┗━━┓ subst: .Subst
+┃              ┃     ┃ constraint: true
+┃              ┃     │
+┃              ┃     └─ 206 (leaf, pending)
+┃              ┃         k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃              ┃         pc: 136
+┃              ┃         callDepth: 1
+┃              ┃         statusCode: STATUSCODE:StatusCode
+┃              ┃         src: test/nested/SimpleNested.t.sol:7:11
+┃              ┃         method: test%InterfaceContract.callToken()
+┃              ┃
+┃              ┗━━┓ subst: .Subst
+┃                 ┃ constraint: true
+┃                 │
+┃                 ├─ 112 (split)
+┃                 │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃                 │   pc: 136
+┃                 │   callDepth: 1
+┃                 │   statusCode: STATUSCODE:StatusCode
+┃                 │   src: test/nested/SimpleNested.t.sol:7:11
+┃                 │   method: test%InterfaceContract.callToken()
+┃                 ┃
+┃                 ┃ (branch)
+┃                 ┣━━┓ subst: .Subst
+┃                 ┃  ┃ constraint: true
+┃                 ┃  │
+┃                 ┃  └─ 207 (leaf, pending)
+┃                 ┃      k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃                 ┃      pc: 136
+┃                 ┃      callDepth: 1
+┃                 ┃      statusCode: STATUSCODE:StatusCode
+┃                 ┃      src: test/nested/SimpleNested.t.sol:7:11
+┃                 ┃      method: test%InterfaceContract.callToken()
+┃                 ┃
+┃                 ┗━━┓ subst: .Subst
+┃                    ┃ constraint: true
+┃                    │
+┃                    └─ 208 (leaf, pending)
+┃                        k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+┃                        pc: 136
+┃                        callDepth: 1
+┃                        statusCode: STATUSCODE:StatusCode
+┃                        src: test/nested/SimpleNested.t.sol:7:11
+┃                        method: test%InterfaceContract.callToken()
+┃
+┗━━┓ subst: .Subst
+   ┃ constraint: true
+   │
+   ├─ 20 (split)
+   │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+   │   pc: 136
+   │   callDepth: 1
+   │   statusCode: STATUSCODE:StatusCode
+   │   src: test/nested/SimpleNested.t.sol:7:11
+   │   method: test%InterfaceContract.callToken()
+   ┃
+   ┃ (branch)
+   ┣━━┓ subst: .Subst
+   ┃  ┃ constraint: true
+   ┃  │
+   ┃  ├─ 23 (split)
+   ┃  │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+   ┃  │   pc: 136
+   ┃  │   callDepth: 1
+   ┃  │   statusCode: STATUSCODE:StatusCode
+   ┃  │   src: test/nested/SimpleNested.t.sol:7:11
+   ┃  │   method: test%InterfaceContract.callToken()
+   ┃  ┃
+   ┃  ┃ (branch)
+   ┃  ┣━━┓ subst: .Subst
+   ┃  ┃  ┃ constraint: true
+   ┃  ┃  │
+   ┃  ┃  ├─ 29 (split)
+   ┃  ┃  │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+   ┃  ┃  │   pc: 136
+   ┃  ┃  │   callDepth: 1
+   ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+   ┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
+   ┃  ┃  │   method: test%InterfaceContract.callToken()
+   ┃  ┃  ┃
+   ┃  ┃  ┃ (branch)
+   ┃  ┃  ┣━━┓ subst: .Subst
+   ┃  ┃  ┃  ┃ constraint: true
+   ┃  ┃  ┃  │
+   ┃  ┃  ┃  ├─ 41 (split)
+   ┃  ┃  ┃  │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+   ┃  ┃  ┃  │   pc: 136
+   ┃  ┃  ┃  │   callDepth: 1
+   ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+   ┃  ┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
+   ┃  ┃  ┃  │   method: test%InterfaceContract.callToken()
+   ┃  ┃  ┃  ┃
+   ┃  ┃  ┃  ┃ (branch)
+   ┃  ┃  ┃  ┣━━┓ subst: .Subst
+   ┃  ┃  ┃  ┃  ┃ constraint: true
+   ┃  ┃  ┃  ┃  │
+   ┃  ┃  ┃  ┃  ├─ 65 (split)
+   ┃  ┃  ┃  ┃  │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+   ┃  ┃  ┃  ┃  │   pc: 136
+   ┃  ┃  ┃  ┃  │   callDepth: 1
+   ┃  ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+   ┃  ┃  ┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
+   ┃  ┃  ┃  ┃  │   method: test%InterfaceContract.callToken()
+   ┃  ┃  ┃  ┃  ┃
+   ┃  ┃  ┃  ┃  ┃ (branch)
+   ┃  ┃  ┃  ┃  ┣━━┓ subst: .Subst
+   ┃  ┃  ┃  ┃  ┃  ┃ constraint: true
+   ┃  ┃  ┃  ┃  ┃  │
+   ┃  ┃  ┃  ┃  ┃  └─ 113 (leaf, pending)
+   ┃  ┃  ┃  ┃  ┃      k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+   ┃  ┃  ┃  ┃  ┃      pc: 136
+   ┃  ┃  ┃  ┃  ┃      callDepth: 1
+   ┃  ┃  ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
+   ┃  ┃  ┃  ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
+   ┃  ┃  ┃  ┃  ┃      method: test%InterfaceContract.callToken()
+   ┃  ┃  ┃  ┃  ┃
+   ┃  ┃  ┃  ┃  ┗━━┓ subst: .Subst
+   ┃  ┃  ┃  ┃     ┃ constraint: true
+   ┃  ┃  ┃  ┃     │
+   ┃  ┃  ┃  ┃     └─ 114 (leaf, pending)
+   ┃  ┃  ┃  ┃         k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+   ┃  ┃  ┃  ┃         pc: 136
+   ┃  ┃  ┃  ┃         callDepth: 1
+   ┃  ┃  ┃  ┃         statusCode: STATUSCODE:StatusCode
+   ┃  ┃  ┃  ┃         src: test/nested/SimpleNested.t.sol:7:11
+   ┃  ┃  ┃  ┃         method: test%InterfaceContract.callToken()
+   ┃  ┃  ┃  ┃
+   ┃  ┃  ┃  ┗━━┓ subst: .Subst
+   ┃  ┃  ┃     ┃ constraint: true
+   ┃  ┃  ┃     │
+   ┃  ┃  ┃     ├─ 66 (split)
+   ┃  ┃  ┃     │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+   ┃  ┃  ┃     │   pc: 136
+   ┃  ┃  ┃     │   callDepth: 1
+   ┃  ┃  ┃     │   statusCode: STATUSCODE:StatusCode
+   ┃  ┃  ┃     │   src: test/nested/SimpleNested.t.sol:7:11
+   ┃  ┃  ┃     │   method: test%InterfaceContract.callToken()
+   ┃  ┃  ┃     ┃
+   ┃  ┃  ┃     ┃ (branch)
+   ┃  ┃  ┃     ┣━━┓ subst: .Subst
+   ┃  ┃  ┃     ┃  ┃ constraint: true
+   ┃  ┃  ┃     ┃  │
+   ┃  ┃  ┃     ┃  └─ 115 (leaf, pending)
+   ┃  ┃  ┃     ┃      k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+   ┃  ┃  ┃     ┃      pc: 136
+   ┃  ┃  ┃     ┃      callDepth: 1
+   ┃  ┃  ┃     ┃      statusCode: STATUSCODE:StatusCode
+   ┃  ┃  ┃     ┃      src: test/nested/SimpleNested.t.sol:7:11
+   ┃  ┃  ┃     ┃      method: test%InterfaceContract.callToken()
+   ┃  ┃  ┃     ┃
+   ┃  ┃  ┃     ┗━━┓ subst: .Subst
+   ┃  ┃  ┃        ┃ constraint: true
+   ┃  ┃  ┃        │
+   ┃  ┃  ┃        └─ 116 (leaf, pending)
+   ┃  ┃  ┃            k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+   ┃  ┃  ┃            pc: 136
+   ┃  ┃  ┃            callDepth: 1
+   ┃  ┃  ┃            statusCode: STATUSCODE:StatusCode
+   ┃  ┃  ┃            src: test/nested/SimpleNested.t.sol:7:11
+   ┃  ┃  ┃            method: test%InterfaceContract.callToken()
+   ┃  ┃  ┃
+   ┃  ┃  ┗━━┓ subst: .Subst
+   ┃  ┃     ┃ constraint: true
+   ┃  ┃     │
+   ┃  ┃     ├─ 42 (split)
+   ┃  ┃     │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+   ┃  ┃     │   pc: 136
+   ┃  ┃     │   callDepth: 1
+   ┃  ┃     │   statusCode: STATUSCODE:StatusCode
+   ┃  ┃     │   src: test/nested/SimpleNested.t.sol:7:11
+   ┃  ┃     │   method: test%InterfaceContract.callToken()
+   ┃  ┃     ┃
+   ┃  ┃     ┃ (branch)
+   ┃  ┃     ┣━━┓ subst: .Subst
+   ┃  ┃     ┃  ┃ constraint: true
+   ┃  ┃     ┃  │
+   ┃  ┃     ┃  ├─ 67 (split)
+   ┃  ┃     ┃  │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+   ┃  ┃     ┃  │   pc: 136
+   ┃  ┃     ┃  │   callDepth: 1
+   ┃  ┃     ┃  │   statusCode: STATUSCODE:StatusCode
+   ┃  ┃     ┃  │   src: test/nested/SimpleNested.t.sol:7:11
+   ┃  ┃     ┃  │   method: test%InterfaceContract.callToken()
+   ┃  ┃     ┃  ┃
+   ┃  ┃     ┃  ┃ (branch)
+   ┃  ┃     ┃  ┣━━┓ subst: .Subst
+   ┃  ┃     ┃  ┃  ┃ constraint: true
+   ┃  ┃     ┃  ┃  │
+   ┃  ┃     ┃  ┃  └─ 117 (leaf, pending)
+   ┃  ┃     ┃  ┃      k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+   ┃  ┃     ┃  ┃      pc: 136
+   ┃  ┃     ┃  ┃      callDepth: 1
+   ┃  ┃     ┃  ┃      statusCode: STATUSCODE:StatusCode
+   ┃  ┃     ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
+   ┃  ┃     ┃  ┃      method: test%InterfaceContract.callToken()
+   ┃  ┃     ┃  ┃
+   ┃  ┃     ┃  ┗━━┓ subst: .Subst
+   ┃  ┃     ┃     ┃ constraint: true
+   ┃  ┃     ┃     │
+   ┃  ┃     ┃     └─ 118 (leaf, pending)
+   ┃  ┃     ┃         k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+   ┃  ┃     ┃         pc: 136
+   ┃  ┃     ┃         callDepth: 1
+   ┃  ┃     ┃         statusCode: STATUSCODE:StatusCode
+   ┃  ┃     ┃         src: test/nested/SimpleNested.t.sol:7:11
+   ┃  ┃     ┃         method: test%InterfaceContract.callToken()
+   ┃  ┃     ┃
+   ┃  ┃     ┗━━┓ subst: .Subst
+   ┃  ┃        ┃ constraint: true
+   ┃  ┃        │
+   ┃  ┃        ├─ 68 (split)
+   ┃  ┃        │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+   ┃  ┃        │   pc: 136
+   ┃  ┃        │   callDepth: 1
+   ┃  ┃        │   statusCode: STATUSCODE:StatusCode
+   ┃  ┃        │   src: test/nested/SimpleNested.t.sol:7:11
+   ┃  ┃        │   method: test%InterfaceContract.callToken()
+   ┃  ┃        ┃
+   ┃  ┃        ┃ (branch)
+   ┃  ┃        ┣━━┓ subst: .Subst
+   ┃  ┃        ┃  ┃ constraint: true
+   ┃  ┃        ┃  │
+   ┃  ┃        ┃  └─ 119 (leaf, pending)
+   ┃  ┃        ┃      k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+   ┃  ┃        ┃      pc: 136
+   ┃  ┃        ┃      callDepth: 1
+   ┃  ┃        ┃      statusCode: STATUSCODE:StatusCode
+   ┃  ┃        ┃      src: test/nested/SimpleNested.t.sol:7:11
+   ┃  ┃        ┃      method: test%InterfaceContract.callToken()
+   ┃  ┃        ┃
+   ┃  ┃        ┗━━┓ subst: .Subst
+   ┃  ┃           ┃ constraint: true
+   ┃  ┃           │
+   ┃  ┃           └─ 120 (leaf, pending)
+   ┃  ┃               k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+   ┃  ┃               pc: 136
+   ┃  ┃               callDepth: 1
+   ┃  ┃               statusCode: STATUSCODE:StatusCode
+   ┃  ┃               src: test/nested/SimpleNested.t.sol:7:11
+   ┃  ┃               method: test%InterfaceContract.callToken()
+   ┃  ┃
+   ┃  ┗━━┓ subst: .Subst
+   ┃     ┃ constraint: true
+   ┃     │
+   ┃     ├─ 30 (split)
+   ┃     │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+   ┃     │   pc: 136
+   ┃     │   callDepth: 1
+   ┃     │   statusCode: STATUSCODE:StatusCode
+   ┃     │   src: test/nested/SimpleNested.t.sol:7:11
+   ┃     │   method: test%InterfaceContract.callToken()
+   ┃     ┃
+   ┃     ┃ (branch)
+   ┃     ┣━━┓ subst: .Subst
+   ┃     ┃  ┃ constraint: true
+   ┃     ┃  │
+   ┃     ┃  ├─ 43 (split)
+   ┃     ┃  │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+   ┃     ┃  │   pc: 136
+   ┃     ┃  │   callDepth: 1
+   ┃     ┃  │   statusCode: STATUSCODE:StatusCode
+   ┃     ┃  │   src: test/nested/SimpleNested.t.sol:7:11
+   ┃     ┃  │   method: test%InterfaceContract.callToken()
+   ┃     ┃  ┃
+   ┃     ┃  ┃ (branch)
+   ┃     ┃  ┣━━┓ subst: .Subst
+   ┃     ┃  ┃  ┃ constraint: true
+   ┃     ┃  ┃  │
+   ┃     ┃  ┃  ├─ 69 (split)
+   ┃     ┃  ┃  │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+   ┃     ┃  ┃  │   pc: 136
+   ┃     ┃  ┃  │   callDepth: 1
+   ┃     ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+   ┃     ┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
+   ┃     ┃  ┃  │   method: test%InterfaceContract.callToken()
+   ┃     ┃  ┃  ┃
+   ┃     ┃  ┃  ┃ (branch)
+   ┃     ┃  ┃  ┣━━┓ subst: .Subst
+   ┃     ┃  ┃  ┃  ┃ constraint: true
+   ┃     ┃  ┃  ┃  │
+   ┃     ┃  ┃  ┃  └─ 121 (leaf, pending)
+   ┃     ┃  ┃  ┃      k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+   ┃     ┃  ┃  ┃      pc: 136
+   ┃     ┃  ┃  ┃      callDepth: 1
+   ┃     ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
+   ┃     ┃  ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
+   ┃     ┃  ┃  ┃      method: test%InterfaceContract.callToken()
+   ┃     ┃  ┃  ┃
+   ┃     ┃  ┃  ┗━━┓ subst: .Subst
+   ┃     ┃  ┃     ┃ constraint: true
+   ┃     ┃  ┃     │
+   ┃     ┃  ┃     └─ 122 (leaf, pending)
+   ┃     ┃  ┃         k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+   ┃     ┃  ┃         pc: 136
+   ┃     ┃  ┃         callDepth: 1
+   ┃     ┃  ┃         statusCode: STATUSCODE:StatusCode
+   ┃     ┃  ┃         src: test/nested/SimpleNested.t.sol:7:11
+   ┃     ┃  ┃         method: test%InterfaceContract.callToken()
+   ┃     ┃  ┃
+   ┃     ┃  ┗━━┓ subst: .Subst
+   ┃     ┃     ┃ constraint: true
+   ┃     ┃     │
+   ┃     ┃     ├─ 70 (split)
+   ┃     ┃     │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+   ┃     ┃     │   pc: 136
+   ┃     ┃     │   callDepth: 1
+   ┃     ┃     │   statusCode: STATUSCODE:StatusCode
+   ┃     ┃     │   src: test/nested/SimpleNested.t.sol:7:11
+   ┃     ┃     │   method: test%InterfaceContract.callToken()
+   ┃     ┃     ┃
+   ┃     ┃     ┃ (branch)
+   ┃     ┃     ┣━━┓ subst: .Subst
+   ┃     ┃     ┃  ┃ constraint: true
+   ┃     ┃     ┃  │
+   ┃     ┃     ┃  └─ 123 (leaf, pending)
+   ┃     ┃     ┃      k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+   ┃     ┃     ┃      pc: 136
+   ┃     ┃     ┃      callDepth: 1
+   ┃     ┃     ┃      statusCode: STATUSCODE:StatusCode
+   ┃     ┃     ┃      src: test/nested/SimpleNested.t.sol:7:11
+   ┃     ┃     ┃      method: test%InterfaceContract.callToken()
+   ┃     ┃     ┃
+   ┃     ┃     ┗━━┓ subst: .Subst
+   ┃     ┃        ┃ constraint: true
+   ┃     ┃        │
+   ┃     ┃        └─ 124 (leaf, pending)
+   ┃     ┃            k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+   ┃     ┃            pc: 136
+   ┃     ┃            callDepth: 1
+   ┃     ┃            statusCode: STATUSCODE:StatusCode
+   ┃     ┃            src: test/nested/SimpleNested.t.sol:7:11
+   ┃     ┃            method: test%InterfaceContract.callToken()
+   ┃     ┃
+   ┃     ┗━━┓ subst: .Subst
+   ┃        ┃ constraint: true
+   ┃        │
+   ┃        ├─ 44 (split)
+   ┃        │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+   ┃        │   pc: 136
+   ┃        │   callDepth: 1
+   ┃        │   statusCode: STATUSCODE:StatusCode
+   ┃        │   src: test/nested/SimpleNested.t.sol:7:11
+   ┃        │   method: test%InterfaceContract.callToken()
+   ┃        ┃
+   ┃        ┃ (branch)
+   ┃        ┣━━┓ subst: .Subst
+   ┃        ┃  ┃ constraint: true
+   ┃        ┃  │
+   ┃        ┃  ├─ 71 (split)
+   ┃        ┃  │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+   ┃        ┃  │   pc: 136
+   ┃        ┃  │   callDepth: 1
+   ┃        ┃  │   statusCode: STATUSCODE:StatusCode
+   ┃        ┃  │   src: test/nested/SimpleNested.t.sol:7:11
+   ┃        ┃  │   method: test%InterfaceContract.callToken()
+   ┃        ┃  ┃
+   ┃        ┃  ┃ (branch)
+   ┃        ┃  ┣━━┓ subst: .Subst
+   ┃        ┃  ┃  ┃ constraint: true
+   ┃        ┃  ┃  │
+   ┃        ┃  ┃  └─ 125 (leaf, pending)
+   ┃        ┃  ┃      k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+   ┃        ┃  ┃      pc: 136
+   ┃        ┃  ┃      callDepth: 1
+   ┃        ┃  ┃      statusCode: STATUSCODE:StatusCode
+   ┃        ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
+   ┃        ┃  ┃      method: test%InterfaceContract.callToken()
+   ┃        ┃  ┃
+   ┃        ┃  ┗━━┓ subst: .Subst
+   ┃        ┃     ┃ constraint: true
+   ┃        ┃     │
+   ┃        ┃     └─ 126 (leaf, pending)
+   ┃        ┃         k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+   ┃        ┃         pc: 136
+   ┃        ┃         callDepth: 1
+   ┃        ┃         statusCode: STATUSCODE:StatusCode
+   ┃        ┃         src: test/nested/SimpleNested.t.sol:7:11
+   ┃        ┃         method: test%InterfaceContract.callToken()
+   ┃        ┃
+   ┃        ┗━━┓ subst: .Subst
+   ┃           ┃ constraint: true
+   ┃           │
+   ┃           ├─ 72 (split)
+   ┃           │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+   ┃           │   pc: 136
+   ┃           │   callDepth: 1
+   ┃           │   statusCode: STATUSCODE:StatusCode
+   ┃           │   src: test/nested/SimpleNested.t.sol:7:11
+   ┃           │   method: test%InterfaceContract.callToken()
+   ┃           ┃
+   ┃           ┃ (branch)
+   ┃           ┣━━┓ subst: .Subst
+   ┃           ┃  ┃ constraint: true
+   ┃           ┃  │
+   ┃           ┃  └─ 127 (leaf, pending)
+   ┃           ┃      k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+   ┃           ┃      pc: 136
+   ┃           ┃      callDepth: 1
+   ┃           ┃      statusCode: STATUSCODE:StatusCode
+   ┃           ┃      src: test/nested/SimpleNested.t.sol:7:11
+   ┃           ┃      method: test%InterfaceContract.callToken()
+   ┃           ┃
+   ┃           ┗━━┓ subst: .Subst
+   ┃              ┃ constraint: true
+   ┃              │
+   ┃              └─ 128 (leaf, pending)
+   ┃                  k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+   ┃                  pc: 136
+   ┃                  callDepth: 1
+   ┃                  statusCode: STATUSCODE:StatusCode
+   ┃                  src: test/nested/SimpleNested.t.sol:7:11
+   ┃                  method: test%InterfaceContract.callToken()
+   ┃
+   ┗━━┓ subst: .Subst
+      ┃ constraint: true
+      │
+      ├─ 24 (split)
+      │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+      │   pc: 136
+      │   callDepth: 1
+      │   statusCode: STATUSCODE:StatusCode
+      │   src: test/nested/SimpleNested.t.sol:7:11
+      │   method: test%InterfaceContract.callToken()
+      ┃
+      ┃ (branch)
+      ┣━━┓ subst: .Subst
+      ┃  ┃ constraint: true
+      ┃  │
+      ┃  ├─ 31 (split)
+      ┃  │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+      ┃  │   pc: 136
+      ┃  │   callDepth: 1
+      ┃  │   statusCode: STATUSCODE:StatusCode
+      ┃  │   src: test/nested/SimpleNested.t.sol:7:11
+      ┃  │   method: test%InterfaceContract.callToken()
+      ┃  ┃
+      ┃  ┃ (branch)
+      ┃  ┣━━┓ subst: .Subst
+      ┃  ┃  ┃ constraint: true
+      ┃  ┃  │
+      ┃  ┃  ├─ 45 (split)
+      ┃  ┃  │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+      ┃  ┃  │   pc: 136
+      ┃  ┃  │   callDepth: 1
+      ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+      ┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
+      ┃  ┃  │   method: test%InterfaceContract.callToken()
+      ┃  ┃  ┃
+      ┃  ┃  ┃ (branch)
+      ┃  ┃  ┣━━┓ subst: .Subst
+      ┃  ┃  ┃  ┃ constraint: true
+      ┃  ┃  ┃  │
+      ┃  ┃  ┃  ├─ 73 (split)
+      ┃  ┃  ┃  │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+      ┃  ┃  ┃  │   pc: 136
+      ┃  ┃  ┃  │   callDepth: 1
+      ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+      ┃  ┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
+      ┃  ┃  ┃  │   method: test%InterfaceContract.callToken()
+      ┃  ┃  ┃  ┃
+      ┃  ┃  ┃  ┃ (branch)
+      ┃  ┃  ┃  ┣━━┓ subst: .Subst
+      ┃  ┃  ┃  ┃  ┃ constraint: true
+      ┃  ┃  ┃  ┃  │
+      ┃  ┃  ┃  ┃  └─ 129 (leaf, pending)
+      ┃  ┃  ┃  ┃      k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+      ┃  ┃  ┃  ┃      pc: 136
+      ┃  ┃  ┃  ┃      callDepth: 1
+      ┃  ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
+      ┃  ┃  ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
+      ┃  ┃  ┃  ┃      method: test%InterfaceContract.callToken()
+      ┃  ┃  ┃  ┃
+      ┃  ┃  ┃  ┗━━┓ subst: .Subst
+      ┃  ┃  ┃     ┃ constraint: true
+      ┃  ┃  ┃     │
+      ┃  ┃  ┃     └─ 130 (leaf, pending)
+      ┃  ┃  ┃         k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+      ┃  ┃  ┃         pc: 136
+      ┃  ┃  ┃         callDepth: 1
+      ┃  ┃  ┃         statusCode: STATUSCODE:StatusCode
+      ┃  ┃  ┃         src: test/nested/SimpleNested.t.sol:7:11
+      ┃  ┃  ┃         method: test%InterfaceContract.callToken()
+      ┃  ┃  ┃
+      ┃  ┃  ┗━━┓ subst: .Subst
+      ┃  ┃     ┃ constraint: true
+      ┃  ┃     │
+      ┃  ┃     ├─ 74 (split)
+      ┃  ┃     │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+      ┃  ┃     │   pc: 136
+      ┃  ┃     │   callDepth: 1
+      ┃  ┃     │   statusCode: STATUSCODE:StatusCode
+      ┃  ┃     │   src: test/nested/SimpleNested.t.sol:7:11
+      ┃  ┃     │   method: test%InterfaceContract.callToken()
+      ┃  ┃     ┃
+      ┃  ┃     ┃ (branch)
+      ┃  ┃     ┣━━┓ subst: .Subst
+      ┃  ┃     ┃  ┃ constraint: true
+      ┃  ┃     ┃  │
+      ┃  ┃     ┃  └─ 131 (leaf, pending)
+      ┃  ┃     ┃      k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+      ┃  ┃     ┃      pc: 136
+      ┃  ┃     ┃      callDepth: 1
+      ┃  ┃     ┃      statusCode: STATUSCODE:StatusCode
+      ┃  ┃     ┃      src: test/nested/SimpleNested.t.sol:7:11
+      ┃  ┃     ┃      method: test%InterfaceContract.callToken()
+      ┃  ┃     ┃
+      ┃  ┃     ┗━━┓ subst: .Subst
+      ┃  ┃        ┃ constraint: true
+      ┃  ┃        │
+      ┃  ┃        └─ 132 (leaf, pending)
+      ┃  ┃            k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+      ┃  ┃            pc: 136
+      ┃  ┃            callDepth: 1
+      ┃  ┃            statusCode: STATUSCODE:StatusCode
+      ┃  ┃            src: test/nested/SimpleNested.t.sol:7:11
+      ┃  ┃            method: test%InterfaceContract.callToken()
+      ┃  ┃
+      ┃  ┗━━┓ subst: .Subst
+      ┃     ┃ constraint: true
+      ┃     │
+      ┃     ├─ 46 (split)
+      ┃     │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+      ┃     │   pc: 136
+      ┃     │   callDepth: 1
+      ┃     │   statusCode: STATUSCODE:StatusCode
+      ┃     │   src: test/nested/SimpleNested.t.sol:7:11
+      ┃     │   method: test%InterfaceContract.callToken()
+      ┃     ┃
+      ┃     ┃ (branch)
+      ┃     ┣━━┓ subst: .Subst
+      ┃     ┃  ┃ constraint: true
+      ┃     ┃  │
+      ┃     ┃  ├─ 75 (split)
+      ┃     ┃  │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+      ┃     ┃  │   pc: 136
+      ┃     ┃  │   callDepth: 1
+      ┃     ┃  │   statusCode: STATUSCODE:StatusCode
+      ┃     ┃  │   src: test/nested/SimpleNested.t.sol:7:11
+      ┃     ┃  │   method: test%InterfaceContract.callToken()
+      ┃     ┃  ┃
+      ┃     ┃  ┃ (branch)
+      ┃     ┃  ┣━━┓ subst: .Subst
+      ┃     ┃  ┃  ┃ constraint: true
+      ┃     ┃  ┃  │
+      ┃     ┃  ┃  └─ 133 (leaf, pending)
+      ┃     ┃  ┃      k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+      ┃     ┃  ┃      pc: 136
+      ┃     ┃  ┃      callDepth: 1
+      ┃     ┃  ┃      statusCode: STATUSCODE:StatusCode
+      ┃     ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
+      ┃     ┃  ┃      method: test%InterfaceContract.callToken()
+      ┃     ┃  ┃
+      ┃     ┃  ┗━━┓ subst: .Subst
+      ┃     ┃     ┃ constraint: true
+      ┃     ┃     │
+      ┃     ┃     └─ 134 (leaf, pending)
+      ┃     ┃         k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+      ┃     ┃         pc: 136
+      ┃     ┃         callDepth: 1
+      ┃     ┃         statusCode: STATUSCODE:StatusCode
+      ┃     ┃         src: test/nested/SimpleNested.t.sol:7:11
+      ┃     ┃         method: test%InterfaceContract.callToken()
+      ┃     ┃
+      ┃     ┗━━┓ subst: .Subst
+      ┃        ┃ constraint: true
+      ┃        │
+      ┃        ├─ 76 (split)
+      ┃        │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+      ┃        │   pc: 136
+      ┃        │   callDepth: 1
+      ┃        │   statusCode: STATUSCODE:StatusCode
+      ┃        │   src: test/nested/SimpleNested.t.sol:7:11
+      ┃        │   method: test%InterfaceContract.callToken()
+      ┃        ┃
+      ┃        ┃ (branch)
+      ┃        ┣━━┓ subst: .Subst
+      ┃        ┃  ┃ constraint: true
+      ┃        ┃  │
+      ┃        ┃  └─ 135 (leaf, pending)
+      ┃        ┃      k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+      ┃        ┃      pc: 136
+      ┃        ┃      callDepth: 1
+      ┃        ┃      statusCode: STATUSCODE:StatusCode
+      ┃        ┃      src: test/nested/SimpleNested.t.sol:7:11
+      ┃        ┃      method: test%InterfaceContract.callToken()
+      ┃        ┃
+      ┃        ┗━━┓ subst: .Subst
+      ┃           ┃ constraint: true
+      ┃           │
+      ┃           └─ 136 (leaf, pending)
+      ┃               k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+      ┃               pc: 136
+      ┃               callDepth: 1
+      ┃               statusCode: STATUSCODE:StatusCode
+      ┃               src: test/nested/SimpleNested.t.sol:7:11
+      ┃               method: test%InterfaceContract.callToken()
+      ┃
+      ┗━━┓ subst: .Subst
+         ┃ constraint: true
+         │
+         ├─ 32 (split)
+         │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+         │   pc: 136
+         │   callDepth: 1
+         │   statusCode: STATUSCODE:StatusCode
+         │   src: test/nested/SimpleNested.t.sol:7:11
+         │   method: test%InterfaceContract.callToken()
+         ┃
+         ┃ (branch)
+         ┣━━┓ subst: .Subst
+         ┃  ┃ constraint: true
+         ┃  │
+         ┃  ├─ 47 (split)
+         ┃  │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+         ┃  │   pc: 136
+         ┃  │   callDepth: 1
+         ┃  │   statusCode: STATUSCODE:StatusCode
+         ┃  │   src: test/nested/SimpleNested.t.sol:7:11
+         ┃  │   method: test%InterfaceContract.callToken()
+         ┃  ┃
+         ┃  ┃ (branch)
+         ┃  ┣━━┓ subst: .Subst
+         ┃  ┃  ┃ constraint: true
+         ┃  ┃  │
+         ┃  ┃  ├─ 77 (split)
+         ┃  ┃  │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+         ┃  ┃  │   pc: 136
+         ┃  ┃  │   callDepth: 1
+         ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+         ┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
+         ┃  ┃  │   method: test%InterfaceContract.callToken()
+         ┃  ┃  ┃
+         ┃  ┃  ┃ (branch)
+         ┃  ┃  ┣━━┓ subst: .Subst
+         ┃  ┃  ┃  ┃ constraint: true
+         ┃  ┃  ┃  │
+         ┃  ┃  ┃  └─ 137 (leaf, pending)
+         ┃  ┃  ┃      k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+         ┃  ┃  ┃      pc: 136
+         ┃  ┃  ┃      callDepth: 1
+         ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
+         ┃  ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
+         ┃  ┃  ┃      method: test%InterfaceContract.callToken()
+         ┃  ┃  ┃
+         ┃  ┃  ┗━━┓ subst: .Subst
+         ┃  ┃     ┃ constraint: true
+         ┃  ┃     │
+         ┃  ┃     └─ 138 (leaf, pending)
+         ┃  ┃         k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+         ┃  ┃         pc: 136
+         ┃  ┃         callDepth: 1
+         ┃  ┃         statusCode: STATUSCODE:StatusCode
+         ┃  ┃         src: test/nested/SimpleNested.t.sol:7:11
+         ┃  ┃         method: test%InterfaceContract.callToken()
+         ┃  ┃
+         ┃  ┗━━┓ subst: .Subst
+         ┃     ┃ constraint: true
+         ┃     │
+         ┃     ├─ 78 (split)
+         ┃     │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+         ┃     │   pc: 136
+         ┃     │   callDepth: 1
+         ┃     │   statusCode: STATUSCODE:StatusCode
+         ┃     │   src: test/nested/SimpleNested.t.sol:7:11
+         ┃     │   method: test%InterfaceContract.callToken()
+         ┃     ┃
+         ┃     ┃ (branch)
+         ┃     ┣━━┓ subst: .Subst
+         ┃     ┃  ┃ constraint: true
+         ┃     ┃  │
+         ┃     ┃  └─ 139 (leaf, pending)
+         ┃     ┃      k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+         ┃     ┃      pc: 136
+         ┃     ┃      callDepth: 1
+         ┃     ┃      statusCode: STATUSCODE:StatusCode
+         ┃     ┃      src: test/nested/SimpleNested.t.sol:7:11
+         ┃     ┃      method: test%InterfaceContract.callToken()
+         ┃     ┃
+         ┃     ┗━━┓ subst: .Subst
+         ┃        ┃ constraint: true
+         ┃        │
+         ┃        └─ 140 (leaf, pending)
+         ┃            k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+         ┃            pc: 136
+         ┃            callDepth: 1
+         ┃            statusCode: STATUSCODE:StatusCode
+         ┃            src: test/nested/SimpleNested.t.sol:7:11
+         ┃            method: test%InterfaceContract.callToken()
+         ┃
+         ┗━━┓ subst: .Subst
+            ┃ constraint: true
+            │
+            ├─ 48 (split)
+            │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+            │   pc: 136
+            │   callDepth: 1
+            │   statusCode: STATUSCODE:StatusCode
+            │   src: test/nested/SimpleNested.t.sol:7:11
+            │   method: test%InterfaceContract.callToken()
+            ┃
+            ┃ (branch)
+            ┣━━┓ subst: .Subst
+            ┃  ┃ constraint: true
+            ┃  │
+            ┃  ├─ 79 (split)
+            ┃  │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+            ┃  │   pc: 136
+            ┃  │   callDepth: 1
+            ┃  │   statusCode: STATUSCODE:StatusCode
+            ┃  │   src: test/nested/SimpleNested.t.sol:7:11
+            ┃  │   method: test%InterfaceContract.callToken()
+            ┃  ┃
+            ┃  ┃ (branch)
+            ┃  ┣━━┓ subst: .Subst
+            ┃  ┃  ┃ constraint: true
+            ┃  ┃  │
+            ┃  ┃  └─ 141 (leaf, pending)
+            ┃  ┃      k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+            ┃  ┃      pc: 136
+            ┃  ┃      callDepth: 1
+            ┃  ┃      statusCode: STATUSCODE:StatusCode
+            ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
+            ┃  ┃      method: test%InterfaceContract.callToken()
+            ┃  ┃
+            ┃  ┗━━┓ subst: .Subst
+            ┃     ┃ constraint: true
+            ┃     │
+            ┃     └─ 142 (leaf, pending)
+            ┃         k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+            ┃         pc: 136
+            ┃         callDepth: 1
+            ┃         statusCode: STATUSCODE:StatusCode
+            ┃         src: test/nested/SimpleNested.t.sol:7:11
+            ┃         method: test%InterfaceContract.callToken()
+            ┃
+            ┗━━┓ subst: .Subst
+               ┃ constraint: true
+               │
+               ├─ 80 (split)
+               │   k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+               │   pc: 136
+               │   callDepth: 1
+               │   statusCode: STATUSCODE:StatusCode
+               │   src: test/nested/SimpleNested.t.sol:7:11
+               │   method: test%InterfaceContract.callToken()
+               ┃
+               ┃ (branch)
+               ┣━━┓ subst: .Subst
+               ┃  ┃ constraint: true
+               ┃  │
+               ┃  └─ 143 (leaf, pending)
+               ┃      k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+               ┃      pc: 136
+               ┃      callDepth: 1
+               ┃      statusCode: STATUSCODE:StatusCode
+               ┃      src: test/nested/SimpleNested.t.sol:7:11
+               ┃      method: test%InterfaceContract.callToken()
+               ┃
+               ┗━━┓ subst: .Subst
+                  ┃ constraint: true
+                  │
+                  └─ 144 (leaf, pending)
+                      k: #checkDepthExceeded ~> #call 263400868551549723330807389252719309078400616203 49 ...
+                      pc: 136
+                      callDepth: 1
+                      statusCode: STATUSCODE:StatusCode
+                      src: test/nested/SimpleNested.t.sol:7:11
+                      method: test%InterfaceContract.callToken()
+
+
+┌─ 13 (root, leaf, target, terminal)
+│   k: #halt ~> CONTINUATION:K
+│   pc: PC_CELL_5d410f2a:Int
+│   callDepth: CALLDEPTH_CELL_5d410f2a:Int
+│   statusCode: STATUSCODE_FINAL:StatusCode
+
+
+
+module SUMMARY-TEST%INTERFACETAGTEST.TESTINTERFACE():0
+    
+    
+    rule [BASIC-BLOCK-1-TO-11]: <foundry>
+           <kevm>
+             <k>
+               ( #execute => #halt )
+               ~> _CONTINUATION
+             </k>
+             <mode>
+               NORMAL
+             </mode>
+             <schedule>
+               SHANGHAI
+             </schedule>
+             <useGas>
+               false
+             </useGas>
+             <ethereum>
+               <evm>
+                 <output>
+                   b""
+                 </output>
+                 <statusCode>
+                   ( _STATUSCODE => EVMC_SUCCESS )
+                 </statusCode>
+                 <callStack>
+                   .List
+                 </callStack>
+                 <interimStates>
+                   .List
+                 </interimStates>
+                 <touchedAccounts>
+                   ( .Set => ( SetItem ( 263400868551549723330807389252719309078400616203 ) ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) ) ) )
+                 </touchedAccounts>
+                 <callState>
+                   <id>
+                     728815563385977040452943777879061427756277306518
+                   </id>
+                   <caller>
+                     CALLER_ID:Int
+                   </caller>
+                   <callData>
+                     b"\n\x92T\xe4"
+                   </callData>
+                   <callValue>
+                     0
+                   </callValue>
+                   <wordStack>
+                     ( .WordStack => ( selector ( "setUp()" ) : .WordStack ) )
+                   </wordStack>
+                   <localMem>
+                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00`\x80`@R4\x80\x15a\x00\x10W`\x00\x80\xfd[P`@Qa\x01v8\x03\x80a\x01v\x839\x81\x01`@\x81\x90Ra\x00/\x91a\x00TV[`\x00\x80T`\x01`\x01`\xa0\x1b\x03\x19\x16`\x01`\x01`\xa0\x1b\x03\x92\x90\x92\x16\x91\x90\x91\x17\x90Ua\x00\x84V[`\x00` \x82\x84\x03\x12\x15a\x00fW`\x00\x80\xfd[\x81Q`\x01`\x01`\xa0\x1b\x03\x81\x16\x81\x14a\x00}W`\x00\x80\xfd[\x93\x92PPPV[`\xe4\x80a\x00\x92`\x009`\x00\xf3\xfe`\x80`@R4\x80\x15`\x0fW`\x00\x80\xfd[P`\x046\x10`(W`\x005`\xe0\x1c\x80c\xde\x93\x16b\x14`-W[`\x00\x80\xfd[`3`EV[`@Q\x90\x81R` \x01`@Q\x80\x91\x03\x90\xf3[`\x00\x80`\x00\x90T\x90a\x01\x00\n\x90\x04`\x01`\x01`\xa0\x1b\x03\x16`\x01`\x01`\xa0\x1b\x03\x16c\x18\x16\r\xdd`@Q\x81c\xff\xff\xff\xff\x16`\xe0\x1b\x81R`\x04\x01` `@Q\x80\x83\x03\x81\x86Z\xfa\x15\x80\x15`\x98W=`\x00\x80>=`\x00\xfd[PPPP`@Q=`\x1f\x19`\x1f\x82\x01\x16\x82\x01\x80`@RP\x81\x01\x90`\xba\x91\x90`\xbfV[\x90P\x90V[`\x00` \x82\x84\x03\x12\x15`\xd0W`\x00\x80\xfd[PQ\x91\x90PV\xfe\xa1dsolcC\x00\x08\r\x00\n\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00V\x15\xde\xb7\x98\xbb>M\xfa\x019\xdf\xa1\xb3\xd43\xcc#\xb7/" )
+                   </localMem>
+                   <memoryUsed>
+                     0
+                   </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
+                   <static>
+                     false
+                   </static>
+                   <callDepth>
+                     0
+                   </callDepth>
+                   ...
+                 </callState>
+                 <substate>
+                   <log>
+                     .List
+                   </log>
+                   <refund>
+                     0
+                   </refund>
+                   <accessedAccounts>
+                     ( .Set => ( SetItem ( 263400868551549723330807389252719309078400616203 ) ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) ) ) )
+                   </accessedAccounts>
+                   <accessedStorage>
+                     .Map
+                   </accessedStorage>
+                   ...
+                 </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
+                   ...
+                 </block>
+                 ...
+               </evm>
+               <network>
+                 <chainID>
+                   1
+                 </chainID>
+                 <accounts>
+                   ( <account>
+                     <acctID>
+                       ( 645326474426547203313410069153905908525362434349 => 263400868551549723330807389252719309078400616203 )
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       ( .Map => ( 0 |-> 491460923342184218035706888008750043977755113263 ) )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       ( 0 => 1 )
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
+                     <acctID>
+                       728815563385977040452943777879061427756277306518
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       ( ( 11 |-> 1 )
+                       ( 7 |-> 1 ) )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       1
+                     </nonce>
+                     ...
+                   </account> => ( <account>
+                     <acctID>
+                       491460923342184218035706888008750043977755113263
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       1
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
+                     <acctID>
+                       645326474426547203313410069153905908525362434349
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       0
+                     </nonce>
+                     ...
+                   </account>
+                   <account>
+                     <acctID>
+                       728815563385977040452943777879061427756277306518
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       ( ( 11 |-> 1 )
+                       ( ( 27 |-> 263400868551549723330807389252719309078400616203 )
+                       ( 7 |-> 1 ) ) )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       3
+                     </nonce>
+                     ...
+                   </account> ) ) ) )
+                 </accounts>
+                 ...
+               </network>
+             </ethereum>
+             ...
+           </kevm>
+           <stackChecks>
+             true
+           </stackChecks>
+           <cheatcodes>
+             <prank>
+               <active>
+                 false
+               </active>
+               <singleCall>
+                 false
+               </singleCall>
+               ...
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 false
+               </isRevertExpected>
+               ...
+             </expectedRevert>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 false
+               </isOpcodeExpected>
+               ...
+             </expectedOpcode>
+             <expectEmit>
+               <recordEvent>
+                 false
+               </recordEvent>
+               <isEventExpected>
+                 false
+               </isEventExpected>
+               ...
+             </expectEmit>
+             <whitelist>
+               <isCallWhitelistActive>
+                 false
+               </isCallWhitelistActive>
+               <isStorageWhitelistActive>
+                 false
+               </isStorageWhitelistActive>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
+             </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
+           </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
+         </foundry>
+      requires ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+               ))))))))))))
+      [priority(20), label(BASIC-BLOCK-1-TO-11)]
+    
+    rule [BASIC-BLOCK-11-TO-12]: <foundry>
+           <kevm>
+             <k>
+               ( #halt => #execute )
+               ~> _CONTINUATION
+             </k>
+             <mode>
+               NORMAL
+             </mode>
+             <schedule>
+               SHANGHAI
+             </schedule>
+             <useGas>
+               false
+             </useGas>
+             <ethereum>
+               <evm>
+                 <output>
+                   b""
+                 </output>
+                 <statusCode>
+                   ( EVMC_SUCCESS => ?_STATUSCODE )
+                 </statusCode>
+                 <callStack>
+                   .List
+                 </callStack>
+                 <interimStates>
+                   .List
+                 </interimStates>
+                 <touchedAccounts>
+                   ( ( SetItem ( 263400868551549723330807389252719309078400616203 ) ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) ) ) => .Set )
+                 </touchedAccounts>
+                 <callState>
+                   <id>
+                     728815563385977040452943777879061427756277306518
+                   </id>
+                   <caller>
+                     CALLER_ID:Int
+                   </caller>
+                   <callData>
+                     ( b"\n\x92T\xe4" => b"\x05\xdd\xe5\x03" )
+                   </callData>
+                   <callValue>
+                     0
+                   </callValue>
+                   <wordStack>
+                     ( ( selector ( "setUp()" ) : .WordStack ) => .WordStack )
+                   </wordStack>
+                   <localMem>
+                     ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00`\x80`@R4\x80\x15a\x00\x10W`\x00\x80\xfd[P`@Qa\x01v8\x03\x80a\x01v\x839\x81\x01`@\x81\x90Ra\x00/\x91a\x00TV[`\x00\x80T`\x01`\x01`\xa0\x1b\x03\x19\x16`\x01`\x01`\xa0\x1b\x03\x92\x90\x92\x16\x91\x90\x91\x17\x90Ua\x00\x84V[`\x00` \x82\x84\x03\x12\x15a\x00fW`\x00\x80\xfd[\x81Q`\x01`\x01`\xa0\x1b\x03\x81\x16\x81\x14a\x00}W`\x00\x80\xfd[\x93\x92PPPV[`\xe4\x80a\x00\x92`\x009`\x00\xf3\xfe`\x80`@R4\x80\x15`\x0fW`\x00\x80\xfd[P`\x046\x10`(W`\x005`\xe0\x1c\x80c\xde\x93\x16b\x14`-W[`\x00\x80\xfd[`3`EV[`@Q\x90\x81R` \x01`@Q\x80\x91\x03\x90\xf3[`\x00\x80`\x00\x90T\x90a\x01\x00\n\x90\x04`\x01`\x01`\xa0\x1b\x03\x16`\x01`\x01`\xa0\x1b\x03\x16c\x18\x16\r\xdd`@Q\x81c\xff\xff\xff\xff\x16`\xe0\x1b\x81R`\x04\x01` `@Q\x80\x83\x03\x81\x86Z\xfa\x15\x80\x15`\x98W=`\x00\x80>=`\x00\xfd[PPPP`@Q=`\x1f\x19`\x1f\x82\x01\x16\x82\x01\x80`@RP\x81\x01\x90`\xba\x91\x90`\xbfV[\x90P\x90V[`\x00` \x82\x84\x03\x12\x15`\xd0W`\x00\x80\xfd[PQ\x91\x90PV\xfe\xa1dsolcC\x00\x08\r\x00\n\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00V\x15\xde\xb7\x98\xbb>M\xfa\x019\xdf\xa1\xb3\xd43\xcc#\xb7/" => b"" )
+                   </localMem>
+                   <memoryUsed>
+                     0
+                   </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
+                   <static>
+                     false
+                   </static>
+                   <callDepth>
+                     0
+                   </callDepth>
+                   ...
+                 </callState>
+                 <substate>
+                   <log>
+                     .List
+                   </log>
+                   <refund>
+                     0
+                   </refund>
+                   <accessedAccounts>
+                     ( ( SetItem ( 263400868551549723330807389252719309078400616203 ) ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) ) ) => .Set )
+                   </accessedAccounts>
+                   <accessedStorage>
+                     .Map
+                   </accessedStorage>
+                   ...
+                 </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
+                   ...
+                 </block>
+                 ...
+               </evm>
+               <network>
+                 <chainID>
+                   1
+                 </chainID>
+                 <accounts>
+                   ( <account>
+                     <acctID>
+                       263400868551549723330807389252719309078400616203
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       ( 0 |-> 491460923342184218035706888008750043977755113263 )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       1
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
+                     <acctID>
+                       491460923342184218035706888008750043977755113263
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       1
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
+                     <acctID>
+                       645326474426547203313410069153905908525362434349
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       0
+                     </nonce>
+                     ...
+                   </account>
+                   <account>
+                     <acctID>
+                       728815563385977040452943777879061427756277306518
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       ( ( 11 |-> 1 )
+                       ( ( 27 |-> 263400868551549723330807389252719309078400616203 )
+                       ( 7 |-> 1 ) ) )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       3
+                     </nonce>
+                     ...
+                   </account> ) ) )
+                 </accounts>
+                 ...
+               </network>
+             </ethereum>
+             ...
+           </kevm>
+           <stackChecks>
+             true
+           </stackChecks>
+           <cheatcodes>
+             <prank>
+               <active>
+                 false
+               </active>
+               <singleCall>
+                 false
+               </singleCall>
+               ...
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 false
+               </isRevertExpected>
+               ...
+             </expectedRevert>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 false
+               </isOpcodeExpected>
+               ...
+             </expectedOpcode>
+             <expectEmit>
+               <recordEvent>
+                 false
+               </recordEvent>
+               <isEventExpected>
+                 false
+               </isEventExpected>
+               ...
+             </expectEmit>
+             <whitelist>
+               <isCallWhitelistActive>
+                 false
+               </isCallWhitelistActive>
+               <isStorageWhitelistActive>
+                 false
+               </isStorageWhitelistActive>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
+             </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
+           </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
+         </foundry>
+      requires ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+               ))))))))))))
+      [priority(20), label(BASIC-BLOCK-11-TO-12)]
+    
+    rule [BASIC-BLOCK-12-TO-14]: <foundry>
+           <kevm>
+             <k>
+               ( .K => CALL 0 263400868551549723330807389252719309078400616203 0 128 4 128 32
+               ~> #pc [ CALL ] )
+               ~> #execute
+               ~> _CONTINUATION
+             </k>
+             <mode>
+               NORMAL
+             </mode>
+             <schedule>
+               SHANGHAI
+             </schedule>
+             <useGas>
+               false
+             </useGas>
+             <ethereum>
+               <evm>
+                 <output>
+                   b""
+                 </output>
+                 <callStack>
+                   .List
+                 </callStack>
+                 <interimStates>
+                   .List
+                 </interimStates>
+                 <touchedAccounts>
+                   .Set
+                 </touchedAccounts>
+                 <callState>
+                   <id>
+                     728815563385977040452943777879061427756277306518
+                   </id>
+                   <caller>
+                     CALLER_ID:Int
+                   </caller>
+                   <callData>
+                     b"\x05\xdd\xe5\x03"
+                   </callData>
+                   <callValue>
+                     0
+                   </callValue>
+                   <wordStack>
+                     ( .WordStack => ( 132 : ( selector ( "callToken()" ) : ( 263400868551549723330807389252719309078400616203 : ( 193 : ( selector ( "testInterface()" ) : .WordStack ) ) ) ) ) )
+                   </wordStack>
+                   <localMem>
+                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xde\x93\x16b\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" )
+                   </localMem>
+                   <memoryUsed>
+                     0
+                   </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
+                   <static>
+                     false
+                   </static>
+                   <callDepth>
+                     0
+                   </callDepth>
+                   ...
+                 </callState>
+                 <substate>
+                   <log>
+                     .List
+                   </log>
+                   <refund>
+                     0
+                   </refund>
+                   <accessedAccounts>
+                     .Set
+                   </accessedAccounts>
+                   <accessedStorage>
+                     .Map
+                   </accessedStorage>
+                   ...
+                 </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
+                   ...
+                 </block>
+                 ...
+               </evm>
+               <network>
+                 <chainID>
+                   1
+                 </chainID>
+                 <accounts>
+                   ( <account>
+                     <acctID>
+                       263400868551549723330807389252719309078400616203
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       ( 0 |-> 491460923342184218035706888008750043977755113263 )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       1
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
+                     <acctID>
+                       491460923342184218035706888008750043977755113263
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       1
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
+                     <acctID>
+                       645326474426547203313410069153905908525362434349
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       0
+                     </nonce>
+                     ...
+                   </account>
+                   <account>
+                     <acctID>
+                       728815563385977040452943777879061427756277306518
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       ( ( 11 |-> 1 )
+                       ( ( 27 |-> 263400868551549723330807389252719309078400616203 )
+                       ( 7 |-> 1 ) ) )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       3
+                     </nonce>
+                     ...
+                   </account> ) ) )
+                 </accounts>
+                 ...
+               </network>
+             </ethereum>
+             ...
+           </kevm>
+           <stackChecks>
+             true
+           </stackChecks>
+           <cheatcodes>
+             <prank>
+               <active>
+                 false
+               </active>
+               <singleCall>
+                 false
+               </singleCall>
+               ...
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 false
+               </isRevertExpected>
+               ...
+             </expectedRevert>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 false
+               </isOpcodeExpected>
+               ...
+             </expectedOpcode>
+             <expectEmit>
+               <recordEvent>
+                 false
+               </recordEvent>
+               <isEventExpected>
+                 false
+               </isEventExpected>
+               ...
+             </expectEmit>
+             <whitelist>
+               <isCallWhitelistActive>
+                 false
+               </isCallWhitelistActive>
+               <isStorageWhitelistActive>
+                 false
+               </isStorageWhitelistActive>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
+             </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
+           </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
+         </foundry>
+      requires ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+               ))))))))))))
+      [priority(20), label(BASIC-BLOCK-12-TO-14)]
+    
+    rule [BASIC-BLOCK-14-TO-15]: <foundry>
+           <kevm>
+             <k>
+               ( CALL 0 263400868551549723330807389252719309078400616203 0 128 4 128 32 ~> .K => #accessAccounts 263400868551549723330807389252719309078400616203
+               ~> #checkCall 728815563385977040452943777879061427756277306518 0
+               ~> #call 728815563385977040452943777879061427756277306518 263400868551549723330807389252719309078400616203 263400868551549723330807389252719309078400616203 0 0 b"\xde\x93\x16b" false
+               ~> #return 128 32 )
+               ~> #pc [ CALL ]
+               ~> #execute
+               ~> _CONTINUATION
+             </k>
+             <mode>
+               NORMAL
+             </mode>
+             <schedule>
+               SHANGHAI
+             </schedule>
+             <useGas>
+               false
+             </useGas>
+             <ethereum>
+               <evm>
+                 <output>
+                   b""
+                 </output>
+                 <callStack>
+                   .List
+                 </callStack>
+                 <interimStates>
+                   .List
+                 </interimStates>
+                 <touchedAccounts>
+                   .Set
+                 </touchedAccounts>
+                 <callState>
+                   <id>
+                     728815563385977040452943777879061427756277306518
+                   </id>
+                   <caller>
+                     CALLER_ID:Int
+                   </caller>
+                   <callData>
+                     b"\x05\xdd\xe5\x03"
+                   </callData>
+                   <callValue>
+                     0
+                   </callValue>
+                   <wordStack>
+                     ( 132 : ( selector ( "callToken()" ) : ( 263400868551549723330807389252719309078400616203 : ( 193 : ( selector ( "testInterface()" ) : .WordStack ) ) ) ) )
+                   </wordStack>
+                   <localMem>
+                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xde\x93\x16b\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+                   </localMem>
+                   <memoryUsed>
+                     0
+                   </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
+                   <static>
+                     false
+                   </static>
+                   <callDepth>
+                     0
+                   </callDepth>
+                   ...
+                 </callState>
+                 <substate>
+                   <log>
+                     .List
+                   </log>
+                   <refund>
+                     0
+                   </refund>
+                   <accessedAccounts>
+                     .Set
+                   </accessedAccounts>
+                   <accessedStorage>
+                     .Map
+                   </accessedStorage>
+                   ...
+                 </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
+                   ...
+                 </block>
+                 ...
+               </evm>
+               <network>
+                 <chainID>
+                   1
+                 </chainID>
+                 <accounts>
+                   ( <account>
+                     <acctID>
+                       263400868551549723330807389252719309078400616203
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       ( 0 |-> 491460923342184218035706888008750043977755113263 )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       1
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
+                     <acctID>
+                       491460923342184218035706888008750043977755113263
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       1
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
+                     <acctID>
+                       645326474426547203313410069153905908525362434349
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       0
+                     </nonce>
+                     ...
+                   </account>
+                   <account>
+                     <acctID>
+                       728815563385977040452943777879061427756277306518
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       ( ( 11 |-> 1 )
+                       ( ( 27 |-> 263400868551549723330807389252719309078400616203 )
+                       ( 7 |-> 1 ) ) )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       3
+                     </nonce>
+                     ...
+                   </account> ) ) )
+                 </accounts>
+                 ...
+               </network>
+             </ethereum>
+             ...
+           </kevm>
+           <stackChecks>
+             true
+           </stackChecks>
+           <cheatcodes>
+             <prank>
+               <active>
+                 false
+               </active>
+               <singleCall>
+                 false
+               </singleCall>
+               ...
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 false
+               </isRevertExpected>
+               ...
+             </expectedRevert>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 false
+               </isOpcodeExpected>
+               ...
+             </expectedOpcode>
+             <expectEmit>
+               <recordEvent>
+                 false
+               </recordEvent>
+               <isEventExpected>
+                 false
+               </isEventExpected>
+               ...
+             </expectEmit>
+             <whitelist>
+               <isCallWhitelistActive>
+                 false
+               </isCallWhitelistActive>
+               <isStorageWhitelistActive>
+                 false
+               </isStorageWhitelistActive>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
+             </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
+           </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
+         </foundry>
+      requires ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+               ))))))))))))
+      [priority(20), label(BASIC-BLOCK-14-TO-15)]
+    
+    rule [BASIC-BLOCK-15-TO-16]: <foundry>
+           <kevm>
+             <k>
+               ( #accessAccounts 263400868551549723330807389252719309078400616203
+               ~> #checkCall 728815563385977040452943777879061427756277306518 0
+               ~> #call 728815563385977040452943777879061427756277306518 263400868551549723330807389252719309078400616203 263400868551549723330807389252719309078400616203 0 0 b"\xde\x93\x16b" false => #precompiled? ( 263400868551549723330807389252719309078400616203 , SHANGHAI )
+               ~> #execute )
+               ~> #return 128 32
+               ~> #pc [ CALL ]
+               ~> #execute
+               ~> _CONTINUATION
+             </k>
+             <mode>
+               NORMAL
+             </mode>
+             <schedule>
+               SHANGHAI
+             </schedule>
+             <useGas>
+               false
+             </useGas>
+             <ethereum>
+               <evm>
+                 <output>
+                   b""
+                 </output>
+                 <callStack>
+                   ( .List => ListItem ( <callState>
+                     <id>
+                       728815563385977040452943777879061427756277306518
+                     </id>
+                     <caller>
+                       CALLER_ID:Int
+                     </caller>
+                     <callData>
+                       b"\x05\xdd\xe5\x03"
+                     </callData>
+                     <callValue>
+                       0
+                     </callValue>
+                     <wordStack>
+                       ( 132 : ( selector ( "callToken()" ) : ( 263400868551549723330807389252719309078400616203 : ( 193 : ( selector ( "testInterface()" ) : .WordStack ) ) ) ) )
+                     </wordStack>
+                     <localMem>
+                       b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xde\x93\x16b\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+                     </localMem>
+                     <memoryUsed>
+                       0
+                     </memoryUsed>
+                     <callGas>
+                       0
+                     </callGas>
+                     <static>
+                       false
+                     </static>
+                     <callDepth>
+                       0
+                     </callDepth>
+                     ...
+                   </callState> ) )
+                 </callStack>
+                 <interimStates>
+                   ( .List => ListItem ( { <accounts>
+                     ( <account>
+                       <acctID>
+                         263400868551549723330807389252719309078400616203
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       <storage>
+                         ( 0 |-> 491460923342184218035706888008750043977755113263 )
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         1
+                       </nonce>
+                       ...
+                     </account>
+                     ( <account>
+                       <acctID>
+                         491460923342184218035706888008750043977755113263
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       <storage>
+                         .Map
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         1
+                       </nonce>
+                       ...
+                     </account>
+                     ( <account>
+                       <acctID>
+                         645326474426547203313410069153905908525362434349
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       <storage>
+                         .Map
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         0
+                       </nonce>
+                       ...
+                     </account>
+                     <account>
+                       <acctID>
+                         728815563385977040452943777879061427756277306518
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       <storage>
+                         ( ( 11 |-> 1 )
+                         ( ( 27 |-> 263400868551549723330807389252719309078400616203 )
+                         ( 7 |-> 1 ) ) )
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         3
+                       </nonce>
+                       ...
+                     </account> ) ) )
+                   </accounts> | <substate>
+                     <selfDestruct>
+                       SELFDESTRUCT_CELL:Set
+                     </selfDestruct>
+                     <log>
+                       .List
+                     </log>
+                     <refund>
+                       0
+                     </refund>
+                     <accessedAccounts>
+                       SetItem ( 263400868551549723330807389252719309078400616203 )
+                     </accessedAccounts>
+                     <accessedStorage>
+                       .Map
+                     </accessedStorage>
+                   </substate> } ) )
+                 </interimStates>
+                 <touchedAccounts>
+                   ( .Set => ( SetItem ( 263400868551549723330807389252719309078400616203 ) SetItem ( 728815563385977040452943777879061427756277306518 ) ) )
+                 </touchedAccounts>
+                 <callState>
+                   <id>
+                     ( 728815563385977040452943777879061427756277306518 => 263400868551549723330807389252719309078400616203 )
+                   </id>
+                   <caller>
+                     ( CALLER_ID:Int => 728815563385977040452943777879061427756277306518 )
+                   </caller>
+                   <callData>
+                     ( b"\x05\xdd\xe5\x03" => b"\xde\x93\x16b" )
+                   </callData>
+                   <callValue>
+                     0
+                   </callValue>
+                   <wordStack>
+                     ( ( 132 : ( selector ( "callToken()" ) : ( 263400868551549723330807389252719309078400616203 : ( 193 : ( selector ( "testInterface()" ) : .WordStack ) ) ) ) ) => .WordStack )
+                   </wordStack>
+                   <localMem>
+                     ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xde\x93\x16b\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" => b"" )
+                   </localMem>
+                   <memoryUsed>
+                     0
+                   </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
+                   <static>
+                     false
+                   </static>
+                   <callDepth>
+                     ( 0 => 1 )
+                   </callDepth>
+                   ...
+                 </callState>
+                 <substate>
+                   <selfDestruct>
+                     SELFDESTRUCT_CELL:Set
+                   </selfDestruct>
+                   <log>
+                     .List
+                   </log>
+                   <refund>
+                     0
+                   </refund>
+                   <accessedAccounts>
+                     ( .Set => ( SetItem ( 263400868551549723330807389252719309078400616203 ) SetItem ( 728815563385977040452943777879061427756277306518 ) ) )
+                   </accessedAccounts>
+                   <accessedStorage>
+                     .Map
+                   </accessedStorage>
+                 </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
+                   ...
+                 </block>
+                 ...
+               </evm>
+               <network>
+                 <chainID>
+                   1
+                 </chainID>
+                 <accounts>
+                   ( <account>
+                     <acctID>
+                       263400868551549723330807389252719309078400616203
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       ( 0 |-> 491460923342184218035706888008750043977755113263 )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       1
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
+                     <acctID>
+                       491460923342184218035706888008750043977755113263
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       1
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
+                     <acctID>
+                       645326474426547203313410069153905908525362434349
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       0
+                     </nonce>
+                     ...
+                   </account>
+                   <account>
+                     <acctID>
+                       728815563385977040452943777879061427756277306518
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       ( ( 11 |-> 1 )
+                       ( ( 27 |-> 263400868551549723330807389252719309078400616203 )
+                       ( 7 |-> 1 ) ) )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       3
+                     </nonce>
+                     ...
+                   </account> ) ) )
+                 </accounts>
+                 ...
+               </network>
+             </ethereum>
+             ...
+           </kevm>
+           <stackChecks>
+             true
+           </stackChecks>
+           <cheatcodes>
+             <prank>
+               <active>
+                 false
+               </active>
+               <singleCall>
+                 false
+               </singleCall>
+               ...
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 false
+               </isRevertExpected>
+               ...
+             </expectedRevert>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 false
+               </isOpcodeExpected>
+               ...
+             </expectedOpcode>
+             <expectEmit>
+               <recordEvent>
+                 false
+               </recordEvent>
+               <isEventExpected>
+                 false
+               </isEventExpected>
+               ...
+             </expectEmit>
+             <whitelist>
+               <isCallWhitelistActive>
+                 false
+               </isCallWhitelistActive>
+               <isStorageWhitelistActive>
+                 false
+               </isStorageWhitelistActive>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
+             </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
+           </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
+         </foundry>
+      requires ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+               ))))))))))))
+      [priority(20), label(BASIC-BLOCK-15-TO-16)]
+    
+    rule [BASIC-BLOCK-16-TO-17]: <foundry>
+           <kevm>
+             <k>
+               ( #precompiled? ( 263400868551549723330807389252719309078400616203 , SHANGHAI ) ~> .K => .K )
+               ~> #execute
+               ~> #return 128 32
+               ~> #pc [ CALL ]
+               ~> #execute
+               ~> _CONTINUATION
+             </k>
+             <mode>
+               NORMAL
+             </mode>
+             <schedule>
+               SHANGHAI
+             </schedule>
+             <useGas>
+               false
+             </useGas>
+             <ethereum>
+               <evm>
+                 <output>
+                   b""
+                 </output>
+                 <callStack>
+                   ListItem ( <callState>
+                     <id>
+                       728815563385977040452943777879061427756277306518
+                     </id>
+                     <caller>
+                       CALLER_ID:Int
+                     </caller>
+                     <callData>
+                       b"\x05\xdd\xe5\x03"
+                     </callData>
+                     <callValue>
+                       0
+                     </callValue>
+                     <wordStack>
+                       ( 132 : ( selector ( "callToken()" ) : ( 263400868551549723330807389252719309078400616203 : ( 193 : ( selector ( "testInterface()" ) : .WordStack ) ) ) ) )
+                     </wordStack>
+                     <localMem>
+                       b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xde\x93\x16b\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+                     </localMem>
+                     <memoryUsed>
+                       0
+                     </memoryUsed>
+                     <callGas>
+                       0
+                     </callGas>
+                     <static>
+                       false
+                     </static>
+                     <callDepth>
+                       0
+                     </callDepth>
+                     ...
+                   </callState> )
+                 </callStack>
+                 <interimStates>
+                   ListItem ( { <accounts>
+                     ( <account>
+                       <acctID>
+                         263400868551549723330807389252719309078400616203
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       <storage>
+                         ( 0 |-> 491460923342184218035706888008750043977755113263 )
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         1
+                       </nonce>
+                       ...
+                     </account>
+                     ( <account>
+                       <acctID>
+                         491460923342184218035706888008750043977755113263
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       <storage>
+                         .Map
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         1
+                       </nonce>
+                       ...
+                     </account>
+                     ( <account>
+                       <acctID>
+                         645326474426547203313410069153905908525362434349
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       <storage>
+                         .Map
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         0
+                       </nonce>
+                       ...
+                     </account>
+                     <account>
+                       <acctID>
+                         728815563385977040452943777879061427756277306518
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       <storage>
+                         ( ( 11 |-> 1 )
+                         ( ( 27 |-> 263400868551549723330807389252719309078400616203 )
+                         ( 7 |-> 1 ) ) )
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         3
+                       </nonce>
+                       ...
+                     </account> ) ) )
+                   </accounts> | <substate>
+                     <selfDestruct>
+                       SELFDESTRUCT_CELL:Set
+                     </selfDestruct>
+                     <log>
+                       .List
+                     </log>
+                     <refund>
+                       0
+                     </refund>
+                     <accessedAccounts>
+                       SetItem ( 263400868551549723330807389252719309078400616203 )
+                     </accessedAccounts>
+                     <accessedStorage>
+                       .Map
+                     </accessedStorage>
+                   </substate> } )
+                 </interimStates>
+                 <touchedAccounts>
+                   ( SetItem ( 263400868551549723330807389252719309078400616203 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
+                 </touchedAccounts>
+                 <callState>
+                   <id>
+                     263400868551549723330807389252719309078400616203
+                   </id>
+                   <caller>
+                     728815563385977040452943777879061427756277306518
+                   </caller>
+                   <callData>
+                     b"\xde\x93\x16b"
+                   </callData>
+                   <callValue>
+                     0
+                   </callValue>
+                   <wordStack>
+                     .WordStack
+                   </wordStack>
+                   <localMem>
+                     b""
+                   </localMem>
+                   <memoryUsed>
+                     0
+                   </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
+                   <static>
+                     false
+                   </static>
+                   <callDepth>
+                     1
+                   </callDepth>
+                   ...
+                 </callState>
+                 <substate>
+                   <selfDestruct>
+                     SELFDESTRUCT_CELL:Set
+                   </selfDestruct>
+                   <log>
+                     .List
+                   </log>
+                   <refund>
+                     0
+                   </refund>
+                   <accessedAccounts>
+                     ( SetItem ( 263400868551549723330807389252719309078400616203 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
+                   </accessedAccounts>
+                   <accessedStorage>
+                     .Map
+                   </accessedStorage>
+                 </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
+                   ...
+                 </block>
+                 ...
+               </evm>
+               <network>
+                 <chainID>
+                   1
+                 </chainID>
+                 <accounts>
+                   ( <account>
+                     <acctID>
+                       263400868551549723330807389252719309078400616203
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       ( 0 |-> 491460923342184218035706888008750043977755113263 )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       1
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
+                     <acctID>
+                       491460923342184218035706888008750043977755113263
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       1
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
+                     <acctID>
+                       645326474426547203313410069153905908525362434349
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       0
+                     </nonce>
+                     ...
+                   </account>
+                   <account>
+                     <acctID>
+                       728815563385977040452943777879061427756277306518
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       ( ( 11 |-> 1 )
+                       ( ( 27 |-> 263400868551549723330807389252719309078400616203 )
+                       ( 7 |-> 1 ) ) )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       3
+                     </nonce>
+                     ...
+                   </account> ) ) )
+                 </accounts>
+                 ...
+               </network>
+             </ethereum>
+             ...
+           </kevm>
+           <stackChecks>
+             true
+           </stackChecks>
+           <cheatcodes>
+             <prank>
+               <active>
+                 false
+               </active>
+               <singleCall>
+                 false
+               </singleCall>
+               ...
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 false
+               </isRevertExpected>
+               ...
+             </expectedRevert>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 false
+               </isOpcodeExpected>
+               ...
+             </expectedOpcode>
+             <expectEmit>
+               <recordEvent>
+                 false
+               </recordEvent>
+               <isEventExpected>
+                 false
+               </isEventExpected>
+               ...
+             </expectEmit>
+             <whitelist>
+               <isCallWhitelistActive>
+                 false
+               </isCallWhitelistActive>
+               <isStorageWhitelistActive>
+                 false
+               </isStorageWhitelistActive>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
+             </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
+           </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
+         </foundry>
+      requires ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+               ))))))))))))
+      [priority(20), label(BASIC-BLOCK-16-TO-17)]
+    
+    rule [BASIC-BLOCK-17-TO-18]: <foundry>
+           <kevm>
+             <k>
+               ( .K => #checkDepthExceeded
+               ~> #call 263400868551549723330807389252719309078400616203 491460923342184218035706888008750043977755113263 491460923342184218035706888008750043977755113263 0 0 b"\x18\x16\r\xdd" true
+               ~> #return 128 32
+               ~> #pc [ STATICCALL ] )
+               ~> #execute
+               ~> #return 128 32
+               ~> #pc [ CALL ]
+               ~> #execute
+               ~> _CONTINUATION
+             </k>
+             <mode>
+               NORMAL
+             </mode>
+             <schedule>
+               SHANGHAI
+             </schedule>
+             <useGas>
+               false
+             </useGas>
+             <ethereum>
+               <evm>
+                 <output>
+                   b""
+                 </output>
+                 <callStack>
+                   ListItem ( <callState>
+                     <id>
+                       728815563385977040452943777879061427756277306518
+                     </id>
+                     <caller>
+                       CALLER_ID:Int
+                     </caller>
+                     <callData>
+                       b"\x05\xdd\xe5\x03"
+                     </callData>
+                     <callValue>
+                       0
+                     </callValue>
+                     <wordStack>
+                       ( 132 : ( selector ( "callToken()" ) : ( 263400868551549723330807389252719309078400616203 : ( 193 : ( selector ( "testInterface()" ) : .WordStack ) ) ) ) )
+                     </wordStack>
+                     <localMem>
+                       b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xde\x93\x16b\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+                     </localMem>
+                     <memoryUsed>
+                       0
+                     </memoryUsed>
+                     <callGas>
+                       0
+                     </callGas>
+                     <static>
+                       false
+                     </static>
+                     <callDepth>
+                       0
+                     </callDepth>
+                     ...
+                   </callState> )
+                 </callStack>
+                 <interimStates>
+                   ListItem ( { <accounts>
+                     ( <account>
+                       <acctID>
+                         263400868551549723330807389252719309078400616203
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       <storage>
+                         ( 0 |-> 491460923342184218035706888008750043977755113263 )
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         1
+                       </nonce>
+                       ...
+                     </account>
+                     ( <account>
+                       <acctID>
+                         491460923342184218035706888008750043977755113263
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       <storage>
+                         .Map
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         1
+                       </nonce>
+                       ...
+                     </account>
+                     ( <account>
+                       <acctID>
+                         645326474426547203313410069153905908525362434349
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       <storage>
+                         .Map
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         0
+                       </nonce>
+                       ...
+                     </account>
+                     <account>
+                       <acctID>
+                         728815563385977040452943777879061427756277306518
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       <storage>
+                         ( ( 11 |-> 1 )
+                         ( ( 27 |-> 263400868551549723330807389252719309078400616203 )
+                         ( 7 |-> 1 ) ) )
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         3
+                       </nonce>
+                       ...
+                     </account> ) ) )
+                   </accounts> | <substate>
+                     <selfDestruct>
+                       SELFDESTRUCT_CELL:Set
+                     </selfDestruct>
+                     <log>
+                       .List
+                     </log>
+                     <refund>
+                       0
+                     </refund>
+                     <accessedAccounts>
+                       SetItem ( 263400868551549723330807389252719309078400616203 )
+                     </accessedAccounts>
+                     <accessedStorage>
+                       .Map
+                     </accessedStorage>
+                   </substate> } )
+                 </interimStates>
+                 <touchedAccounts>
+                   ( SetItem ( 263400868551549723330807389252719309078400616203 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
+                 </touchedAccounts>
+                 <callState>
+                   <id>
+                     263400868551549723330807389252719309078400616203
+                   </id>
+                   <caller>
+                     728815563385977040452943777879061427756277306518
+                   </caller>
+                   <callData>
+                     b"\xde\x93\x16b"
+                   </callData>
+                   <callValue>
+                     0
+                   </callValue>
+                   <wordStack>
+                     ( .WordStack => ( 132 : ( selector ( "totalSupply()" ) : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( 51 : ( selector ( "callToken()" ) : .WordStack ) ) ) ) ) ) )
+                   </wordStack>
+                   <localMem>
+                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x18\x16\r\xdd\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" )
+                   </localMem>
+                   <memoryUsed>
+                     0
+                   </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
+                   <static>
+                     false
+                   </static>
+                   <callDepth>
+                     1
+                   </callDepth>
+                   ...
+                 </callState>
+                 <substate>
+                   <selfDestruct>
+                     SELFDESTRUCT_CELL:Set
+                   </selfDestruct>
+                   <log>
+                     .List
+                   </log>
+                   <refund>
+                     0
+                   </refund>
+                   <accessedAccounts>
+                     ( SetItem ( 263400868551549723330807389252719309078400616203 ) ( SetItem ( 728815563385977040452943777879061427756277306518 ) => ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) ) ) )
+                   </accessedAccounts>
+                   <accessedStorage>
+                     .Map
+                   </accessedStorage>
+                 </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
+                   ...
+                 </block>
+                 ...
+               </evm>
+               <network>
+                 <chainID>
+                   1
+                 </chainID>
+                 <accounts>
+                   ( <account>
+                     <acctID>
+                       263400868551549723330807389252719309078400616203
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       ( 0 |-> 491460923342184218035706888008750043977755113263 )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       1
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
+                     <acctID>
+                       491460923342184218035706888008750043977755113263
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       1
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
+                     <acctID>
+                       645326474426547203313410069153905908525362434349
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       0
+                     </nonce>
+                     ...
+                   </account>
+                   <account>
+                     <acctID>
+                       728815563385977040452943777879061427756277306518
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       ( ( 11 |-> 1 )
+                       ( ( 27 |-> 263400868551549723330807389252719309078400616203 )
+                       ( 7 |-> 1 ) ) )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       3
+                     </nonce>
+                     ...
+                   </account> ) ) )
+                 </accounts>
+                 ...
+               </network>
+             </ethereum>
+             ...
+           </kevm>
+           <stackChecks>
+             true
+           </stackChecks>
+           <cheatcodes>
+             <prank>
+               <active>
+                 false
+               </active>
+               <singleCall>
+                 false
+               </singleCall>
+               ...
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 false
+               </isRevertExpected>
+               ...
+             </expectedRevert>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 false
+               </isOpcodeExpected>
+               ...
+             </expectedOpcode>
+             <expectEmit>
+               <recordEvent>
+                 false
+               </recordEvent>
+               <isEventExpected>
+                 false
+               </isEventExpected>
+               ...
+             </expectEmit>
+             <whitelist>
+               <isCallWhitelistActive>
+                 false
+               </isCallWhitelistActive>
+               <isStorageWhitelistActive>
+                 false
+               </isStorageWhitelistActive>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
+             </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
+           </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
+         </foundry>
+      requires ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+               ))))))))))))
+      [priority(20), label(BASIC-BLOCK-17-TO-18)]
+
+endmodule
