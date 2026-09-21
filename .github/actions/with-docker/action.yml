@@ -64,7 +64,6 @@ runs:
 
       docker run                                  \
         --name "${CONTAINER_NAME}"                \
-        --rm                                      \
         --interactive                             \
         --tty                                     \
         --detach                                  \

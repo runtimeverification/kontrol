@@ -212,13 +212,12 @@ jobs:
           docker build . --tag "${IMAGE_TAG}" --build-arg K_VERSION="${K_VERSION}" --build-arg Z3_VERSION="${Z3_VERSION}"
       - name: 'Start Docker container'
         run: |
-          # See .github/actions/with-docker: a container left behind by a canceled
-          # run keeps the name taken on the podman runners.
+          # A container left behind by a canceled run keeps the name taken on the
+          # podman runners, so make starting one idempotent.
           docker rm --force "${CONTAINER_NAME}" || true
 
           docker run                            \
             --name "${CONTAINER_NAME}"          \
-            --rm                                \
             --interactive                       \
             --tty                               \
             --detach                            \
