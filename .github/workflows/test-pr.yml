@@ -209,7 +209,7 @@ jobs:
         run: |
           K_VERSION=$(cat deps/k_release)
           Z3_VERSION=$(cat deps/z3)
-          docker build . --tag "${IMAGE_TAG}" --build-arg K_VERSION="${K_VERSION}" --build-arg Z3_VERSION="${Z3_VERSION}"
+          docker build . --ulimit nofile=65536:65536 --tag "${IMAGE_TAG}" --build-arg K_VERSION="${K_VERSION}" --build-arg Z3_VERSION="${Z3_VERSION}"
       - name: 'Start Docker container'
         run: |
           # A container left behind by a canceled run keeps the name taken on the
