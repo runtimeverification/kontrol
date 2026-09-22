@@ -86,7 +86,7 @@ jobs:
         run: |
           # Best effort: the container does not exist if 'Set up Docker' failed, and a
           # non-zero exit here would mask the step that actually failed.
-          docker stop --timeout=0 "kontrol-ci-profile-${GITHUB_SHA}" || true
+          docker rm --force "kontrol-ci-profile-${GITHUB_SHA}" || true
 
   integration-tests:
     needs: code-quality-checks
@@ -118,7 +118,7 @@ jobs:
         run: |
           # Best effort: the container does not exist if 'Set up Docker' failed, and a
           # non-zero exit here would mask the step that actually failed.
-          docker stop --timeout=0 "kontrol-ci-integration-${GITHUB_SHA}" || true
+          docker rm --force "kontrol-ci-integration-${GITHUB_SHA}" || true
 
   cse-tests:
     needs: code-quality-checks
@@ -137,20 +137,20 @@ jobs:
       - name: 'Set up Docker'
         uses: ./.github/actions/with-docker
         with:
-          container-name: kontrol-ci-integration-${{ github.sha }}
+          container-name: kontrol-ci-cse-${{ github.sha }}
       - name: 'Build Kontrol'
         run: |
-            docker exec -u github-user "kontrol-ci-integration-${GITHUB_SHA}" /bin/bash -c 'CXX=clang++-14 uv run kdist --verbose build -j`nproc` kontrol.*'
+            docker exec -u github-user "kontrol-ci-cse-${GITHUB_SHA}" /bin/bash -c 'CXX=clang++-14 uv run kdist --verbose build -j`nproc` kontrol.*'
       - name: 'Run CSE and Minimize tests'
         run: |
           TEST_ARGS='--numprocesses=5 --force-sequential -vv -k "test_kontrol_cse or test_foundry_minimize_proof"'
-          docker exec --user github-user "kontrol-ci-integration-${GITHUB_SHA}" make cov-integration TEST_ARGS="${TEST_ARGS}"
+          docker exec --user github-user "kontrol-ci-cse-${GITHUB_SHA}" make cov-integration TEST_ARGS="${TEST_ARGS}"
       - name: 'Tear down Docker'
         if: always()
         run: |
           # Best effort: the container does not exist if 'Set up Docker' failed, and a
           # non-zero exit here would mask the step that actually failed.
-          docker stop --timeout=0 "kontrol-ci-integration-${GITHUB_SHA}" || true
+          docker rm --force "kontrol-ci-cse-${GITHUB_SHA}" || true
 
   end-to-end-tests:
     needs: code-quality-checks
@@ -169,20 +169,20 @@ jobs:
       - name: 'Set up Docker'
         uses: ./.github/actions/with-docker
         with:
-          container-name: kontrol-ci-integration-${{ github.sha }}
+          container-name: kontrol-ci-e2e-${{ github.sha }}
       - name: 'Build Kontrol'
         run: |
-            docker exec -u github-user "kontrol-ci-integration-${GITHUB_SHA}" /bin/bash -c 'CXX=clang++-14 uv run kdist --verbose build -j`nproc` kontrol.*'
+            docker exec -u github-user "kontrol-ci-e2e-${GITHUB_SHA}" /bin/bash -c 'CXX=clang++-14 uv run kdist --verbose build -j`nproc` kontrol.*'
       - name: 'Run end-to-end tests'
         run: |
           TEST_ARGS='--numprocesses=6 -vv --force-sequential -k "test_kontrol_end_to_end or test_kontrol_setup_storage or test_kontrol_counterexample_generation"'
-          docker exec --user github-user "kontrol-ci-integration-${GITHUB_SHA}" make cov-integration TEST_ARGS="${TEST_ARGS}"
+          docker exec --user github-user "kontrol-ci-e2e-${GITHUB_SHA}" make cov-integration TEST_ARGS="${TEST_ARGS}"
       - name: 'Tear down Docker'
         if: always()
         run: |
           # Best effort: the container does not exist if 'Set up Docker' failed, and a
           # non-zero exit here would mask the step that actually failed.
-          docker stop --timeout=0 "kontrol-ci-integration-${GITHUB_SHA}" || true
+          docker rm --force "kontrol-ci-e2e-${GITHUB_SHA}" || true
 
   docker:
     needs: code-quality-checks
@@ -209,12 +209,15 @@ jobs:
         run: |
           K_VERSION=$(cat deps/k_release)
           Z3_VERSION=$(cat deps/z3)
-          docker build . --tag "${IMAGE_TAG}" --build-arg K_VERSION="${K_VERSION}" --build-arg Z3_VERSION="${Z3_VERSION}"
+          docker build . --ulimit nofile=65536:65536 --tag "${IMAGE_TAG}" --build-arg K_VERSION="${K_VERSION}" --build-arg Z3_VERSION="${Z3_VERSION}"
       - name: 'Start Docker container'
         run: |
+          # A container left behind by a canceled run keeps the name taken on the
+          # podman runners, so make starting one idempotent.
+          docker rm --force "${CONTAINER_NAME}" || true
+
           docker run                            \
             --name "${CONTAINER_NAME}"          \
-            --rm                                \
             --interactive                       \
             --tty                               \
             --detach                            \
@@ -239,7 +242,7 @@ jobs:
         run: |
           # Best effort: the container does not exist if 'Start Docker container' failed,
           # and a non-zero exit here would mask the step that actually failed.
-          docker stop --timeout=0 "${CONTAINER_NAME}" || true
+          docker rm --force "${CONTAINER_NAME}" || true
 
   nix:
     needs: code-quality-checks
