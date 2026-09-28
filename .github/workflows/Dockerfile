@@ -2,19 +2,19 @@ ARG Z3_VERSION
 ARG K_VERSION
 ARG LLVM_VERSION
 
-FROM ghcr.io/foundry-rs/foundry:rc-1 as FOUNDRY
+FROM ghcr.io/foundry-rs/foundry:rc-1 AS foundry
 
 ARG Z3_VERSION
-FROM runtimeverificationinc/z3:ubuntu-jammy-${Z3_VERSION} as Z3
+FROM runtimeverificationinc/z3:ubuntu-jammy-${Z3_VERSION} AS z3
 
 ARG K_VERSION
 FROM runtimeverificationinc/kframework-k:ubuntu-jammy-${K_VERSION}
 
-COPY --from=FOUNDRY /usr/local/bin/forge /usr/local/bin/forge
-COPY --from=FOUNDRY /usr/local/bin/anvil /usr/local/bin/anvil
-COPY --from=FOUNDRY /usr/local/bin/cast /usr/local/bin/cast
+COPY --from=foundry /usr/local/bin/forge /usr/local/bin/forge
+COPY --from=foundry /usr/local/bin/anvil /usr/local/bin/anvil
+COPY --from=foundry /usr/local/bin/cast /usr/local/bin/cast
 
-COPY --from=Z3 /usr/bin/z3 /usr/bin/z3
+COPY --from=z3 /usr/bin/z3 /usr/bin/z3
 
 ARG LLVM_VERSION
 
@@ -37,17 +37,17 @@ RUN    apt-get update                  \
             python3                    \
             python3-pip
 
-ARG USER=user
-ARG GROUP
+ARG IMAGE_USER=user
+ARG IMAGE_GROUP
 ARG USER_ID
 ARG GROUP_ID
-RUN groupadd -g ${GROUP_ID} ${GROUP} && useradd -m -u ${USER_ID} -s /bin/sh -g ${GROUP} ${USER}
+RUN groupadd -g ${GROUP_ID} ${IMAGE_GROUP} && useradd -m -u ${USER_ID} -s /bin/sh -g ${IMAGE_GROUP} ${IMAGE_USER}
 
-USER ${USER}:${GROUP}
-RUN mkdir /home/${USER}/workspace
-WORKDIR /home/${USER}/workspace
+USER ${IMAGE_USER}:${IMAGE_GROUP}
+RUN mkdir /home/${IMAGE_USER}/workspace
+WORKDIR /home/${IMAGE_USER}/workspace
 
-ENV PATH=/home/${USER}/.cargo/bin:/home/${USER}/.local/bin:/usr/local/bin/:${PATH}
+ENV PATH=/home/${IMAGE_USER}/.cargo/bin:/home/${IMAGE_USER}/.local/bin:/usr/local/bin/:${PATH}
 
 ARG UV_VERSION
 RUN curl -LsSf https://astral.sh/uv/$UV_VERSION/install.sh | sh && uv --version

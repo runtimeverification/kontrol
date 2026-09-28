@@ -27,19 +27,19 @@ jobs:
       - name: 'Set up Docker'
         uses: ./.github/actions/with-docker
         with:
-          container-name: kontrol-ci-integration-${{ github.sha }}
+          container-name: kontrol-ci-expected-output-${{ github.sha }}
       - name: 'Build Kontrol'
         run: |
-            docker exec -u github-user "kontrol-ci-integration-${GITHUB_SHA}" /bin/bash -c 'CXX=clang++-14 uv run kdist --verbose build -j`nproc` kontrol.*'
+            docker exec -u github-user "kontrol-ci-expected-output-${GITHUB_SHA}" /bin/bash -c 'CXX=clang++-14 uv run kdist --verbose build -j`nproc` kontrol.*'
       - name: 'Run integration tests'
         run: |
           TEST_ARGS="--maxfail=1000 --numprocesses=2 --update-expected-output --force-sequential -vv"
-          docker exec --user github-user "kontrol-ci-integration-${GITHUB_SHA}" bash -c "make cov-integration TEST_ARGS='${TEST_ARGS} -k \"not (test_kontrol_cse or test_foundry_minimize_proof or test_kontrol_end_to_end or test_kontrol_setup_storage or test_kontrol_counterexample_generation)\"' || true"
-          docker exec --user github-user "kontrol-ci-integration-${GITHUB_SHA}" bash -c "make cov-integration TEST_ARGS='${TEST_ARGS} -k \"test_kontrol_cse or test_foundry_minimize_proof\"' || true"
-          docker exec --user github-user "kontrol-ci-integration-${GITHUB_SHA}" bash -c "make cov-integration TEST_ARGS='${TEST_ARGS} -k \"test_kontrol_end_to_end or test_kontrol_setup_storage or test_kontrol_counterexample_generation\"' || true"
+          docker exec --user github-user "kontrol-ci-expected-output-${GITHUB_SHA}" bash -c "make cov-integration TEST_ARGS='${TEST_ARGS} -k \"not (test_kontrol_cse or test_foundry_minimize_proof or test_kontrol_end_to_end or test_kontrol_setup_storage or test_kontrol_counterexample_generation)\"' || true"
+          docker exec --user github-user "kontrol-ci-expected-output-${GITHUB_SHA}" bash -c "make cov-integration TEST_ARGS='${TEST_ARGS} -k \"test_kontrol_cse or test_foundry_minimize_proof\"' || true"
+          docker exec --user github-user "kontrol-ci-expected-output-${GITHUB_SHA}" bash -c "make cov-integration TEST_ARGS='${TEST_ARGS} -k \"test_kontrol_end_to_end or test_kontrol_setup_storage or test_kontrol_counterexample_generation\"' || true"
       - name: 'Copy updated files to host'
         run: |
-          docker cp "kontrol-ci-integration-${GITHUB_SHA}":/home/github-user/workspace/src/tests/integration/test-data/show ./src/tests/integration/test-data/
+          docker cp "kontrol-ci-expected-output-${GITHUB_SHA}":/home/github-user/workspace/src/tests/integration/test-data/show ./src/tests/integration/test-data/
       # The regenerated files are published as an artifact rather than pushed back to
       # the branch, so this workflow needs no write credential. Download it and commit
       # the contents over src/tests/integration/test-data/show; see the README.
@@ -58,4 +58,4 @@ jobs:
         run: |
           # Best effort: the container does not exist if 'Set up Docker' failed, and a
           # non-zero exit here would mask the step that actually failed.
-          docker stop --timeout=0 "kontrol-ci-integration-${GITHUB_SHA}" || true
+          docker rm --force "kontrol-ci-expected-output-${GITHUB_SHA}" || true
