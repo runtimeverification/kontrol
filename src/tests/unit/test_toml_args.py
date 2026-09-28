@@ -7,6 +7,7 @@ from typing import TYPE_CHECKING
 from pyk.cli.pyk import parse_toml_args
 from pyk.cterm.symbolic import HASKELL_LOGGING_ENTRIES
 
+from kontrol.__main__ import _parse_toml_args
 from kontrol.cli import (
     _create_argument_parser,
     generate_options,
@@ -108,6 +109,123 @@ def test_toml_profiles() -> None:
     assert args_dict['workers'] == 5
     assert 'smt_timeout' in args_dict
     assert args_dict['smt_timeout'] == 1000
+
+
+def test_rpc_commands_fall_back_to_prove_profile(tmp_path: Path) -> None:
+    parser = _create_argument_parser()
+    toml_path = tmp_path / 'kontrol.toml'
+    toml_path.write_text(
+        '\n'.join(
+            [
+                '[prove.default]',
+                "foundry-project-root = '.'",
+                'workers = 4',
+                'smt-timeout = 1000',
+                'reinit = false',
+            ]
+        )
+    )
+
+    def _args_dict(*cmd_args: str) -> dict:
+        args = parser.parse_args(list(cmd_args))
+        return _parse_toml_args(args)
+
+    simplify_node_args = _args_dict('simplify-node', '--config-file', str(toml_path), 'some_test', '1')
+    assert simplify_node_args['workers'] == 4
+    assert simplify_node_args['smt_timeout'] == 1000
+    assert simplify_node_args['reinit'] is False
+
+    step_node_args = _args_dict('step-node', '--config-file', str(toml_path), 'some_test', '1')
+    assert step_node_args['workers'] == 4
+    assert step_node_args['smt_timeout'] == 1000
+
+    section_edge_args = _args_dict('section-edge', '--config-file', str(toml_path), 'some_test', '1,2')
+    assert section_edge_args['workers'] == 4
+    assert section_edge_args['smt_timeout'] == 1000
+
+    get_model_args = _args_dict('get-model', '--config-file', str(toml_path), 'some_test')
+    assert get_model_args['workers'] == 4
+    assert get_model_args['smt_timeout'] == 1000
+
+
+def test_rpc_commands_honor_selected_prove_profile(tmp_path: Path) -> None:
+    parser = _create_argument_parser()
+    toml_path = tmp_path / 'kontrol.toml'
+    toml_path.write_text(
+        '\n'.join(
+            [
+                '[prove.default]',
+                "foundry-project-root = '.'",
+                'workers = 1',
+                'smt-timeout = 250',
+                '',
+                '[prove.b_profile]',
+                "foundry-project-root = '.'",
+                'workers = 5',
+                'smt-timeout = 1000',
+                'reinit = true',
+            ]
+        )
+    )
+
+    def _args_dict(*cmd_args: str) -> dict:
+        args = parser.parse_args(list(cmd_args))
+        return _parse_toml_args(args)
+
+    simplify_node_args = _args_dict(
+        'simplify-node', '--config-file', str(toml_path), '--config-profile', 'b_profile', 'some_test', '1'
+    )
+    assert simplify_node_args['workers'] == 5
+    assert simplify_node_args['smt_timeout'] == 1000
+    assert simplify_node_args['reinit'] is True
+
+    step_node_args = _args_dict(
+        'step-node', '--config-file', str(toml_path), '--config-profile', 'b_profile', 'some_test', '1'
+    )
+    assert step_node_args['workers'] == 5
+    assert step_node_args['smt_timeout'] == 1000
+    assert step_node_args['reinit'] is True
+
+    section_edge_args = _args_dict(
+        'section-edge', '--config-file', str(toml_path), '--config-profile', 'b_profile', 'some_test', '1,2'
+    )
+    assert section_edge_args['workers'] == 5
+    assert section_edge_args['smt_timeout'] == 1000
+    assert section_edge_args['reinit'] is True
+
+    get_model_args = _args_dict(
+        'get-model', '--config-file', str(toml_path), '--config-profile', 'b_profile', 'some_test'
+    )
+    assert get_model_args['workers'] == 5
+    assert get_model_args['smt_timeout'] == 1000
+    assert get_model_args['reinit'] is True
+
+
+def test_command_profile_overrides_prove_fallback(tmp_path: Path) -> None:
+    parser = _create_argument_parser()
+    toml_path = tmp_path / 'kontrol.toml'
+    toml_path.write_text(
+        '\n'.join(
+            [
+                '[prove.default]',
+                "foundry-project-root = '.'",
+                'workers = 4',
+                'smt-timeout = 1000',
+                'reinit = false',
+                '',
+                '[simplify-node.default]',
+                'smt-timeout = 250',
+                'reinit = true',
+            ]
+        )
+    )
+
+    args = parser.parse_args(['simplify-node', '--config-file', str(toml_path), 'some_test', '1'])
+    args_dict = _parse_toml_args(args)
+
+    assert args_dict['workers'] == 4
+    assert args_dict['smt_timeout'] == 250
+    assert args_dict['reinit'] is True
 
 
 def _prove_options(cmd_args: list[str]) -> ProveOptions:

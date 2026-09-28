@@ -3,6 +3,7 @@ from __future__ import annotations
 import logging
 import sys
 from collections.abc import Iterable
+from copy import copy
 from typing import TYPE_CHECKING
 
 from pyk.cli.pyk import parse_toml_args
@@ -48,6 +49,7 @@ from .utils import (
 )
 
 if TYPE_CHECKING:
+    from argparse import Namespace
     from pathlib import Path
     from typing import Final, TypeVar
 
@@ -80,6 +82,13 @@ if TYPE_CHECKING:
 
 _LOGGER: Final = logging.getLogger(__name__)
 
+_TOML_COMMAND_FALLBACKS: Final = {
+    'simplify-node': 'prove',
+    'step-node': 'prove',
+    'section-edge': 'prove',
+    'get-model': 'prove',
+}
+
 
 def _load_foundry(
     foundry_root: Path,
@@ -110,7 +119,7 @@ def main() -> None:
     parser = _create_argument_parser()
     args = parser.parse_args()
     args.config_file = config_file_path(args)
-    toml_args = parse_toml_args(args, get_option_string_destination, get_argument_type_setter)
+    toml_args = _parse_toml_args(args)
     logging.basicConfig(
         level=loglevel(args, toml_args),
         format=_LOG_FORMAT,
@@ -129,6 +138,20 @@ def main() -> None:
 
     execute = globals()[executor_name]
     execute(options)
+
+
+def _parse_toml_args(args: Namespace) -> dict[str, object]:
+    command_toml_args = parse_toml_args(args, get_option_string_destination, get_argument_type_setter)
+
+    fallback_command = _TOML_COMMAND_FALLBACKS.get(args.command)
+    if fallback_command is None:
+        return command_toml_args
+
+    fallback_args = copy(args)
+    fallback_args.command = fallback_command
+    fallback_toml_args = parse_toml_args(fallback_args, get_option_string_destination, get_argument_type_setter)
+
+    return fallback_toml_args | command_toml_args
 
 
 # Command implementation
