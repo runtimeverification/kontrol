@@ -55,6 +55,7 @@ def foundry_kompile(
     ensure_dir_path(foundry_requires_dir)
 
     regen = options.regen
+    requires_changed = False
     foundry_up_to_date = True
 
     if not foundry.up_to_date():
@@ -73,7 +74,8 @@ def foundry_kompile(
             )
         requires_paths[req.name] = str(r)
         req_path = foundry_requires_dir / req.name
-        if regen or not req_path.exists():
+        req_changed = not req_path.exists() or req.read_bytes() != req_path.read_bytes()
+        if regen or req_changed:
             _LOGGER.info(f'Copying requires path: {req} -> {req_path}')
             shutil.copy(req, req_path)
             # If the copied file is not writeable
@@ -83,6 +85,7 @@ def foundry_kompile(
                 # Grant write permissions
                 req_path.chmod(current_permissions | stat.S_IWUSR | stat.S_IWGRP | stat.S_IWOTH)
             regen = True
+            requires_changed = requires_changed or req_changed
 
     _imports: dict[str, list[str]] = {contract.name_with_path: [] for contract in foundry.contracts.values()}
     for i in options.imports:
@@ -96,7 +99,7 @@ def foundry_kompile(
             raise ValueError(f'Could not find contract: {full_import_name}')
 
     if regen or not foundry.main_file.exists():
-        if regen and foundry_up_to_date:
+        if options.regen and foundry_up_to_date:
             console.print(
                 f'[{_rv_blue()}][bold]--regen[/bold] option provided. Rebuilding Kontrol Project.[/{_rv_blue()}]'
             )
@@ -142,7 +145,8 @@ def foundry_kompile(
         _LOGGER.info('Updated Kompilation digest')
 
     def should_rekompile() -> bool:
-        if options.rekompile or not kompiled_timestamp.exists():
+        # A stale copy can coexist with an up-to-date source digest from a previous build.
+        if options.rekompile or requires_changed or not kompiled_timestamp.exists():
             return True
 
         return not (kompilation_up_to_date() and kontrol_up_to_date(foundry.digest_file))
@@ -158,20 +162,26 @@ def foundry_kompile(
         if options.o3:
             optimization = 3
 
-        kevm_kompile(
-            target=options.target,
-            output_dir=output_dir,
-            main_file=foundry.main_file,
-            main_module=main_module,
-            syntax_module=options.syntax_module,
-            includes=includes,
-            emit_json=True,
-            ccopts=options.ccopts,
-            debug=options.debug,
-            verbose=options.verbose,
-            ignore_warnings=options.ignore_warnings,
-            optimization=optimization,
-        )
+        kompiled_timestamp.unlink(missing_ok=True)
+        try:
+            kevm_kompile(
+                target=options.target,
+                output_dir=output_dir,
+                main_file=foundry.main_file,
+                main_module=main_module,
+                syntax_module=options.syntax_module,
+                includes=includes,
+                emit_json=True,
+                ccopts=options.ccopts,
+                debug=options.debug,
+                verbose=options.verbose,
+                ignore_warnings=options.ignore_warnings,
+                optimization=optimization,
+            )
+        except BaseException:
+            # One backend may have written its timestamp before the other failed.
+            kompiled_timestamp.unlink(missing_ok=True)
+            raise
 
     update_kompilation_digest()
     foundry.update_digest()
