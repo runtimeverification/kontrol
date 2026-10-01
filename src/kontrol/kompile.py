@@ -55,7 +55,6 @@ def foundry_kompile(
     ensure_dir_path(foundry_requires_dir)
 
     regen = options.regen
-    requires_changed = False
     foundry_up_to_date = True
 
     if not foundry.up_to_date():
@@ -75,6 +74,9 @@ def foundry_kompile(
         requires_paths[req.name] = str(r)
         req_path = foundry_requires_dir / req.name
         req_changed = not req_path.exists() or req.read_bytes() != req_path.read_bytes()
+        if req_changed:
+            # Invalidate before copying so retries cannot reuse a stale compiled definition.
+            kompiled_timestamp.unlink(missing_ok=True)
         if regen or req_changed:
             _LOGGER.info(f'Copying requires path: {req} -> {req_path}')
             shutil.copy(req, req_path)
@@ -85,7 +87,6 @@ def foundry_kompile(
                 # Grant write permissions
                 req_path.chmod(current_permissions | stat.S_IWUSR | stat.S_IWGRP | stat.S_IWOTH)
             regen = True
-            requires_changed = requires_changed or req_changed
 
     _imports: dict[str, list[str]] = {contract.name_with_path: [] for contract in foundry.contracts.values()}
     for i in options.imports:
@@ -145,8 +146,7 @@ def foundry_kompile(
         _LOGGER.info('Updated Kompilation digest')
 
     def should_rekompile() -> bool:
-        # A stale copy can coexist with an up-to-date source digest from a previous build.
-        if options.rekompile or requires_changed or not kompiled_timestamp.exists():
+        if options.rekompile or not kompiled_timestamp.exists():
             return True
 
         return not (kompilation_up_to_date() and kontrol_up_to_date(foundry.digest_file))

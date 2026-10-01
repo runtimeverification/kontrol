@@ -122,6 +122,25 @@ def test_foundry_kompile_missing_copy(project: tuple[Foundry, Path, MagicMock]) 
     assert copied_lemma.read_bytes() == lemma.read_bytes()
 
 
+def test_foundry_kompile_generation_retry(project: tuple[Foundry, Path, MagicMock], mocker: MockerFixture) -> None:
+    foundry, lemma, compiler = project
+    copied_lemma = foundry.kompiled / 'requires' / lemma.name
+    copied_lemma.write_text(lemma.read_text().replace('0 +Int X', 'X +Int 0'))
+    original_digest = foundry.digest_file.read_bytes()
+    generate = mocker.patch('kontrol.kompile._foundry_to_main_def', side_effect=RuntimeError('generation failed'))
+
+    with pytest.raises(RuntimeError, match='generation failed'):
+        foundry_kompile(BuildOptions({'requires': [lemma.name], 'forge_build': False}), foundry)
+
+    compiler.assert_not_called()
+    assert foundry.digest_file.read_bytes() == original_digest
+    mocker.stop(generate)
+    foundry_kompile(BuildOptions({'requires': [lemma.name], 'forge_build': False}), foundry)
+
+    compiler.assert_called_once()
+    assert copied_lemma.read_bytes() == lemma.read_bytes()
+
+
 def test_foundry_kompile_contract_digest_change(project: tuple[Foundry, Path, MagicMock]) -> None:
     foundry, lemma, compiler = project
     digest = json.loads(foundry.digest_file.read_text())
