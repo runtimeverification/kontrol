@@ -73,7 +73,11 @@ def foundry_kompile(
             )
         requires_paths[req.name] = str(r)
         req_path = foundry_requires_dir / req.name
-        if regen or not req_path.exists():
+        req_changed = not req_path.exists() or req.read_bytes() != req_path.read_bytes()
+        if req_changed:
+            # Invalidate before copying so retries cannot reuse a stale compiled definition.
+            kompiled_timestamp.unlink(missing_ok=True)
+        if regen or req_changed:
             _LOGGER.info(f'Copying requires path: {req} -> {req_path}')
             shutil.copy(req, req_path)
             # If the copied file is not writeable
@@ -96,7 +100,7 @@ def foundry_kompile(
             raise ValueError(f'Could not find contract: {full_import_name}')
 
     if regen or not foundry.main_file.exists():
-        if regen and foundry_up_to_date:
+        if options.regen and foundry_up_to_date:
             console.print(
                 f'[{_rv_blue()}][bold]--regen[/bold] option provided. Rebuilding Kontrol Project.[/{_rv_blue()}]'
             )
@@ -158,20 +162,26 @@ def foundry_kompile(
         if options.o3:
             optimization = 3
 
-        kevm_kompile(
-            target=options.target,
-            output_dir=output_dir,
-            main_file=foundry.main_file,
-            main_module=main_module,
-            syntax_module=options.syntax_module,
-            includes=includes,
-            emit_json=True,
-            ccopts=options.ccopts,
-            debug=options.debug,
-            verbose=options.verbose,
-            ignore_warnings=options.ignore_warnings,
-            optimization=optimization,
-        )
+        kompiled_timestamp.unlink(missing_ok=True)
+        try:
+            kevm_kompile(
+                target=options.target,
+                output_dir=output_dir,
+                main_file=foundry.main_file,
+                main_module=main_module,
+                syntax_module=options.syntax_module,
+                includes=includes,
+                emit_json=True,
+                ccopts=options.ccopts,
+                debug=options.debug,
+                verbose=options.verbose,
+                ignore_warnings=options.ignore_warnings,
+                optimization=optimization,
+            )
+        except BaseException:
+            # One backend may have written its timestamp before the other failed.
+            kompiled_timestamp.unlink(missing_ok=True)
+            raise
 
     update_kompilation_digest()
     foundry.update_digest()
