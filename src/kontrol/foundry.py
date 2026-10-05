@@ -962,7 +962,7 @@ class Foundry:
 
         method_status = method.up_to_date(self.digest_file)
 
-        if user_specified_version:
+        if user_specified_version is not None:
             _LOGGER.info(f'Using user-specified version {user_specified_version} for test {test}')
             if not Proof.proof_data_exists(f'{test}:{user_specified_version}', self.proofs_dir):
                 raise ValueError(f'The specified version {user_specified_version} of proof {test} does not exist.')
@@ -1045,8 +1045,9 @@ def foundry_list(foundry: Foundry) -> list[str]:
     ]
 
     lines: list[str] = []
+    proof_ids = listdir(foundry.proofs_dir) if foundry.proofs_dir.exists() else []
     for method in sorted(all_methods):
-        for test_id in listdir(foundry.proofs_dir):
+        for test_id in proof_ids:
             test, *_ = test_id.split(':')
             if test == method:
                 proof = foundry.get_optional_proof(test_id)

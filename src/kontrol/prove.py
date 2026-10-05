@@ -461,6 +461,7 @@ def _run_cfg_group(
                 assume_defined=options.assume_defined,
                 extra_module=lemmas_module,
                 optimize_kcfg=options.optimize_kcfg,
+                step_timeout=options.step_timeout,
             )
 
             if progress is not None and task is not None:

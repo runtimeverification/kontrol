@@ -576,6 +576,13 @@ def _create_argument_parser() -> ArgumentParser:
         action='store_true',
         help='Generate a Solidity test contract with concrete counterexample values when proofs fail.',
     )
+    prove_args.add_argument(
+        '--step-timeout',
+        type=int,
+        default=None,
+        dest='step_timeout',
+        help='Per-step wall-clock budget in whole seconds; on timeout the backend request is interrupted and the execution depth is halved before retrying. Disabled by default.',
+    )
 
     show_args = command_parser.add_parser(
         'show',
