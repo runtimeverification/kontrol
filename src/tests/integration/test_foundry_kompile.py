@@ -33,7 +33,7 @@ def test_foundry_kompile_updated_lemma(tmp_path: Path) -> None:
     lemma.write_text(
         'module LEMMA-UPDATE-TEST\n'
         '  imports INT\n'
-        '  syntax Int ::= "lemmaValue" [function, klabel(lemmaValue), symbol]\n'
+        '  syntax Int ::= "lemmaValue" [function, symbol(lemmaValue)]\n'
         '  rule lemmaValue => 0\n'
         'endmodule\n'
     )

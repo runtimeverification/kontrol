@@ -34,13 +34,19 @@ def project(tmp_path: Path, mocker: MockerFixture) -> tuple[Foundry, Path, Magic
     return foundry, lemma, compiler
 
 
-def test_foundry_kompile_updated_lemma(project: tuple[Foundry, Path, MagicMock]) -> None:
+@pytest.mark.parametrize('change', ['updated-lemma', 'stale-copy', 'missing-copy'])
+def test_foundry_kompile_fresh_copy(project: tuple[Foundry, Path, MagicMock], change: str) -> None:
     foundry, lemma, compiler = project
     original_digest = foundry.digest_file.read_bytes()
-    original_stat = lemma.stat()
-    lemma.write_text(lemma.read_text().replace('0 +Int X', 'X +Int 0'))
-    os.utime(lemma, ns=(original_stat.st_atime_ns, original_stat.st_mtime_ns))
     copied_lemma = foundry.kompiled / 'requires' / lemma.name
+    if change == 'updated-lemma':
+        original_stat = lemma.stat()
+        lemma.write_text(lemma.read_text().replace('0 +Int X', 'X +Int 0'))
+        os.utime(lemma, ns=(original_stat.st_atime_ns, original_stat.st_mtime_ns))
+    elif change == 'stale-copy':
+        copied_lemma.write_text(lemma.read_text().replace('0 +Int X', 'X +Int 0'))
+    else:
+        copied_lemma.unlink()
     compiled_lemmas: list[bytes] = []
 
     def compile_lemma(**_kwargs: object) -> None:
@@ -50,45 +56,42 @@ def test_foundry_kompile_updated_lemma(project: tuple[Foundry, Path, MagicMock])
     compiler.side_effect = compile_lemma
     foundry_kompile(BuildOptions({'requires': [lemma.name], 'forge_build': False}), foundry)
 
+    compiler.assert_called_once()
     assert compiled_lemmas == [lemma.read_bytes()]
-    assert foundry.digest_file.read_bytes() != original_digest
+    assert copied_lemma.read_bytes() == lemma.read_bytes()
+    if change == 'updated-lemma':
+        assert foundry.digest_file.read_bytes() != original_digest
+    else:
+        assert foundry.digest_file.read_bytes() == original_digest
     compiler.reset_mock()
     foundry_kompile(BuildOptions({'requires': [lemma.name], 'forge_build': False}), foundry)
     compiler.assert_not_called()
 
 
-def test_foundry_kompile_stale_copy(project: tuple[Foundry, Path, MagicMock]) -> None:
-    foundry, lemma, compiler = project
-    copied_lemma = foundry.kompiled / 'requires' / lemma.name
-    copied_lemma.write_text(lemma.read_text().replace('0 +Int X', 'X +Int 0'))
-    original_digest = foundry.digest_file.read_bytes()
-
-    foundry_kompile(BuildOptions({'requires': [lemma.name], 'forge_build': False}), foundry)
-
-    compiler.assert_called_once()
-    assert copied_lemma.read_bytes() == lemma.read_bytes()
-    assert foundry.digest_file.read_bytes() == original_digest
-
-
-def test_foundry_kompile_unchanged_lemma(project: tuple[Foundry, Path, MagicMock]) -> None:
+@pytest.mark.parametrize('contract_digest_changed', [False, True], ids=['unchanged-lemma', 'contract-digest-change'])
+def test_foundry_kompile_cached(project: tuple[Foundry, Path, MagicMock], contract_digest_changed: bool) -> None:
     foundry, lemma, compiler = project
     copied_lemma = foundry.kompiled / 'requires' / lemma.name
     original_mtime = copied_lemma.stat().st_mtime_ns
     original_digest = foundry.digest_file.read_bytes()
+    if contract_digest_changed:
+        digest = json.loads(foundry.digest_file.read_text())
+        digest['foundry'] = 'old-contract-digest'
+        foundry.digest_file.write_text(json.dumps(digest))
 
     foundry_kompile(BuildOptions({'requires': [lemma.name], 'forge_build': False}), foundry)
 
     compiler.assert_not_called()
-    assert copied_lemma.stat().st_mtime_ns == original_mtime
+    if not contract_digest_changed:
+        assert copied_lemma.stat().st_mtime_ns == original_mtime
     assert foundry.digest_file.read_bytes() == original_digest
+    assert foundry.up_to_date()
 
 
-@pytest.mark.parametrize('stale_copy', [False, True], ids=['source-edit', 'stale-copy'])
-def test_foundry_kompile_failed_retry(project: tuple[Foundry, Path, MagicMock], stale_copy: bool) -> None:
+def test_foundry_kompile_failed_retry(project: tuple[Foundry, Path, MagicMock]) -> None:
     foundry, lemma, compiler = project
     copied_lemma = foundry.kompiled / 'requires' / lemma.name
-    changed_file = copied_lemma if stale_copy else lemma
-    changed_file.write_text(changed_file.read_text().replace('0 +Int X', 'X +Int 0'))
+    copied_lemma.write_text(lemma.read_text().replace('0 +Int X', 'X +Int 0'))
     original_digest = foundry.digest_file.read_bytes()
     timestamp = foundry.kompiled / 'timestamp'
 
@@ -111,17 +114,6 @@ def test_foundry_kompile_failed_retry(project: tuple[Foundry, Path, MagicMock], 
     assert timestamp.exists()
 
 
-def test_foundry_kompile_missing_copy(project: tuple[Foundry, Path, MagicMock]) -> None:
-    foundry, lemma, compiler = project
-    copied_lemma = foundry.kompiled / 'requires' / lemma.name
-    copied_lemma.unlink()
-
-    foundry_kompile(BuildOptions({'requires': [lemma.name], 'forge_build': False}), foundry)
-
-    compiler.assert_called_once()
-    assert copied_lemma.read_bytes() == lemma.read_bytes()
-
-
 def test_foundry_kompile_generation_retry(project: tuple[Foundry, Path, MagicMock], mocker: MockerFixture) -> None:
     foundry, lemma, compiler = project
     copied_lemma = foundry.kompiled / 'requires' / lemma.name
@@ -139,15 +131,3 @@ def test_foundry_kompile_generation_retry(project: tuple[Foundry, Path, MagicMoc
 
     compiler.assert_called_once()
     assert copied_lemma.read_bytes() == lemma.read_bytes()
-
-
-def test_foundry_kompile_contract_digest_change(project: tuple[Foundry, Path, MagicMock]) -> None:
-    foundry, lemma, compiler = project
-    digest = json.loads(foundry.digest_file.read_text())
-    digest['foundry'] = 'old-contract-digest'
-    foundry.digest_file.write_text(json.dumps(digest))
-
-    foundry_kompile(BuildOptions({'requires': [lemma.name], 'forge_build': False}), foundry)
-
-    compiler.assert_not_called()
-    assert foundry.up_to_date()
