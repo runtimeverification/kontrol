@@ -6,6 +6,7 @@ from collections.abc import Iterable
 from copy import copy
 from typing import TYPE_CHECKING
 
+from pyk.cli.args import SMTOptions
 from pyk.cli.pyk import parse_toml_args
 from pyk.cterm.symbolic import CTermSMTError
 from pyk.telemetry import emit_event
@@ -31,6 +32,7 @@ from .foundry import (
     init_project,
 )
 from .kompile import foundry_kompile
+from .options import FoundryOptions, RpcOptions
 from .prove import _interpret_proof_failure, foundry_prove
 from .state_record import (
     foundry_state_load,
@@ -88,6 +90,10 @@ _TOML_COMMAND_FALLBACKS: Final = {
     'section-edge': 'prove',
     'get-model': 'prove',
 }
+
+_TOML_FALLBACK_OPTION_KEYS: Final = (
+    set(FoundryOptions.default()) | set(RpcOptions.default()) | set(SMTOptions.default())
+)
 
 
 def _load_foundry(
@@ -150,6 +156,7 @@ def _parse_toml_args(args: Namespace) -> dict[str, object]:
     fallback_args = copy(args)
     fallback_args.command = fallback_command
     fallback_toml_args = parse_toml_args(fallback_args, get_option_string_destination, get_argument_type_setter)
+    fallback_toml_args = {key: value for key, value in fallback_toml_args.items() if key in _TOML_FALLBACK_OPTION_KEYS}
 
     return fallback_toml_args | command_toml_args
 

@@ -119,9 +119,9 @@ def test_rpc_commands_fall_back_to_prove_profile(tmp_path: Path) -> None:
             [
                 '[prove.default]',
                 "foundry-project-root = '.'",
-                'workers = 4',
                 'smt-timeout = 1000',
-                'reinit = false',
+                "kore-rpc-command = 'kore-rpc'",
+                'depth = 1000',
             ]
         )
     )
@@ -131,21 +131,24 @@ def test_rpc_commands_fall_back_to_prove_profile(tmp_path: Path) -> None:
         return _parse_toml_args(args)
 
     simplify_node_args = _args_dict('simplify-node', '--config-file', str(toml_path), 'some_test', '1')
-    assert simplify_node_args['workers'] == 4
     assert simplify_node_args['smt_timeout'] == 1000
-    assert simplify_node_args['reinit'] is False
+    assert simplify_node_args['kore_rpc_command'] == 'kore-rpc'
+    assert 'depth' not in simplify_node_args
 
     step_node_args = _args_dict('step-node', '--config-file', str(toml_path), 'some_test', '1')
-    assert step_node_args['workers'] == 4
     assert step_node_args['smt_timeout'] == 1000
+    assert step_node_args['kore_rpc_command'] == 'kore-rpc'
+    assert 'depth' not in step_node_args
 
     section_edge_args = _args_dict('section-edge', '--config-file', str(toml_path), 'some_test', '1,2')
-    assert section_edge_args['workers'] == 4
     assert section_edge_args['smt_timeout'] == 1000
+    assert section_edge_args['kore_rpc_command'] == 'kore-rpc'
+    assert 'depth' not in section_edge_args
 
     get_model_args = _args_dict('get-model', '--config-file', str(toml_path), 'some_test')
-    assert get_model_args['workers'] == 4
     assert get_model_args['smt_timeout'] == 1000
+    assert get_model_args['kore_rpc_command'] == 'kore-rpc'
+    assert 'depth' not in get_model_args
 
 
 def test_rpc_commands_honor_selected_prove_profile(tmp_path: Path) -> None:
@@ -156,14 +159,12 @@ def test_rpc_commands_honor_selected_prove_profile(tmp_path: Path) -> None:
             [
                 '[prove.default]',
                 "foundry-project-root = '.'",
-                'workers = 1',
                 'smt-timeout = 250',
                 '',
                 '[prove.b_profile]',
                 "foundry-project-root = '.'",
-                'workers = 5',
                 'smt-timeout = 1000',
-                'reinit = true',
+                "kore-rpc-command = 'kore-rpc-b'",
             ]
         )
     )
@@ -175,30 +176,26 @@ def test_rpc_commands_honor_selected_prove_profile(tmp_path: Path) -> None:
     simplify_node_args = _args_dict(
         'simplify-node', '--config-file', str(toml_path), '--config-profile', 'b_profile', 'some_test', '1'
     )
-    assert simplify_node_args['workers'] == 5
     assert simplify_node_args['smt_timeout'] == 1000
-    assert simplify_node_args['reinit'] is True
+    assert simplify_node_args['kore_rpc_command'] == 'kore-rpc-b'
 
     step_node_args = _args_dict(
         'step-node', '--config-file', str(toml_path), '--config-profile', 'b_profile', 'some_test', '1'
     )
-    assert step_node_args['workers'] == 5
     assert step_node_args['smt_timeout'] == 1000
-    assert step_node_args['reinit'] is True
+    assert step_node_args['kore_rpc_command'] == 'kore-rpc-b'
 
     section_edge_args = _args_dict(
         'section-edge', '--config-file', str(toml_path), '--config-profile', 'b_profile', 'some_test', '1,2'
     )
-    assert section_edge_args['workers'] == 5
     assert section_edge_args['smt_timeout'] == 1000
-    assert section_edge_args['reinit'] is True
+    assert section_edge_args['kore_rpc_command'] == 'kore-rpc-b'
 
     get_model_args = _args_dict(
         'get-model', '--config-file', str(toml_path), '--config-profile', 'b_profile', 'some_test'
     )
-    assert get_model_args['workers'] == 5
     assert get_model_args['smt_timeout'] == 1000
-    assert get_model_args['reinit'] is True
+    assert get_model_args['kore_rpc_command'] == 'kore-rpc-b'
 
 
 def test_command_profile_overrides_prove_fallback(tmp_path: Path) -> None:
@@ -209,9 +206,8 @@ def test_command_profile_overrides_prove_fallback(tmp_path: Path) -> None:
             [
                 '[prove.default]',
                 "foundry-project-root = '.'",
-                'workers = 4',
                 'smt-timeout = 1000',
-                'reinit = false',
+                "kore-rpc-command = 'kore-rpc'",
                 '',
                 '[simplify-node.default]',
                 'smt-timeout = 250',
@@ -223,9 +219,8 @@ def test_command_profile_overrides_prove_fallback(tmp_path: Path) -> None:
     args = parser.parse_args(['simplify-node', '--config-file', str(toml_path), 'some_test', '1'])
     args_dict = _parse_toml_args(args)
 
-    assert args_dict['workers'] == 4
     assert args_dict['smt_timeout'] == 250
-    assert args_dict['reinit'] is True
+    assert args_dict['kore_rpc_command'] == 'kore-rpc'
 
 
 def _prove_options(cmd_args: list[str]) -> ProveOptions:
