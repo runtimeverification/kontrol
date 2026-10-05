@@ -1392,7 +1392,7 @@ We don't care about the values because they will be processed in the `custom_ste
     rule <k> #setCode ACCTID CODE => .K ... </k>
          <account>
            <acctID> ACCTID </acctID>
-           <code> _ => #if #asWord(CODE) ==Int 0 #then .Bytes #else CODE #fi </code>
+           <code> _ => #if lengthBytes(CODE) ==Int 0 #then .Bytes #else CODE #fi </code>
            ...
          </account>
 ```

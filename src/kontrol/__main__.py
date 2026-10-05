@@ -245,7 +245,7 @@ def exec_prove(options: ProveOptions) -> None:
             },
         )
         raise RuntimeError(
-            f'SMT solver error; SMT timeout occured. SMT timeout parameter is currently set to {options.smt_timeout}ms, you may increase it using "--smt-timeout" command line argument. Related KAST pattern provided below:\n{err.message}'
+            f'SMT solver error; SMT timeout occurred. SMT timeout parameter is currently set to {options.smt_timeout}ms, you may increase it using "--smt-timeout" command line argument. Related KAST pattern provided below:\n{err.message}'
         ) from err
 
     failed = 0
