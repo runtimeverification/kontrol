@@ -54,7 +54,7 @@ jobs:
         with:
           version: ${{ steps.uv_release.outputs.uv_version }}
       - name: 'Run unit tests'
-        run: make cov-unit
+        run: make cov-unit TEST_ARGS='-s'
 
   profile:
     needs: code-quality-checks

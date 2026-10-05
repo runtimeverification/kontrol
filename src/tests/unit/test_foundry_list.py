@@ -47,6 +47,8 @@ class FoundryMock:
 
 
 def test_foundry_list(update_expected_output: bool) -> None:
+    print('HELLO WORLD')
+
     # Given
     foundry = cast('Foundry', FoundryMock())
     expected = LIST_EXPECTED.read_text()

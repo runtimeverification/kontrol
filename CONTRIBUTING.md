@@ -69,7 +69,7 @@ Kontrol is licensed under the [BSD 3-Clause License](https://github.com/runtimev
 ### Contribution guidance
 
 #### Adding a new test to CI
-  Usually, fixing an existent feature or creating a new one requires editing/adding a new test for it in CI:  `src/tests/integration/test_foundry_prove.py`
+  Usually, fixing an existing feature or creating a new one requires editing/adding a new test for it in CI:  `src/tests/integration/test_foundry_prove.py`
   - If you are adding a new feature, you might want to add a new test for it in CI (see the tests for recently added features like [test_deployment_summary](https://github.com/runtimeverification/kontrol/blob/0c18ea7e846f9278624007c8072326d1ea1f95df/src/tests/integration/test_foundry_prove.py#L603) and [test_xml_report](https://github.com/runtimeverification/kontrol/blob/0c18ea7e846f9278624007c8072326d1ea1f95df/src/tests/integration/test_foundry_prove.py#L743)).
   - If you are addressing an issue that is reproducible with a Foundry test, then:
     - Add the test into `src/tests/integration/test-data/foundry/test`;
