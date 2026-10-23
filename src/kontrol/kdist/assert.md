@@ -241,13 +241,21 @@ Capturing cheat code calls
     rule [cheatcode.call.assertApproxEqRel]:
          <k> #cheatcode_call SELECTOR ARGS => #assert_approx_eq_rel #asWord(#range(ARGS, 0, 32)) #asWord(#range(ARGS, 32, 32)) #asWord(#range(ARGS, 64, 32)) String2Bytes("assertion failed") ... </k>
       requires SELECTOR ==Int selector ( "assertApproxEqRel(uint256,uint256,uint256)" )
-        orBool SELECTOR ==Int selector ( "assertApproxEqRel(int256,int256,uint256)" )
+    [preserves-definedness]
+
+    rule [cheatcode.call.assertApproxEqRel.signed]:
+         <k> #cheatcode_call SELECTOR ARGS => #assert_approx_eq_rel Bytes2Int(#range(ARGS, 0, 32), BE, Signed) Bytes2Int(#range(ARGS, 32, 32), BE, Signed) #asWord(#range(ARGS, 64, 32)) String2Bytes("assertion failed") ... </k>
+      requires SELECTOR ==Int selector ( "assertApproxEqRel(int256,int256,uint256)" )
     [preserves-definedness]
 
     rule [cheatcode.call.assertApproxEqRel.err]:
          <k> #cheatcode_call SELECTOR ARGS => #assert_approx_eq_rel #asWord(#range(ARGS, 0, 32)) #asWord(#range(ARGS, 32, 32)) #asWord(#range(ARGS, 64, 32)) #range(ARGS, 128, #asWord(#range(ARGS, 96, 32))) ... </k>
       requires SELECTOR ==Int selector ( "assertApproxEqRel(uint256,uint256,uint256,string)" )
-        orBool SELECTOR ==Int selector ( "assertApproxEqRel(int256,int256,uint256,string)" )
+    [preserves-definedness]
+
+    rule [cheatcode.call.assertApproxEqRel.signed.err]:
+         <k> #cheatcode_call SELECTOR ARGS => #assert_approx_eq_rel Bytes2Int(#range(ARGS, 0, 32), BE, Signed) Bytes2Int(#range(ARGS, 32, 32), BE, Signed) #asWord(#range(ARGS, 64, 32)) #range(ARGS, 128, #asWord(#range(ARGS, 96, 32))) ... </k>
+      requires SELECTOR ==Int selector ( "assertApproxEqRel(int256,int256,uint256,string)" )
     [preserves-definedness]
 ```
 
