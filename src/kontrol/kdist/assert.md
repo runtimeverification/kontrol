@@ -62,6 +62,24 @@ These macros expand into the `#assert` production defined earlier, providing an 
       requires W2 =/=Int 0
 ```
 
+Decoding dynamic assertion arguments
+------------------------------------
+
+Named helpers keep the decoder symbols consistent between the Haskell and LLVM backends.
+Bytes and strings exclude the length word; arrays include it along with every element.
+
+```k
+    syntax Bytes ::= "#assertionBytes"   "(" Bytes "," Int ")" [function, symbol(assertionBytes)]
+                   | "#assertionBytesAt" "(" Bytes "," Int ")" [function, symbol(assertionBytesAt)]
+                   | "#assertionArray"   "(" Bytes "," Int ")" [function, symbol(assertionArray)]
+                   | "#assertionArrayAt" "(" Bytes "," Int ")" [function, symbol(assertionArrayAt)]
+ // ------------------------------------------------------------------------------------------------
+    rule #assertionBytes(ARGS, HEAD) => #assertionBytesAt(ARGS, #asWord(#range(ARGS, HEAD, 32)))
+    rule #assertionBytesAt(ARGS, START) => #range(ARGS, 32 +Int START, #asWord(#range(ARGS, START, 32)))
+    rule #assertionArray(ARGS, HEAD) => #assertionArrayAt(ARGS, #asWord(#range(ARGS, HEAD, 32)))
+    rule #assertionArrayAt(ARGS, START) => #range(ARGS, START, 32 *Int (1 +Int #asWord(#range(ARGS, START, 32))))
+```
+
 Capturing cheat code calls
 --------------------------
 
@@ -77,13 +95,7 @@ Capturing cheat code calls
 
     rule [cheatcode.call.assertEq.Darray]:
          <k> #cheatcode_call SELECTOR ARGS =>
-               #let ARG1_START = #asWord(#range(ARGS,  0, 32)) #in
-               #let ARG2_START = #asWord(#range(ARGS, 32, 32)) #in
-               #let ARG1_LEN   = #asWord(#range(ARGS, ARG1_START, 32)) #in
-               #let ARG2_LEN   = #asWord(#range(ARGS, ARG2_START, 32)) #in
-               #let ARG1_VALUE = #range(ARGS, ARG1_START, 32 *Int (1 +Int ARG1_LEN)) #in
-               #let ARG2_VALUE = #range(ARGS, ARG2_START, 32 *Int (1 +Int ARG2_LEN)) #in
-                 #assert (ARG1_VALUE ==K ARG2_VALUE) String2Bytes("assertion failed") ... </k>
+               #assert (#assertionArray(ARGS, 0) ==K #assertionArray(ARGS, 32)) String2Bytes("assertion failed") ... </k>
       requires SELECTOR ==Int selector ( "assertEq(uint256[],uint256[])" )
         orBool SELECTOR ==Int selector ( "assertEq(int256[],int256[])"   )
         orBool SELECTOR ==Int selector ( "assertEq(bool[],bool[])"       )
@@ -93,13 +105,7 @@ Capturing cheat code calls
 
     rule [cheatcode.call.assertEq.Dtype]:
          <k> #cheatcode_call SELECTOR ARGS =>
-               #let ARG1_START = #asWord(#range(ARGS,  0, 32)) #in
-               #let ARG2_START = #asWord(#range(ARGS, 32, 32)) #in
-               #let ARG1_LEN   = #asWord(#range(ARGS, ARG1_START, 32)) #in
-               #let ARG2_LEN   = #asWord(#range(ARGS, ARG2_START, 32)) #in
-               #let ARG1_VALUE = #range(ARGS, 32 +Int ARG1_START, ARG1_LEN) #in
-               #let ARG2_VALUE = #range(ARGS, 32 +Int ARG2_START, ARG2_LEN) #in
-                 #assert (ARG1_VALUE ==K ARG2_VALUE) String2Bytes("assertion failed") ... </k>
+               #assert (#assertionBytes(ARGS, 0) ==K #assertionBytes(ARGS, 32)) String2Bytes("assertion failed") ... </k>
       requires SELECTOR ==Int selector ( "assertEq(string,string)" )
         orBool SELECTOR ==Int selector ( "assertEq(bytes,bytes)" )
     [preserves-definedness]
@@ -115,16 +121,7 @@ Capturing cheat code calls
 
     rule [cheatcode.call.assertEq.Darray.err]:
          <k> #cheatcode_call SELECTOR ARGS =>
-               #let ARG1_START = #asWord(#range(ARGS,  0, 32)) #in
-               #let ARG2_START = #asWord(#range(ARGS, 32, 32)) #in
-               #let ERR_START  = #asWord(#range(ARGS, 64, 32)) #in
-               #let ARG1_LEN   = #asWord(#range(ARGS, ARG1_START, 32)) #in
-               #let ARG2_LEN   = #asWord(#range(ARGS, ARG2_START, 32)) #in
-               #let ERR_LEN    = #asWord(#range(ARGS,  ERR_START, 32)) #in
-               #let ARG1_VALUE = #range(ARGS, ARG1_START, 32 *Int (1 +Int ARG1_LEN)) #in
-               #let ARG2_VALUE = #range(ARGS, ARG2_START, 32 *Int (1 +Int ARG2_LEN)) #in
-               #let ERR_BYTES  = #range(ARGS, 32 +Int ERR_START, ERR_LEN) #in
-                  #assert (ARG1_VALUE ==K ARG2_VALUE) ERR_BYTES ... </k>
+               #assert (#assertionArray(ARGS, 0) ==K #assertionArray(ARGS, 32)) #assertionBytes(ARGS, 64) ... </k>
       requires SELECTOR ==Int selector ( "assertEq(uint256[],uint256[],string)" )
         orBool SELECTOR ==Int selector ( "assertEq(int256[],int256[],string)"   )
         orBool SELECTOR ==Int selector ( "assertEq(bool[],bool[],string)"       )
@@ -133,17 +130,8 @@ Capturing cheat code calls
     [preserves-definedness]
 
     rule [cheatcode.call.assertEq.Dtype.err]:
-        <k> #cheatcode_call SELECTOR ARGS =>
-              #let ARG1_START = #asWord(#range(ARGS,  0, 32)) #in
-              #let ARG2_START = #asWord(#range(ARGS, 32, 32)) #in
-              #let ERR_START  = #asWord(#range(ARGS, 64, 32)) #in
-              #let ARG1_LEN   = #asWord(#range(ARGS, ARG1_START, 32)) #in
-              #let ARG2_LEN   = #asWord(#range(ARGS, ARG2_START, 32)) #in
-              #let ERR_LEN    = #asWord(#range(ARGS,  ERR_START, 32)) #in
-              #let ARG1_VALUE = #range(ARGS, 32 +Int ARG1_START, ARG1_LEN) #in
-              #let ARG2_VALUE = #range(ARGS, 32 +Int ARG2_START, ARG2_LEN) #in
-              #let ERR_BYTES  = #range(ARGS, 32 +Int ERR_START, ERR_LEN) #in
-                #assert (ARG1_VALUE ==K ARG2_VALUE) ERR_BYTES ... </k>
+         <k> #cheatcode_call SELECTOR ARGS =>
+               #assert (#assertionBytes(ARGS, 0) ==K #assertionBytes(ARGS, 32)) #assertionBytes(ARGS, 64) ... </k>
       requires SELECTOR ==Int selector ( "assertEq(string,string,string)" )
         orBool SELECTOR ==Int selector ( "assertEq(bytes,bytes,string)" )
     [preserves-definedness]
