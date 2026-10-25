@@ -81,9 +81,9 @@ Capturing cheat code calls
                #let ARG2_START = #asWord(#range(ARGS, 32, 32)) #in
                #let ARG1_LEN   = #asWord(#range(ARGS, ARG1_START, 32)) #in
                #let ARG2_LEN   = #asWord(#range(ARGS, ARG2_START, 32)) #in
-               #let ARG1_VALUE = #asWord(#range(ARGS, ARG1_START, 32 *Int (1 +Int ARG1_LEN))) #in
-               #let ARG2_VALUE = #asWord(#range(ARGS, ARG2_START, 32 *Int (1 +Int ARG2_LEN))) #in
-                 #assert_eq ARG1_VALUE ARG2_VALUE String2Bytes("assertion failed") ... </k>
+               #let ARG1_VALUE = #range(ARGS, ARG1_START, 32 *Int (1 +Int ARG1_LEN)) #in
+               #let ARG2_VALUE = #range(ARGS, ARG2_START, 32 *Int (1 +Int ARG2_LEN)) #in
+                 #assert (ARG1_VALUE ==K ARG2_VALUE) String2Bytes("assertion failed") ... </k>
       requires SELECTOR ==Int selector ( "assertEq(uint256[],uint256[])" )
         orBool SELECTOR ==Int selector ( "assertEq(int256[],int256[])"   )
         orBool SELECTOR ==Int selector ( "assertEq(bool[],bool[])"       )
@@ -121,10 +121,10 @@ Capturing cheat code calls
                #let ARG1_LEN   = #asWord(#range(ARGS, ARG1_START, 32)) #in
                #let ARG2_LEN   = #asWord(#range(ARGS, ARG2_START, 32)) #in
                #let ERR_LEN    = #asWord(#range(ARGS,  ERR_START, 32)) #in
-               #let ARG1_VALUE = #asWord(#range(ARGS, ARG1_START, 32 *Int (1 +Int ARG1_LEN))) #in
-               #let ARG2_VALUE = #asWord(#range(ARGS, ARG2_START, 32 *Int (1 +Int ARG2_LEN))) #in
+               #let ARG1_VALUE = #range(ARGS, ARG1_START, 32 *Int (1 +Int ARG1_LEN)) #in
+               #let ARG2_VALUE = #range(ARGS, ARG2_START, 32 *Int (1 +Int ARG2_LEN)) #in
                #let ERR_BYTES  = #range(ARGS, 32 +Int ERR_START, ERR_LEN) #in
-                  #assert_eq ARG1_VALUE ARG2_VALUE ERR_BYTES ... </k>
+                  #assert (ARG1_VALUE ==K ARG2_VALUE) ERR_BYTES ... </k>
       requires SELECTOR ==Int selector ( "assertEq(uint256[],uint256[],string)" )
         orBool SELECTOR ==Int selector ( "assertEq(int256[],int256[],string)"   )
         orBool SELECTOR ==Int selector ( "assertEq(bool[],bool[],string)"       )
