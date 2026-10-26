@@ -2,8 +2,9 @@
 pragma solidity ^0.8.13;
 
 import {Test, console} from "forge-std/Test.sol";
+import "kontrol-cheatcodes/KontrolCheats.sol";
 
-contract UnitTest is Test {
+contract UnitTest is Test, KontrolCheats {
     function test_assertEq() public pure {
         assertEq(uint256(11), 11);
     }
@@ -66,6 +67,79 @@ contract UnitTest is Test {
     function test_assertEq_error_string() public {
         vm.expectRevert("assertion failed: 100 != 50");
         assertEq(uint256(100), 50);
+    }
+
+    function test_assertEq_bytes_leading_zero_err() public {
+        bytes memory a = hex"01";
+        bytes memory b = hex"0001";
+        vm.expectRevert("assertion failed");
+        this.assertEqBytes(a, b);
+    }
+
+    function test_assertEq_bytes_leading_zero_custom_err() public {
+        bytes memory a = hex"01";
+        bytes memory b = hex"0001";
+        vm.expectRevert("different byte sequences");
+        this.assertEqBytes(a, b, "different byte sequences");
+    }
+
+    function test_assertEq_string_leading_zero_err() public {
+        string memory a = string(hex"01");
+        string memory b = string(hex"0001");
+        vm.expectRevert("assertion failed");
+        this.assertEqStrings(a, b);
+    }
+
+    function test_assertEq_string_leading_zero_custom_err() public {
+        string memory a = string(hex"01");
+        string memory b = string(hex"0001");
+        vm.expectRevert("different string sequences");
+        this.assertEqStrings(a, b, "different string sequences");
+    }
+
+    function test_assertEq_bytes_long_err() public {
+        bytes memory a = hex"010000000000000000000000000000000000000000000000000000000000000000";
+        bytes memory b = hex"020000000000000000000000000000000000000000000000000000000000000000";
+        vm.expectRevert("assertion failed");
+        this.assertEqBytes(a, b);
+    }
+
+    function test_assertEq_bytes_long_custom_err() public {
+        bytes memory a = hex"010000000000000000000000000000000000000000000000000000000000000000";
+        bytes memory b = hex"020000000000000000000000000000000000000000000000000000000000000000";
+        vm.expectRevert("different byte sequences");
+        this.assertEqBytes(a, b, "different byte sequences");
+    }
+
+    function test_assertEq_string_long_err() public {
+        string memory a = "a12345678901234567890123456789012";
+        string memory b = "b12345678901234567890123456789012";
+        vm.expectRevert("assertion failed");
+        this.assertEqStrings(a, b);
+    }
+
+    function test_assertEq_string_long_custom_err() public {
+        string memory a = "a12345678901234567890123456789012";
+        string memory b = "b12345678901234567890123456789012";
+        vm.expectRevert("different string sequences");
+        this.assertEqStrings(a, b, "different string sequences");
+    }
+
+    function test_assertEq_dynamic_equal() public pure {
+        bytes memory a = hex"0001";
+        bytes memory b = hex"0001";
+        assertEq(a, b);
+        assertEq(a, b, "equal byte sequences");
+        assertEq(string(a), string(b));
+        assertEq(string(a), string(b), "equal string sequences");
+    }
+
+    function test_assertEq_dynamic_symbolic() public {
+        bytes memory b = kevm.freshBytes(40);
+        assertEq(b, b);
+        assertEq(b, b, "equal symbolic bytes");
+        assertEq(string(b), string(b));
+        assertEq(string(b), string(b), "equal symbolic strings");
     }
 
     function test_assertNotEq() public pure {
@@ -369,6 +443,24 @@ contract UnitTest is Test {
         assertEq(array, array);
     }
 
+    function test_assert_eq_uint256_darray_first_element_err() public {
+        uint256[] memory a = new uint256[](2);
+        uint256[] memory b = new uint256[](2);
+        a[0] = 1; b[0] = 2;
+        a[1] = 5; b[1] = 5;
+        vm.expectRevert("assertion failed");
+        this.assertEqUintArrays(a, b);
+    }
+
+    function test_assert_eq_uint256_darray_first_element_custom_err() public {
+        uint256[] memory a = new uint256[](2);
+        uint256[] memory b = new uint256[](2);
+        a[0] = 1; b[0] = 2;
+        a[1] = 5; b[1] = 5;
+        vm.expectRevert("different arrays");
+        this.assertEqUintArrays(a, b, "different arrays");
+    }
+
     function test_assert_eq_bytes32_darray_err() public {
         bytes32[] memory val1 = new bytes32[](1);
         bytes32[] memory val2 = new bytes32[](1);
@@ -446,6 +538,31 @@ contract UnitTest is Test {
 
     function test_prevrandao_nonnegative() public view {
        assert(block.prevrandao >= 0);
+    }
+
+    // expectRevert observes the external call, which propagates the assertion cheatcode's revert.
+    function assertEqBytes(bytes memory a, bytes memory b) external pure {
+        assertEq(a, b);
+    }
+
+    function assertEqBytes(bytes memory a, bytes memory b, string memory err) external pure {
+        assertEq(a, b, err);
+    }
+
+    function assertEqStrings(string memory a, string memory b) external pure {
+        assertEq(a, b);
+    }
+
+    function assertEqStrings(string memory a, string memory b, string memory err) external pure {
+        assertEq(a, b, err);
+    }
+
+    function assertEqUintArrays(uint256[] memory a, uint256[] memory b) external pure {
+        assertEq(a, b);
+    }
+
+    function assertEqUintArrays(uint256[] memory a, uint256[] memory b, string memory err) external pure {
+        assertEq(a, b, err);
     }
 
     /****************************
