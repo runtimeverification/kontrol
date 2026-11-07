@@ -591,6 +591,12 @@ class Foundry:
                 _LOGGER.warning(f'Skipping non-compatible JSON file for contract: {contract_name} at {json_path}.')
                 continue
 
+            if contract.name_with_path in _contracts:
+                other = _contracts[contract.name_with_path]
+                raise ValueError(
+                    f'Duplicate contract identifier {contract.name_with_path}: '
+                    f'{other.contract_path} and {contract.contract_path}. Rename one of the contracts.'
+                )
             _contracts[contract.name_with_path] = contract  # noqa: B909
 
         return _contracts
