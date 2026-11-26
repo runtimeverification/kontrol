@@ -315,6 +315,25 @@ Symbolic inputs will leave `#newAddr` unevaluated, causing spurious branching.
       [preserves-definedness]
 ```
 
+#### `isContext` - Checks the `forge` execution context.
+
+```
+function isContext(ForgeContext context) external view returns (bool result);
+```
+
+`cheatcode.call.isContext` will match when the `isContext` cheat code function is called.
+`ForgeContext` is a Solidity `enum`, so its value is ABI-encoded as a `uint8` and the selector is computed from `isContext(uint8)`.
+A Kontrol proof plays the role of `forge test`, so the `<output>` cell is set to `true` for `ForgeContext.TestGroup` (`0`) and `ForgeContext.Test` (`1`), and to `false` for every other context (`Coverage`, `Snapshot`, the script contexts and `Unknown`), padded to 32 bytes wide.
+This matches Foundry, where `TestGroup` is true under `forge test`, `forge coverage` and `forge snapshot`, so code guarded by `vm.isContext(VmSafe.ForgeContext.TestGroup)` runs under Kontrol as it does under `forge test`.
+
+```k
+    rule [cheatcode.call.isContext]:
+         <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
+         <output> _ => #bufStrict(32, bool2Word(#asWord(ARGS) ==Int 0 orBool #asWord(ARGS) ==Int 1)) </output>
+      requires SELECTOR ==Int selector ( "isContext(uint8)" )
+      [preserves-definedness]
+```
+
 #### `load` - Loads a storage slot from an address.
 
 ```
@@ -1917,6 +1936,7 @@ Selectors for **implemented** cheat code functions.
     rule ( selector ( "getNonce(address)" )                        => 755185067  )
     rule ( selector ( "addr(uint256)" )                            => 4288775753 )
     rule ( selector ( "computeCreateAddress(address,uint256)" )    => 1952676474 )
+    rule ( selector ( "isContext(uint8)" )                         => 1689199965 )
     rule ( selector ( "load(address,bytes32)" )                    => 1719639408 )
     rule ( selector ( "store(address,bytes32,bytes32)" )           => 1892290747 )
     rule ( selector ( "setNonce(address,uint64)" )                 => 4175530839 )
